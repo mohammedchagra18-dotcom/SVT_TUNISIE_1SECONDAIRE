@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P2-Ch2 — Les Agents Pathogènes et les Maladies Infectieuses</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --rouge:#B71C1C;--rouge-mid:#E53935;--rouge-light:#ffebee;
+  --orange:#E65100;--orange-light:#fff3e0;
+  --bleu:#1565C0;--bleu-light:#e3f2fd;
+  --vert:#2E7D32;--vert-light:#e8f5e9;
+  --violet:#4A148C;--violet-light:#f3e5f5;
+  --teal:#00695C;--teal-light:#e0f2f1;
+  --bg:#fafaf8;--text:#1a1a1a;--text-muted:#666;
+  --border:#e0e0e0;--shadow:0 2px 12px rgba(0,0,0,0.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;}
+header{background:linear-gradient(135deg,#7B0000 0%,#B71C1C 60%,#D32F2F 100%);color:white;padding:24px 32px 20px;position:sticky;top:0;z-index:100;box-shadow:0 3px 16px rgba(0,0,0,0.25);}
+header h1{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:4px;}
+header p{font-size:.85rem;opacity:.85;}
+.prog-bar{height:4px;background:rgba(255,255,255,.3);border-radius:2px;margin-top:12px;}
+.prog-fill{height:100%;background:#fff;border-radius:2px;transition:width .4s;width:14%;}
+
+.tabs-wrap{background:white;border-bottom:2px solid var(--border);position:sticky;top:96px;z-index:99;overflow-x:auto;}
+.tabs{display:flex;min-width:max-content;}
+.tab{padding:12px 16px;font-size:.8rem;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:var(--text-muted);white-space:nowrap;transition:all .2s;background:none;border-top:none;border-left:none;border-right:none;}
+.tab:hover{color:var(--rouge);background:var(--rouge-light);}
+.tab.active{color:var(--rouge);border-bottom-color:var(--rouge);}
+
+.content{max-width:920px;margin:0 auto;padding:20px 20px 60px;}
+.panel{display:none;}.panel.active{display:block;}
+
+/* SOUS-ONGLETS */
+.subtabs-wrap{background:var(--rouge-light);border-bottom:1px solid #FFCDD2;overflow-x:auto;margin-bottom:20px;border-radius:0 0 8px 8px;}
+.subtabs{display:flex;min-width:max-content;padding:6px 12px;gap:6px;}
+.subtab{padding:7px 14px;font-size:.78rem;font-weight:600;cursor:pointer;border-radius:20px;color:var(--rouge);background:white;border:1.5px solid #FFCDD2;white-space:nowrap;transition:all .2s;}
+.subtab:hover{background:var(--rouge);color:white;}
+.subtab.active{background:var(--rouge);color:white;border-color:var(--rouge);}
+.subpanel{display:none;}.subpanel.active{display:block;}
+
+/* ACCORDEON SOUS-PARTIES */
+.ssaccord-item{border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden;}
+.ssaccord-head{padding:12px 18px;font-weight:700;cursor:pointer;background:var(--rouge-light);display:flex;justify-content:space-between;align-items:center;transition:background .2s;font-size:.92rem;}
+.ssaccord-head:hover{background:#FFCDD2;}
+.ssaccord-head.open{background:var(--rouge);color:white;}
+.ssaccord-body{display:none;padding:18px;background:white;font-size:.9rem;line-height:1.7;}
+.ssaccord-body.open{display:block;}
+.ssaccord-arrow{font-size:1rem;transition:transform .3s;}
+.ssaccord-head.open .ssaccord-arrow{transform:rotate(180deg);}
+
+/* CARDS */
+.card{background:white;border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:var(--shadow);border-left:5px solid var(--rouge);}
+.card.bleu{border-left-color:var(--bleu);}
+.card.vert{border-left-color:var(--vert);}
+.card.orange{border-left-color:var(--orange);}
+.card.teal{border-left-color:var(--teal);}
+h2{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:14px;color:var(--rouge);}
+h3{font-size:.97rem;font-weight:700;margin:14px 0 8px;color:var(--text);}
+
+.question-dir{background:linear-gradient(135deg,#7B0000 0%,#D32F2F 100%);color:white;padding:14px 18px;border-radius:10px;font-weight:600;margin-bottom:18px;font-size:.95rem;}
+
+/* FICHE MALADIE */
+.fiche-maladie{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0;}
+.fiche-bloc{border-radius:10px;padding:16px;}
+.fiche-bloc.symptomes{background:#fff8f8;border:2px solid var(--rouge);}
+.fiche-bloc.agent{background:#fff3e0;border:2px solid var(--orange);}
+.fiche-bloc.contagion{background:var(--bleu-light);border:2px solid var(--bleu);}
+.fiche-bloc.prevention{background:var(--vert-light);border:2px solid var(--vert);}
+.fiche-bloc h4{font-weight:700;font-size:.88rem;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.fiche-bloc ul{margin-left:16px;font-size:.88rem;line-height:1.9;}
+
+.explication{background:var(--rouge-light);border-left:4px solid var(--rouge);border-radius:0 10px 10px 0;padding:14px 18px;margin:12px 0;font-size:.9rem;line-height:1.7;}
+.explication strong{color:var(--rouge);}
+.explication.bleu{background:var(--bleu-light);border-left-color:var(--bleu);}
+.explication.bleu strong{color:var(--bleu);}
+.explication.vert{background:var(--vert-light);border-left-color:var(--vert);}
+.explication.vert strong{color:var(--vert);}
+.explication.orange{background:var(--orange-light);border-left-color:var(--orange);}
+.explication.orange strong{color:var(--orange);}
+
+.retenons{background:var(--orange-light);border:1.5px solid var(--orange);border-radius:10px;padding:16px 18px;margin:16px 0;}
+.retenons h4{color:var(--orange);font-size:.78rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+.retenons p{margin-bottom:5px;font-size:.9rem;}
+.retenons dt{font-weight:700;color:var(--orange);display:inline;}
+.retenons dd{display:inline;margin-left:4px;}
+
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.88rem;}
+th{background:var(--rouge);color:white;padding:10px 12px;text-align:left;}
+td{padding:9px 12px;border-bottom:1px solid var(--border);}
+tr:nth-child(even) td{background:var(--rouge-light);}
+
+.svgbox{background:white;border-radius:10px;padding:12px;margin:14px 0;text-align:center;border:1px solid var(--border);}
+.svgbox svg{max-width:100%;height:auto;}
+.svgbox figcaption{font-size:.78rem;color:var(--text-muted);margin-top:6px;font-style:italic;}
+
+.info-box{display:flex;gap:12px;align-items:flex-start;background:var(--rouge-light);border-radius:10px;padding:14px 16px;margin:12px 0;border-left:4px solid var(--rouge);}
+.info-box.vert{background:var(--vert-light);border-left-color:var(--vert);}
+.info-box.bleu{background:var(--bleu-light);border-left-color:var(--bleu);}
+.info-box.orange{background:var(--orange-light);border-left-color:var(--orange);}
+.info-box .icon{font-size:1.4rem;flex-shrink:0;}
+.info-box p{font-size:.88rem;line-height:1.6;}
+
+/* FRISE CHRONOLOGIQUE */
+.frise{display:flex;gap:0;margin:14px 0;overflow-x:auto;}
+.frise-item{flex:1;min-width:130px;padding:12px 10px;text-align:center;border-right:3px solid white;}
+.frise-item:last-child{border-right:none;}
+.frise-item .duree{font-size:.75rem;font-weight:700;opacity:.85;margin-bottom:4px;}
+.frise-item .titre{font-size:.82rem;font-weight:700;margin-bottom:4px;}
+.frise-item .desc{font-size:.78rem;opacity:.9;line-height:1.4;}
+.frise-item.f1{background:#EF9A9A;}
+.frise-item.f2{background:#E57373;}
+.frise-item.f3{background:#EF5350;}
+.frise-item.f4{background:#E53935;color:white;}
+
+/* BILAN ACCORDEON */
+.accord-item{border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden;}
+.accord-head{padding:14px 18px;font-weight:600;cursor:pointer;background:white;display:flex;justify-content:space-between;align-items:center;transition:background .2s;}
+.accord-head:hover{background:var(--rouge-light);}
+.accord-head.open{background:var(--rouge);color:white;}
+.accord-body{display:none;padding:16px 18px;background:var(--bg);font-size:.9rem;line-height:1.7;}
+.accord-body.open{display:block;}
+.accord-arrow{font-size:1.1rem;transition:transform .3s;}
+.accord-head.open .accord-arrow{transform:rotate(180deg);}
+
+/* EXERCICES */
+.exo{background:linear-gradient(135deg,#f3e5f5,#ffebee);border:2px solid var(--violet);border-radius:12px;padding:20px;margin-top:20px;}
+.exo-title{font-weight:700;color:var(--violet);font-size:.88rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;}
+.exo-q p{margin-bottom:10px;font-size:.93rem;line-height:1.9;}
+select.blank{border:2px solid var(--violet);border-radius:6px;padding:3px 8px;font-size:.88rem;background:white;cursor:pointer;color:var(--violet);font-weight:600;transition:all .2s;}
+select.blank.ok{border-color:#4CAF50;background:#e8f5e9;color:#2E7D32;}
+select.blank.ko{border-color:#f44336;background:#ffebee;color:#c62828;}
+.exo-feedback{font-size:.85rem;padding:8px 12px;border-radius:8px;margin-top:10px;font-weight:600;}
+.exo-feedback.ok{background:#e8f5e9;color:#2E7D32;}
+.exo-feedback.ko{background:#ffebee;color:#c62828;}
+.btn-exo{background:var(--violet);color:white;border:none;padding:9px 20px;border-radius:8px;cursor:pointer;font-weight:700;font-size:.85rem;margin-top:12px;transition:background .2s;}
+.btn-exo:hover{background:#6A1B9A;}
+.btn-reset-exo{background:var(--border);color:var(--text);border:none;padding:9px 16px;border-radius:8px;cursor:pointer;font-weight:600;font-size:.85rem;margin-top:12px;margin-left:8px;}
+
+/* FC */
+.fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin:16px 0;}
+.fc-card{background:white;border-radius:10px;padding:16px;box-shadow:var(--shadow);border-top:4px solid var(--rouge);}
+.fc-phrase{font-size:.92rem;line-height:1.9;margin-bottom:10px;}
+select.fc-select{border:2px solid var(--violet);border-radius:6px;padding:3px 8px;font-size:.85rem;background:white;cursor:pointer;color:var(--violet);font-weight:600;}
+select.fc-select.ok{border-color:#4CAF50;background:#e8f5e9;color:#2E7D32;}
+select.fc-select.ko{border-color:#f44336;background:#ffebee;color:#c62828;}
+.fc-actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+.btn{padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:.88rem;transition:all .2s;}
+.btn-rouge{background:var(--rouge);color:white;}.btn-rouge:hover{background:#7B0000;}
+.btn-grey{background:var(--border);color:var(--text);}.btn-grey:hover{background:#ccc;}
+#fc-score{font-weight:700;font-size:1rem;padding:10px 16px;border-radius:8px;}
+
+/* QCM */
+.qcm-item{background:white;border-radius:10px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow);}
+.qcm-q{font-weight:600;margin-bottom:12px;}
+.qcm-opt{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:6px;margin-bottom:6px;cursor:pointer;transition:background .15s;}
+.qcm-opt:hover{background:var(--rouge-light);}
+.qcm-opt input{accent-color:var(--rouge);}
+.qcm-opt.correct{background:#e8f5e9;border:1.5px solid #4CAF50;}
+.qcm-opt.wrong{background:#ffebee;border:1.5px solid #f44336;}
+#qcm-result{font-size:1.1rem;font-weight:700;padding:14px 20px;border-radius:10px;margin-top:16px;text-align:center;display:none;}
+
+.acquis-list{list-style:none;display:grid;gap:8px;}
+.acquis-list li{padding:10px 14px;background:var(--rouge-light);border-radius:8px;border-left:4px solid var(--rouge);font-size:.9rem;}
+.acquis-list li::before{content:"✓ ";color:var(--rouge);font-weight:700;}
+
+.exo-manuel{background:white;border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:var(--shadow);border-left:5px solid var(--teal);}
+.exo-manuel h3{color:var(--teal);font-size:1rem;margin-bottom:14px;}
+.exo-manuel .contexte{background:var(--teal-light);border-radius:8px;padding:12px 16px;margin-bottom:14px;font-size:.9rem;line-height:1.7;border-left:4px solid var(--teal);}
+
+@media(max-width:600px){
+  .fiche-maladie{grid-template-columns:1fr;}
+  header h1{font-size:1.1rem;}
+  .tab{padding:10px 10px;font-size:.72rem;}
+  .frise{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Chapitre 2 — Les Agents Pathogènes et les Maladies Infectieuses</h1>
+  <p>1ère Année Secondaire SVT · Partie 2 : Microbes et Santé · Pages 107–116</p>
+  <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+</header>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab active" onclick="showTab(0)">📚 Acquis</button>
+    <button class="tab" onclick="showTab(1)">🦠 Act. 1 — Maladies infectieuses</button>
+    <button class="tab" onclick="showTab(2)">📋 Bilan</button>
+    <button class="tab" onclick="showTab(3)">🃏 Flashcards</button>
+    <button class="tab" onclick="showTab(4)">✏️ QCM</button>
+    <button class="tab" onclick="showTab(5)">📝 Exercices</button>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ═══ ACQUIS ═══ -->
+<div class="panel active" id="panel-0">
+  <div class="card">
+    <h2>📚 Acquis du Collège (p.108)</h2>
+    <ul class="acquis-list">
+      <li>Les microbes <strong>pathogènes</strong> sont à l'origine des maladies infectieuses</li>
+      <li>Beaucoup de maladies infectieuses sont <strong>contagieuses</strong> — elles se transmettent d'un individu malade à un individu sain</li>
+      <li>Le <strong>SIDA</strong> et la <strong>blennorragie</strong> sont des maladies infectieuses <strong>sexuellement transmissibles</strong> (MST)</li>
+    </ul>
+  </div>
+  <div class="card orange">
+    <h2>❓ Questions directrices</h2>
+    <ol style="margin-left:18px;line-height:2.2">
+      <li>Quels sont les agents pathogènes qui causent ces maladies ?</li>
+      <li>Quels sont les signes (symptômes) de ces maladies ?</li>
+      <li>Comment peut-on les éviter (prévention) ?</li>
+    </ol>
+  </div>
+  <div class="card vert">
+    <h2>🗺️ Plan — 1 activité · 4 maladies étudiées</h2>
+    <table>
+      <tr><th>N°</th><th>Maladie</th><th>Agent pathogène</th><th>Voie de contamination</th><th>Pages</th></tr>
+      <tr><td><strong>1</strong></td><td>🤧 Grippe</td><td>Virus de la grippe</td><td>Aérienne (gouttelettes)</td><td>109</td></tr>
+      <tr><td><strong>2</strong></td><td>🫁 Tuberculose</td><td>Bacille de Koch (BK)</td><td>Aérienne (directe + indirecte)</td><td>110</td></tr>
+      <tr><td><strong>3</strong></td><td>🔴 Rougeole</td><td>Virus de la rougeole</td><td>Aérienne</td><td>111</td></tr>
+      <tr><td><strong>4</strong></td><td>⚡ Tétanos</td><td>Bacille tétanique</td><td>Blessure (spores du sol)</td><td>112</td></tr>
+    </table>
+    <div class="info-box orange" style="margin-top:12px">
+      <div class="icon">📌</div>
+      <p><strong>Méthode d'analyse de chaque maladie :</strong> Symptômes → Agent pathogène → Mode de contagion → Effets sur l'organisme → Mesures de prévention. C'est le plan type CAPES pour analyser toute maladie infectieuse.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ACTIVITE 1 ═══ -->
+<div class="panel" id="panel-1">
+  <div class="question-dir">🦠 Activité 1 — Les Maladies Infectieuses (p.109–112)<br>
+  <span style="font-weight:400;font-size:.88rem">Chaque maladie est analysée selon le même plan : Symptômes · Agent · Contagion · Effets · Prévention</span></div>
+
+  <div class="subtabs-wrap">
+    <div class="subtabs">
+      <button class="subtab active" onclick="showSubTab(1,0)">🤧 Grippe</button>
+      <button class="subtab" onclick="showSubTab(1,1)">🫁 Tuberculose</button>
+      <button class="subtab" onclick="showSubTab(1,2)">🔴 Rougeole</button>
+      <button class="subtab" onclick="showSubTab(1,3)">⚡ Tétanos</button>
+      <button class="subtab" onclick="showSubTab(1,4)">✏️ Exercice</button>
+    </div>
+  </div>
+
+  <!-- ─── GRIPPE ─── -->
+  <div class="subpanel active" id="sub-1-0">
+    <div class="card">
+      <h2>🤧 Sous-partie 1 — La Grippe</h2>
+      <div class="explication">
+        <strong>Qu'est-ce que la grippe ?</strong> C'est une maladie infectieuse très contagieuse causée par un <strong>virus</strong>. Chaque année, des épidémies saisonnières touchent des millions de personnes pendant la saison froide et humide. Le virus mute régulièrement, ce qui explique pourquoi la vaccination doit être renouvelée chaque année.
+      </div>
+      <div class="fiche-maladie">
+        <div class="fiche-bloc symptomes">
+          <h4>🌡️ Symptômes</h4>
+          <ul>
+            <li>Fièvre élevée soudaine</li>
+            <li>Courbatures · asthénie (fatigue intense)</li>
+            <li>Écoulement nasal · éternuements</li>
+            <li>Mal de gorge</li>
+          </ul>
+        </div>
+        <div class="fiche-bloc agent">
+          <h4>🔬 Agent pathogène</h4>
+          <ul>
+            <li><strong>Virus de la grippe</strong></li>
+            <li>Virus ARN · taille ~150 nm</li>
+            <li>Mute chaque année → nouvelles souches</li>
+            <li>Épidémies saisonnières (hiver)</li>
+          </ul>
+        </div>
+        <div class="fiche-bloc contagion">
+          <h4>💨 Mode de contagion</h4>
+          <ul>
+            <li><strong>Voie aérienne</strong></li>
+            <li>Gouttelettes de salive projetées en toussant</li>
+            <li>Le virus s'introduit dans les voies respiratoires d'un sujet sain</li>
+            <li>Très contagieux en espace fermé et mal ventilé</li>
+          </ul>
+        </div>
+        <div class="fiche-bloc prevention">
+          <h4>💉 Prévention</h4>
+          <ul>
+            <li><strong>Vaccination</strong> (conseillée personnes âgées)</li>
+            <li>Limiter les contacts avec les malades</li>
+            <li>Médicaments pour soulager les symptômes</li>
+            <li>Antibiotiques si surinfection bactérienne</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" onclick="toggleSSAccord(this)">Effets du virus sur l'organisme <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="svgbox">
+            <svg viewBox="0 0 560 160" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="280" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#B71C1C">Trajet du virus de la grippe dans l'organisme</text>
+              <rect x="10" y="35" width="110" height="55" rx="8" fill="#ffebee" stroke="#B71C1C" stroke-width="1.5"/>
+              <text x="65" y="55" text-anchor="middle" font-size="18">💨</text>
+              <text x="65" y="73" text-anchor="middle" font-size="10" font-weight="700" fill="#B71C1C">Gouttelettes</text>
+              <text x="65" y="85" text-anchor="middle" font-size="9" fill="#555">de salive infectées</text>
+              <path d="M123 62 L153 62" stroke="#aaa" stroke-width="2" marker-end="url(#arr1)"/>
+              <defs><marker id="arr1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#aaa"/></marker></defs>
+              <rect x="155" y="35" width="120" height="55" rx="8" fill="#fff3e0" stroke="#E65100" stroke-width="1.5"/>
+              <text x="215" y="55" text-anchor="middle" font-size="13">👃</text>
+              <text x="215" y="72" text-anchor="middle" font-size="10" font-weight="700" fill="#E65100">Muqueuses</text>
+              <text x="215" y="84" text-anchor="middle" font-size="9" fill="#555">nez · gorge · bronches</text>
+              <path d="M278 62 L308 62" stroke="#aaa" stroke-width="2" marker-end="url(#arr1)"/>
+              <rect x="310" y="35" width="120" height="55" rx="8" fill="#ffebee" stroke="#B71C1C" stroke-width="1.5"/>
+              <text x="370" y="55" text-anchor="middle" font-size="13">🦠</text>
+              <text x="370" y="72" text-anchor="middle" font-size="10" font-weight="700" fill="#B71C1C">Lésions cellulaires</text>
+              <text x="370" y="84" text-anchor="middle" font-size="9" fill="#555">locales (muqueuses)</text>
+              <path d="M433 62 L458 62" stroke="#aaa" stroke-width="2" marker-end="url(#arr1)"/>
+              <rect x="460" y="35" width="90" height="55" rx="8" fill="#ffebee" stroke="#B71C1C" stroke-width="1.5"/>
+              <text x="505" y="55" text-anchor="middle" font-size="10" font-weight="700" fill="#B71C1C">Surinfection</text>
+              <text x="505" y="67" text-anchor="middle" font-size="9" fill="#555">bactérienne</text>
+              <text x="505" y="79" text-anchor="middle" font-size="9" fill="#555">angines · bronchites</text>
+              <!-- Risque -->
+              <rect x="155" y="105" width="250" height="42" rx="8" fill="#fff3e0" stroke="#E65100" stroke-width="1.5"/>
+              <text x="280" y="122" text-anchor="middle" font-size="11" font-weight="700" fill="#E65100">⚠️ Personnes à risque</text>
+              <text x="280" y="138" text-anchor="middle" font-size="9" fill="#555">Personnes âgées · immunodéprimées · nourrissons → surinfections plus fréquentes</text>
+            </svg>
+            <figcaption>Fig. 1 — La grippe : de la contamination aux lésions cellulaires</figcaption>
+          </div>
+          <div class="explication">
+            <strong>Pourquoi les personnes âgées sont-elles plus vulnérables ?</strong> Le virus de la grippe provoque des lésions sur les muqueuses des voies respiratoires. Ces lésions affaiblissent les défenses locales et facilitent l'entrée de bactéries → <strong>surinfections bactériennes</strong> (angines, bronchites, pneumonies). Les personnes âgées ayant des défenses immunitaires moins efficaces sont plus exposées à ces complications, parfois mortelles.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice — La Grippe</div>
+      <div class="exo-q" id="exo-grippe-q">
+        <p>1. La grippe est causée par un <select class="blank" data-rep="virus"><option value="">—</option><option>virus</option><option>bactérie</option><option>champignon</option></select>. Elle se transmet par voie <select class="blank" data-rep="aérienne"><option value="">—</option><option>digestive</option><option>aérienne</option><option>sexuelle</option></select>, par les <strong>gouttelettes de salive</strong> projetées lors de la toux.</p>
+        <p>2. Le virus de la grippe se fixe sur les <select class="blank" data-rep="muqueuses"><option value="">—</option><option>os</option><option>muqueuses</option><option>muscles</option></select> du nez, de la gorge et des bronches, provoquant des <select class="blank" data-rep="lésions cellulaires locales"><option value="">—</option><option>fractures</option><option>lésions cellulaires locales</option><option>hémorragies</option></select>.</p>
+        <p>3. Ces lésions peuvent favoriser une <select class="blank" data-rep="surinfection bactérienne"><option value="">—</option><option>vaccination spontanée</option><option>surinfection bactérienne</option><option>guérison accélérée</option></select> (angines, bronchites), surtout chez les personnes <select class="blank" data-rep="âgées ou affaiblies"><option value="">—</option><option>jeunes et sportives</option><option>âgées ou affaiblies</option></select>.</p>
+        <p>4. La vaccination antigrippale doit être renouvelée chaque année car le virus <select class="blank" data-rep="mute régulièrement"><option value="">—</option><option>reste identique chaque année</option><option>mute régulièrement</option><option>disparaît en été</option></select>, créant de nouvelles souches non reconnues par l'immunité de l'année précédente.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-grippe')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-grippe')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-grippe-fb"></div>
+    </div>
+  </div>
+
+  <!-- ─── TUBERCULOSE ─── -->
+  <div class="subpanel" id="sub-1-1">
+    <div class="card">
+      <h2>🫁 Sous-partie 2 — La Tuberculose Pulmonaire</h2>
+      <div class="explication">
+        <strong>Pourquoi la tuberculose est-elle encore un problème mondial ?</strong> La tuberculose est causée par une <strong>bactérie</strong> (le Bacille de Koch) qui peut rester dormante des années dans l'organisme avant de se réactiver. Elle touche principalement les personnes vivant dans des conditions précaires. En Tunisie, le programme national de vaccination par le <strong>BCG</strong> a considérablement réduit son incidence chez les enfants.
+      </div>
+      <div class="fiche-maladie">
+        <div class="fiche-bloc symptomes">
+          <h4>🌡️ Symptômes</h4>
+          <ul>
+            <li>Toux + crachats (parfois sanguinolents)</li>
+            <li>Fièvre · sueurs nocturnes</li>
+            <li>Douleurs thoraciques</li>
+            <li>Amaigrissement · perte d'appétit</li>
+          </ul>
+        </div>
+        <div class="fiche-bloc agent">
+          <h4>🔬 Agent pathogène</h4>
+          <ul>
+            <li><strong>Bacille de Koch (BK)</strong> — bactérie</li>
+            <li>Répandu dans endroits humides, mal aérés, mal ensoleillés</li>
+            <li>Tué par le soleil en quelques heures</li>
+            <li>Ne résiste pas aux températures élevées</li>
+          </ul>
+        </div>
+        <div class="fiche-bloc contagion">
+          <h4>💨 Mode de contagion</h4>
+          <ul>
+            <li><strong>Directe :</strong> gouttelettes (toux, éternuements, parole)</li>
+            <li><strong>Indirecte :</strong> crachats, mouchoirs, couverts du malade</li>
+            <li>Voie respiratoire ou digestive</li>
+          </ul>
+        </div>
+        <div class="fiche-bloc prevention">
+          <h4>💉 Prévention</h4>
+          <ul>
+            <li><strong>Vaccination BCG</strong> des enfants</li>
+            <li>Dépistage précoce</li>
+            <li>Traitement antituberculeux régulier jusqu'à guérison</li>
+            <li>Amélioration des conditions de vie (aération, soleil)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" onclick="toggleSSAccord(this)">Personnes à risque et effets sur l'organisme <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="svgbox">
+            <svg viewBox="0 0 560 160" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="280" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#B71C1C">Double voie de contamination par le Bacille de Koch</text>
+              <!-- Contagion directe -->
+              <rect x="10" y="30" width="250" height="60" rx="10" fill="#ffebee" stroke="#B71C1C" stroke-width="2"/>
+              <text x="135" y="50" text-anchor="middle" font-size="11" font-weight="700" fill="#B71C1C">Contagion DIRECTE</text>
+              <text x="135" y="65" text-anchor="middle" font-size="10" fill="#555">Malade tousse · éternue · parle</text>
+              <text x="135" y="80" text-anchor="middle" font-size="10" fill="#555">→ gouttelettes dans l'air → inhalées par personne saine</text>
+              <!-- Contagion indirecte -->
+              <rect x="10" y="100" width="250" height="55" rx="10" fill="#fff3e0" stroke="#E65100" stroke-width="2"/>
+              <text x="135" y="118" text-anchor="middle" font-size="11" font-weight="700" fill="#E65100">Contagion INDIRECTE</text>
+              <text x="135" y="133" text-anchor="middle" font-size="10" fill="#555">Crachats · mouchoirs · couverts du malade</text>
+              <text x="135" y="146" text-anchor="middle" font-size="10" fill="#555">→ bactéries transférées à une autre personne</text>
+              <!-- Poumons -->
+              <rect x="300" y="30" width="250" height="125" rx="10" fill="#ffebee" stroke="#B71C1C" stroke-width="2"/>
+              <text x="425" y="50" text-anchor="middle" font-size="11" font-weight="700" fill="#B71C1C">Effets dans les poumons</text>
+              <text x="425" y="68" text-anchor="middle" font-size="22">🫁</text>
+              <text x="425" y="90" text-anchor="middle" font-size="10" fill="#555">BK se multiplie dans les poumons</text>
+              <text x="425" y="105" text-anchor="middle" font-size="10" fill="#555">jusqu'à les <strong>détruire</strong></text>
+              <text x="425" y="122" text-anchor="middle" font-size="10" fill="#B71C1C" font-weight="600">→ Toux · crachats sanguinolents</text>
+              <text x="425" y="137" text-anchor="middle" font-size="10" fill="#B71C1C" font-weight="600">→ Destruction progressive du tissu pulmonaire</text>
+            </svg>
+            <figcaption>Fig. 2 — Tuberculose : deux modes de contamination et effets sur les poumons</figcaption>
+          </div>
+          <table>
+            <tr><th colspan="2">👥 Personnes à risque accru</th></tr>
+            <tr><td>🍬 Diabétiques</td><td>Défenses immunitaires réduites</td></tr>
+            <tr><td>🍺 Alcooliques / Drogués</td><td>Organisme affaibli</td></tr>
+            <tr><td>👴 Personnes âgées (institution)</td><td>Immunité réduite + contacts proches</td></tr>
+            <tr><td>🏥 Insuffisants rénaux</td><td>Défenses immunitaires compromises</td></tr>
+            <tr><td>🔒 Détenus</td><td>Surpopulation, mauvaise aération</td></tr>
+            <tr><td>💊 Immunodéprimés</td><td>Ex : personnes sous traitement immunosuppresseur</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice — La Tuberculose</div>
+      <div class="exo-q" id="exo-tb-q">
+        <p>1. L'agent responsable de la tuberculose est le <select class="blank" data-rep="Bacille de Koch (BK)"><option value="">—</option><option>virus de la grippe</option><option>Bacille de Koch (BK)</option><option>bacille tétanique</option></select>. C'est une <select class="blank" data-rep="bactérie"><option value="">—</option><option>virus</option><option>bactérie</option><option>champignon</option></select>.</p>
+        <p>2. Le BK est tué par <select class="blank" data-rep="le soleil"><option value="">—</option><option>l'eau froide</option><option>le soleil</option><option>le sel</option></select> en quelques heures. Il se développe surtout dans des endroits <select class="blank" data-rep="humides, mal aérés et mal ensoleillés"><option value="">—</option><option>chauds et secs</option><option>humides, mal aérés et mal ensoleillés</option><option>désinfectés</option></select>.</p>
+        <p>3. La contagion directe se fait par les <select class="blank" data-rep="gouttelettes projetées lors de la toux"><option value="">—</option><option>aliments souillés</option><option>gouttelettes projetées lors de la toux</option><option>contact cutané</option></select>. La contagion indirecte se fait par les <select class="blank" data-rep="crachats, mouchoirs et couverts"><option value="">—</option><option>piqûres d'insectes</option><option>crachats, mouchoirs et couverts</option><option>eau du robinet</option></select> du malade.</p>
+        <p>4. Le BK se multiplie dans les <select class="blank" data-rep="poumons"><option value="">—</option><option>reins</option><option>poumons</option><option>intestins</option></select> jusqu'à les détruire. La prévention chez les enfants repose sur la vaccination par le <select class="blank" data-rep="BCG"><option value="">—</option><option>ROR</option><option>DTP</option><option>BCG</option></select>.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-tb')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-tb')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-tb-fb"></div>
+    </div>
+  </div>
+
+  <!-- ─── ROUGEOLE ─── -->
+  <div class="subpanel" id="sub-1-2">
+    <div class="card">
+      <h2>🔴 Sous-partie 3 — La Rougeole</h2>
+      <div class="explication">
+        <strong>Pourquoi la rougeole est-elle dangereuse pour les enfants ?</strong> La rougeole est une maladie virale qui progresse en <strong>4 phases successives</strong> bien distinctes. Elle est très contagieuse et peut provoquer des complications graves (pneumonie, encéphalite). La vaccination (vaccin ROR) a permis de réduire drastiquement son incidence mondiale, mais la maladie reste présente dans les pays où la couverture vaccinale est insuffisante.
+      </div>
+
+      <h3>⏱️ Progression de la maladie en 4 phases</h3>
+      <div class="frise">
+        <div class="frise-item f1">
+          <div class="duree">Jours 1–10</div>
+          <div class="titre">Phase d'incubation</div>
+          <div class="desc">Silencieuse — aucun signe visible. Le virus se multiplie discrètement.</div>
+        </div>
+        <div class="frise-item f2">
+          <div class="duree">Jours 11–13 (~3 jours)</div>
+          <div class="titre">Phase prodromique</div>
+          <div class="desc">Fièvre · nez qui coule · yeux larmoyants · diarrhée · perte d'appétit</div>
+        </div>
+        <div class="frise-item f3">
+          <div class="duree">Jours 14–16 (~3 jours)</div>
+          <div class="titre">Éruption cutanée</div>
+          <div class="desc">Taches rouges sur tout le corps — signe caractéristique</div>
+        </div>
+        <div class="frise-item f4">
+          <div class="duree">Jours 17–19 (~3 jours)</div>
+          <div class="titre">Desquamation</div>
+          <div class="desc">La peau se détache progressivement — guérison en l'absence de complications</div>
+        </div>
+      </div>
+
+      <div class="fiche-maladie">
+        <div class="fiche-bloc agent">
+          <h4>🔬 Agent pathogène</h4>
+          <ul>
+            <li><strong>Virus de la rougeole</strong></li>
+            <li>Attaque surtout les enfants non vaccinés</li>
+            <li>Très contagieux (avant même l'éruption)</li>
+          </ul>
+        </div>
+        <div class="fiche-bloc contagion">
+          <h4>💨 Mode de contagion</h4>
+          <ul>
+            <li><strong>Voie aérienne</strong></li>
+            <li>Virus pénètre par les voies respiratoires → passe dans le sang → envahit les tissus lymphoïdes</li>
+            <li>Agit sur : SNP · peau · poumons · yeux · reins</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" onclick="toggleSSAccord(this)">Effets sur l'organisme et complications <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="explication bleu">
+            <strong>Attention : les complications ne sont pas dues au virus de la rougeole lui-même !</strong> Le virus affaiblit les défenses immunitaires de l'enfant, ouvrant la porte à des surinfections bactériennes : complications respiratoires (pneumonie), digestives (diarrhées sévères), nerveuses (encéphalite) et sensorielles (cécité). Ces complications peuvent être mortelles sans prise en charge rapide.
+          </div>
+          <div class="fiche-bloc prevention" style="border-radius:10px;padding:16px;margin-top:14px;">
+            <h4>💉 Prévention</h4>
+            <ul>
+              <li><strong>Vaccination dès le jeune âge</strong> (vaccin ROR : Rougeole-Oreillons-Rubéole)</li>
+              <li>Hygiène du malade : désinfecter nez, oreilles, yeux</li>
+              <li>Protéger contre le refroidissement</li>
+              <li>Eau du riz en cas de diarrhée</li>
+              <li>Hospitalisation immédiate si complications</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice — La Rougeole</div>
+      <div class="exo-q" id="exo-rouge-q">
+        <p>1. La rougeole est une maladie causée par un <select class="blank" data-rep="virus"><option value="">—</option><option>bactérie</option><option>virus</option><option>champignon</option></select>. Elle se transmet par voie <select class="blank" data-rep="aérienne"><option value="">—</option><option>digestive</option><option>sexuelle</option><option>aérienne</option></select> et touche surtout les <select class="blank" data-rep="enfants non vaccinés"><option value="">—</option><option>personnes âgées</option><option>enfants non vaccinés</option><option>adultes diabétiques</option></select>.</p>
+        <p>2. La première phase de la rougeole est la phase d'<select class="blank" data-rep="incubation"><option value="">—</option><option>éruption</option><option>incubation</option><option>guérison</option></select>, qui dure <select class="blank" data-rep="10 jours"><option value="">—</option><option>3 jours</option><option>10 jours</option><option>21 jours</option></select> et est <strong>silencieuse</strong> (aucun signe visible).</p>
+        <p>3. Le signe caractéristique de la rougeole est <select class="blank" data-rep="l'éruption cutanée (taches rouges sur tout le corps)"><option value="">—</option><option>la toux sanguinolente</option><option>l'éruption cutanée (taches rouges sur tout le corps)</option><option>les contractures musculaires</option></select>.</p>
+        <p>4. Les complications graves (pneumonie, encéphalite) sont dues non pas au virus de la rougeole lui-même, mais à des <select class="blank" data-rep="surinfections par d'autres microbes"><option value="">—</option><option>mutations du virus</option><option>surinfections par d'autres microbes</option><option>réactions au vaccin</option></select>. En cas de complication, il faut <select class="blank" data-rep="hospitaliser le malade"><option value="">—</option><option>donner de l'eau du riz</option><option>hospitaliser le malade</option><option>vacciner immédiatement</option></select>.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-rouge')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-rouge')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-rouge-fb"></div>
+    </div>
+  </div>
+
+  <!-- ─── TETANOS ─── -->
+  <div class="subpanel" id="sub-1-3">
+    <div class="card">
+      <h2>⚡ Sous-partie 4 — Le Tétanos</h2>
+      <div class="explication">
+        <strong>Ce qui rend le tétanos particulièrement dangereux :</strong> contrairement aux autres maladies de ce chapitre, le tétanos ne se transmet pas d'homme à homme. Il ne vient pas de l'air — il vient du <strong>sol</strong>. Une simple blessure par un objet rouillé ou souillé suffit. Et l'agent pathogène ne se déplace pas dans l'organisme : c'est sa <strong>toxine</strong> qui tue. Sans vaccination, le tétanos est souvent mortel.
+      </div>
+      <div class="fiche-maladie">
+        <div class="fiche-bloc symptomes">
+          <h4>🌡️ Symptômes</h4>
+          <ul>
+            <li>Apparaissent <strong>2 à 15 jours</strong> après blessure</li>
+            <li>Contraction muscles des mâchoires (<strong>trismus</strong>)</li>
+            <li>Contractures généralisées de tout le corps</li>
+            <li>Mort par <strong>asphyxie</strong> (paralysie muscles respiratoires) en 1–2 jours</li>
+          </ul>
+        </div>
+        <div class="fiche-bloc agent">
+          <h4>🔬 Agent pathogène</h4>
+          <ul>
+            <li><strong>Bacille tétanique</strong> — bactérie anaérobie (vit sans O₂)</li>
+            <li>Forme des <strong>spores</strong> résistantes en milieu oxygéné</li>
+            <li>Spores très fréquentes dans la <strong>terre et la poussière</strong></li>
+          </ul>
+        </div>
+        <div class="fiche-bloc contagion">
+          <h4>🩹 Mode de contamination</h4>
+          <ul>
+            <li><strong>Blessure</strong> par objet rouillé/souillé</li>
+            <li>Spores pénètrent dans l'organisme</li>
+            <li>Se transforment en bacilles actifs dans la plaie</li>
+            <li>N'est PAS contagieux d'homme à homme</li>
+          </ul>
+        </div>
+        <div class="fiche-bloc prevention">
+          <h4>💉 Prévention</h4>
+          <ul>
+            <li><strong>Vaccination</strong> + rappel tous les <strong>5 ans</strong></li>
+            <li>Désinfection soigneuse de toute blessure</li>
+            <li>Sérum antitétanique si blessure suspecte</li>
+            <li>Hospitalisation si symptômes apparaissent</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" onclick="toggleSSAccord(this)">Mécanisme d'action : la toxine tétanique (le concept clé) <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="svgbox">
+            <svg viewBox="0 0 580 185" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="290" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#B71C1C">Mécanisme d'action du bacille tétanique</text>
+              <rect x="10" y="30" width="100" height="55" rx="8" fill="#e8f5e9" stroke="#2E7D32" stroke-width="1.5"/>
+              <text x="60" y="50" text-anchor="middle" font-size="13">🩹</text>
+              <text x="60" y="68" text-anchor="middle" font-size="10" font-weight="700" fill="#2E7D32">Blessure</text>
+              <text x="60" y="80" text-anchor="middle" font-size="9" fill="#555">objet rouillé</text>
+              <path d="M113 57 L143 57" stroke="#aaa" stroke-width="2" marker-end="url(#arr1)"/>
+              <text x="128" y="50" font-size="8" fill="#555">spores</text>
+              <rect x="145" y="30" width="120" height="55" rx="8" fill="#fff3e0" stroke="#E65100" stroke-width="1.5"/>
+              <text x="205" y="50" text-anchor="middle" font-size="11" font-weight="700" fill="#E65100">Spores actives</text>
+              <text x="205" y="65" text-anchor="middle" font-size="9" fill="#555">Bacilles se multiplient</text>
+              <text x="205" y="78" text-anchor="middle" font-size="9" fill="#555">dans la plaie (reste localisé)</text>
+              <path d="M268 57 L298 57" stroke="#aaa" stroke-width="2" marker-end="url(#arr1)"/>
+              <text x="283" y="50" font-size="8" fill="#555">sécrète</text>
+              <rect x="300" y="30" width="130" height="55" rx="8" fill="#ffebee" stroke="#B71C1C" stroke-width="2"/>
+              <text x="365" y="50" text-anchor="middle" font-size="11" font-weight="700" fill="#B71C1C">TOXINE tétanique ☠️</text>
+              <text x="365" y="65" text-anchor="middle" font-size="9" fill="#555">Se répand dans l'organisme</text>
+              <text x="365" y="78" text-anchor="middle" font-size="9" fill="#555">via la circulation sanguine</text>
+              <path d="M433 57 L463 57" stroke="#aaa" stroke-width="2" marker-end="url(#arr1)"/>
+              <rect x="465" y="30" width="105" height="55" rx="8" fill="#ffebee" stroke="#B71C1C" stroke-width="2"/>
+              <text x="517" y="50" text-anchor="middle" font-size="11" font-weight="700" fill="#B71C1C">Tissu nerveux</text>
+              <text x="517" y="65" text-anchor="middle" font-size="9" fill="#555">Fixation irréversible</text>
+              <text x="517" y="78" text-anchor="middle" font-size="9" fill="#555">→ contractures</text>
+              <!-- Encadré concept clé -->
+              <rect x="10" y="100" width="560" height="42" rx="8" fill="#ffebee" stroke="#B71C1C" stroke-width="2"/>
+              <text x="290" y="116" text-anchor="middle" font-size="11" font-weight="700" fill="#B71C1C">⚠️ Concept clé : le bacille reste LOCALISÉ dans la plaie</text>
+              <text x="290" y="133" text-anchor="middle" font-size="10" fill="#555">C'est sa TOXINE qui circule et tue — pas la bactérie elle-même. C'est pourquoi la désinfection immédiate de la plaie est cruciale.</text>
+              <!-- Résultat final -->
+              <rect x="10" y="155" width="560" height="26" rx="8" fill="#B71C1C"/>
+              <text x="290" y="172" text-anchor="middle" font-size="10" font-weight="700" fill="white">Mort par asphyxie : la toxine paralyse les muscles respiratoires → plus de respiration possible</text>
+            </svg>
+            <figcaption>Fig. 3 — Mécanisme d'action du tétanos : la toxine, pas la bactérie, est responsable de la mort</figcaption>
+          </div>
+          <div class="explication orange">
+            <strong>Anaérobie : qu'est-ce que ça signifie ?</strong> Le bacille tétanique est <strong>anaérobie</strong> = il vit et se multiplie en l'absence d'oxygène. C'est pourquoi il prospère dans les plaies profondes (peu d'air) et se transforme en spores résistantes en surface (où il y a de l'O₂). Les spores peuvent rester viables dans le sol pendant des années !
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice — Le Tétanos</div>
+      <div class="exo-q" id="exo-tet-q">
+        <p>1. Le bacille tétanique est une bactérie <select class="blank" data-rep="anaérobie"><option value="">—</option><option>aérobie</option><option>anaérobie</option></select> qui se transforme en <select class="blank" data-rep="spores"><option value="">—</option><option>kystes</option><option>spores</option><option>capsules</option></select> résistantes dans les milieux oxygénés. Ces spores sont fréquentes dans <select class="blank" data-rep="la terre et la poussière"><option value="">—</option><option>l'eau du robinet</option><option>l'air</option><option>la terre et la poussière</option></select>.</p>
+        <p>2. La contamination se fait lors d'une blessure par un objet rouillé. Le bacille <select class="blank" data-rep="reste localisé dans la plaie"><option value="">—</option><option>envahit tout l'organisme</option><option>reste localisé dans la plaie</option><option>passe dans le sang</option></select>, mais sécrète une <select class="blank" data-rep="toxine tétanique"><option value="">—</option><option>enzyme digestive</option><option>toxine tétanique</option><option>hormone</option></select> qui se répand dans l'organisme.</p>
+        <p>3. La toxine tétanique se fixe de façon <select class="blank" data-rep="irréversible"><option value="">—</option><option>temporaire</option><option>irréversible</option></select> sur le <select class="blank" data-rep="tissu nerveux"><option value="">—</option><option>tissu pulmonaire</option><option>tissu nerveux</option><option>tissu cutané</option></select>, provoquant des contractures musculaires généralisées.</p>
+        <p>4. La mort survient par <select class="blank" data-rep="asphyxie"><option value="">—</option><option>hémorragie</option><option>asphyxie</option><option>infection généralisée</option></select> due à la paralysie des muscles <select class="blank" data-rep="respiratoires"><option value="">—</option><option>cardiaques</option><option>respiratoires</option><option>digestifs</option></select>. La prévention repose sur la vaccination avec rappel tous les <select class="blank" data-rep="5 ans"><option value="">—</option><option>2 ans</option><option>5 ans</option><option>10 ans</option></select>.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-tet')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-tet')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-tet-fb"></div>
+    </div>
+
+    <div class="retenons">
+      <h4>📌 Retenons — Vocabulaire clé (p.113)</h4>
+      <p><dt>Tuberculose :</dt><dd>maladie causée par le bacille de Koch (bactérie). Détruit les poumons.</dd></p>
+      <p><dt>Rougeole :</dt><dd>maladie virale des yeux et du nez puis de la peau. Attaque surtout les enfants.</dd></p>
+      <p><dt>Tétanos :</dt><dd>maladie grave souvent mortelle (bacille tétanique + toxine). Peut survenir après une blessure bénigne.</dd></p>
+      <p><dt>Grippe :</dt><dd>maladie virale — épidémies saisonnières (saison froide et humide). Se transmet par voie aérienne.</dd></p>
+      <p><dt>Infection :</dt><dd>pénétration et développement de microbes pathogènes dans l'organisme, produisant des troubles variables.</dd></p>
+      <p><dt>Contagion :</dt><dd>transmission d'une maladie d'un individu atteint à un individu sain.</dd></p>
+    </div>
+  </div>
+
+  <!-- ─── EXERCICE GLOBAL ─── -->
+  <div class="subpanel" id="sub-1-4">
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice global — Comparaison des 4 maladies</div>
+      <div class="exo-q" id="exo-global-q">
+        <p>1. Parmi les 4 maladies étudiées, lesquelles sont dues à un <strong>virus</strong> ? <select class="blank" data-rep="Grippe et Rougeole"><option value="">—</option><option>Tuberculose et Tétanos</option><option>Grippe et Rougeole</option><option>Grippe et Tuberculose</option></select>.</p>
+        <p>2. La seule maladie de ce chapitre qui n'est <strong>pas contagieuse</strong> d'une personne à l'autre est le <select class="blank" data-rep="tétanos"><option value="">—</option><option>grippe</option><option>tuberculose</option><option>tétanos</option></select>, car la contamination se fait par <select class="blank" data-rep="une blessure (spores du sol)"><option value="">—</option><option>voie aérienne</option><option>une blessure (spores du sol)</option><option>voie sexuelle</option></select>.</p>
+        <p>3. Le bacille tétanique agit par sa <select class="blank" data-rep="toxine"><option value="">—</option><option>présence dans les poumons</option><option>toxine</option><option>capsule virale</option></select>, tandis que le Bacille de Koch (tuberculose) agit par sa <select class="blank" data-rep="présence et multiplication dans les poumons"><option value="">—</option><option>toxine nerveuse</option><option>présence et multiplication dans les poumons</option></select>.</p>
+        <p>4. La maladie qui présente une phase d'<strong>incubation silencieuse de 10 jours</strong> suivie d'une éruption cutanée est la <select class="blank" data-rep="rougeole"><option value="">—</option><option>grippe</option><option>rougeole</option><option>tuberculose</option></select>.</p>
+        <p>5. La prévention commune à toutes ces maladies comprend notamment la <select class="blank" data-rep="vaccination"><option value="">—</option><option>prise d'antibiotiques préventifs</option><option>vaccination</option><option>chirurgie préventive</option></select>. En Tunisie, le vaccin <select class="blank" data-rep="BCG"><option value="">—</option><option>ROR</option><option>BCG</option><option>DTP</option></select> protège les enfants contre la tuberculose.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-global')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-global')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-global-fb"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ BILAN ═══ -->
+<div class="panel" id="panel-2">
+  <div class="card">
+    <h2>📋 Bilan — Agents pathogènes et maladies infectieuses (p.114)</h2>
+    <div class="svgbox">
+      <svg viewBox="0 0 600 180" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+        <text x="300" y="18" text-anchor="middle" font-size="13" font-weight="700" fill="#B71C1C">Les 4 voies de contamination des maladies infectieuses</text>
+        <!-- Corps humain simplifié -->
+        <ellipse cx="300" cy="90" rx="55" ry="70" fill="#fff3e0" stroke="#E65100" stroke-width="2"/>
+        <text x="300" y="85" text-anchor="middle" font-size="24">🧑</text>
+        <text x="300" y="110" text-anchor="middle" font-size="10" font-weight="700" fill="#E65100">Organisme</text>
+        <text x="300" y="123" text-anchor="middle" font-size="9" fill="#555">sain</text>
+        <!-- Voie respiratoire -->
+        <rect x="10" y="15" width="160" height="50" rx="8" fill="#ffebee" stroke="#B71C1C" stroke-width="1.5"/>
+        <text x="90" y="33" text-anchor="middle" font-size="11" font-weight="700" fill="#B71C1C">💨 Voie respiratoire</text>
+        <text x="90" y="48" text-anchor="middle" font-size="9" fill="#555">Grippe · Tuberculose · SRAS</text>
+        <path d="M170 40 L248 70" stroke="#B71C1C" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arr1)"/>
+        <!-- Voie digestive -->
+        <rect x="10" y="115" width="160" height="50" rx="8" fill="#fff3e0" stroke="#E65100" stroke-width="1.5"/>
+        <text x="90" y="133" text-anchor="middle" font-size="11" font-weight="700" fill="#E65100">🍽️ Voie digestive</text>
+        <text x="90" y="148" text-anchor="middle" font-size="9" fill="#555">Infections intestinales</text>
+        <path d="M170 140 L248 115" stroke="#E65100" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arr1)"/>
+        <!-- Voie sexuelle -->
+        <rect x="430" y="15" width="160" height="50" rx="8" fill="#f3e5f5" stroke="#4A148C" stroke-width="1.5"/>
+        <text x="510" y="33" text-anchor="middle" font-size="11" font-weight="700" fill="#4A148C">💜 Voie sexuelle</text>
+        <text x="510" y="48" text-anchor="middle" font-size="9" fill="#555">SIDA · Blennorragie · Syphilis</text>
+        <path d="M430" y1="40" x2="352" y2="70" stroke="#4A148C" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arr1)"/>
+        <path d="M430 40 L352 70" stroke="#4A148C" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arr1)"/>
+        <!-- Voie sanguine -->
+        <rect x="430" y="115" width="160" height="50" rx="8" fill="#ffebee" stroke="#B71C1C" stroke-width="1.5"/>
+        <text x="510" y="133" text-anchor="middle" font-size="11" font-weight="700" fill="#B71C1C">🩸 Voie sanguine</text>
+        <text x="510" y="148" text-anchor="middle" font-size="9" fill="#555">SIDA · Transfusion</text>
+        <path d="M430 140 L352 115" stroke="#B71C1C" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arr1)"/>
+        <!-- Vecteurs animaux -->
+        <rect x="185" y="158" width="230" height="18" rx="6" fill="#e8f5e9" stroke="#2E7D32"/>
+        <text x="300" y="171" text-anchor="middle" font-size="9" fill="#2E7D32" font-weight="600">+ Vecteurs animaux : chien · chat · rat · mouches · moustiques 🦟</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="accord-item">
+    <div class="accord-head" onclick="toggleAccord(this)">🔬 2 modes d'action des bactéries pathogènes <span class="accord-arrow">▼</span></div>
+    <div class="accord-body">
+      <table>
+        <tr><th>Mode d'action</th><th>Exemple</th><th>Mécanisme</th></tr>
+        <tr><td><strong>Par leur présence</strong></td><td>Bacille de Koch (tuberculose)</td><td>Se multiplie dans les poumons et les détruit physiquement</td></tr>
+        <tr><td><strong>Par leurs toxines</strong></td><td>Bacille tétanique · Bacille diphtérique</td><td>La bactérie reste localisée mais sécrète une toxine qui se répand et détruit les tissus (nerveux pour le tétanos)</td></tr>
+      </table>
+      <div class="info-box vert" style="margin-top:10px"><div class="icon">💡</div><p>Les <strong>virus</strong> agissent différemment : ils parasitent les cellules vivantes, utilisent leur matériel génétique pour se multiplier, et les détruisent en sortant.</p></div>
+    </div>
+  </div>
+  <div class="accord-item">
+    <div class="accord-head" onclick="toggleAccord(this)">📊 Tableau comparatif des 4 maladies <span class="accord-arrow">▼</span></div>
+    <div class="accord-body">
+      <table>
+        <tr><th>Maladie</th><th>Agent</th><th>Type</th><th>Voie contamination</th><th>Mécanisme</th><th>Prévention clé</th></tr>
+        <tr><td>Grippe</td><td>Virus de la grippe</td><td>Virus</td><td>Aérienne</td><td>Lésions muqueuses → surinfection</td><td>Vaccination annuelle</td></tr>
+        <tr><td>Tuberculose</td><td>Bacille de Koch (BK)</td><td>Bactérie</td><td>Aérienne (directe/indirecte)</td><td>Détruit les poumons (présence)</td><td>BCG · dépistage</td></tr>
+        <tr><td>Rougeole</td><td>Virus de la rougeole</td><td>Virus</td><td>Aérienne</td><td>Invasion systémique (sang → organes)</td><td>Vaccin ROR</td></tr>
+        <tr><td>Tétanos</td><td>Bacille tétanique</td><td>Bactérie anaérobie</td><td>Blessure (spores)</td><td>Toxine nerveuse (localisé dans plaie)</td><td>Vaccination /5 ans</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="accord-item">
+    <div class="accord-head" onclick="toggleAccord(this)">🛡️ Prévention générale des maladies infectieuses <span class="accord-arrow">▼</span></div>
+    <div class="accord-body">
+      <p>🧼 <strong>Hygiène</strong> : corporelle et alimentaire (lavage des mains, eau potable)</p>
+      <p>🌍 <strong>Environnement</strong> : propreté, aération des locaux, assainissement des eaux</p>
+      <p>💉 <strong>Vaccination</strong> : BCG (tuberculose) · ROR (rougeole) · antipoliomyélitique · tétanos (rappel /5 ans)</p>
+      <p>🏥 <strong>Soins immédiats</strong> : toute blessure, piqûre ou morsure → désinfection + centre hospitalier</p>
+      <p>🦟 <strong>Lutte contre les vecteurs</strong> : moustiquaires, insecticides contre les moustiques (paludisme, dengue...)</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FLASHCARDS ═══ -->
+<div class="panel" id="panel-3">
+  <h2 style="margin-bottom:16px">🃏 Flashcards — Choix multiple</h2>
+  <div class="fc-actions">
+    <button class="btn btn-rouge" onclick="verifierFC()">✓ Vérifier tout</button>
+    <button class="btn btn-grey" onclick="resetFC()">↺ Recommencer</button>
+    <span id="fc-score" style="display:none;padding:10px 16px;border-radius:8px;font-weight:700"></span>
+  </div>
+  <div class="fc-grid" id="fc-container"></div>
+</div>
+
+<!-- ═══ QCM ═══ -->
+<div class="panel" id="panel-4">
+  <h2 style="margin-bottom:8px">✏️ QCM Format CAPES</h2>
+  <p style="margin-bottom:16px;font-size:.88rem;color:var(--text-muted)">Plusieurs réponses correctes possibles par question.</p>
+  <div id="qcm-container"></div>
+  <div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap">
+    <button class="btn btn-rouge" onclick="corrigerQCM()">✓ Corriger</button>
+    <button class="btn btn-grey" onclick="resetQCM()">↺ Recommencer</button>
+  </div>
+  <div id="qcm-result"></div>
+</div>
+
+<!-- ═══ EXERCICES DU MANUEL ═══ -->
+<div class="panel" id="panel-5">
+  <h2 style="margin-bottom:20px">📝 Exercices — D'après le manuel (p.115–116)</h2>
+
+  <!-- Exercice corrigé : avion grippe -->
+  <div class="exo-manuel">
+    <h3>📘 Exercice corrigé — Mini-épidémie de grippe dans un avion (p.115)</h3>
+    <div class="contexte">
+      En 1977, un avion est immobilisé 3h au sol avec 54 passagers. Une passagère présente une crise fébrile avec toux dès le départ. 38 passagers (72%) tombent malades dans les 48h suivant leur arrivée, victimes de la grippe. L'atmosphère de l'avion n'était pas renouvelée pendant l'attente.
+    </div>
+    <div class="exo-q" id="exo-man1-q">
+      <p>1. La grippe est dite "maladie infectieuse" car elle est provoquée par :<br>
+      <select class="blank" data-rep="un microbe pathogène (le virus grippal)"><option value="">—</option><option>une allergie saisonnière</option><option>un microbe pathogène (le virus grippal)</option><option>un déséquilibre alimentaire</option></select>.</p>
+      <p>2. Les mots "crise fébrile", "frissons" et "toux" représentent :<br>
+      <select class="blank" data-rep="des symptômes de la grippe"><option value="">—</option><option>des modes de contamination</option><option>des symptômes de la grippe</option><option>des mécanismes d'immunité</option></select>.</p>
+      <p>3. Cette mini-épidémie s'est déclenchée facilement car :<br>
+      <select class="blank" data-rep="l'atmosphère de l'avion fermé et non ventilé a favorisé la concentration du virus"><option value="">—</option><option>les passagers n'étaient pas vaccinés</option><option>l'atmosphère de l'avion fermé et non ventilé a favorisé la concentration du virus</option><option>la température était trop basse</option></select>.</p>
+      <p>4. La contamination s'est faite quand la passagère malade toussait, ses gouttelettes de salive contenant le virus se répandaient dans l'air et s'introduisaient dans les voies respiratoires des individus sains. C'est la voie :<br>
+      <select class="blank" data-rep="aérienne"><option value="">—</option><option>digestive</option><option>sanguine</option><option>aérienne</option></select>.</p>
+    </div>
+    <button class="btn-exo" onclick="checkExo('exo-man1')">✓ Vérifier</button>
+    <button class="btn-reset-exo" onclick="resetExo('exo-man1')">↺ Réinitialiser</button>
+    <div class="exo-feedback" id="exo-man1-fb"></div>
+  </div>
+
+  <!-- Exercice 1 : Poliomyélite -->
+  <div class="exo-manuel">
+    <h3>📘 Exercice 1 — La Poliomyélite (p.116)</h3>
+    <div class="contexte">
+      La poliomyélite est une maladie infectieuse qui provoque la destruction de certaines cellules nerveuses commandant les mouvements. L'agent responsable est un virus qui peut rester virulent dans les eaux contaminées pendant plusieurs mois. Il peut pénétrer par les muqueuses respiratoires et digestives.
+    </div>
+    <div class="exo-q" id="exo-man2-q">
+      <p>1. L'agent responsable de la poliomyélite est un :<br>
+      <select class="blank" data-rep="virus"><option value="">—</option><option>bactérie</option><option>virus</option><option>champignon</option></select>.</p>
+      <p>2. La poliomyélite provoque la destruction de cellules :<br>
+      <select class="blank" data-rep="nerveuses commandant les mouvements"><option value="">—</option><option>pulmonaires</option><option>nerveuses commandant les mouvements</option><option>cardiaques</option></select>, ce qui peut entraîner des paralysies.</p>
+      <p>3. La contamination peut se faire par voie :<br>
+      <select class="blank" data-rep="respiratoire et digestive (eau contaminée)"><option value="">—</option><option>uniquement sexuelle</option><option>respiratoire et digestive (eau contaminée)</option><option>uniquement par blessure</option></select>. Le virus peut rester virulent plusieurs mois dans <select class="blank" data-rep="les eaux contaminées"><option value="">—</option><option>l'air ambiant</option><option>les eaux contaminées</option><option>la poussière</option></select>.</p>
+      <p>4. La poliomyélite peut être évitée grâce à :<br>
+      <select class="blank" data-rep="la vaccination antipoliomyélitique et l'amélioration de la qualité de l'eau"><option value="">—</option><option>la prise d'antibiotiques</option><option>la vaccination antipoliomyélitique et l'amélioration de la qualité de l'eau</option><option>l'isolement des malades uniquement</option></select>.</p>
+    </div>
+    <button class="btn-exo" onclick="checkExo('exo-man2')">✓ Vérifier</button>
+    <button class="btn-reset-exo" onclick="resetExo('exo-man2')">↺ Réinitialiser</button>
+    <div class="exo-feedback" id="exo-man2-fb"></div>
+  </div>
+
+  <!-- Exercice 2 : Tableau -->
+  <div class="exo-manuel">
+    <h3>📘 Exercice 2 — Compléter le tableau des maladies infectieuses (p.116)</h3>
+    <div class="contexte">Associe chaque maladie à son agent, sa voie de contamination et le lieu de présence du microbe dans l'organisme.</div>
+    <div class="exo-q" id="exo-man3-q">
+      <p>1. Rougeole → Agent : <select class="blank" data-rep="Virus de la rougeole"><option value="">—</option><option>Bacille de Koch</option><option>Virus de la rougeole</option><option>Bacille tétanique</option></select> · Voie : <select class="blank" data-rep="aérienne"><option value="">—</option><option>blessure</option><option>sexuelle</option><option>aérienne</option></select> · Lieu : tissus lymphoïdes, sang, peau.</p>
+      <p>2. Grippe → Agent : <select class="blank" data-rep="Virus de la grippe"><option value="">—</option><option>Bacille de Koch</option><option>Virus de la grippe</option><option>Bacille tétanique</option></select> · Voie : <select class="blank" data-rep="aérienne"><option value="">—</option><option>digestive</option><option>aérienne</option><option>sexuelle</option></select> · Lieu : muqueuses respiratoires.</p>
+      <p>3. Tétanos → Agent : <select class="blank" data-rep="Bacille tétanique (bactérie anaérobie)"><option value="">—</option><option>Virus de la grippe</option><option>Bacille tétanique (bactérie anaérobie)</option><option>Bacille de Koch</option></select> · Voie : <select class="blank" data-rep="blessure (spores du sol)"><option value="">—</option><option>aérienne</option><option>digestive</option><option>blessure (spores du sol)</option></select> · Lieu : plaie (bacille) + système nerveux (toxine).</p>
+      <p>4. Poliomyélite → Agent : <select class="blank" data-rep="Virus de la poliomyélite"><option value="">—</option><option>Bacille de Koch</option><option>Virus de la poliomyélite</option><option>Bacille tétanique</option></select> · Voie : <select class="blank" data-rep="respiratoire et digestive"><option value="">—</option><option>sexuelle et sanguine</option><option>respiratoire et digestive</option><option>blessure</option></select> · Lieu : cellules nerveuses.</p>
+    </div>
+    <button class="btn-exo" onclick="checkExo('exo-man3')">✓ Vérifier</button>
+    <button class="btn-reset-exo" onclick="resetExo('exo-man3')">↺ Réinitialiser</button>
+    <div class="exo-feedback" id="exo-man3-fb"></div>
+  </div>
+
+  <!-- Exercice 3 : QCM manuel -->
+  <div class="exo-manuel">
+    <h3>📘 Exercice 3 — Affirmations correctes (p.116)</h3>
+    <div class="contexte">Pour chaque maladie, identifie la (les) bonne(s) réponse(s).</div>
+    <div class="exo-q" id="exo-man4-q">
+      <p><strong>A — Le SIDA :</strong> Cochez les affirmations correctes.<br>
+      Le SIDA est une maladie <select class="blank" data-rep="infectieuse et sexuellement transmissible (MST)"><option value="">—</option><option>due à une bactérie</option><option>transmis par piqûre de moustique</option><option>infectieuse et sexuellement transmissible (MST)</option></select>. Son agent est le <select class="blank" data-rep="VIH (virus)"><option value="">—</option><option>Bacille de Koch</option><option>VIH (virus)</option><option>bacille tétanique</option></select>.</p>
+      <p><strong>B — Le Tétanos :</strong><br>
+      Le tétanos <select class="blank" data-rep="est dû à une toxine bactérienne et se manifeste par des contractures musculaires"><option value="">—</option><option>est une maladie virale et contagieuse</option><option>est dû à une toxine bactérienne et se manifeste par des contractures musculaires</option><option>se transmet par voie aérienne</option></select>.</p>
+      <p><strong>C — La Grippe :</strong><br>
+      La grippe <select class="blank" data-rep="est due à un virus et se transmet par voie aérienne"><option value="">—</option><option>est due à une bactérie et se transmet par voie digestive</option><option>est due à un virus et se transmet par voie aérienne</option><option>est due à un champignon et se transmet par voie sexuelle</option></select>.</p>
+    </div>
+    <button class="btn-exo" onclick="checkExo('exo-man4')">✓ Vérifier</button>
+    <button class="btn-reset-exo" onclick="resetExo('exo-man4')">↺ Réinitialiser</button>
+    <div class="exo-feedback" id="exo-man4-fb"></div>
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<script>
+// TABS
+const panels=document.querySelectorAll('.panel'),tabs=document.querySelectorAll('.tab');
+const prog=document.getElementById('progFill');
+let visited=new Set([0]);
+function showTab(n){
+  panels.forEach(p=>p.classList.remove('active'));tabs.forEach(t=>t.classList.remove('active'));
+  panels[n].classList.add('active');tabs[n].classList.add('active');
+  visited.add(n);prog.style.width=Math.round(visited.size/tabs.length*100)+'%';
+  localStorage.setItem('p2ch2_tab',n);window.scrollTo({top:0,behavior:'smooth'});
+}
+const sv=localStorage.getItem('p2ch2_tab');if(sv)showTab(parseInt(sv));
+
+// SOUS-ONGLETS
+function showSubTab(act,sub){
+  document.querySelectorAll(`#panel-${act} .subpanel`).forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll(`#panel-${act} .subtab`).forEach(b=>b.classList.remove('active'));
+  document.getElementById(`sub-${act}-${sub}`).classList.add('active');
+  document.querySelectorAll(`#panel-${act} .subtab`)[sub].classList.add('active');
+}
+
+// ACCORDEONS
+function toggleAccord(head){
+  const body=head.nextElementSibling,isOpen=body.classList.contains('open');
+  document.querySelectorAll('.accord-body').forEach(b=>b.classList.remove('open'));
+  document.querySelectorAll('.accord-head').forEach(h=>h.classList.remove('open'));
+  if(!isOpen){body.classList.add('open');head.classList.add('open');}
+}
+function toggleSSAccord(head){
+  const body=head.nextElementSibling,isOpen=body.classList.contains('open');
+  body.classList.toggle('open',!isOpen);head.classList.toggle('open',!isOpen);
+}
+
+// EXERCICES
+function checkExo(id){
+  const selects=document.querySelectorAll(`#${id}-q select.blank`);
+  let ok=0,total=selects.length;
+  selects.forEach(s=>{
+    s.classList.remove('ok','ko');
+    if(s.value===s.dataset.rep){s.classList.add('ok');ok++;}
+    else s.classList.add('ko');
+  });
+  const fb=document.getElementById(`${id}-fb`);
+  fb.className='exo-feedback '+(ok===total?'ok':'ko');
+  fb.textContent=ok===total?`✅ Parfait ! ${ok}/${total} bonnes réponses.`:`❌ ${ok}/${total} — Revois les réponses en rouge.`;
+}
+function resetExo(id){
+  document.querySelectorAll(`#${id}-q select.blank`).forEach(s=>{s.value='';s.classList.remove('ok','ko');});
+  const fb=document.getElementById(`${id}-fb`);fb.className='exo-feedback';fb.textContent='';
+}
+
+// FLASHCARDS
+const flashcards=[
+  {p:"La grippe est causée par un [virus] et se transmet par voie [aérienne] via les gouttelettes de salive.",t:[{rep:"virus",opts:["bactérie","virus","champignon"]},{rep:"aérienne",opts:["digestive","sexuelle","aérienne"]}]},
+  {p:"Le virus de la grippe provoque des lésions sur les [muqueuses] respiratoires, favorisant des [surinfections bactériennes].",t:[{rep:"muqueuses",opts:["os","muqueuses","muscles"]},{rep:"surinfections bactériennes",opts:["guérisons spontanées","surinfections bactériennes","immunités définitives"]}]},
+  {p:"La tuberculose est causée par le [Bacille de Koch (BK)], une bactérie qui se multiplie dans les [poumons] jusqu'à les détruire.",t:[{rep:"Bacille de Koch (BK)",opts:["virus de la grippe","bacille tétanique","Bacille de Koch (BK)"]},{rep:"poumons",opts:["reins","poumons","foie"]}]},
+  {p:"La contagion indirecte de la tuberculose se fait par les [crachats, mouchoirs et couverts] du malade. Le BK est tué par [le soleil].",t:[{rep:"crachats, mouchoirs et couverts",opts:["gouttelettes dans l'air","crachats, mouchoirs et couverts","eau du robinet"]},{rep:"le soleil",opts:["l'eau froide","le sel","le soleil"]}]},
+  {p:"La vaccination contre la tuberculose chez les enfants utilise le vaccin [BCG].",t:[{rep:"BCG",opts:["ROR","DTP","BCG"]}]},
+  {p:"La rougeole est une maladie [virale] qui progresse en 4 phases : incubation (10j) → fièvre (3j) → [éruption cutanée] (3j) → desquamation.",t:[{rep:"virale",opts:["bactérienne","virale","fongique"]},{rep:"éruption cutanée",opts:["contractures","éruption cutanée","hémorragie"]}]},
+  {p:"Les complications graves de la rougeole sont dues non au virus lui-même mais à des [surinfections] secondaires par d'autres microbes.",t:[{rep:"surinfections",opts:["mutations","surinfections","intoxications"]}]},
+  {p:"Le bacille tétanique est une bactérie [anaérobie] qui forme des [spores] résistantes dans les milieux oxygénés.",t:[{rep:"anaérobie",opts:["aérobie","anaérobie","autotrophe"]},{rep:"spores",opts:["kystes","capsules","spores"]}]},
+  {p:"Le bacille tétanique reste [localisé dans la plaie] mais produit une [toxine tétanique] qui agit sur le tissu nerveux.",t:[{rep:"localisé dans la plaie",opts:["diffusé dans tout l'organisme","localisé dans la plaie","dans les poumons"]},{rep:"toxine tétanique",opts:["enzyme digestive","toxine tétanique","anticorps"]}]},
+  {p:"La mort par tétanos survient par [asphyxie] due à la paralysie des muscles [respiratoires].",t:[{rep:"asphyxie",opts:["hémorragie","asphyxie","septicémie"]},{rep:"respiratoires",opts:["cardiaques","digestifs","respiratoires"]}]},
+  {p:"La [contagion] est la transmission d'une maladie d'un individu [atteint] à un individu sain.",t:[{rep:"contagion",opts:["infection","contagion","vaccination"]},{rep:"atteint",opts:["sain","vacciné","atteint"]}]},
+  {p:"Les 4 voies de contamination des maladies infectieuses sont : [respiratoire], digestive, sexuelle et sanguine.",t:[{rep:"respiratoire",opts:["cutanée","respiratoire","urinaire"]}]},
+];
+
+function shuffle(arr){return arr.slice().sort(()=>Math.random()-.5);}
+function buildFC(){
+  const c=document.getElementById('fc-container');c.innerHTML='';
+  flashcards.forEach(fc=>{
+    let html=fc.p;
+    fc.t.forEach(trou=>{
+      const opts=shuffle(trou.opts);
+      const options=opts.map(o=>`<option value="${o}">${o}</option>`).join('');
+      html=html.replace(`[${trou.rep}]`,`<select class="fc-select" data-ans="${trou.rep}"><option value="">—</option>${options}</select>`);
+    });
+    c.innerHTML+=`<div class="fc-card"><div class="fc-phrase">${html}</div></div>`;
+  });
+}
+function verifierFC(){
+  const inputs=document.querySelectorAll('.fc-select');
+  let ok=0,total=inputs.length;
+  inputs.forEach(inp=>{
+    inp.classList.toggle('ok',inp.value===inp.dataset.ans);
+    inp.classList.toggle('ko',inp.value!==inp.dataset.ans||inp.value==='');
+    if(inp.value===inp.dataset.ans)ok++;
+  });
+  const sc=document.getElementById('fc-score');
+  sc.style.display='inline-block';
+  sc.textContent=`Score : ${ok}/${total} (${Math.round(ok/total*100)}%)`;
+  sc.style.background=ok===total?'#e8f5e9':ok>=total*.7?'#fff8e1':'#ffebee';
+}
+function resetFC(){
+  document.querySelectorAll('.fc-select').forEach(i=>{i.value='';i.classList.remove('ok','ko');});
+  document.getElementById('fc-score').style.display='none';
+}
+
+// QCM
+const qcm=[
+  {q:"1. Quelles maladies sont causées par un virus ?",opts:["A. Grippe","B. Tuberculose","C. Rougeole","D. Tétanos"],rep:[0,2]},
+  {q:"2. La tuberculose se transmet par :",opts:["A. Voie aérienne directe (gouttelettes)","B. Voie aérienne indirecte (crachats, couverts)","C. Voie sexuelle","D. Blessure par objet souillé"],rep:[0,1]},
+  {q:"3. Le Bacille de Koch est caractérisé par :",opts:["A. Il est tué par le soleil en quelques heures","B. Il se développe dans les endroits humides et mal aérés","C. Il produit une toxine nerveuse","D. Il se multiplie dans les poumons jusqu'à les détruire"],rep:[0,1,3]},
+  {q:"4. La rougeole progresse en 4 phases dans l'ordre :",opts:["A. Incubation → éruption → fièvre → desquamation","B. Incubation → fièvre/nez → éruption cutanée → desquamation","C. Éruption → incubation → fièvre → guérison","D. Fièvre → incubation → éruption → desquamation"],rep:[1]},
+  {q:"5. Concernant le bacille tétanique :",opts:["A. C'est une bactérie anaérobie","B. Il envahit tout l'organisme","C. Il reste localisé dans la plaie","D. Sa toxine se fixe sur le tissu nerveux"],rep:[0,2,3]},
+  {q:"6. La mort par tétanos est causée par :",opts:["A. La destruction des poumons","B. La paralysie des muscles respiratoires","C. L'asphyxie","D. La septicémie (envahissement de l'organisme)"],rep:[1,2]},
+  {q:"7. Les 4 voies de contamination des maladies infectieuses sont :",opts:["A. Respiratoire · digestive · sexuelle · sanguine","B. Cutanée · respiratoire · sexuelle · urinaire","C. Uniquement respiratoire et sexuelle","D. Blessure · aérienne · digestive · cutanée"],rep:[0]},
+  {q:"8. La vaccination contre le tétanos :",opts:["A. Doit être renouvelée tous les 5 ans (rappel)","B. Protège définitivement toute la vie","C. Est conseillée après toute blessure suspecte","D. Nécessite aussi l'administration de sérum en cas de blessure"],rep:[0,2,3]},
+  {q:"9. Quelles mesures permettent de prévenir les maladies infectieuses ?",opts:["A. Vaccination","B. Hygiène corporelle et alimentaire","C. Prise quotidienne d'antibiotiques","D. Soins immédiats en cas de blessure/piqûre/morsure"],rep:[0,1,3]},
+  {q:"10. La surinfection bactérienne lors d'une grippe est favorisée par :",opts:["A. Les lésions cellulaires des muqueuses respiratoires","B. L'affaiblissement des défenses locales","C. La présence du virus grippal dans le sang","D. Elle touche surtout les personnes âgées ou immunodéprimées"],rep:[0,1,3]},
+];
+
+function buildQCM(){
+  const c=document.getElementById('qcm-container');c.innerHTML='';
+  qcm.forEach((q,i)=>{
+    const opts=q.opts.map((o,j)=>`<label class="qcm-opt" id="opt-${i}-${j}"><input type="checkbox" data-q="${i}" data-o="${j}"> ${o}</label>`).join('');
+    c.innerHTML+=`<div class="qcm-item"><div class="qcm-q">${q.q}</div>${opts}</div>`;
+  });
+}
+function corrigerQCM(){
+  let score=0;
+  qcm.forEach((q,i)=>{
+    let correct=true;
+    q.opts.forEach((_,j)=>{
+      const el=document.getElementById(`opt-${i}-${j}`),inp=el.querySelector('input');
+      const checked=inp.checked,should=q.rep.includes(j);
+      el.classList.remove('correct','wrong');
+      if(should){el.classList.add('correct');if(!checked)correct=false;}
+      else if(checked){el.classList.add('wrong');correct=false;}
+    });
+    if(correct)score++;
+  });
+  const r=document.getElementById('qcm-result'),pct=Math.round(score/qcm.length*100);
+  r.style.display='block';
+  r.style.background=pct>=80?'#e8f5e9':pct>=50?'#fff8e1':'#ffebee';
+  r.style.color=pct>=80?'#2E7D32':pct>=50?'#E65100':'#c62828';
+  r.textContent=`Score : ${score}/10 (${pct}%) — ${pct>=80?'Excellent ✅':pct>=50?'Bien 👍':'À retravailler 📖'}`;
+}
+function resetQCM(){
+  document.querySelectorAll('.qcm-opt').forEach(el=>{el.classList.remove('correct','wrong');el.querySelector('input').checked=false;});
+  document.getElementById('qcm-result').style.display='none';
+}
+
+document.addEventListener('DOMContentLoaded',()=>{buildFC();buildQCM();});
+</script>
+</body>
+</html>

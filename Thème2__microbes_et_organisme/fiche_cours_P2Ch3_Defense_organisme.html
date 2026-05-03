@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P2-Ch3 — La Défense de l'Organisme</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --vert:#2E7D32;--vert-light:#e8f5e9;
+  --rouge:#B71C1C;--rouge-light:#ffebee;
+  --bleu:#1565C0;--bleu-light:#e3f2fd;
+  --orange:#E65100;--orange-light:#fff3e0;
+  --violet:#4A148C;--violet-light:#f3e5f5;
+  --teal:#00695C;--teal-light:#e0f2f1;
+  --jaune:#F57F17;--jaune-light:#fffde7;
+  --bg:#fafaf8;--text:#1a1a1a;--text-muted:#666;
+  --border:#e0e0e0;--shadow:0 2px 12px rgba(0,0,0,0.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;}
+header{background:linear-gradient(135deg,#1b5e20 0%,#2E7D32 50%,#1565C0 100%);color:white;padding:24px 32px 20px;position:sticky;top:0;z-index:100;box-shadow:0 3px 16px rgba(0,0,0,0.25);}
+header h1{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:4px;}
+header p{font-size:.85rem;opacity:.85;}
+.prog-bar{height:4px;background:rgba(255,255,255,.3);border-radius:2px;margin-top:12px;}
+.prog-fill{height:100%;background:#fff;border-radius:2px;transition:width .4s;width:12%;}
+
+.tabs-wrap{background:white;border-bottom:2px solid var(--border);position:sticky;top:96px;z-index:99;overflow-x:auto;}
+.tabs{display:flex;min-width:max-content;}
+.tab{padding:12px 16px;font-size:.8rem;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:var(--text-muted);white-space:nowrap;transition:all .2s;background:none;border-top:none;border-left:none;border-right:none;}
+.tab:hover{color:var(--vert);background:var(--vert-light);}
+.tab.active{color:var(--vert);border-bottom-color:var(--vert);}
+
+.content{max-width:920px;margin:0 auto;padding:20px 20px 60px;}
+.panel{display:none;}.panel.active{display:block;}
+
+/* SOUS-ONGLETS */
+.subtabs-wrap{background:var(--vert-light);border-bottom:1px solid #a5d6a7;overflow-x:auto;margin-bottom:20px;border-radius:0 0 8px 8px;}
+.subtabs-wrap.bleu{background:var(--bleu-light);border-bottom-color:#90CAF9;}
+.subtabs{display:flex;min-width:max-content;padding:6px 12px;gap:6px;}
+.subtab{padding:7px 14px;font-size:.78rem;font-weight:600;cursor:pointer;border-radius:20px;color:var(--vert);background:white;border:1.5px solid #a5d6a7;white-space:nowrap;transition:all .2s;}
+.subtabs-wrap.bleu .subtab{color:var(--bleu);border-color:#90CAF9;}
+.subtab:hover,.subtab.active{background:var(--vert);color:white;border-color:var(--vert);}
+.subtabs-wrap.bleu .subtab:hover,.subtabs-wrap.bleu .subtab.active{background:var(--bleu);border-color:var(--bleu);}
+.subpanel{display:none;}.subpanel.active{display:block;}
+
+/* ACCORDEON SOUS-PARTIES */
+.ssaccord-item{border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden;}
+.ssaccord-head{padding:12px 18px;font-weight:700;cursor:pointer;background:var(--vert-light);display:flex;justify-content:space-between;align-items:center;transition:background .2s;font-size:.92rem;}
+.ssaccord-head.bleu{background:var(--bleu-light);}
+.ssaccord-head:hover{background:#c8e6c9;}
+.ssaccord-head.bleu:hover{background:#BBDEFB;}
+.ssaccord-head.open{background:var(--vert);color:white;}
+.ssaccord-head.bleu.open{background:var(--bleu);}
+.ssaccord-body{display:none;padding:18px;background:white;}
+.ssaccord-body.open{display:block;}
+.ssaccord-arrow{font-size:1rem;transition:transform .3s;}
+.ssaccord-head.open .ssaccord-arrow{transform:rotate(180deg);}
+
+/* CARDS */
+.card{background:white;border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:var(--shadow);border-left:5px solid var(--vert);}
+.card.bleu{border-left-color:var(--bleu);}
+.card.orange{border-left-color:var(--orange);}
+.card.rouge{border-left-color:var(--rouge);}
+.card.teal{border-left-color:var(--teal);}
+h2{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:14px;color:var(--vert);}
+h2.bleu{color:var(--bleu);}
+h3{font-size:.97rem;font-weight:700;margin:14px 0 8px;color:var(--text);}
+
+.question-dir{background:linear-gradient(135deg,#1b5e20 0%,#2E7D32 100%);color:white;padding:14px 18px;border-radius:10px;font-weight:600;margin-bottom:18px;font-size:.95rem;}
+.question-dir.bleu{background:linear-gradient(135deg,#0D47A1 0%,#1976D2 100%);}
+
+.resume-box{background:linear-gradient(135deg,var(--vert-light),var(--bleu-light));border:2px solid var(--vert);border-radius:12px;padding:14px 18px;margin-bottom:16px;font-size:.92rem;line-height:1.7;}
+.resume-box strong{color:var(--vert);}
+.resume-box.bleu{background:linear-gradient(135deg,var(--bleu-light),var(--violet-light));border-color:var(--bleu);}
+.resume-box.bleu strong{color:var(--bleu);}
+
+.explication{background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 10px 10px 0;padding:14px 18px;margin:12px 0;font-size:.9rem;line-height:1.7;}
+.explication strong{color:var(--vert);}
+.explication.bleu{background:var(--bleu-light);border-left-color:var(--bleu);}
+.explication.bleu strong{color:var(--bleu);}
+.explication.orange{background:var(--orange-light);border-left-color:var(--orange);}
+.explication.orange strong{color:var(--orange);}
+.explication.rouge{background:var(--rouge-light);border-left-color:var(--rouge);}
+.explication.rouge strong{color:var(--rouge);}
+
+.retenons{background:var(--orange-light);border:1.5px solid var(--orange);border-radius:10px;padding:16px 18px;margin:16px 0;}
+.retenons h4{color:var(--orange);font-size:.78rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+.retenons p{margin-bottom:5px;font-size:.9rem;}
+.retenons dt{font-weight:700;color:var(--orange);display:inline;}
+.retenons dd{display:inline;margin-left:4px;}
+
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.88rem;}
+th{background:var(--vert);color:white;padding:10px 12px;text-align:left;}
+th.bleu{background:var(--bleu);}
+td{padding:9px 12px;border-bottom:1px solid var(--border);}
+tr:nth-child(even) td{background:var(--vert-light);}
+tr.bleu:nth-child(even) td{background:var(--bleu-light);}
+
+.svgbox{background:white;border-radius:10px;padding:12px;margin:14px 0;text-align:center;border:1px solid var(--border);}
+.svgbox svg{max-width:100%;height:auto;}
+.svgbox figcaption{font-size:.78rem;color:var(--text-muted);margin-top:6px;font-style:italic;}
+
+.info-box{display:flex;gap:12px;align-items:flex-start;background:var(--vert-light);border-radius:10px;padding:14px 16px;margin:12px 0;border-left:4px solid var(--vert);}
+.info-box.bleu{background:var(--bleu-light);border-left-color:var(--bleu);}
+.info-box.orange{background:var(--orange-light);border-left-color:var(--orange);}
+.info-box.rouge{background:var(--rouge-light);border-left-color:var(--rouge);}
+.info-box .icon{font-size:1.4rem;flex-shrink:0;}
+.info-box p{font-size:.88rem;line-height:1.6;}
+
+/* PHAGOCYTOSE ANIMEE */
+.phago-container{background:#f8f9fa;border-radius:12px;border:2px solid var(--vert);padding:20px;margin:14px 0;}
+.phago-steps{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.phago-btn{padding:8px 14px;border-radius:20px;border:2px solid var(--vert);background:white;color:var(--vert);font-weight:600;font-size:.8rem;cursor:pointer;transition:all .2s;}
+.phago-btn.active{background:var(--vert);color:white;}
+.phago-step-content{display:none;}.phago-step-content.active{display:block;}
+.phago-desc{background:var(--vert-light);border-radius:10px;padding:14px 16px;margin-top:10px;font-size:.9rem;line-height:1.7;}
+
+/* COURBE ANTICORPS INTERACTIVE */
+.courbe-container{background:#f8f9fa;border-radius:12px;border:2px solid var(--bleu);padding:20px;margin:14px 0;}
+.courbe-zones{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.courbe-btn{padding:8px 14px;border-radius:20px;border:2px solid var(--bleu);background:white;color:var(--bleu);font-weight:600;font-size:.8rem;cursor:pointer;transition:all .2s;}
+.courbe-btn.active{background:var(--bleu);color:white;}
+.courbe-info{background:var(--bleu-light);border-radius:10px;padding:14px 16px;margin-top:10px;font-size:.9rem;line-height:1.7;display:none;}
+.courbe-info.active{display:block;}
+
+/* COMPARATIF VISU VACCINATION vs SEROTHERAPIE */
+.compare-visu{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0;}
+.cbox-vax{background:var(--vert-light);border:3px solid var(--vert);border-radius:12px;padding:20px;}
+.cbox-sero{background:var(--rouge-light);border:3px solid var(--rouge);border-radius:12px;padding:20px;}
+.cbox-vax h4{color:var(--vert);font-size:1rem;font-weight:700;margin-bottom:12px;}
+.cbox-sero h4{color:var(--rouge);font-size:1rem;font-weight:700;margin-bottom:12px;}
+.cbox-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(0,0,0,.08);font-size:.88rem;}
+.cbox-row:last-child{border-bottom:none;}
+.cbox-label{font-weight:600;color:var(--text-muted);font-size:.8rem;}
+.cbox-val{font-weight:700;}
+
+/* BILAN ACCORDEON */
+.accord-item{border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden;}
+.accord-head{padding:14px 18px;font-weight:600;cursor:pointer;background:white;display:flex;justify-content:space-between;align-items:center;transition:background .2s;}
+.accord-head:hover{background:var(--vert-light);}
+.accord-head.open{background:var(--vert);color:white;}
+.accord-body{display:none;padding:16px 18px;background:var(--bg);font-size:.9rem;line-height:1.7;}
+.accord-body.open{display:block;}
+.accord-arrow{font-size:1.1rem;transition:transform .3s;}
+.accord-head.open .accord-arrow{transform:rotate(180deg);}
+
+/* EXERCICES */
+.exo{background:linear-gradient(135deg,#f3e5f5,#e8f5e9);border:2px solid var(--violet);border-radius:12px;padding:20px;margin-top:20px;}
+.exo-title{font-weight:700;color:var(--violet);font-size:.88rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;}
+.exo-q p{margin-bottom:10px;font-size:.93rem;line-height:1.9;}
+select.blank{border:2px solid var(--violet);border-radius:6px;padding:3px 8px;font-size:.88rem;background:white;cursor:pointer;color:var(--violet);font-weight:600;transition:all .2s;}
+select.blank.ok{border-color:#4CAF50;background:#e8f5e9;color:#2E7D32;}
+select.blank.ko{border-color:#f44336;background:#ffebee;color:#c62828;}
+.exo-feedback{font-size:.85rem;padding:8px 12px;border-radius:8px;margin-top:10px;font-weight:600;}
+.exo-feedback.ok{background:#e8f5e9;color:#2E7D32;}
+.exo-feedback.ko{background:#ffebee;color:#c62828;}
+.btn-exo{background:var(--violet);color:white;border:none;padding:9px 20px;border-radius:8px;cursor:pointer;font-weight:700;font-size:.85rem;margin-top:12px;transition:background .2s;}
+.btn-exo:hover{background:#6A1B9A;}
+.btn-reset-exo{background:var(--border);color:var(--text);border:none;padding:9px 16px;border-radius:8px;cursor:pointer;font-weight:600;font-size:.85rem;margin-top:12px;margin-left:8px;}
+
+/* FC */
+.fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin:16px 0;}
+.fc-card{background:white;border-radius:10px;padding:16px;box-shadow:var(--shadow);border-top:4px solid var(--vert);}
+.fc-phrase{font-size:.92rem;line-height:1.9;margin-bottom:10px;}
+select.fc-select{border:2px solid var(--violet);border-radius:6px;padding:3px 8px;font-size:.85rem;background:white;cursor:pointer;color:var(--violet);font-weight:600;}
+select.fc-select.ok{border-color:#4CAF50;background:#e8f5e9;color:#2E7D32;}
+select.fc-select.ko{border-color:#f44336;background:#ffebee;color:#c62828;}
+.fc-actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+.btn{padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:.88rem;transition:all .2s;}
+.btn-vert{background:var(--vert);color:white;}.btn-vert:hover{background:#1b5e20;}
+.btn-grey{background:var(--border);color:var(--text);}.btn-grey:hover{background:#ccc;}
+#fc-score{font-weight:700;font-size:1rem;padding:10px 16px;border-radius:8px;}
+
+/* QCM */
+.qcm-item{background:white;border-radius:10px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow);}
+.qcm-q{font-weight:600;margin-bottom:12px;}
+.qcm-opt{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:6px;margin-bottom:6px;cursor:pointer;transition:background .15s;}
+.qcm-opt:hover{background:var(--vert-light);}
+.qcm-opt input{accent-color:var(--vert);}
+.qcm-opt.correct{background:#e8f5e9;border:1.5px solid #4CAF50;}
+.qcm-opt.wrong{background:#ffebee;border:1.5px solid #f44336;}
+#qcm-result{font-size:1.1rem;font-weight:700;padding:14px 20px;border-radius:10px;margin-top:16px;text-align:center;display:none;}
+
+.acquis-list{list-style:none;display:grid;gap:8px;}
+.acquis-list li{padding:10px 14px;background:var(--vert-light);border-radius:8px;border-left:4px solid var(--vert);font-size:.9rem;}
+.acquis-list li::before{content:"✓ ";color:var(--vert);font-weight:700;}
+
+.exo-manuel{background:white;border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:var(--shadow);border-left:5px solid var(--teal);}
+.exo-manuel h3{color:var(--teal);font-size:1rem;margin-bottom:14px;}
+.exo-manuel .contexte{background:var(--teal-light);border-radius:8px;padding:12px 16px;margin-bottom:14px;font-size:.9rem;line-height:1.7;border-left:4px solid var(--teal);}
+
+.barriere-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0;}
+.barriere-box{border-radius:10px;padding:16px;}
+.barriere-meca{background:#e8f5e9;border:2px solid var(--vert);}
+.barriere-chim{background:var(--bleu-light);border:2px solid var(--bleu);}
+.barriere-box h4{font-weight:700;margin-bottom:10px;font-size:.92rem;}
+.barriere-box ul{margin-left:16px;font-size:.88rem;line-height:1.9;}
+
+.hist-timeline{display:flex;flex-direction:column;gap:0;margin:14px 0;}
+.hist-item{display:flex;gap:0;}
+.hist-year{background:var(--bleu);color:white;width:80px;min-width:80px;padding:12px 8px;text-align:center;font-weight:700;font-size:.9rem;display:flex;align-items:center;justify-content:center;}
+.hist-content{background:var(--bleu-light);flex:1;padding:12px 16px;border-bottom:2px solid white;font-size:.88rem;line-height:1.6;}
+.hist-content strong{color:var(--bleu);}
+
+@media(max-width:600px){
+  .compare-visu,.barriere-grid{grid-template-columns:1fr;}
+  header h1{font-size:1.1rem;}
+  .tab{padding:10px 10px;font-size:.72rem;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Chapitre 3 — La Défense de l'Organisme</h1>
+  <p>1ère Année Secondaire SVT · Partie 2 : Microbes et Santé · Pages 117–134</p>
+  <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+</header>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab active" onclick="showTab(0)">📚 Acquis</button>
+    <button class="tab" onclick="showTab(1)">🛡️ Act. 1 — Immunité non spécifique</button>
+    <button class="tab" onclick="showTab(2)">🧬 Act. 2 — Immunité spécifique</button>
+    <button class="tab" onclick="showTab(3)">📋 Bilan</button>
+    <button class="tab" onclick="showTab(4)">🃏 Flashcards</button>
+    <button class="tab" onclick="showTab(5)">✏️ QCM</button>
+    <button class="tab" onclick="showTab(6)">📝 Exercices</button>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ═══ ACQUIS ═══ -->
+<div class="panel active" id="panel-0">
+  <div class="card">
+    <h2>📚 Acquis du Collège (p.118)</h2>
+    <ul class="acquis-list">
+      <li>La <strong>peau</strong> est une barrière contre la pénétration des microbes</li>
+      <li>Face à une infection locale → premier geste = <strong>désinfection de la plaie</strong></li>
+      <li>Le sang = <strong>globules rouges</strong> + <strong>globules blancs (leucocytes)</strong> + plasma</li>
+      <li>Les leucocytes participent à la défense : <strong>polynucléaires</strong> + <strong>monocytes</strong> → capables de <strong>phagocyter</strong> les microbes</li>
+      <li>La <strong>réaction inflammatoire</strong> = rougeur + gonflement + chaleur + douleur</li>
+      <li>Le <strong>sérum</strong> = partie liquide libérée lors de la coagulation du sang</li>
+      <li>Les <strong>vaccins</strong> protègent l'organisme contre certaines maladies infectieuses</li>
+    </ul>
+  </div>
+  <div class="card orange">
+    <h2>❓ Questions directrices</h2>
+    <ol style="margin-left:18px;line-height:2.2">
+      <li>Quels sont les moyens de l'<strong>immunité non spécifique</strong> ?</li>
+      <li>Quels sont les moyens et propriétés de l'<strong>immunité spécifique</strong> ?</li>
+      <li>Comment peut-on <strong>renforcer</strong> l'immunité spécifique ?</li>
+    </ol>
+  </div>
+  <div class="card bleu">
+    <h2 class="bleu">🗺️ Plan — 2 activités</h2>
+    <table>
+      <tr><th class="bleu">Activité</th><th class="bleu">Titre</th><th class="bleu">Sous-parties</th><th class="bleu">Pages</th></tr>
+      <tr><td><strong>1</strong></td><td>Immunité non spécifique</td><td>Barrières naturelles · Inflammation · Phagocytose</td><td>119–121</td></tr>
+      <tr><td><strong>2</strong></td><td>Immunité spécifique</td><td>Observation · Vaccination (Jenner+Pasteur) · Immunité acquise · Sérothérapie</td><td>123–128</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══ ACTIVITE 1 ═══ -->
+<div class="panel" id="panel-1">
+  <div class="question-dir">🛡️ Activité 1 — L'Immunité Non Spécifique (p.119–121)<br>
+  <span style="font-weight:400;font-size:.88rem">Défense immédiate contre TOUT microbe, sans distinction — 2 lignes de défense</span></div>
+
+  <div class="subtabs-wrap">
+    <div class="subtabs">
+      <button class="subtab active" onclick="showSubTab(1,0)">🧱 Barrières naturelles</button>
+      <button class="subtab" onclick="showSubTab(1,1)">🔥 Réaction inflammatoire</button>
+      <button class="subtab" onclick="showSubTab(1,2)">🦠 Phagocytose</button>
+      <button class="subtab" onclick="showSubTab(1,3)">✏️ Exercice</button>
+    </div>
+  </div>
+
+  <!-- BARRIERES NATURELLES -->
+  <div class="subpanel active" id="sub-1-0">
+    <div class="card">
+      <h2>🧱 Sous-partie 1 — Les Barrières Naturelles (p.119)</h2>
+      <div class="resume-box">
+        <strong>En résumé :</strong> la 1ère ligne de défense de l'organisme. La peau et les muqueuses forment des barrières mécaniques ET chimiques qui empêchent la majorité des microbes de pénétrer dans l'organisme. Elles fonctionnent en permanence, sans même que nous nous en rendions compte.
+      </div>
+      <div class="barriere-grid">
+        <div class="barriere-box barriere-meca">
+          <h4>🧱 Barrières mécaniques</h4>
+          <ul>
+            <li><strong>Peau intacte :</strong> couche cornée imperméable — les microbes ne peuvent pas traverser une peau saine</li>
+            <li><strong>Muqueuses :</strong> sécrètent du <strong>mucus</strong> visqueux qui capture et entraîne les microbes vers l'extérieur</li>
+            <li><strong>Cils des muqueuses respiratoires :</strong> battent pour éliminer les particules piégées dans le mucus</li>
+          </ul>
+        </div>
+        <div class="barriere-box barriere-chim">
+          <h4>⚗️ Barrières chimiques</h4>
+          <ul>
+            <li><strong>Larmes :</strong> contiennent le lysozyme (enzyme qui détruit les bactéries)</li>
+            <li><strong>Sueur :</strong> acidité qui <strong>ralentit</strong> le développement bactérien sur la peau</li>
+            <li><strong>Suc gastrique :</strong> très acide → empêche la multiplication bactérienne dans l'estomac</li>
+            <li><strong>Muqueuses buccales/nasales :</strong> sécrétions acides bactériostatiques</li>
+          </ul>
+        </div>
+      </div>
+      <div class="svgbox">
+        <svg viewBox="0 0 580 200" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+          <text x="290" y="18" text-anchor="middle" font-size="13" font-weight="700" fill="#2E7D32">Les barrières naturelles de l'organisme</text>
+          <!-- Silhouette corps -->
+          <ellipse cx="290" cy="105" rx="55" ry="75" fill="#fff8e1" stroke="#E65100" stroke-width="2" stroke-dasharray="5,3"/>
+          <text x="290" y="100" text-anchor="middle" font-size="30">🧑</text>
+          <!-- Larmes -->
+          <rect x="10" y="20" width="130" height="38" rx="8" fill="#e3f2fd" stroke="#1565C0" stroke-width="1.5"/>
+          <text x="75" y="34" text-anchor="middle" font-size="10" font-weight="700" fill="#1565C0">😢 Larmes</text>
+          <text x="75" y="50" text-anchor="middle" font-size="9" fill="#555">Lysozyme → détruit bactéries</text>
+          <line x1="140" y1="39" x2="240" y2="75" stroke="#1565C0" stroke-width="1" stroke-dasharray="3,2"/>
+          <!-- Muqueuses -->
+          <rect x="10" y="70" width="130" height="38" rx="8" fill="#e8f5e9" stroke="#2E7D32" stroke-width="1.5"/>
+          <text x="75" y="84" text-anchor="middle" font-size="10" font-weight="700" fill="#2E7D32">👃 Muqueuses</text>
+          <text x="75" y="100" text-anchor="middle" font-size="9" fill="#555">Mucus → piège les microbes</text>
+          <line x1="140" y1="89" x2="240" y2="90" stroke="#2E7D32" stroke-width="1" stroke-dasharray="3,2"/>
+          <!-- Sueur -->
+          <rect x="10" y="120" width="130" height="38" rx="8" fill="#e8f5e9" stroke="#2E7D32" stroke-width="1.5"/>
+          <text x="75" y="134" text-anchor="middle" font-size="10" font-weight="700" fill="#2E7D32">💧 Sueur</text>
+          <text x="75" y="150" text-anchor="middle" font-size="9" fill="#555">Acidité → ralentit bactéries</text>
+          <line x1="140" y1="139" x2="240" y2="120" stroke="#2E7D32" stroke-width="1" stroke-dasharray="3,2"/>
+          <!-- Peau -->
+          <rect x="10" y="162" width="130" height="38" rx="8" fill="#fff3e0" stroke="#E65100" stroke-width="1.5"/>
+          <text x="75" y="176" text-anchor="middle" font-size="10" font-weight="700" fill="#E65100">🫀 Peau intacte</text>
+          <text x="75" y="192" text-anchor="middle" font-size="9" fill="#555">Couche cornée imperméable</text>
+          <line x1="140" y1="181" x2="248" y2="150" stroke="#E65100" stroke-width="1" stroke-dasharray="3,2"/>
+          <!-- Suc gastrique -->
+          <rect x="440" y="70" width="130" height="38" rx="8" fill="#f3e5f5" stroke="#4A148C" stroke-width="1.5"/>
+          <text x="505" y="84" text-anchor="middle" font-size="10" font-weight="700" fill="#4A148C">🧪 Suc gastrique</text>
+          <text x="505" y="100" text-anchor="middle" font-size="9" fill="#555">Acidité → empêche croissance bact.</text>
+          <line x1="440" y1="89" x2="350" y2="105" stroke="#4A148C" stroke-width="1" stroke-dasharray="3,2"/>
+          <!-- Flèches microbes repoussés -->
+          <text x="430" y="155" font-size="20">🦠</text>
+          <path d="M425 152 L410 140" stroke="#B71C1C" stroke-width="2" marker-end="url(#xarr)"/>
+          <defs><marker id="xarr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#B71C1C"/></marker></defs>
+          <text x="455" y="170" font-size="10" fill="#B71C1C" font-weight="600">Microbe repoussé ✓</text>
+        </svg>
+        <figcaption>Fig. 1 — Les barrières naturelles : mécaniques et chimiques</figcaption>
+      </div>
+      <div class="explication">
+        <strong>Pourquoi dit-on que ces barrières sont "non spécifiques" ?</strong> Parce qu'elles s'opposent à TOUS les microbes de la même façon, sans les reconnaître individuellement. La peau ne distingue pas le virus de la grippe du bacille tétanique — elle les bloque tous. C'est une défense permanente et automatique.
+      </div>
+    </div>
+
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice — Barrières naturelles</div>
+      <div class="exo-q" id="exo-barr-q">
+        <p>1. La peau forme une barrière <select class="blank" data-rep="mécanique"><option value="">—</option><option>chimique</option><option>mécanique</option><option>spécifique</option></select> grâce à sa couche <select class="blank" data-rep="cornée"><option value="">—</option><option>musculaire</option><option>cornée</option><option>nerveuse</option></select> imperméable. Les microbes ne peuvent pas la traverser lorsqu'elle est <select class="blank" data-rep="intacte"><option value="">—</option><option>blessée</option><option>intacte</option><option>humide</option></select>.</p>
+        <p>2. Les muqueuses sécrètent du <select class="blank" data-rep="mucus"><option value="">—</option><option>sérum</option><option>mucus</option><option>plasma</option></select> qui <strong>piège</strong> les micro-organismes et les entraîne vers <select class="blank" data-rep="l'extérieur"><option value="">—</option><option>le sang</option><option>l'extérieur</option><option>les poumons</option></select>.</p>
+        <p>3. Le suc gastrique et la sueur constituent des barrières <select class="blank" data-rep="chimiques"><option value="">—</option><option>mécaniques</option><option>chimiques</option><option>spécifiques</option></select> grâce à leur <select class="blank" data-rep="acidité"><option value="">—</option><option>viscosité</option><option>acidité</option><option>température</option></select> qui ralentit ou empêche le développement bactérien.</p>
+        <p>4. Ces barrières sont dites "non spécifiques" car elles agissent contre <select class="blank" data-rep="tous les microbes sans distinction"><option value="">—</option><option>un seul type de microbe ciblé</option><option>tous les microbes sans distinction</option><option>uniquement les virus</option></select>.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-barr')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-barr')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-barr-fb"></div>
+    </div>
+  </div>
+
+  <!-- REACTION INFLAMMATOIRE -->
+  <div class="subpanel" id="sub-1-1">
+    <div class="card">
+      <h2>🔥 Sous-partie 2 — La Réaction Inflammatoire (p.120)</h2>
+      <div class="resume-box">
+        <strong>En résumé :</strong> quand les microbes franchissent la 1ère ligne (peau blessée), l'organisme déclenche immédiatement une réaction locale visible — la 2ème ligne de défense. 4 signes caractéristiques : <strong>rougeur · chaleur · gonflement · douleur</strong>. Cette réaction attire les globules blancs au foyer d'infection.
+      </div>
+      <div class="svgbox">
+        <svg viewBox="0 0 580 210" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+          <text x="290" y="18" text-anchor="middle" font-size="13" font-weight="700" fill="#B71C1C">Réaction inflammatoire suite à une piqûre</text>
+          <!-- Figure 2a: moment piqure -->
+          <rect x="10" y="28" width="255" height="170" rx="10" fill="#f9f9f9" stroke="#ccc" stroke-width="1.5"/>
+          <text x="137" y="46" text-anchor="middle" font-size="11" font-weight="700" fill="#555">Fig. 2a — Au moment de la piqûre</text>
+          <!-- Peau coupe -->
+          <rect x="25" y="55" width="225" height="25" rx="4" fill="#FFCC80" stroke="#E65100" stroke-width="1"/>
+          <text x="25" y="50" font-size="9" fill="#555">Épiderme</text>
+          <!-- Epine -->
+          <polygon points="125,55 130,30 135,55" fill="#795548"/>
+          <text x="130" y="26" text-anchor="middle" font-size="9" fill="#795548">Épine</text>
+          <!-- Derme -->
+          <rect x="25" y="80" width="225" height="100" rx="4" fill="#FFECB3" stroke="#F9A825" stroke-width="1"/>
+          <text x="25" y="76" font-size="9" fill="#555">Derme</text>
+          <!-- Capillaires -->
+          <ellipse cx="137" cy="130" rx="70" ry="18" fill="#ef9a9a" stroke="#c62828" stroke-width="1.5"/>
+          <text x="137" y="134" text-anchor="middle" font-size="9" fill="#c62828">Capillaire sanguin</text>
+          <!-- Bactéries entrent -->
+          <circle cx="105" cy="70" r="5" fill="#2E7D32"/>
+          <circle cx="140" cy="65" r="5" fill="#2E7D32"/>
+          <circle cx="160" cy="72" r="5" fill="#2E7D32"/>
+          <text x="137" y="165" text-anchor="middle" font-size="9" fill="#2E7D32">Quelques bactéries entrent</text>
+
+          <!-- Figure 2b: 2 jours apres -->
+          <rect x="315" y="28" width="255" height="170" rx="10" fill="#ffebee" stroke="#B71C1C" stroke-width="2"/>
+          <text x="442" y="46" text-anchor="middle" font-size="11" font-weight="700" fill="#B71C1C">Fig. 2b — 2 jours après</text>
+          <!-- Peau enflée -->
+          <path d="M330 75 Q442 48 555 75" fill="#FFCC80" stroke="#E65100" stroke-width="2"/>
+          <text x="442" y="44" text-anchor="middle" font-size="9" fill="#E65100">Gonflement ↑</text>
+          <!-- Derme enflammé -->
+          <rect x="330" y="75" width="225" height="105" rx="4" fill="#FFCDD2" stroke="#B71C1C" stroke-width="1.5"/>
+          <!-- Capillaires dilatés -->
+          <ellipse cx="442" cy="115" rx="90" ry="22" fill="#ef9a9a" stroke="#c62828" stroke-width="2"/>
+          <text x="442" y="119" text-anchor="middle" font-size="9" fill="#c62828" font-weight="600">Capillaire DILATÉ → rougeur + chaleur</text>
+          <!-- GB sortent par diapedese -->
+          <circle cx="365" cy="100" r="7" fill="#1565C0" opacity=".8"/>
+          <circle cx="390" cy="95" r="7" fill="#1565C0" opacity=".8"/>
+          <circle cx="415" cy="90" r="7" fill="#1565C0" opacity=".8"/>
+          <circle cx="442" cy="88" r="7" fill="#1565C0" opacity=".8"/>
+          <text x="400" y="78" text-anchor="middle" font-size="9" fill="#1565C0" font-weight="600">Polynucléaires (diapédèse) →</text>
+          <!-- Bactéries multipliées -->
+          <circle cx="370" cy="155" r="4" fill="#2E7D32"/>
+          <circle cx="385" cy="148" r="4" fill="#2E7D32"/>
+          <circle cx="400" cy="158" r="4" fill="#2E7D32"/>
+          <circle cx="415" cy="150" r="4" fill="#2E7D32"/>
+          <circle cx="430" cy="160" r="4" fill="#2E7D32"/>
+          <circle cx="445" cy="152" r="4" fill="#2E7D32"/>
+          <text x="430" y="172" text-anchor="middle" font-size="9" fill="#2E7D32">Bactéries multipliées → PUS</text>
+          <!-- 4 signes -->
+          <text x="540" y="85" font-size="9" fill="#B71C1C" font-weight="600">🔴 Rougeur</text>
+          <text x="540" y="100" font-size="9" fill="#E65100" font-weight="600">🔥 Chaleur</text>
+          <text x="540" y="115" font-size="9" fill="#795548" font-weight="600">🫧 Gonflement</text>
+          <text x="540" y="130" font-size="9" fill="#4A148C" font-weight="600">⚡ Douleur</text>
+        </svg>
+        <figcaption>Fig. 2 — Évolution d'une infection locale : de la piqûre à la réaction inflammatoire</figcaption>
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" onclick="toggleSSAccord(this)">Composition du pus et rôle des polynucléaires <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="explication orange">
+            <strong>Qu'est-ce que le pus ?</strong> Le pus est constitué de <strong>bactéries</strong> et de <strong>polynucléaires morts</strong> après avoir combattu les bactéries. Sa présence montre que l'organisme se défend activement. Les polynucléaires arrivent au foyer d'infection par un mécanisme appelé <strong>diapédèse</strong> : ils traversent la paroi des capillaires sanguins (dilatés lors de l'inflammation) et migrent vers la zone infectée attirés par des signaux chimiques.
+          </div>
+          <table>
+            <tr><th>Signe inflammatoire</th><th>Cause</th><th>Utilité</th></tr>
+            <tr><td>🔴 Rougeur</td><td>Dilatation des capillaires → plus de sang</td><td>Apporte plus de GB au foyer</td></tr>
+            <tr><td>🔥 Chaleur</td><td>Afflux sanguin + activité métabolique accrue</td><td>Ralentit la multiplication bactérienne</td></tr>
+            <tr><td>🫧 Gonflement</td><td>Liquide qui sort des capillaires dilatés</td><td>Dilue les toxines bactériennes</td></tr>
+            <tr><td>⚡ Douleur</td><td>Pression sur les terminaisons nerveuses</td><td>Signal d'alarme pour protéger la zone</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice — Réaction inflammatoire</div>
+      <div class="exo-q" id="exo-inflam-q">
+        <p>1. Les 4 signes de l'inflammation sont : <select class="blank" data-rep="rougeur, chaleur, gonflement, douleur"><option value="">—</option><option>fièvre, toux, fatigue, maux de tête</option><option>rougeur, chaleur, gonflement, douleur</option><option>pus, saignement, cicatrice, démangeaison</option></select>.</p>
+        <p>2. La rougeur et la chaleur sont dues à la <select class="blank" data-rep="dilatation des capillaires sanguins"><option value="">—</option><option>multiplication des bactéries</option><option>dilatation des capillaires sanguins</option><option>contraction des muscles</option></select> qui amène plus de sang au foyer d'infection.</p>
+        <p>3. Le <strong>pus</strong> est composé de <select class="blank" data-rep="bactéries et polynucléaires morts"><option value="">—</option><option>globules rouges et plasma</option><option>bactéries et polynucléaires morts</option><option>anticorps et sérum</option></select> après le combat entre les GB et les microbes.</p>
+        <p>4. La <strong>diapédèse</strong> est le processus par lequel les <select class="blank" data-rep="leucocytes (polynucléaires)"><option value="">—</option><option>bactéries</option><option>leucocytes (polynucléaires)</option><option>globules rouges</option></select> traversent la paroi des <select class="blank" data-rep="vaisseaux sanguins"><option value="">—</option><option>poumons</option><option>vaisseaux sanguins</option><option>muscles</option></select> pour rejoindre le foyer d'infection.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-inflam')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-inflam')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-inflam-fb"></div>
+    </div>
+  </div>
+
+  <!-- PHAGOCYTOSE -->
+  <div class="subpanel" id="sub-1-2">
+    <div class="card">
+      <h2>🦠 Sous-partie 3 — La Phagocytose (p.121)</h2>
+      <div class="resume-box">
+        <strong>En résumé :</strong> la phagocytose est le mécanisme par lequel les polynucléaires <strong>englobent et digèrent</strong> les microbes. C'est la défense non spécifique la plus efficace. Elle se déroule en 4 étapes successives. Si elle échoue → septicémie.
+      </div>
+
+      <h3>🎬 Les 4 étapes de la phagocytose — animation interactive</h3>
+      <div class="phago-container">
+        <div class="phago-steps">
+          <button class="phago-btn active" onclick="showPhago(0)">1. Adhésion</button>
+          <button class="phago-btn" onclick="showPhago(1)">2. Ingestion</button>
+          <button class="phago-btn" onclick="showPhago(2)">3. Digestion</button>
+          <button class="phago-btn" onclick="showPhago(3)">4. Élimination</button>
+        </div>
+
+        <!-- Étape 1 : Adhésion -->
+        <div class="phago-step-content active" id="phago-0">
+          <div class="svgbox" style="margin:0">
+            <svg viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="200" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#2E7D32">Étape 1 — Adhésion</text>
+              <!-- Polynucleaire -->
+              <ellipse cx="130" cy="95" rx="80" ry="55" fill="#e3f2fd" stroke="#1565C0" stroke-width="2.5"/>
+              <text x="130" y="152" text-anchor="middle" font-size="10" font-weight="700" fill="#1565C0">Polynucléaire</text>
+              <!-- Noyau multilobé -->
+              <ellipse cx="108" cy="88" rx="22" ry="14" fill="#90CAF9" stroke="#1565C0" stroke-width="1.5"/>
+              <ellipse cx="148" cy="88" rx="22" ry="14" fill="#90CAF9" stroke="#1565C0" stroke-width="1.5"/>
+              <ellipse cx="128" cy="80" rx="16" ry="10" fill="#90CAF9" stroke="#1565C0" stroke-width="1.5"/>
+              <!-- Microbe proche -->
+              <circle cx="280" cy="95" r="28" fill="#ffcc80" stroke="#E65100" stroke-width="2"/>
+              <text x="280" y="90" text-anchor="middle" font-size="18">🦠</text>
+              <text x="280" y="152" text-anchor="middle" font-size="10" font-weight="700" fill="#E65100">Microbe</text>
+              <!-- Liaison -->
+              <line x1="210" y1="95" x2="252" y2="95" stroke="#2E7D32" stroke-width="2" stroke-dasharray="5,3"/>
+              <text x="231" y="85" text-anchor="middle" font-size="9" fill="#2E7D32">reconnaissance</text>
+            </svg>
+          </div>
+          <div class="phago-desc">
+            <strong>Adhésion :</strong> le polynucléaire reconnaît le microbe et s'y accroche grâce à des récepteurs membranaires spécifiques. C'est le premier contact qui déclenche le processus. La capacité du polynucléaire à s'accoler au microbe est due à la <strong>déformabilité de sa membrane</strong>.
+          </div>
+        </div>
+
+        <!-- Étape 2 : Ingestion -->
+        <div class="phago-step-content" id="phago-1">
+          <div class="svgbox" style="margin:0">
+            <svg viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="200" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#2E7D32">Étape 2 — Ingestion (absorption)</text>
+              <!-- Polynucleaire qui englobe -->
+              <path d="M50 95 Q50 30 130 30 Q240 30 300 95 Q240 160 130 160 Q50 160 50 95Z" fill="#e3f2fd" stroke="#1565C0" stroke-width="2.5"/>
+              <!-- Microbe à moitié englobé -->
+              <circle cx="220" cy="95" r="25" fill="#ffcc80" stroke="#E65100" stroke-width="2"/>
+              <text x="220" y="100" text-anchor="middle" font-size="16">🦠</text>
+              <!-- Pseudopodes -->
+              <path d="M200 72 Q215 50 240 65" fill="none" stroke="#1565C0" stroke-width="3" stroke-linecap="round"/>
+              <path d="M200 118 Q215 140 240 125" fill="none" stroke="#1565C0" stroke-width="3" stroke-linecap="round"/>
+              <text x="200" y="152" text-anchor="middle" font-size="10" fill="#1565C0">Formation du phagosome</text>
+              <!-- Noyau -->
+              <ellipse cx="120" cy="88" rx="22" ry="14" fill="#90CAF9" stroke="#1565C0" stroke-width="1.5"/>
+              <ellipse cx="155" cy="88" rx="22" ry="14" fill="#90CAF9" stroke="#1565C0" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="phago-desc">
+            <strong>Ingestion (absorption) :</strong> le polynucléaire émet des prolongements cytoplasmiques qui entourent progressivement le microbe. Celui-ci se retrouve emprisonné dans une vésicule interne appelée <strong>phagosome</strong>. Le microbe est maintenant à l'intérieur de la cellule.
+          </div>
+        </div>
+
+        <!-- Étape 3 : Digestion -->
+        <div class="phago-step-content" id="phago-2">
+          <div class="svgbox" style="margin:0">
+            <svg viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="200" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#2E7D32">Étape 3 — Digestion</text>
+              <!-- Polynucleaire -->
+              <ellipse cx="175" cy="95" rx="130" ry="65" fill="#e3f2fd" stroke="#1565C0" stroke-width="2.5"/>
+              <!-- Phagosome avec microbe -->
+              <circle cx="200" cy="95" r="30" fill="#fff3e0" stroke="#E65100" stroke-width="2"/>
+              <text x="200" y="100" text-anchor="middle" font-size="12">💀</text>
+              <!-- Vésicules digestives -->
+              <circle cx="155" cy="70" r="12" fill="#c8e6c9" stroke="#2E7D32" stroke-width="1.5"/>
+              <text x="155" y="74" text-anchor="middle" font-size="8" fill="#2E7D32">enz.</text>
+              <circle cx="240" cy="72" r="12" fill="#c8e6c9" stroke="#2E7D32" stroke-width="1.5"/>
+              <text x="240" y="76" text-anchor="middle" font-size="8" fill="#2E7D32">enz.</text>
+              <circle cx="158" cy="118" r="12" fill="#c8e6c9" stroke="#2E7D32" stroke-width="1.5"/>
+              <text x="158" y="122" text-anchor="middle" font-size="8" fill="#2E7D32">enz.</text>
+              <!-- Flèches des vésicules vers phagosome -->
+              <line x1="165" y1="77" x2="183" y2="85" stroke="#2E7D32" stroke-width="1.5" marker-end="url(#ga)"/>
+              <defs><marker id="ga" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#2E7D32"/></marker></defs>
+              <line x1="230" y1="79" x2="217" y2="87" stroke="#2E7D32" stroke-width="1.5" marker-end="url(#ga)"/>
+              <text x="175" y="152" text-anchor="middle" font-size="10" fill="#2E7D32">Vésicules digestives (enzymes) → destruction du microbe</text>
+              <!-- Noyau -->
+              <ellipse cx="115" cy="88" rx="20" ry="13" fill="#90CAF9" stroke="#1565C0" stroke-width="1.5"/>
+              <ellipse cx="145" cy="82" rx="18" ry="12" fill="#90CAF9" stroke="#1565C0" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="phago-desc">
+            <strong>Digestion :</strong> des <strong>vésicules digestives</strong> contenant des enzymes fusionnent avec le phagosome. Ces enzymes détruisent le microbe qui devient rapidement méconnaissable. C'est une véritable digestion intracellulaire. Si les bactéries résistent → septicémie possible.
+          </div>
+        </div>
+
+        <!-- Étape 4 : Élimination -->
+        <div class="phago-step-content" id="phago-3">
+          <div class="svgbox" style="margin:0">
+            <svg viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="200" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#2E7D32">Étape 4 — Élimination (exocytose)</text>
+              <!-- Polynucleaire -->
+              <ellipse cx="160" cy="95" rx="120" ry="60" fill="#e3f2fd" stroke="#1565C0" stroke-width="2.5"/>
+              <!-- Vésicule qui sort -->
+              <circle cx="270" cy="88" r="20" fill="#ffebee" stroke="#B71C1C" stroke-width="2" stroke-dasharray="4,2"/>
+              <text x="270" y="93" text-anchor="middle" font-size="12">💀</text>
+              <!-- Flèche sortante -->
+              <path d="M292 88 L320 88" stroke="#B71C1C" stroke-width="2.5" marker-end="url(#rb)"/>
+              <defs><marker id="rb" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#B71C1C"/></marker></defs>
+              <text x="340" y="82" font-size="9" fill="#B71C1C">Débris</text>
+              <text x="340" y="95" font-size="9" fill="#B71C1C">rejetés</text>
+              <!-- Polynucléaire souriant -->
+              <ellipse cx="115" cy="88" rx="20" ry="13" fill="#90CAF9" stroke="#1565C0" stroke-width="1.5"/>
+              <ellipse cx="148" cy="82" rx="18" ry="12" fill="#90CAF9" stroke="#1565C0" stroke-width="1.5"/>
+              <text x="160" y="152" text-anchor="middle" font-size="10" fill="#2E7D32" font-weight="600">✅ Phagocytose réussie — microbe éliminé</text>
+            </svg>
+          </div>
+          <div class="phago-desc">
+            <strong>Élimination (exocytose) :</strong> les débris du microbe digéré sont rejetés à l'extérieur du polynucléaire. La phagocytose est réussie — le microbe est détruit. Si les bactéries sont trop nombreuses ou trop résistantes, les polynucléaires peuvent être dépassés → <strong>septicémie</strong> → l'immunité spécifique doit alors prendre le relais.
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box rouge" style="margin-top:14px">
+        <div class="icon">⚠️</div>
+        <p><strong>La septicémie :</strong> si les bactéries se multiplient plus vite que les polynucléaires ne peuvent les phagocyter, elles résistent et envahissent l'organisme entier via le sang. C'est une <strong>infection généralisée</strong> très grave. L'immunité spécifique doit alors intervenir en produisant des anticorps ciblés.</p>
+      </div>
+    </div>
+
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice — Phagocytose</div>
+      <div class="exo-q" id="exo-phago-q">
+        <p>1. La phagocytose se déroule en 4 étapes dans l'ordre : <select class="blank" data-rep="Adhésion → Ingestion → Digestion → Élimination"><option value="">—</option><option>Digestion → Adhésion → Ingestion → Élimination</option><option>Adhésion → Ingestion → Digestion → Élimination</option><option>Ingestion → Digestion → Adhésion → Élimination</option></select>.</p>
+        <p>2. Le microbe est emprisonné dans une vésicule appelée <select class="blank" data-rep="phagosome"><option value="">—</option><option>lysosome</option><option>phagosome</option><option>vacuole digestive</option></select>. Des <select class="blank" data-rep="vésicules digestives (enzymes)"><option value="">—</option><option>anticorps</option><option>vésicules digestives (enzymes)</option><option>globules rouges</option></select> fusionnent avec lui pour détruire le microbe.</p>
+        <p>3. La phagocytose est une défense <select class="blank" data-rep="non spécifique"><option value="">—</option><option>spécifique</option><option>non spécifique</option></select> car elle agit contre <select class="blank" data-rep="tout type de microbe"><option value="">—</option><option>un seul microbe ciblé</option><option>tout type de microbe</option></select> sans les distinguer.</p>
+        <p>4. Si les bactéries résistent à la phagocytose et envahissent le sang, c'est une <select class="blank" data-rep="septicémie"><option value="">—</option><option>grippe</option><option>septicémie</option><option>tuberculose</option></select> (infection généralisée). L'organisme doit alors faire appel à l'immunité <select class="blank" data-rep="spécifique"><option value="">—</option><option>non spécifique</option><option>spécifique</option></select>.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-phago')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-phago')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-phago-fb"></div>
+    </div>
+
+    <div class="retenons">
+      <h4>📌 Retenons (p.122)</h4>
+      <p><dt>Inflammation :</dt><dd>réaction de l'organisme aux lésions des tissus — chaleur, gonflement, rougeur, douleur.</dd></p>
+      <p><dt>Phagocyte :</dt><dd>polynucléaire capable d'ingérer et de détruire un élément étranger.</dd></p>
+      <p><dt>Phagocytose :</dt><dd>mécanisme par lequel les globules blancs englobent et digèrent les particules étrangères (4 étapes).</dd></p>
+      <p><dt>Diapédèse :</dt><dd>migration des leucocytes à travers la paroi des vaisseaux sanguins vers le foyer d'infection.</dd></p>
+      <p><dt>Immunité naturelle :</dt><dd>défense non spécifique assurée par la peau, les muqueuses, l'inflammation et la phagocytose.</dd></p>
+    </div>
+  </div>
+
+  <!-- EXERCICE GLOBAL ACT1 -->
+  <div class="subpanel" id="sub-1-3">
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice global — Immunité non spécifique</div>
+      <div class="exo-q" id="exo-act1-q">
+        <p>1. Les deux lignes de défense de l'immunité non spécifique sont : <strong>1ère ligne</strong> = <select class="blank" data-rep="barrières naturelles (peau et muqueuses)"><option value="">—</option><option>phagocytose et anticorps</option><option>barrières naturelles (peau et muqueuses)</option><option>vaccination et sérothérapie</option></select> · <strong>2ème ligne</strong> = <select class="blank" data-rep="inflammation et phagocytose"><option value="">—</option><option>anticorps et mémoire immunitaire</option><option>inflammation et phagocytose</option><option>vaccination et sérum</option></select>.</p>
+        <p>2. La 2ème ligne de défense se déclenche quand les microbes <select class="blank" data-rep="franchissent la peau ou la muqueuse (blessure)"><option value="">—</option><option>restent à la surface de la peau</option><option>franchissent la peau ou la muqueuse (blessure)</option><option>sont dans l'estomac</option></select> et pénètrent dans les tissus.</p>
+        <p>3. Ordonner les événements suite à une piqûre : <select class="blank" data-rep="Bactéries entrent → Inflammation → Diapédèse → Phagocytose → Guérison"><option value="">—</option><option>Phagocytose → Inflammation → Bactéries entrent → Diapédèse</option><option>Bactéries entrent → Inflammation → Diapédèse → Phagocytose → Guérison</option><option>Inflammation → Bactéries entrent → Guérison → Phagocytose</option></select>.</p>
+        <p>4. L'immunité non spécifique est dite "non spécifique" car elle <select class="blank" data-rep="s'oppose à tous les microbes de la même façon sans les identifier"><option value="">—</option><option>ne fonctionne que contre certains virus</option><option>s'oppose à tous les microbes de la même façon sans les identifier</option><option>nécessite une vaccination préalable</option></select>.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-act1')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-act1')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-act1-fb"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ACTIVITE 2 ═══ -->
+<div class="panel" id="panel-2">
+  <div class="question-dir bleu">🧬 Activité 2 — L'Immunité Spécifique (p.123–128)<br>
+  <span style="font-weight:400;font-size:.88rem">Défense ciblée contre UN microbe précis — 3 propriétés : mémoire · spécificité · diversité</span></div>
+
+  <div class="subtabs-wrap bleu">
+    <div class="subtabs">
+      <button class="subtab active" onclick="showSubTab(2,0)">👁️ Observation</button>
+      <button class="subtab" onclick="showSubTab(2,1)">🔭 Jenner & Pasteur</button>
+      <button class="subtab" onclick="showSubTab(2,2)">🧪 Immunité acquise</button>
+      <button class="subtab" onclick="showSubTab(2,3)">🩸 Sérothérapie</button>
+      <button class="subtab" onclick="showSubTab(2,4)">✏️ Exercice</button>
+    </div>
+  </div>
+
+  <!-- OBSERVATION -->
+  <div class="subpanel active" id="sub-2-0">
+    <div class="card bleu">
+      <h2 class="bleu">👁️ Observation de départ (p.123)</h2>
+      <div class="resume-box bleu">
+        <strong>En résumé :</strong> certaines maladies ne reviennent pas une deuxième fois. Pourquoi ? L'organisme garde le souvenir du premier contact avec un microbe et réagit plus vite et plus fort la deuxième fois. C'est la <strong>mémoire immunitaire</strong> — le principe de base de la vaccination.
+      </div>
+      <div class="svgbox">
+        <svg viewBox="0 0 560 140" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+          <text x="280" y="18" text-anchor="middle" font-size="13" font-weight="700" fill="#1565C0">Observation : certaines maladies ne récidivent pas</text>
+          <!-- Enfant 1 -->
+          <rect x="10" y="30" width="250" height="90" rx="10" fill="#e3f2fd" stroke="#1565C0" stroke-width="2"/>
+          <text x="135" y="52" text-anchor="middle" font-size="22">👧</text>
+          <text x="135" y="72" text-anchor="middle" font-size="11" font-weight="700" fill="#1565C0">1ère infection par la rougeole</text>
+          <text x="135" y="88" text-anchor="middle" font-size="10" fill="#555">→ l'enfant est malade (réponse primaire)</text>
+          <text x="135" y="103" text-anchor="middle" font-size="10" fill="#2E7D32" font-weight="600">→ Guérison</text>
+          <path d="M263 75 L293 75" stroke="#aaa" stroke-width="2" marker-end="url(#ga)"/>
+          <text x="278" y="65" text-anchor="middle" font-size="9" fill="#555">plus tard</text>
+          <!-- Enfant 2 -->
+          <rect x="295" y="30" width="255" height="90" rx="10" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
+          <text x="422" y="52" text-anchor="middle" font-size="22">👧</text>
+          <text x="422" y="72" text-anchor="middle" font-size="11" font-weight="700" fill="#2E7D32">2ème contact avec le virus</text>
+          <text x="422" y="88" text-anchor="middle" font-size="10" fill="#555">→ Ne contracte plus la maladie !</text>
+          <text x="422" y="103" text-anchor="middle" font-size="10" fill="#2E7D32" font-weight="600">→ Immunité acquise (mémoire)</text>
+        </svg>
+        <figcaption>Fig. 4 — Observation : un enfant guéri de la rougeole ne peut plus la contracter</figcaption>
+      </div>
+      <div class="explication bleu">
+        <strong>Hypothèse :</strong> lors du premier contact avec le virus de la rougeole, l'organisme développe une réponse immunitaire ET <strong>garde en mémoire</strong> ce microbe. Lors d'un second contact, la réponse est tellement rapide et puissante que la maladie n'a pas le temps de se développer. C'est le principe de la <strong>mémoire immunitaire</strong>.
+      </div>
+    </div>
+  </div>
+
+  <!-- JENNER & PASTEUR -->
+  <div class="subpanel" id="sub-2-1">
+    <div class="card bleu">
+      <h2 class="bleu">🔭 Découverte de la vaccination — Jenner & Pasteur</h2>
+      <div class="resume-box bleu">
+        <strong>En résumé :</strong> deux grandes découvertes historiques qui ont révolutionné la médecine. Jenner (1798) découvre empiriquement la vaccination. Pasteur (1879) en découvre le principe scientifique : un microbe <strong>atténué</strong> déclenche l'immunité sans provoquer la maladie.
+      </div>
+
+      <div class="hist-timeline">
+        <div class="hist-item">
+          <div class="hist-year">1798<br>JENNER</div>
+          <div class="hist-content">
+            <strong>Observation :</strong> les fermières ayant eu la <em>vaccine</em> (variole bovine bénigne) n'attrapaient pas la variole humaine (mortelle dans 50% des cas).<br>
+            <strong>Hypothèse :</strong> une maladie bénigne peut protéger contre une maladie mortelle similaire.<br>
+            <strong>Expérience :</strong> inocule du pus de vache malade à un enfant → légère réaction → guérison → 1 an plus tard : inocule variole humaine → l'enfant n'est pas malade.<br>
+            <strong>Conclusion :</strong> naissance de la <strong>vaccination</strong> (du latin <em>vacca</em> = vache).
+          </div>
+        </div>
+        <div class="hist-item">
+          <div class="hist-year">1879<br>PASTEUR</div>
+          <div class="hist-content">
+            <strong>Découverte accidentelle :</strong> des cultures vieilliées de choléra des poules (microbes atténués) ne tuent pas les poules.<br>
+            <strong>Expérience clé :</strong> Lot A (témoins sans traitement préalable) + culture fraîche → <strong>toutes mortes</strong>. Lot B (injectées culture vieillie préalable) + culture fraîche → <strong>toutes survivent</strong>.<br>
+            <strong>Conclusion :</strong> un microbe <strong>atténué</strong> déclenche l'immunité sans provoquer la maladie. C'est le <strong>principe universel de la vaccination</strong>.
+          </div>
+        </div>
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head bleu" onclick="toggleSSAccord(this)">Démarche expérimentale de Pasteur détaillée <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="svgbox">
+            <svg viewBox="0 0 580 170" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="290" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#1565C0">Expérience de Pasteur (1879) — Choléra des poules</text>
+              <!-- Culture vieillie -->
+              <rect x="10" y="30" width="130" height="50" rx="8" fill="#e8f5e9" stroke="#2E7D32" stroke-width="1.5"/>
+              <text x="75" y="50" text-anchor="middle" font-size="10" font-weight="700" fill="#2E7D32">Culture vieillie</text>
+              <text x="75" y="65" text-anchor="middle" font-size="9" fill="#555">(microbes atténués)</text>
+              <!-- Lot B -->
+              <path d="M143 55 L170 75" stroke="#aaa" stroke-width="1.5" marker-end="url(#ga)"/>
+              <rect x="172" y="60" width="100" height="40" rx="8" fill="#e8f5e9" stroke="#2E7D32" stroke-width="1.5"/>
+              <text x="222" y="77" text-anchor="middle" font-size="10" font-weight="700" fill="#2E7D32">Lot B</text>
+              <text x="222" y="92" text-anchor="middle" font-size="9" fill="#555">immunisé préalablement</text>
+              <!-- Culture fraiche -->
+              <rect x="10" y="100" width="130" height="50" rx="8" fill="#ffebee" stroke="#B71C1C" stroke-width="1.5"/>
+              <text x="75" y="120" text-anchor="middle" font-size="10" font-weight="700" fill="#B71C1C">Culture fraîche</text>
+              <text x="75" y="135" text-anchor="middle" font-size="9" fill="#555">(microbes virulents)</text>
+              <!-- Lot A -->
+              <path d="M143 125 L170 110" stroke="#aaa" stroke-width="1.5" marker-end="url(#ga)"/>
+              <rect x="172" y="95" width="100" height="40" rx="8" fill="#ffebee" stroke="#B71C1C" stroke-width="1.5"/>
+              <text x="222" y="112" text-anchor="middle" font-size="10" font-weight="700" fill="#B71C1C">Lot A (témoin)</text>
+              <text x="222" y="127" text-anchor="middle" font-size="9" fill="#555">aucun traitement préalable</text>
+              <!-- Injection culture fraiche aux 2 lots -->
+              <path d="M275 80 L370 65" stroke="#aaa" stroke-width="1.5" marker-end="url(#ga)"/>
+              <path d="M275 115 L370 130" stroke="#aaa" stroke-width="1.5" marker-end="url(#ga)"/>
+              <text x="323" y="95" text-anchor="middle" font-size="9" fill="#B71C1C">Culture fraîche</text>
+              <text x="323" y="107" text-anchor="middle" font-size="9" fill="#B71C1C">injectée aux 2 lots</text>
+              <!-- Résultats -->
+              <rect x="372" y="40" width="190" height="45" rx="8" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
+              <text x="467" y="58" text-anchor="middle" font-size="12" font-weight="700" fill="#2E7D32">Lot B → Survivent ✅</text>
+              <text x="467" y="76" text-anchor="middle" font-size="10" fill="#555">Immunisées par culture vieillie</text>
+              <rect x="372" y="110" width="190" height="45" rx="8" fill="#ffebee" stroke="#B71C1C" stroke-width="2"/>
+              <text x="467" y="128" text-anchor="middle" font-size="12" font-weight="700" fill="#B71C1C">Lot A → Meurent ❌</text>
+              <text x="467" y="146" text-anchor="middle" font-size="10" fill="#555">Non immunisées = témoins</text>
+            </svg>
+            <figcaption>Fig. 5 — Expérience de Pasteur : les poules préalablement immunisées (Lot B) survivent à la culture virulente</figcaption>
+          </div>
+          <table>
+            <tr><th class="bleu">Étape démarche</th><th class="bleu">Contenu</th></tr>
+            <tr><td><strong>Observation</strong></td><td>Culture vieillie ne tue pas les poules</td></tr>
+            <tr><td><strong>Hypothèse</strong></td><td>Les microbes vieillis (atténués) jouent le rôle de la vaccine de Jenner</td></tr>
+            <tr><td><strong>Expérience</strong></td><td>Lot A (témoin) vs Lot B (immunisé) → injection culture fraîche à tous</td></tr>
+            <tr><td><strong>Résultats</strong></td><td>Lot A : toutes mortes · Lot B : toutes vivantes</td></tr>
+            <tr><td><strong>Conclusion</strong></td><td>Microbe atténué → immunité sans maladie = principe de la vaccination</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="exo">
+        <div class="exo-title">✏️ Exercice — Jenner & Pasteur</div>
+        <div class="exo-q" id="exo-hist-q">
+          <p>1. Jenner découvre en <select class="blank" data-rep="1798"><option value="">—</option><option>1879</option><option>1798</option><option>1890</option></select> que les fermières ayant eu la <strong>vaccine</strong> (variole <select class="blank" data-rep="bovine (bénigne)"><option value="">—</option><option>humaine (mortelle)</option><option>bovine (bénigne)</option></select>) étaient protégées contre la variole humaine.</p>
+          <p>2. Dans l'expérience de Pasteur, le <strong>Lot A</strong> (sans traitement préalable) sert de <select class="blank" data-rep="témoin"><option value="">—</option><option>expérimental</option><option>témoin</option><option>vacciné</option></select>. Le Lot A reçoit uniquement la culture <select class="blank" data-rep="fraîche (virulente)"><option value="">—</option><option>vieillie (atténuée)</option><option>fraîche (virulente)</option></select> et toutes les poules <select class="blank" data-rep="meurent"><option value="">—</option><option>survivent</option><option>meurent</option></select>.</p>
+          <p>3. Le Lot B survit car les microbes de la culture vieillie étaient <select class="blank" data-rep="atténués (affaiblis)"><option value="">—</option><option>virulents</option><option>atténués (affaiblis)</option><option>morts</option></select> → ils ont déclenché l'immunité <select class="blank" data-rep="sans provoquer la maladie"><option value="">—</option><option>en provoquant la maladie complète</option><option>sans provoquer la maladie</option></select>. C'est le principe de la vaccination.</p>
+        </div>
+        <button class="btn-exo" onclick="checkExo('exo-hist')">✓ Vérifier</button>
+        <button class="btn-reset-exo" onclick="resetExo('exo-hist')">↺ Réinitialiser</button>
+        <div class="exo-feedback" id="exo-hist-fb"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMMUNITE ACQUISE -->
+  <div class="subpanel" id="sub-2-2">
+    <div class="card bleu">
+      <h2 class="bleu">🧪 Sous-partie 3 — L'Immunité Acquise (p.125–126)</h2>
+      <div class="resume-box bleu">
+        <strong>3 propriétés fondamentales :</strong> la réponse immunitaire spécifique est <strong>mémorisée</strong> (plus forte au 2ème contact), <strong>spécifique</strong> (ne protège que contre LE microbe rencontré) et <strong>transférable</strong> par le sérum (les anticorps peuvent être donnés à un autre organisme).
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head bleu" onclick="toggleSSAccord(this)">Exp. 3.1 — Acquisition d'immunité contre le tétanos (souris A et B) <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="svgbox">
+            <svg viewBox="0 0 560 150" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="280" y="15" text-anchor="middle" font-size="11" font-weight="700" fill="#1565C0">Expérience 3.1 — Mise en évidence de l'immunité acquise</text>
+              <!-- Souris A -->
+              <rect x="10" y="25" width="260" height="50" rx="8" fill="#ffebee" stroke="#B71C1C" stroke-width="1.5"/>
+              <text x="100" y="43" text-anchor="middle" font-size="10" font-weight="700" fill="#B71C1C">Souris A</text>
+              <text x="100" y="58" text-anchor="middle" font-size="9" fill="#555">Toxine tétanique → 3 semaines →</text>
+              <text x="225" y="53" text-anchor="middle" font-size="22">💀</text>
+              <text x="235" y="68" text-anchor="middle" font-size="10" fill="#B71C1C" font-weight="700">MORT ❌</text>
+              <!-- Souris B1 -->
+              <rect x="10" y="85" width="260" height="55" rx="8" fill="#e8f5e9" stroke="#2E7D32" stroke-width="1.5"/>
+              <text x="100" y="103" text-anchor="middle" font-size="10" font-weight="700" fill="#2E7D32">Souris B — étape 1</text>
+              <text x="130" y="118" text-anchor="middle" font-size="9" fill="#555">Anatoxine (inactivée) → 3 sem. → survie</text>
+              <text x="130" y="132" text-anchor="middle" font-size="9" fill="#2E7D32" font-weight="600">→ Immunité acquise sans maladie ✓</text>
+              <!-- Flèche B1 → B2 -->
+              <path d="M273 112 L310 112" stroke="#aaa" stroke-width="1.5" marker-end="url(#ga)"/>
+              <!-- Souris B2 -->
+              <rect x="312" y="85" width="240" height="55" rx="8" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
+              <text x="432" y="103" text-anchor="middle" font-size="10" font-weight="700" fill="#2E7D32">Souris B — étape 2</text>
+              <text x="432" y="118" text-anchor="middle" font-size="9" fill="#555">Toxine tétanique → 3 sem. →</text>
+              <text x="432" y="132" text-anchor="middle" font-size="12" font-weight="700" fill="#2E7D32">SURVIE ✅</text>
+            </svg>
+            <figcaption>Fig. 6 — L'anatoxine déclenche une immunité protectrice sans provoquer la maladie</figcaption>
+          </div>
+          <div class="explication bleu">
+            <strong>Rôle de l'anatoxine :</strong> l'anatoxine est une toxine rendue <strong>inactive</strong> (par la chaleur + formol) — elle ne provoque pas la maladie mais elle déclenche la réponse immunitaire. L'organisme produit des anticorps antitétaniques qui protégeront contre la vraie toxine lors d'une future infection.
+          </div>
+        </div>
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head bleu" onclick="toggleSSAccord(this)">Exp. 3.2 — Spécificité · Exp. 3.3 — Transférabilité par le sérum <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <table>
+            <tr><th class="bleu">Expérience</th><th class="bleu">Protocole</th><th class="bleu">Résultat</th><th class="bleu">Propriété démontrée</th></tr>
+            <tr><td><strong>3.2</strong></td><td>Souris C immunisée contre tétanos → injection toxine diphtérique</td><td>Souris C <strong>meurt</strong></td><td>🎯 <strong>Spécificité</strong> : immunité contre tétanos ≠ protection contre diphtérie</td></tr>
+            <tr><td><strong>3.3</strong></td><td>Sérum de souris D immunisée → injecté à souris E + toxine tétanique</td><td>Souris E <strong>survit</strong></td><td>🩸 <strong>Transférabilité</strong> : l'immunité est dans le sérum (anticorps)</td></tr>
+            <tr><td><strong>Témoin 3.3</strong></td><td>Sérum de souris T non immunisée → souris F + toxine tétanique</td><td>Souris F <strong>meurt</strong></td><td>✅ Confirme que c'est le sérum immunisé qui protège</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head bleu" onclick="toggleSSAccord(this)">Exp. 3.4 — Courbe anticorps : réponse primaire vs secondaire (interactive) <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <h3>📈 Courbe des anticorps — cliquer sur chaque zone pour l'explication</h3>
+          <div class="courbe-container">
+            <div class="courbe-zones">
+              <button class="courbe-btn active" onclick="showZone(0)">📊 Voir la courbe</button>
+              <button class="courbe-btn" onclick="showZone(1)">1️⃣ Réponse primaire</button>
+              <button class="courbe-btn" onclick="showZone(2)">2️⃣ Réponse secondaire</button>
+              <button class="courbe-btn" onclick="showZone(3)">🔑 Propriété : Mémoire</button>
+              <button class="courbe-btn" onclick="showZone(4)">🎯 Propriété : Spécificité</button>
+            </div>
+            <div class="svgbox" style="margin:0">
+              <svg viewBox="0 0 580 200" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+                <text x="290" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#1565C0">Taux d'anticorps après 1ère et 2ème injection</text>
+                <!-- Axes -->
+                <line x1="60" y1="170" x2="560" y2="170" stroke="#333" stroke-width="1.5"/>
+                <line x1="60" y1="20" x2="60" y2="170" stroke="#333" stroke-width="1.5"/>
+                <!-- Labels axes -->
+                <text x="310" y="190" text-anchor="middle" font-size="10" fill="#555">Temps (semaines) →</text>
+                <text x="15" y="100" font-size="10" fill="#555" transform="rotate(-90,15,100)">Taux anticorps (UI)</text>
+                <!-- Valeurs axe Y -->
+                <text x="52" y="174" text-anchor="end" font-size="9" fill="#555">0</text>
+                <text x="52" y="140" text-anchor="end" font-size="9" fill="#555">10</text>
+                <text x="52" y="110" text-anchor="end" font-size="9" fill="#555">100</text>
+                <text x="52" y="70" text-anchor="end" font-size="9" fill="#555">1000</text>
+                <line x1="56" y1="140" x2="62" y2="140" stroke="#999" stroke-width="1"/>
+                <line x1="56" y1="110" x2="62" y2="110" stroke="#999" stroke-width="1"/>
+                <line x1="56" y1="70" x2="62" y2="70" stroke="#999" stroke-width="1"/>
+                <!-- 1ere injection -->
+                <line x1="120" y1="20" x2="120" y2="170" stroke="#E65100" stroke-width="1.5" stroke-dasharray="5,3"/>
+                <text x="120" y="13" text-anchor="middle" font-size="9" fill="#E65100" font-weight="700">1ère injection</text>
+                <!-- 2eme injection -->
+                <line x1="330" y1="20" x2="330" y2="170" stroke="#1565C0" stroke-width="1.5" stroke-dasharray="5,3"/>
+                <text x="330" y="13" text-anchor="middle" font-size="9" fill="#1565C0" font-weight="700">2ème injection</text>
+                <!-- Courbe anticorps antitetaniques -->
+                <!-- Réponse primaire : lente, faible -->
+                <path d="M60,170 L120,170 L140,155 L175,120 L200,108 L230,115 L270,135 L320,155 L330,155" fill="none" stroke="#1565C0" stroke-width="2.5"/>
+                <!-- Réponse secondaire : rapide, forte -->
+                <path d="M330,155 L345,110 L360,75 L380,55 L420,48 L470,58 L520,78 L560,95" fill="none" stroke="#1565C0" stroke-width="2.5"/>
+                <!-- Courbe anticorps antidiphtériques (2eme injection seulement) -->
+                <path d="M330,170 L345,160 L370,140 L400,125 L440,130 L490,148 L540,162" fill="none" stroke="#B71C1C" stroke-width="2" stroke-dasharray="6,3"/>
+                <!-- Legende -->
+                <line x1="70" y1="37" x2="100" y2="37" stroke="#1565C0" stroke-width="2.5"/>
+                <text x="105" y="41" font-size="9" fill="#1565C0">Anticorps antitétaniques</text>
+                <line x1="70" y1="52" x2="100" y2="52" stroke="#B71C1C" stroke-width="2" stroke-dasharray="6,3"/>
+                <text x="105" y="56" font-size="9" fill="#B71C1C">Anticorps antidiphtériques</text>
+                <!-- Annotations -->
+                <text x="220" y="100" text-anchor="middle" font-size="9" fill="#1565C0">Réponse primaire</text>
+                <text x="220" y="112" text-anchor="middle" font-size="9" fill="#555">(lente · faible · courte)</text>
+                <text x="440" y="42" text-anchor="middle" font-size="9" fill="#1565C0">Réponse secondaire</text>
+                <text x="440" y="54" text-anchor="middle" font-size="9" fill="#555">(rapide · forte · durable)</text>
+              </svg>
+            </div>
+            <div class="courbe-info active" id="zone-0">
+              <strong>La courbe :</strong> représente l'évolution du taux d'anticorps dans le sérum après deux injections. La 1ère injection contient de l'<em>anatoxine tétanique</em>. La 2ème contient de l'<em>anatoxine tétanique + anatoxine diphtérique</em>.
+            </div>
+            <div class="courbe-info" id="zone-1">
+              <strong>Réponse primaire (après 1ère injection) :</strong> lente à se déclencher (plusieurs jours) · faible quantité d'anticorps produits · courte durée de protection. C'est le premier contact avec l'antigène — le système immunitaire "apprend".
+            </div>
+            <div class="courbe-info" id="zone-2">
+              <strong>Réponse secondaire (après 2ème injection) :</strong> très rapide (quelques heures) · grande quantité d'anticorps · longue durée de protection. Le système immunitaire reconnaît immédiatement l'antigène déjà rencontré et réagit avec bien plus d'efficacité.
+            </div>
+            <div class="courbe-info" id="zone-3">
+              <strong>Propriété : Mémoire immunitaire.</strong> La réponse secondaire est bien plus forte et rapide que la primaire car l'organisme garde le "souvenir" du premier contact avec l'antigène. C'est ce principe qui est exploité par la vaccination : on stimule une réponse primaire (vaccin = microbe atténué) pour que la réponse secondaire (vraie infection) soit immédiatement efficace.
+            </div>
+            <div class="courbe-info" id="zone-4">
+              <strong>Propriété : Spécificité.</strong> Lors de la 2ème injection (anatoxine tétanique + diphtérique), deux types d'anticorps sont produits séparément : antitétaniques (forte réponse secondaire) et antidiphtériques (faible réponse primaire car premier contact). Chaque anticorps est spécifique à SON antigène. Les anticorps antitétaniques ne protègent pas contre la diphtérie.
+            </div>
+          </div>
+
+          <table style="margin-top:14px">
+            <tr><th class="bleu">Critère</th><th class="bleu">Réponse primaire</th><th class="bleu">Réponse secondaire</th></tr>
+            <tr><td>Délai d'apparition</td><td>Plusieurs jours</td><td>Quelques heures</td></tr>
+            <tr><td>Quantité d'anticorps</td><td>Faible (10 UI)</td><td>Très élevée (1000 UI)</td></tr>
+            <tr><td>Durée de protection</td><td>Courte</td><td>Longue et durable</td></tr>
+            <tr><td>Efficacité</td><td>Insuffisante (maladie se développe)</td><td>Très efficace (maladie stoppée)</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice — Immunité acquise</div>
+      <div class="exo-q" id="exo-immun-q">
+        <p>1. L'anatoxine est une toxine rendue <select class="blank" data-rep="inactive (par chaleur + formol)"><option value="">—</option><option>plus virulente</option><option>inactive (par chaleur + formol)</option><option>radioactive</option></select>. Elle déclenche l'immunité <select class="blank" data-rep="sans provoquer la maladie"><option value="">—</option><option>en provoquant la maladie complète</option><option>sans provoquer la maladie</option></select>.</p>
+        <p>2. La propriété de <strong>spécificité</strong> est démontrée par l'expérience 3.2 : une souris immunisée contre le tétanos <select class="blank" data-rep="ne survit pas"><option value="">—</option><option>survit</option><option>ne survit pas</option></select> à une injection de toxine <select class="blank" data-rep="diphtérique"><option value="">—</option><option>tétanique</option><option>diphtérique</option></select>.</p>
+        <p>3. La propriété de <strong>mémoire</strong> se traduit par : la réponse <select class="blank" data-rep="secondaire"><option value="">—</option><option>primaire</option><option>secondaire</option></select> est plus <select class="blank" data-rep="rapide, forte et durable"><option value="">—</option><option>lente, faible et courte</option><option>rapide, forte et durable</option></select> que la réponse primaire.</p>
+        <p>4. La propriété de <strong>transférabilité</strong> est démontrée car les anticorps se trouvent dans le <select class="blank" data-rep="sérum"><option value="">—</option><option>plasma seul</option><option>sérum</option><option>globules rouges</option></select> et peuvent être injectés à un autre organisme pour le protéger.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-immun')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-immun')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-immun-fb"></div>
+    </div>
+  </div>
+
+  <!-- SEROTHERAPIE -->
+  <div class="subpanel" id="sub-2-3">
+    <div class="card bleu">
+      <h2 class="bleu">🩸 Sous-partie 4 — La Sérothérapie (p.127)</h2>
+      <div class="resume-box bleu">
+        <strong>En résumé :</strong> au lieu de stimuler l'organisme à produire ses propres anticorps (vaccination), on lui injecte directement des anticorps prêts à l'emploi provenant d'un animal hyper-immunisé. Protection immédiate mais temporaire.
+      </div>
+
+      <div class="explication bleu">
+        <strong>Découverte par Von Behring (1890) et Roux (1894) :</strong><br>
+        Roux immunise un cheval par doses croissantes de toxine diphtérique → cheval produit une grande quantité d'anticorps anti-diphtériques → prélèvement du sérum → injection à des malades atteints de diphtérie → <strong>guérison</strong>. La sérothérapie est née.
+      </div>
+
+      <h3>⚖️ Comparatif Vaccination vs Sérothérapie</h3>
+      <div class="compare-visu">
+        <div class="cbox-vax">
+          <h4>💉 Vaccination</h4>
+          <div class="cbox-row"><span class="cbox-label">But</span><span class="cbox-val">Préventif</span></div>
+          <div class="cbox-row"><span class="cbox-label">Organisme traité</span><span class="cbox-val">Sain</span></div>
+          <div class="cbox-row"><span class="cbox-label">Immunité</span><span class="cbox-val">Active (anticorps produits par l'organisme lui-même)</span></div>
+          <div class="cbox-row"><span class="cbox-label">Délai d'action</span><span class="cbox-val">Tardif (quelques jours à semaines)</span></div>
+          <div class="cbox-row"><span class="cbox-label">Durée de protection</span><span class="cbox-val">Longue (mémoire immunitaire)</span></div>
+          <div class="cbox-row"><span class="cbox-label">Exemples</span><span class="cbox-val">BCG · ROR · Tétanos · Grippe</span></div>
+        </div>
+        <div class="cbox-sero">
+          <h4>🩸 Sérothérapie</h4>
+          <div class="cbox-row"><span class="cbox-label">But</span><span class="cbox-val">Curatif</span></div>
+          <div class="cbox-row"><span class="cbox-label">Organisme traité</span><span class="cbox-val">Malade ou à risque</span></div>
+          <div class="cbox-row"><span class="cbox-label">Immunité</span><span class="cbox-val">Passive (anticorps venant d'un autre organisme)</span></div>
+          <div class="cbox-row"><span class="cbox-label">Délai d'action</span><span class="cbox-val">Immédiat</span></div>
+          <div class="cbox-row"><span class="cbox-label">Durée de protection</span><span class="cbox-val">Courte (pas de mémoire)</span></div>
+          <div class="cbox-row"><span class="cbox-label">Exemples</span><span class="cbox-val">Venin scorpion · Toxine tétanique · Diphtérie</span></div>
+        </div>
+      </div>
+
+      <div class="retenons">
+        <h4>📌 Retenons (p.128)</h4>
+        <p><dt>Vaccination :</dt><dd>traitement préventif par injection d'un agent atténué → immunité active et durable.</dd></p>
+        <p><dt>Vaccin :</dt><dd>microbe ou toxine atténué(e) qui déclenche une réponse immunitaire spécifique protectrice.</dd></p>
+        <p><dt>Sérothérapie :</dt><dd>injection de sérum contenant des anticorps → protection immédiate mais courte (passive).</dd></p>
+        <p><dt>Sérum :</dt><dd>partie liquide contenant des anticorps, libérée lors de la coagulation du sang.</dd></p>
+        <p><dt>Antigène :</dt><dd>corps étranger capable d'induire une réponse immunitaire.</dd></p>
+        <p><dt>Immunité acquise :</dt><dd>immunité spécifique à un antigène, acquise après contact et production d'anticorps.</dd></p>
+      </div>
+    </div>
+
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice — Sérothérapie vs Vaccination</div>
+      <div class="exo-q" id="exo-sero-q">
+        <p>1. La vaccination est une méthode <select class="blank" data-rep="préventive"><option value="">—</option><option>curative</option><option>préventive</option></select> appliquée à des personnes <select class="blank" data-rep="saines"><option value="">—</option><option>malades</option><option>saines</option></select>. Elle déclenche une immunité <select class="blank" data-rep="active"><option value="">—</option><option>passive</option><option>active</option></select> : l'organisme produit ses propres anticorps.</p>
+        <p>2. La sérothérapie est une méthode <select class="blank" data-rep="curative"><option value="">—</option><option>préventive</option><option>curative</option></select> qui consiste à injecter des <select class="blank" data-rep="anticorps (sérum)"><option value="">—</option><option>microbes atténués</option><option>anticorps (sérum)</option><option>globules blancs</option></select> prélevés d'un organisme hyper-immunisé. Elle procure une protection <select class="blank" data-rep="immédiate mais courte"><option value="">—</option><option>tardive mais durable</option><option>immédiate mais courte</option></select>.</p>
+        <p>3. La sérothérapie est utilisée par exemple contre le venin du <select class="blank" data-rep="scorpion"><option value="">—</option><option>moustique</option><option>scorpion</option><option>rat</option></select> ou la toxine <select class="blank" data-rep="tétanique"><option value="">—</option><option>grippale</option><option>tétanique</option></select>. Le sérum est préparé à partir du sang d'un <select class="blank" data-rep="cheval hyper-immunisé"><option value="">—</option><option>cheval malade</option><option>cheval hyper-immunisé</option><option>homme vacciné</option></select>.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-sero')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-sero')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-sero-fb"></div>
+    </div>
+  </div>
+
+  <!-- EXERCICE GLOBAL ACT2 -->
+  <div class="subpanel" id="sub-2-4">
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice global — Immunité spécifique</div>
+      <div class="exo-q" id="exo-act2-q">
+        <p>1. L'immunité spécifique présente 3 propriétés principales : <select class="blank" data-rep="mémoire, spécificité, diversité"><option value="">—</option><option>rapidité, efficacité, diversité</option><option>mémoire, spécificité, diversité</option><option>inflammation, phagocytose, mémoire</option></select>.</p>
+        <p>2. La réponse <select class="blank" data-rep="secondaire"><option value="">—</option><option>primaire</option><option>secondaire</option></select> est plus rapide et plus forte que la réponse primaire grâce à la propriété de <select class="blank" data-rep="mémoire immunitaire"><option value="">—</option><option>spécificité</option><option>mémoire immunitaire</option><option>diversité</option></select>. C'est ce que la vaccination exploite.</p>
+        <p>3. La <strong>spécificité</strong> signifie que les anticorps antitétaniques <select class="blank" data-rep="ne protègent pas contre la diphtérie"><option value="">—</option><option>protègent aussi contre la diphtérie</option><option>ne protègent pas contre la diphtérie</option></select>. Chaque anticorps est dirigé contre <select class="blank" data-rep="un antigène précis"><option value="">—</option><option>tous les microbes</option><option>un antigène précis</option></select>.</p>
+        <p>4. Un vaccin contient des microbes ou toxines <select class="blank" data-rep="atténués"><option value="">—</option><option>virulents</option><option>atténués</option><option>morts uniquement</option></select> capables de déclencher une réponse immunitaire <select class="blank" data-rep="sans provoquer la maladie"><option value="">—</option><option>en provoquant la maladie complète</option><option>sans provoquer la maladie</option></select>.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-act2')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-act2')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-act2-fb"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ BILAN ═══ -->
+<div class="panel" id="panel-3">
+  <div class="card">
+    <h2>📋 Bilan — La Défense de l'Organisme (p.129–130)</h2>
+    <div class="svgbox">
+      <svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+        <text x="300" y="18" text-anchor="middle" font-size="13" font-weight="700" fill="#2E7D32">Schéma de synthèse — Les deux types d'immunité</text>
+        <!-- Immunité non spécifique -->
+        <rect x="10" y="28" width="270" height="160" rx="12" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2.5"/>
+        <text x="145" y="48" text-anchor="middle" font-size="12" font-weight="700" fill="#2E7D32">🛡️ Immunité non spécifique</text>
+        <text x="145" y="63" text-anchor="middle" font-size="10" fill="#555">(contre tous les microbes)</text>
+        <rect x="25" y="72" width="240" height="35" rx="8" fill="white" stroke="#2E7D32" stroke-width="1.5"/>
+        <text x="145" y="86" text-anchor="middle" font-size="10" font-weight="700" fill="#2E7D32">1ère ligne : Barrières naturelles</text>
+        <text x="145" y="100" text-anchor="middle" font-size="9" fill="#555">Peau · Muqueuses · Larmes · Sueur · Suc gastrique</text>
+        <rect x="25" y="115" width="240" height="60" rx="8" fill="white" stroke="#2E7D32" stroke-width="1.5"/>
+        <text x="145" y="131" text-anchor="middle" font-size="10" font-weight="700" fill="#2E7D32">2ème ligne : Inflammation + Phagocytose</text>
+        <text x="145" y="146" text-anchor="middle" font-size="9" fill="#555">Rougeur · Chaleur · Gonflement · Douleur</text>
+        <text x="145" y="161" text-anchor="middle" font-size="9" fill="#555">Diapédèse · Phagocytose (4 étapes) · Pus</text>
+        <text x="145" y="176" text-anchor="middle" font-size="9" fill="#B71C1C">Si échec → Septicémie → Immunité spécifique</text>
+        <!-- Flèche vers immunité spécifique -->
+        <path d="M282 108 L318 108" stroke="#aaa" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#ga)"/>
+        <text x="300" y="100" text-anchor="middle" font-size="8" fill="#888">si insuffisant</text>
+        <!-- Immunité spécifique -->
+        <rect x="320" y="28" width="270" height="160" rx="12" fill="#e3f2fd" stroke="#1565C0" stroke-width="2.5"/>
+        <text x="455" y="48" text-anchor="middle" font-size="12" font-weight="700" fill="#1565C0">🧬 Immunité spécifique</text>
+        <text x="455" y="63" text-anchor="middle" font-size="10" fill="#555">(contre UN microbe précis)</text>
+        <rect x="335" y="72" width="240" height="50" rx="8" fill="white" stroke="#1565C0" stroke-width="1.5"/>
+        <text x="455" y="89" text-anchor="middle" font-size="10" font-weight="700" fill="#1565C0">3 propriétés</text>
+        <text x="455" y="104" text-anchor="middle" font-size="9" fill="#555">🧠 Mémoire · 🎯 Spécificité · 🌈 Diversité</text>
+        <rect x="335" y="130" width="110" height="48" rx="8" fill="white" stroke="#2E7D32" stroke-width="1.5"/>
+        <text x="390" y="148" text-anchor="middle" font-size="10" font-weight="700" fill="#2E7D32">Vaccination</text>
+        <text x="390" y="162" text-anchor="middle" font-size="9" fill="#555">Préventif · Actif</text>
+        <text x="390" y="174" text-anchor="middle" font-size="9" fill="#555">Longue durée</text>
+        <rect x="455" y="130" width="110" height="48" rx="8" fill="white" stroke="#B71C1C" stroke-width="1.5"/>
+        <text x="510" y="148" text-anchor="middle" font-size="10" font-weight="700" fill="#B71C1C">Sérothérapie</text>
+        <text x="510" y="162" text-anchor="middle" font-size="9" fill="#555">Curatif · Passif</text>
+        <text x="510" y="174" text-anchor="middle" font-size="9" fill="#555">Courte durée</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="accord-item">
+    <div class="accord-head" onclick="toggleAccord(this)">🛡️ Immunité non spécifique — 2 lignes de défense <span class="accord-arrow">▼</span></div>
+    <div class="accord-body"><strong>1ère ligne :</strong> barrières naturelles (peau + muqueuses) → mécaniques (couche cornée, mucus) + chimiques (larmes, sueur, suc gastrique). Agit en permanence, avant toute infection.<br><strong>2ème ligne :</strong> déclenchée quand les microbes franchissent la 1ère ligne. Inflammation (4 signes) + diapédèse des polynucléaires → phagocytose (adhésion → ingestion → digestion → élimination). Si insuffisant → septicémie.</div>
+  </div>
+  <div class="accord-item">
+    <div class="accord-head" onclick="toggleAccord(this)">🧬 Immunité spécifique — 3 propriétés fondamentales <span class="accord-arrow">▼</span></div>
+    <div class="accord-body"><strong>Mémoire :</strong> réponse primaire (lente, faible) → réponse secondaire (rapide, forte, durable) lors d'un 2ème contact avec le même antigène.<br><strong>Spécificité :</strong> chaque anticorps est dirigé contre UN antigène précis — les anticorps antitétaniques ne protègent pas contre la diphtérie.<br><strong>Diversité :</strong> le système immunitaire peut produire une réponse spécifique contre chaque microbe rencontré.</div>
+  </div>
+  <div class="accord-item">
+    <div class="accord-head" onclick="toggleAccord(this)">💉🩸 Vaccination vs Sérothérapie — le tableau clé du CAPES <span class="accord-arrow">▼</span></div>
+    <div class="accord-body">
+      <table>
+        <tr><th>Critère</th><th>💉 Vaccination</th><th>🩸 Sérothérapie</th></tr>
+        <tr><td>But</td><td>Préventif</td><td>Curatif</td></tr>
+        <tr><td>Organisme traité</td><td>Sain</td><td>Malade ou à risque</td></tr>
+        <tr><td>Type d'immunité</td><td>Active (organisme produit ses anticorps)</td><td>Passive (anticorps d'un autre organisme)</td></tr>
+        <tr><td>Délai d'action</td><td>Tardif (jours/semaines)</td><td>Immédiat</td></tr>
+        <tr><td>Durée</td><td>Longue (mémoire immunitaire)</td><td>Courte (pas de mémoire)</td></tr>
+        <tr><td>Exemples tunisiens</td><td>BCG, ROR, DTP, Grippe</td><td>Venin scorpion, toxine tétanique</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FLASHCARDS ═══ -->
+<div class="panel" id="panel-4">
+  <h2 style="margin-bottom:16px">🃏 Flashcards — Choix multiple</h2>
+  <div class="fc-actions">
+    <button class="btn btn-vert" onclick="verifierFC()">✓ Vérifier tout</button>
+    <button class="btn btn-grey" onclick="resetFC()">↺ Recommencer</button>
+    <span id="fc-score" style="display:none;padding:10px 16px;border-radius:8px;font-weight:700"></span>
+  </div>
+  <div class="fc-grid" id="fc-container"></div>
+</div>
+
+<!-- ═══ QCM ═══ -->
+<div class="panel" id="panel-5">
+  <h2 style="margin-bottom:8px">✏️ QCM Format CAPES</h2>
+  <p style="margin-bottom:16px;font-size:.88rem;color:var(--text-muted)">Plusieurs réponses correctes possibles par question.</p>
+  <div id="qcm-container"></div>
+  <div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap">
+    <button class="btn btn-vert" onclick="corrigerQCM()">✓ Corriger</button>
+    <button class="btn btn-grey" onclick="resetQCM()">↺ Recommencer</button>
+  </div>
+  <div id="qcm-result"></div>
+</div>
+
+<!-- ═══ EXERCICES DU MANUEL ═══ -->
+<div class="panel" id="panel-6">
+  <h2 style="margin-bottom:20px">📝 Exercices — D'après le manuel (p.131–134)</h2>
+
+  <div class="exo-manuel">
+    <h3>📘 Exercice corrigé — Réponse immunitaire (p.131)</h3>
+    <div class="contexte">On injecte à un animal une forme atténuée d'un microbe A, puis plus tard la forme virulente du même microbe A. La courbe montre le taux d'anticorps anti-A dans les deux cas.</div>
+    <div class="exo-q" id="exo-man1-q">
+      <p>1. Suite à l'injection du microbe atténué, l'organisme a réagi en produisant des <select class="blank" data-rep="anticorps anti-A spécifiques (réponse primaire)"><option value="">—</option><option>globules rouges</option><option>anticorps anti-A spécifiques (réponse primaire)</option><option>phagocytes uniquement</option></select>.</p>
+      <p>2. La réponse suite à l'injection du microbe virulent (2ème contact) est <select class="blank" data-rep="plus rapide et produit plus d'anticorps (réponse secondaire)"><option value="">—</option><option>identique à la première (réponse primaire)</option><option>plus rapide et produit plus d'anticorps (réponse secondaire)</option><option>absente car l'animal est immunisé</option></select>.</p>
+      <p>3. La propriété démontrée est la <select class="blank" data-rep="mémoire immunitaire"><option value="">—</option><option>spécificité</option><option>mémoire immunitaire</option><option>diversité</option></select> : lors du 1er contact, le système immunitaire est <select class="blank" data-rep="sensibilisé"><option value="">—</option><option>détruit</option><option>sensibilisé</option><option>neutralisé</option></select> et réagit bien plus vite et fort lors du 2ème contact.</p>
+    </div>
+    <button class="btn-exo" onclick="checkExo('exo-man1')">✓ Vérifier</button>
+    <button class="btn-reset-exo" onclick="resetExo('exo-man1')">↺ Réinitialiser</button>
+    <div class="exo-feedback" id="exo-man1-fb"></div>
+  </div>
+
+  <div class="exo-manuel">
+    <h3>📘 Exercice 1 — QCM : polynucléaires, réponse primaire, vaccin, sérum (p.132)</h3>
+    <div class="exo-q" id="exo-man2-q">
+      <p>1. Une réponse primaire est caractérisée par :<br>
+      <select class="blank" data-rep="une faible production d'anticorps, lente et de courte durée"><option value="">—</option><option>une forte et rapide production d'anticorps de longue durée</option><option>une faible production d'anticorps, lente et de courte durée</option><option>une absence totale d'anticorps</option></select>.</p>
+      <p>2. Un vaccin protège l'organisme car il contient :<br>
+      <select class="blank" data-rep="des agents atténués (microbes ou toxines affaiblis)"><option value="">—</option><option>des anticorps prêts à l'emploi</option><option>des phagocytes actifs</option><option>des agents atténués (microbes ou toxines affaiblis)</option></select>.</p>
+      <p>3. L'injection d'un sérum (sérothérapie) assure :<br>
+      <select class="blank" data-rep="une protection immédiate mais de courte durée (immunité passive)"><option value="">—</option><option>une protection tardive mais de longue durée</option><option>une protection immédiate mais de courte durée (immunité passive)</option><option>une immunité active permanente</option></select>.</p>
+    </div>
+    <button class="btn-exo" onclick="checkExo('exo-man2')">✓ Vérifier</button>
+    <button class="btn-reset-exo" onclick="resetExo('exo-man2')">↺ Réinitialiser</button>
+    <div class="exo-feedback" id="exo-man2-fb"></div>
+  </div>
+
+  <div class="exo-manuel">
+    <h3>📘 Exercice 2 — Ordonner les événements lors d'une infection (p.132)</h3>
+    <div class="contexte">5 événements lors d'une agression par des pneumocoques : 1. Fabrication d'anticorps · 2. Diapédèse des polynucléaires · 3. Phagocytose des pneumocoques · 4. Multiplication des pneumocoques · 5. Amélioration de la santé. Ordonner ces événements.</div>
+    <div class="exo-q" id="exo-man3-q">
+      <p>L'ordre chronologique correct est :<br>
+      <select class="blank" data-rep="4 → 2 → 3 → 1 → 5"><option value="">—</option><option>1 → 2 → 3 → 4 → 5</option><option>4 → 2 → 3 → 1 → 5</option><option>2 → 4 → 1 → 3 → 5</option><option>4 → 1 → 2 → 3 → 5</option></select>.</p>
+      <p>Explication : les pneumocoques se multiplient d'abord (<strong>4</strong>), puis les polynucléaires migrent par diapédèse (<strong>2</strong>), les phagocytent (<strong>3</strong>). Si insuffisant, les anticorps spécifiques sont produits (<strong>1</strong>). L'état de santé s'améliore (<strong>5</strong>) grâce à <select class="blank" data-rep="la combinaison immunité non spécifique + spécifique"><option value="">—</option><option>la phagocytose seule</option><option>la combinaison immunité non spécifique + spécifique</option><option>les anticorps seuls</option></select>.</p>
+    </div>
+    <button class="btn-exo" onclick="checkExo('exo-man3')">✓ Vérifier</button>
+    <button class="btn-reset-exo" onclick="resetExo('exo-man3')">↺ Réinitialiser</button>
+    <div class="exo-feedback" id="exo-man3-fb"></div>
+  </div>
+
+  <div class="exo-manuel">
+    <h3>📘 Exercice 6 — Anatoxine de Ramon (1923) — p.134</h3>
+    <div class="contexte">Ramon prépare une anatoxine diphtérique (toxine + formol à 40°C pendant 1 mois) et l'injecte à une personne saine (3 injections à 15j d'intervalle + 1 rappel 1 an après). Protection de plus de 5 ans.</div>
+    <div class="exo-q" id="exo-man4-q">
+      <p>1. Ce procédé s'appelle la <select class="blank" data-rep="vaccination"><option value="">—</option><option>sérothérapie</option><option>vaccination</option><option>phagocytose</option></select>. C'est une méthode <select class="blank" data-rep="préventive"><option value="">—</option><option>curative</option><option>préventive</option></select>.</p>
+      <p>2. Le principe : l'anatoxine (toxine <select class="blank" data-rep="inactivée"><option value="">—</option><option>virulente</option><option>inactivée</option></select>) déclenche la production d'anticorps <select class="blank" data-rep="antidiphtériques"><option value="">—</option><option>antitétaniques</option><option>antidiphtériques</option><option>antituberculeux</option></select> sans provoquer la maladie.</p>
+      <p>3. L'immunité conférée ne dure pas toute la vie → il faut faire des <select class="blank" data-rep="rappels (injections périodiques)"><option value="">—</option><option>sérothérapies régulières</option><option>rappels (injections périodiques)"></option><option>transfusions sanguines</option></select> pour maintenir le taux d'anticorps protecteur.</p>
+    </div>
+    <button class="btn-exo" onclick="checkExo('exo-man4')">✓ Vérifier</button>
+    <button class="btn-reset-exo" onclick="resetExo('exo-man4')">↺ Réinitialiser</button>
+    <div class="exo-feedback" id="exo-man4-fb"></div>
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<script>
+// TABS
+const panels=document.querySelectorAll('.panel'),tabs=document.querySelectorAll('.tab');
+const prog=document.getElementById('progFill');
+let visited=new Set([0]);
+function showTab(n){
+  panels.forEach(p=>p.classList.remove('active'));tabs.forEach(t=>t.classList.remove('active'));
+  panels[n].classList.add('active');tabs[n].classList.add('active');
+  visited.add(n);prog.style.width=Math.round(visited.size/tabs.length*100)+'%';
+  localStorage.setItem('p2ch3_tab',n);window.scrollTo({top:0,behavior:'smooth'});
+}
+const sv=localStorage.getItem('p2ch3_tab');if(sv)showTab(parseInt(sv));
+
+// SOUS-ONGLETS
+function showSubTab(act,sub){
+  document.querySelectorAll(`#panel-${act} .subpanel`).forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll(`#panel-${act} .subtab`).forEach(b=>b.classList.remove('active'));
+  document.getElementById(`sub-${act}-${sub}`).classList.add('active');
+  document.querySelectorAll(`#panel-${act} .subtab`)[sub].classList.add('active');
+}
+
+// ACCORDEONS
+function toggleAccord(head){
+  const body=head.nextElementSibling,isOpen=body.classList.contains('open');
+  document.querySelectorAll('.accord-body').forEach(b=>b.classList.remove('open'));
+  document.querySelectorAll('.accord-head').forEach(h=>h.classList.remove('open'));
+  if(!isOpen){body.classList.add('open');head.classList.add('open');}
+}
+function toggleSSAccord(head){
+  const body=head.nextElementSibling,isOpen=body.classList.contains('open');
+  body.classList.toggle('open',!isOpen);head.classList.toggle('open',!isOpen);
+}
+
+// PHAGOCYTOSE ANIMEE
+function showPhago(n){
+  document.querySelectorAll('.phago-step-content').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.phago-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(`phago-${n}`).classList.add('active');
+  document.querySelectorAll('.phago-btn')[n].classList.add('active');
+}
+
+// COURBE INTERACTIVE
+function showZone(n){
+  document.querySelectorAll('.courbe-info').forEach(i=>i.classList.remove('active'));
+  document.querySelectorAll('.courbe-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(`zone-${n}`).classList.add('active');
+  document.querySelectorAll('.courbe-btn')[n].classList.add('active');
+}
+
+// EXERCICES
+function checkExo(id){
+  const selects=document.querySelectorAll(`#${id}-q select.blank`);
+  let ok=0,total=selects.length;
+  selects.forEach(s=>{
+    s.classList.remove('ok','ko');
+    if(s.value===s.dataset.rep){s.classList.add('ok');ok++;}
+    else s.classList.add('ko');
+  });
+  const fb=document.getElementById(`${id}-fb`);
+  fb.className='exo-feedback '+(ok===total?'ok':'ko');
+  fb.textContent=ok===total?`✅ Parfait ! ${ok}/${total} bonnes réponses.`:`❌ ${ok}/${total} — Revois les réponses en rouge.`;
+}
+function resetExo(id){
+  document.querySelectorAll(`#${id}-q select.blank`).forEach(s=>{s.value='';s.classList.remove('ok','ko');});
+  const fb=document.getElementById(`${id}-fb`);fb.className='exo-feedback';fb.textContent='';
+}
+
+// FLASHCARDS
+const flashcards=[
+  {p:"Les [barrières naturelles] constituent la 1ère ligne de défense non spécifique : peau + muqueuses (mécaniques) + larmes + [sueur] + suc gastrique (chimiques).",t:[{rep:"barrières naturelles",opts:["anticorps","phagocytes","barrières naturelles"]},{rep:"sueur",opts:["sang","sueur","sérum"]}]},
+  {p:"Les 4 signes de l'[inflammation] sont : rougeur · chaleur · [gonflement] · douleur.",t:[{rep:"inflammation",opts:["phagocytose","septicémie","inflammation"]},{rep:"gonflement",opts:["démangeaison","saignement","gonflement"]}]},
+  {p:"La [diapédèse] est la migration des [leucocytes] à travers la paroi des vaisseaux sanguins vers le foyer d'infection.",t:[{rep:"diapédèse",opts:["phagocytose","diapédèse","vaccination"]},{rep:"leucocytes",opts:["globules rouges","plaquettes","leucocytes"]}]},
+  {p:"Les 4 étapes de la phagocytose sont : [adhésion] → ingestion → digestion → [élimination].",t:[{rep:"adhésion",opts:["digestion","élimination","adhésion"]},{rep:"élimination",opts:["adhésion","ingestion","élimination"]}]},
+  {p:"Si les bactéries résistent à la phagocytose et envahissent le sang, c'est une [septicémie] (infection [généralisée]).",t:[{rep:"septicémie",opts:["inflammation","vaccination","septicémie"]},{rep:"généralisée",opts:["locale","secondaire","généralisée"]}]},
+  {p:"Jenner découvre en [1798] que la vaccine (variole bovine [bénigne]) protège contre la variole humaine mortelle.",t:[{rep:"1798",opts:["1879","1890","1798"]},{rep:"bénigne",opts:["mortelle","virulente","bénigne"]}]},
+  {p:"Pasteur démontre qu'un microbe [atténué] déclenche l'immunité [sans provoquer la maladie] — principe universel de la vaccination.",t:[{rep:"atténué",opts:["virulent","mort","atténué"]},{rep:"sans provoquer la maladie",opts:["en provoquant la maladie","sans provoquer la maladie","en détruisant les cellules"]}]},
+  {p:"La réponse [secondaire] est plus rapide, forte et durable que la réponse primaire grâce à la propriété de [mémoire immunitaire].",t:[{rep:"secondaire",opts:["primaire","secondaire","spécifique"]},{rep:"mémoire immunitaire",opts:["spécificité","diversité","mémoire immunitaire"]}]},
+  {p:"La [spécificité] signifie que les anticorps antitétaniques ne protègent pas contre la [diphtérie].",t:[{rep:"spécificité",opts:["mémoire","diversité","spécificité"]},{rep:"diphtérie",opts:["grippe","rougeole","diphtérie"]}]},
+  {p:"La vaccination est [préventive] et déclenche une immunité [active] — l'organisme produit ses propres anticorps.",t:[{rep:"préventive",opts:["curative","préventive","immédiate"]},{rep:"active",opts:["passive","active","temporaire"]}]},
+  {p:"La sérothérapie est [curative] et déclenche une immunité [passive] — les anticorps viennent d'un autre organisme.",t:[{rep:"curative",opts:["préventive","curative","longue"]},{rep:"passive",opts:["active","passive","définitive"]}]},
+  {p:"Le [sérum] est la partie liquide du sang contenant les [anticorps], libérée lors de la coagulation.",t:[{rep:"sérum",opts:["plasma total","sérum","cytoplasme"]},{rep:"anticorps",opts:["enzymes","hormones","anticorps"]}]},
+];
+
+function shuffle(arr){return arr.slice().sort(()=>Math.random()-.5);}
+function buildFC(){
+  const c=document.getElementById('fc-container');c.innerHTML='';
+  flashcards.forEach(fc=>{
+    let html=fc.p;
+    fc.t.forEach(trou=>{
+      const opts=shuffle(trou.opts);
+      const options=opts.map(o=>`<option value="${o}">${o}</option>`).join('');
+      html=html.replace(`[${trou.rep}]`,`<select class="fc-select" data-ans="${trou.rep}"><option value="">—</option>${options}</select>`);
+    });
+    c.innerHTML+=`<div class="fc-card"><div class="fc-phrase">${html}</div></div>`;
+  });
+}
+function verifierFC(){
+  const inputs=document.querySelectorAll('.fc-select');
+  let ok=0,total=inputs.length;
+  inputs.forEach(inp=>{
+    inp.classList.toggle('ok',inp.value===inp.dataset.ans);
+    inp.classList.toggle('ko',inp.value!==inp.dataset.ans||inp.value==='');
+    if(inp.value===inp.dataset.ans)ok++;
+  });
+  const sc=document.getElementById('fc-score');
+  sc.style.display='inline-block';
+  sc.textContent=`Score : ${ok}/${total} (${Math.round(ok/total*100)}%)`;
+  sc.style.background=ok===total?'#e8f5e9':ok>=total*.7?'#fff8e1':'#ffebee';
+}
+function resetFC(){
+  document.querySelectorAll('.fc-select').forEach(i=>{i.value='';i.classList.remove('ok','ko');});
+  document.getElementById('fc-score').style.display='none';
+}
+
+// QCM
+const qcm=[
+  {q:"1. Quelles barrières naturelles sont de type chimique ?",opts:["A. La peau (couche cornée)","B. Le suc gastrique","C. La sueur","D. Les muqueuses (mucus)"],rep:[1,2]},
+  {q:"2. Les 4 signes de l'inflammation sont :",opts:["A. Rougeur et chaleur","B. Gonflement et douleur","C. Fièvre et toux","D. Pus et cicatrice"],rep:[0,1]},
+  {q:"3. La phagocytose se déroule dans l'ordre :",opts:["A. Adhésion → Ingestion → Digestion → Élimination","B. Ingestion → Adhésion → Digestion → Élimination","C. Digestion → Adhésion → Ingestion → Élimination","D. Adhésion → Digestion → Ingestion → Élimination"],rep:[0]},
+  {q:"4. La réponse secondaire est caractérisée par :",opts:["A. Un délai plus court que la réponse primaire","B. Une quantité d'anticorps plus élevée","C. Une durée de protection plus longue","D. Elle est due à un premier contact avec l'antigène"],rep:[0,1,2]},
+  {q:"5. Dans l'expérience de Pasteur (choléra des poules) :",opts:["A. Le Lot A (témoin) meurt après injection de culture fraîche","B. Le Lot B (immunisé préalablement) survit","C. La culture vieillie contient des microbes atténués","D. Le résultat prouve le principe de vaccination"],rep:[0,1,2,3]},
+  {q:"6. La vaccination est :",opts:["A. Préventive","B. Curative","C. Déclenche une immunité active","D. Assure une protection de longue durée"],rep:[0,2,3]},
+  {q:"7. La sérothérapie est :",opts:["A. Curative","B. Déclenche une immunité passive","C. Assure une protection immédiate","D. Protège plusieurs mois avec mémoire immunitaire"],rep:[0,1,2]},
+  {q:"8. La propriété de spécificité de l'immunité acquise signifie :",opts:["A. Les anticorps antitétaniques ne protègent pas contre la diphtérie","B. Chaque anticorps est dirigé contre un antigène précis","C. Le système immunitaire reconnaît tous les microbes de façon identique","D. La même réponse est produite contre tous les antigènes"],rep:[0,1]},
+  {q:"9. Le pus est constitué de :",opts:["A. Globules rouges","B. Bactéries","C. Polynucléaires morts","D. Anticorps uniquement"],rep:[1,2]},
+  {q:"10. L'anatoxine utilisée en vaccination est :",opts:["A. Une toxine rendue inactive (chaleur + formol)","B. Un microbe vivant virulent","C. Capable de déclencher une réponse immunitaire","D. Ne provoque pas la maladie"],rep:[0,2,3]},
+];
+
+function buildQCM(){
+  const c=document.getElementById('qcm-container');c.innerHTML='';
+  qcm.forEach((q,i)=>{
+    const opts=q.opts.map((o,j)=>`<label class="qcm-opt" id="opt-${i}-${j}"><input type="checkbox" data-q="${i}" data-o="${j}"> ${o}</label>`).join('');
+    c.innerHTML+=`<div class="qcm-item"><div class="qcm-q">${q.q}</div>${opts}</div>`;
+  });
+}
+function corrigerQCM(){
+  let score=0;
+  qcm.forEach((q,i)=>{
+    let correct=true;
+    q.opts.forEach((_,j)=>{
+      const el=document.getElementById(`opt-${i}-${j}`),inp=el.querySelector('input');
+      const checked=inp.checked,should=q.rep.includes(j);
+      el.classList.remove('correct','wrong');
+      if(should){el.classList.add('correct');if(!checked)correct=false;}
+      else if(checked){el.classList.add('wrong');correct=false;}
+    });
+    if(correct)score++;
+  });
+  const r=document.getElementById('qcm-result'),pct=Math.round(score/qcm.length*100);
+  r.style.display='block';
+  r.style.background=pct>=80?'#e8f5e9':pct>=50?'#fff8e1':'#ffebee';
+  r.style.color=pct>=80?'#2E7D32':pct>=50?'#E65100':'#c62828';
+  r.textContent=`Score : ${score}/10 (${pct}%) — ${pct>=80?'Excellent ✅':pct>=50?'Bien 👍':'À retravailler 📖'}`;
+}
+function resetQCM(){
+  document.querySelectorAll('.qcm-opt').forEach(el=>{el.classList.remove('correct','wrong');el.querySelector('input').checked=false;});
+  document.getElementById('qcm-result').style.display='none';
+}
+
+document.addEventListener('DOMContentLoaded',()=>{buildFC();buildQCM();});
+</script>
+</body>
+</html>

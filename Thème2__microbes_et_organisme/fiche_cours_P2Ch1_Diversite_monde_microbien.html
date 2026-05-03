@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P2-Ch1 — La Diversité du Monde Microbien</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --vert:#2E7D32;--vert-light:#e8f5e9;
+  --orange:#E65100;--orange-light:#fff3e0;
+  --bleu:#1565C0;--bleu-light:#e3f2fd;
+  --teal:#00695C;--teal-light:#e0f2f1;
+  --violet:#4A148C;--violet-light:#f3e5f5;
+  --rouge:#B71C1C;--rouge-light:#ffebee;
+  --bg:#fafaf8;--text:#1a1a1a;--text-muted:#666;
+  --border:#e0e0e0;--shadow:0 2px 12px rgba(0,0,0,0.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;}
+header{background:linear-gradient(135deg,#0D47A1 0%,#1565C0 60%,#1976D2 100%);color:white;padding:24px 32px 20px;position:sticky;top:0;z-index:100;box-shadow:0 3px 16px rgba(0,0,0,0.2);}
+header h1{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:4px;}
+header p{font-size:.85rem;opacity:.85;}
+.prog-bar{height:4px;background:rgba(255,255,255,.3);border-radius:2px;margin-top:12px;}
+.prog-fill{height:100%;background:#fff;border-radius:2px;transition:width .4s;width:14%;}
+.tabs-wrap{background:white;border-bottom:2px solid var(--border);position:sticky;top:96px;z-index:99;overflow-x:auto;}
+.tabs{display:flex;min-width:max-content;}
+.tab{padding:12px 16px;font-size:.8rem;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:var(--text-muted);white-space:nowrap;transition:all .2s;background:none;border-top:none;border-left:none;border-right:none;}
+.tab:hover{color:var(--bleu);background:var(--bleu-light);}
+.tab.active{color:var(--bleu);border-bottom-color:var(--bleu);}
+.content{max-width:920px;margin:0 auto;padding:20px 20px 60px;}
+.panel{display:none;}.panel.active{display:block;}
+.subtabs-wrap{background:var(--bleu-light);border-bottom:1px solid #90CAF9;overflow-x:auto;margin-bottom:20px;border-radius:0 0 8px 8px;}
+.subtabs{display:flex;min-width:max-content;padding:6px 12px;gap:6px;}
+.subtab{padding:7px 14px;font-size:.78rem;font-weight:600;cursor:pointer;border-radius:20px;color:var(--bleu);background:white;border:1.5px solid #90CAF9;white-space:nowrap;transition:all .2s;}
+.subtab:hover{background:var(--bleu);color:white;}
+.subtab.active{background:var(--bleu);color:white;border-color:var(--bleu);}
+.subpanel{display:none;}.subpanel.active{display:block;}
+.ssaccord-item{border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden;}
+.ssaccord-head{padding:12px 18px;font-weight:700;cursor:pointer;background:var(--bleu-light);display:flex;justify-content:space-between;align-items:center;transition:background .2s;font-size:.92rem;}
+.ssaccord-head:hover{background:#BBDEFB;}
+.ssaccord-head.open{background:var(--bleu);color:white;}
+.ssaccord-body{display:none;padding:18px;background:white;}
+.ssaccord-body.open{display:block;}
+.ssaccord-arrow{font-size:1rem;transition:transform .3s;}
+.ssaccord-head.open .ssaccord-arrow{transform:rotate(180deg);}
+.card{background:white;border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:var(--shadow);border-left:5px solid var(--bleu);}
+.card.orange{border-left-color:var(--orange);}
+.card.vert{border-left-color:var(--vert);}
+.card.rouge{border-left-color:var(--rouge);}
+h2{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:14px;color:var(--bleu);}
+h3{font-size:.97rem;font-weight:700;margin:14px 0 8px;color:var(--text);}
+.question-dir{background:linear-gradient(135deg,#0D47A1 0%,#1976D2 100%);color:white;padding:14px 18px;border-radius:10px;font-weight:600;margin-bottom:18px;font-size:.95rem;}
+.manip{background:#E8F5E9;border:1.5px solid var(--vert);border-radius:10px;padding:14px 18px;margin:12px 0;}
+.manip h4{color:var(--vert);font-size:.78rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;}
+.manip ol{margin-left:18px;font-size:.88rem;line-height:1.9;}
+.explication{background:var(--bleu-light);border-left:4px solid var(--bleu);border-radius:0 10px 10px 0;padding:14px 18px;margin:12px 0;font-size:.9rem;line-height:1.7;}
+.explication strong{color:var(--bleu);}
+.retenons{background:var(--orange-light);border:1.5px solid var(--orange);border-radius:10px;padding:16px 18px;margin:16px 0;}
+.retenons h4{color:var(--orange);font-size:.78rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+.retenons p{margin-bottom:5px;font-size:.9rem;}
+.retenons dt{font-weight:700;color:var(--orange);display:inline;}
+.retenons dd{display:inline;margin-left:4px;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.88rem;}
+th{background:var(--bleu);color:white;padding:10px 12px;text-align:left;}
+td{padding:9px 12px;border-bottom:1px solid var(--border);}
+tr:nth-child(even) td{background:var(--bleu-light);}
+.svgbox{background:white;border-radius:10px;padding:12px;margin:14px 0;text-align:center;border:1px solid var(--border);}
+.svgbox svg{max-width:100%;height:auto;}
+.svgbox figcaption{font-size:.78rem;color:var(--text-muted);margin-top:6px;font-style:italic;}
+.info-box{display:flex;gap:12px;align-items:flex-start;background:var(--bleu-light);border-radius:10px;padding:14px 16px;margin:12px 0;border-left:4px solid var(--bleu);}
+.info-box.rouge{background:var(--rouge-light);border-left-color:var(--rouge);}
+.info-box.vert{background:var(--vert-light);border-left-color:var(--vert);}
+.info-box.orange{background:var(--orange-light);border-left-color:var(--orange);}
+.info-box .icon{font-size:1.4rem;flex-shrink:0;}
+.info-box p{font-size:.88rem;line-height:1.6;}
+.accord-item{border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden;}
+.accord-head{padding:14px 18px;font-weight:600;cursor:pointer;background:white;display:flex;justify-content:space-between;align-items:center;transition:background .2s;}
+.accord-head:hover{background:var(--bleu-light);}
+.accord-head.open{background:var(--bleu);color:white;}
+.accord-body{display:none;padding:16px 18px;background:var(--bg);font-size:.9rem;line-height:1.7;}
+.accord-body.open{display:block;}
+.accord-arrow{font-size:1.1rem;transition:transform .3s;}
+.accord-head.open .accord-arrow{transform:rotate(180deg);}
+.exo{background:linear-gradient(135deg,#f3e5f5,#e3f2fd);border:2px solid var(--violet);border-radius:12px;padding:20px;margin-top:20px;}
+.exo-title{font-weight:700;color:var(--violet);font-size:.88rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;}
+.exo-q p{margin-bottom:10px;font-size:.93rem;line-height:1.9;}
+select.blank{border:2px solid var(--violet);border-radius:6px;padding:3px 8px;font-size:.88rem;background:white;cursor:pointer;color:var(--violet);font-weight:600;transition:all .2s;}
+select.blank.ok{border-color:#4CAF50;background:#e8f5e9;color:#2E7D32;}
+select.blank.ko{border-color:#f44336;background:#ffebee;color:#c62828;}
+.exo-feedback{font-size:.85rem;padding:8px 12px;border-radius:8px;margin-top:10px;font-weight:600;}
+.exo-feedback.ok{background:#e8f5e9;color:#2E7D32;}
+.exo-feedback.ko{background:#ffebee;color:#c62828;}
+.btn-exo{background:var(--violet);color:white;border:none;padding:9px 20px;border-radius:8px;cursor:pointer;font-weight:700;font-size:.85rem;margin-top:12px;transition:background .2s;}
+.btn-exo:hover{background:#6A1B9A;}
+.btn-reset-exo{background:var(--border);color:var(--text);border:none;padding:9px 16px;border-radius:8px;cursor:pointer;font-weight:600;font-size:.85rem;margin-top:12px;margin-left:8px;}
+.fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin:16px 0;}
+.fc-card{background:white;border-radius:10px;padding:16px;box-shadow:var(--shadow);border-top:4px solid var(--bleu);}
+.fc-phrase{font-size:.92rem;line-height:1.9;margin-bottom:10px;}
+select.fc-select{border:2px solid var(--violet);border-radius:6px;padding:3px 8px;font-size:.85rem;background:white;cursor:pointer;color:var(--violet);font-weight:600;}
+select.fc-select.ok{border-color:#4CAF50;background:#e8f5e9;color:#2E7D32;}
+select.fc-select.ko{border-color:#f44336;background:#ffebee;color:#c62828;}
+.fc-actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+.btn{padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:.88rem;transition:all .2s;}
+.btn-bleu{background:var(--bleu);color:white;}.btn-bleu:hover{background:#0D47A1;}
+.btn-grey{background:var(--border);color:var(--text);}.btn-grey:hover{background:#ccc;}
+#fc-score{font-weight:700;font-size:1rem;padding:10px 16px;border-radius:8px;}
+.qcm-item{background:white;border-radius:10px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow);}
+.qcm-q{font-weight:600;margin-bottom:12px;}
+.qcm-opt{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:6px;margin-bottom:6px;cursor:pointer;transition:background .15s;}
+.qcm-opt:hover{background:var(--bleu-light);}
+.qcm-opt input{accent-color:var(--bleu);}
+.qcm-opt.correct{background:#e8f5e9;border:1.5px solid #4CAF50;}
+.qcm-opt.wrong{background:#ffebee;border:1.5px solid #f44336;}
+#qcm-result{font-size:1.1rem;font-weight:700;padding:14px 20px;border-radius:10px;margin-top:16px;text-align:center;display:none;}
+.acquis-list{list-style:none;display:grid;gap:8px;}
+.acquis-list li{padding:10px 14px;background:var(--bleu-light);border-radius:8px;border-left:4px solid var(--bleu);font-size:.9rem;}
+.acquis-list li::before{content:"✓ ";color:var(--bleu);font-weight:700;}
+.compare2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0;}
+.cbox{border-radius:10px;padding:16px;}
+.cbox.util{background:#e8f5e9;border:2px solid var(--vert);}
+.cbox.path{background:var(--rouge-light);border:2px solid var(--rouge);}
+.cbox h4{font-weight:700;margin-bottom:8px;}
+/* Exercices du manuel */
+.exo-manuel{background:white;border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:var(--shadow);border-left:5px solid var(--teal);}
+.exo-manuel h3{color:var(--teal);font-size:1rem;margin-bottom:14px;}
+.exo-manuel .contexte{background:var(--teal-light);border-radius:8px;padding:12px 16px;margin-bottom:14px;font-size:.9rem;line-height:1.7;border-left:4px solid var(--teal);}
+@media(max-width:600px){
+  .compare2{grid-template-columns:1fr;}
+  header h1{font-size:1.1rem;}
+  .tab{padding:10px 10px;font-size:.72rem;}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Chapitre 1 — La Diversité du Monde Microbien</h1>
+  <p>1ère Année Secondaire SVT · Partie 2 : Microbes et Santé · Pages 92–106</p>
+  <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+</header>
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab active" onclick="showTab(0)">📚 Acquis</button>
+    <button class="tab" onclick="showTab(1)">🔬 Act. 1 — Diversité</button>
+    <button class="tab" onclick="showTab(2)">📋 Bilan</button>
+    <button class="tab" onclick="showTab(3)">🃏 Flashcards</button>
+    <button class="tab" onclick="showTab(4)">✏️ QCM</button>
+    <button class="tab" onclick="showTab(5)">📝 Exercices</button>
+  </div>
+</div>
+<div class="content">
+
+<!-- ═══ ACQUIS ═══ -->
+<div class="panel active" id="panel-0">
+  <div class="card">
+    <h2>📚 Acquis du Collège (p.91)</h2>
+    <ul class="acquis-list">
+      <li>Les êtres vivants sont <strong>diversifiés</strong> — il en existe des millions d'espèces différentes</li>
+      <li>La <strong>cellule</strong> est l'unité de base du vivant : membrane + cytoplasme + noyau</li>
+      <li>Certains êtres sont constitués d'<strong>une seule cellule</strong> (unicellulaires) : amibe, paramécie</li>
+      <li>Les microbes sont des êtres <strong>invisibles à l'œil nu</strong> — on a besoin d'un microscope</li>
+      <li>Certains microbes sont <strong>pathogènes</strong> (causent des maladies : VIH, gonocoque) · d'autres sont <strong>utiles</strong> (bactérie du yaourt, levure de bière)</li>
+    </ul>
+  </div>
+  <div class="card orange">
+    <h2>❓ Questions directrices du chapitre</h2>
+    <ol style="margin-left:18px;line-height:2.2">
+      <li>Quels sont les différents groupes de microbes ?</li>
+      <li>Quelles sont leurs caractéristiques (taille, structure, mode de vie) ?</li>
+    </ol>
+  </div>
+  <div class="card vert">
+    <h2>🗺️ Plan — 1 activité · 4 sous-parties</h2>
+    <table>
+      <tr><th>N°</th><th>Groupe</th><th>Exemples clés</th><th>Pages</th></tr>
+      <tr><td><strong>1</strong></td><td>🦠 Protozoaires</td><td>Paramécie (inoffensive) · Amibe dysentérique (pathogène)</td><td>93–94</td></tr>
+      <tr><td><strong>2</strong></td><td>🧫 Bactéries</td><td>Bacille subtil · Bactéries lactiques · Coques · E. Coli · Bactéries du sol</td><td>94–96</td></tr>
+      <tr><td><strong>3</strong></td><td>🍄 Champignons</td><td>Levure (pain) · Pénicillium (pénicilline) · Trichophyton (teigne)</td><td>97–99</td></tr>
+      <tr><td><strong>4</strong></td><td>🔬 Virus</td><td>Grippe · VIH · Bactériophages · Variole</td><td>100</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══ ACTIVITE 1 ═══ -->
+<div class="panel" id="panel-1">
+  <div class="question-dir">🔬 Activité 1 — Diversité du monde microbien (p.93–100)<br>
+  <span style="font-weight:400;font-size:.88rem">Le monde microbien est partout : dans l'eau, l'air, le sol… et dans notre corps. On les classe en 4 grands groupes selon leur structure.</span></div>
+
+  <div class="subtabs-wrap">
+    <div class="subtabs">
+      <button class="subtab active" onclick="showSubTab(1,0)">🦠 1 — Protozoaires</button>
+      <button class="subtab" onclick="showSubTab(1,1)">🧫 2 — Bactéries</button>
+      <button class="subtab" onclick="showSubTab(1,2)">🍄 3 — Champignons</button>
+      <button class="subtab" onclick="showSubTab(1,3)">🔬 4 — Virus</button>
+    </div>
+  </div>
+
+  <!-- ─── PROTOZOAIRES ─── -->
+  <div class="subpanel active" id="sub-1-0">
+    <div class="card">
+      <h2>🦠 Sous-partie 1 — Les Protozoaires</h2>
+      <div class="explication">
+        <strong>Pourquoi les appelle-t-on "protozoaires" ?</strong> Du grec <em>protos</em> (premier) et <em>zôon</em> (animal). Ce sont les premiers animaux — unicellulaires. Leur cellule possède un <strong>vrai noyau entouré d'une membrane</strong> → ce sont des <strong>eucaryotes</strong>. Ils vivent dans les eaux stagnantes, le sol humide, ou parfois à l'intérieur du corps humain.
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" onclick="toggleSSAccord(this)">1.1 — La Paramécie <span style="font-weight:400;font-size:.85rem;margin-left:8px">· animal unicellulaire inoffensif des eaux stagnantes</span><span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="manip">
+            <h4>🧪 Manipulation en classe</h4>
+            <ol>
+              <li>Remplir un cristallisoir avec de l'eau + du foin (ou du persil)</li>
+              <li>Laisser reposer <strong>1 semaine</strong> à l'abri du soleil à <strong>25–30°C</strong> — les paramécies se développent naturellement dans cette infusion</li>
+              <li>Prélever une goutte de liquide → monter entre lame et lamelle</li>
+              <li>Observer au microscope : <strong>grossissement ×200</strong></li>
+            </ol>
+          </div>
+          <div class="svgbox">
+            <svg viewBox="0 0 560 210" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="155" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#1565C0">Schéma annoté d'une paramécie (×200)</text>
+              <ellipse cx="155" cy="112" rx="125" ry="72" fill="#e3f2fd" stroke="#1565C0" stroke-width="2.5"/>
+              <g stroke="#1565C0" stroke-width="1.2">
+                <line x1="45" y1="98" x2="30" y2="84"/><line x1="58" y1="80" x2="46" y2="62"/>
+                <line x1="76" y1="65" x2="68" y2="46"/><line x1="98" y1="55" x2="93" y2="36"/>
+                <line x1="122" y1="48" x2="120" y2="29"/><line x1="148" y1="45" x2="148" y2="26"/>
+                <line x1="174" y1="48" x2="176" y2="29"/><line x1="198" y1="55" x2="202" y2="38"/>
+                <line x1="218" y1="65" x2="225" y2="48"/><line x1="234" y1="80" x2="244" y2="65"/>
+                <line x1="244" y1="98" x2="258" y2="88"/><line x1="248" y1="118" x2="264" y2="115"/>
+                <line x1="244" y1="136" x2="258" y2="146"/><line x1="234" y1="152" x2="244" y2="165"/>
+                <line x1="218" y1="163" x2="225" y2="178"/><line x1="198" y1="170" x2="202" y2="186"/>
+                <line x1="174" y1="174" x2="176" y2="192"/><line x1="148" y1="176" x2="148" y2="194"/>
+                <line x1="122" y1="174" x2="120" y2="192"/><line x1="98" y1="168" x2="93" y2="185"/>
+                <line x1="76" y1="158" x2="68" y2="174"/><line x1="58" y1="142" x2="46" y2="158"/>
+                <line x1="45" y1="128" x2="30" y2="141"/>
+              </g>
+              <ellipse cx="150" cy="102" rx="30" ry="21" fill="#ffcc80" stroke="#E65100" stroke-width="1.5"/>
+              <text x="150" y="106" text-anchor="middle" font-size="10" fill="#BF360C">Noyau</text>
+              <circle cx="235" cy="82" r="14" fill="#b3e5fc" stroke="#0288D1" stroke-width="1.5"/>
+              <text x="235" y="86" text-anchor="middle" font-size="8" fill="#01579B">V.puls.</text>
+              <circle cx="105" cy="130" r="12" fill="#c8e6c9" stroke="#2E7D32" stroke-width="1.5"/>
+              <text x="105" y="134" text-anchor="middle" font-size="8" fill="#1b5e20">V.dig.</text>
+              <path d="M72 118 Q78 132 94 136" fill="none" stroke="#1565C0" stroke-width="2"/>
+              <!-- Légendes -->
+              <text x="350" y="35" font-size="11" font-weight="700" fill="#1565C0">Légende</text>
+              <line x1="340" y1="50" x2="300" y2="60" stroke="#1565C0" stroke-width="1"/>
+              <text x="345" y="52" font-size="10" fill="#555">Cils vibratiles → déplacement</text>
+              <line x1="340" y1="70" x2="240" y2="85" stroke="#E65100" stroke-width="1"/>
+              <text x="345" y="72" font-size="10" fill="#BF360C">Noyau (eucaryote)</text>
+              <line x1="340" y1="90" x2="250" y2="88" stroke="#0288D1" stroke-width="1"/>
+              <text x="345" y="92" font-size="10" fill="#0288D1">Vacuole pulsatile → excrétion</text>
+              <line x1="340" y1="110" x2="200" y2="120" stroke="#2E7D32" stroke-width="1"/>
+              <text x="345" y="112" font-size="10" fill="#2E7D32">Vacuole digestive → nutrition</text>
+              <line x1="340" y1="130" x2="190" y2="128" stroke="#1565C0" stroke-width="1"/>
+              <text x="345" y="132" font-size="10" fill="#1565C0">Bouche → ingestion aliments</text>
+              <rect x="330" y="148" width="210" height="50" rx="8" fill="#e8f5e9" stroke="#2E7D32"/>
+              <text x="435" y="166" text-anchor="middle" font-size="10" font-weight="700" fill="#2E7D32">✅ Inoffensive</text>
+              <text x="435" y="181" text-anchor="middle" font-size="9" fill="#555">Unicellulaire · Eaux stagnantes</text>
+              <text x="435" y="194" text-anchor="middle" font-size="9" fill="#555">Taille ~200 μm</text>
+            </svg>
+            <figcaption>Fig. 1 — La paramécie : ses structures permettent le déplacement, la nutrition et l'excrétion</figcaption>
+          </div>
+          <div class="explication">
+            <strong>Comprendre la paramécie :</strong> La paramécie mange de petites particules (algues, bactéries) qu'elle ingère par sa bouche grâce à ses cils. Ces particules sont digérées dans des <strong>vacuoles digestives</strong>. Les déchets sont rejetés par la <strong>vacuole pulsatile</strong> qui bat régulièrement (comme un cœur). C'est un être vivant complet dans une seule cellule !
+          </div>
+        </div>
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" onclick="toggleSSAccord(this)">1.2 — L'Amibe dysentérique <span style="font-weight:400;font-size:.85rem;margin-left:8px">· agent de la dysentérie amibienne</span><span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="explication">
+            <strong>Pourquoi l'amibe est-elle dangereuse ?</strong> Contrairement à la paramécie, l'amibe dysentérique est un <strong>parasite</strong>. Elle vit dans les intestins de l'homme et provoque des diarrhées graves. Sa particularité : elle peut former des <strong>kystes</strong> (sorte de coque protectrice) qui résistent dans l'environnement et contaminent l'eau et les aliments.
+          </div>
+          <div class="svgbox">
+            <svg viewBox="0 0 560 175" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <!-- Amibe -->
+              <text x="130" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#E65100">Structure de l'amibe</text>
+              <path d="M130 95 Q108 58 142 40 Q185 22 215 52 Q248 32 268 60 Q295 42 308 72 Q328 100 300 118 Q322 148 285 158 Q248 172 215 150 Q183 170 152 150 Q115 142 125 112 Z" fill="#fff3e0" stroke="#E65100" stroke-width="2.5"/>
+              <path d="M142 40 Q120 15 105 30" fill="#fff3e0" stroke="#E65100" stroke-width="2"/>
+              <path d="M308 72 Q340 52 344 78" fill="#fff3e0" stroke="#E65100" stroke-width="2"/>
+              <path d="M285 158 Q300 183 280 188" fill="#fff3e0" stroke="#E65100" stroke-width="2"/>
+              <ellipse cx="205" cy="98" rx="26" ry="19" fill="#ffcc80" stroke="#E65100" stroke-width="1.5"/>
+              <text x="205" y="102" text-anchor="middle" font-size="10" fill="#BF360C">Noyau</text>
+              <circle cx="250" cy="112" r="10" fill="#c8e6c9" stroke="#2E7D32" stroke-width="1"/>
+              <text x="250" y="130" text-anchor="middle" font-size="8" fill="#2E7D32">Aliment</text>
+              <text x="96" y="28" font-size="9" fill="#E65100" font-weight="600">Pseudopodes</text>
+              <text x="96" y="40" font-size="9" fill="#555">(déplacement + nutrition)</text>
+              <!-- Cycle -->
+              <text x="440" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#c62828">Cycle de contamination</text>
+              <rect x="375" y="28" width="165" height="140" rx="10" fill="#ffebee" stroke="#f44336" stroke-width="1.5"/>
+              <text x="457" y="50" text-anchor="middle" font-size="10" fill="#555">💧 Eau ou aliment souillé</text>
+              <text x="457" y="64" text-anchor="middle" font-size="10" fill="#555">contient des <strong>kystes</strong></text>
+              <text x="457" y="82" text-anchor="middle" font-size="18">↓</text>
+              <text x="457" y="100" text-anchor="middle" font-size="10" fill="#555">Kystes <strong>ingérés</strong> par l'homme</text>
+              <text x="457" y="118" text-anchor="middle" font-size="18">↓</text>
+              <text x="457" y="136" text-anchor="middle" font-size="10" fill="#555">Amibes dans <strong>gros intestin</strong></text>
+              <text x="457" y="150" text-anchor="middle" font-size="18">↓</text>
+              <text x="457" y="166" text-anchor="middle" font-size="10" fill="#c62828" font-weight="600">Dysentérie : diarrhées, vomissements</text>
+            </svg>
+            <figcaption>Fig. 2 — L'amibe dysentérique et son cycle de contamination</figcaption>
+          </div>
+          <table>
+            <tr><th>Critère</th><th>🦠 Paramécie</th><th>🦠 Amibe dysentérique</th></tr>
+            <tr><td>Déplacement</td><td>Cils vibratiles</td><td>Pseudopodes</td></tr>
+            <tr><td>Habitat naturel</td><td>Eaux stagnantes</td><td>Gros intestin de l'homme</td></tr>
+            <tr><td>Résistance</td><td>Normale</td><td>Peut s'<strong>enkyster</strong> (forme résistante)</td></tr>
+            <tr><td>Effet sur l'homme</td><td>✅ Aucun (inoffensive)</td><td>❌ Dysentérie amibienne</td></tr>
+            <tr><td>Voie de contamination</td><td>—</td><td>Eau ou aliments souillés par des kystes</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- EXERCICE PROTOZOAIRES -->
+      <div class="exo">
+        <div class="exo-title">✏️ Exercice — Les Protozoaires</div>
+        <div class="exo-q" id="exo-proto-q">
+          <p>1. Les protozoaires sont des organismes <select class="blank" data-rep="eucaryotes"><option value="">—</option><option>procaryotes</option><option>eucaryotes</option><option>acellulaires</option></select> car leur noyau est <select class="blank" data-rep="entouré d'une membrane"><option value="">—</option><option>absent</option><option>entouré d'une membrane</option><option>dans le cytoplasme sans membrane</option></select>.</p>
+          <p>2. La paramécie se déplace grâce à ses <select class="blank" data-rep="cils vibratiles"><option value="">—</option><option>pseudopodes</option><option>flagelles</option><option>cils vibratiles</option></select>. Elle est considérée comme <select class="blank" data-rep="inoffensive"><option value="">—</option><option>pathogène</option><option>inoffensive</option><option>parasite</option></select> pour l'homme.</p>
+          <p>3. L'amibe peut former des <select class="blank" data-rep="kystes"><option value="">—</option><option>spores</option><option>kystes</option><option>capsules</option></select> résistants dans l'environnement. Ces derniers ingérés avec <select class="blank" data-rep="l'eau ou les aliments souillés"><option value="">—</option><option>l'air</option><option>le contact cutané</option><option>l'eau ou les aliments souillés</option></select> provoquent la dysentérie amibienne.</p>
+          <p>4. La différence principale entre paramécie et amibe concernant le déplacement est que l'amibe utilise des <select class="blank" data-rep="pseudopodes"><option value="">—</option><option>cils</option><option>pseudopodes</option><option>flagelles</option></select> qui sont des prolongements de son <select class="blank" data-rep="cytoplasme"><option value="">—</option><option>noyau</option><option>cytoplasme</option><option>membrane</option></select>.</p>
+        </div>
+        <button class="btn-exo" onclick="checkExo('exo-proto')">✓ Vérifier</button>
+        <button class="btn-reset-exo" onclick="resetExo('exo-proto')">↺ Réinitialiser</button>
+        <div class="exo-feedback" id="exo-proto-fb"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── BACTERIES ─── -->
+  <div class="subpanel" id="sub-1-1">
+    <div class="card">
+      <h2>🧫 Sous-partie 2 — Les Bactéries</h2>
+      <div class="explication">
+        <strong>Ce qui distingue les bactéries de toutes les autres cellules :</strong> elles sont <strong>procaryotes</strong> — leur matériel génétique (ADN) baigne librement dans le cytoplasme, sans aucune membrane pour le séparer. C'est une cellule beaucoup plus simple que nos cellules humaines (eucaryotes). Les bactéries sont présentes partout : dans notre intestin, sur notre peau, dans le sol, dans les yaourts...
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" onclick="toggleSSAccord(this)">2.1 — Le Bacille subtil <span style="font-weight:400;font-size:.85rem;margin-left:8px">· première observation d'une bactérie</span><span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="manip">
+            <h4>🧪 Manipulation</h4>
+            <ol>
+              <li>Eau + poignée de foin → bouillir quelques minutes (tuer les bactéries existantes)</li>
+              <li>Laisser refroidir → filtrer → attendre <strong>48h</strong></li>
+              <li>Un voile se forme à la surface → prélever une goutte → observer (×900)</li>
+            </ol>
+          </div>
+          <div class="explication">
+            <strong>Pourquoi un voile se forme-t-il ?</strong> Des spores de bacille subtil présentes dans le foin survivent à l'ébullition. Elles germent et se multiplient rapidement à la surface de l'infusion (là où il y a de l'oxygène). En 48h, elles forment un voile visible = des <strong>millions de bactéries</strong>. Le bacille subtil est en forme de <strong>bâtonnet</strong> → c'est un <em>bacille</em>.
+          </div>
+        </div>
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" onclick="toggleSSAccord(this)">2.2 — Les Bactéries lactiques <span style="font-weight:400;font-size:.85rem;margin-left:8px">· frottis de yaourt · transformation du lait</span><span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="manip">
+            <h4>🧪 Technique du frottis coloré</h4>
+            <ol>
+              <li>Déposer une goutte de yaourt sur une lame → étaler finement</li>
+              <li>Sécher à l'air → fixer à l'alcool (tue les bactéries et les colle à la lame)</li>
+              <li>Colorer au <strong>bleu de méthylène</strong> pendant 10 min → rincer → sécher</li>
+              <li>Observer au microscope (×1000) — les bactéries apparaissent en bleu</li>
+            </ol>
+          </div>
+          <div class="svgbox">
+            <svg viewBox="0 0 520 155" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="260" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#1565C0">Bactéries lactiques du yaourt (×1000)</text>
+              <rect x="15" y="30" width="220" height="110" rx="10" fill="#e3f2fd" stroke="#1565C0" stroke-width="1.5"/>
+              <text x="125" y="50" text-anchor="middle" font-size="11" font-weight="700" fill="#1565C0">Lactobacilles</text>
+              <rect x="30" y="58" width="46" height="16" rx="8" fill="#1565C0" opacity=".7"/>
+              <rect x="88" y="54" width="46" height="16" rx="8" fill="#1565C0" opacity=".7"/>
+              <rect x="150" y="60" width="46" height="16" rx="8" fill="#1565C0" opacity=".7"/>
+              <rect x="50" y="80" width="46" height="16" rx="8" fill="#1565C0" opacity=".7"/>
+              <rect x="110" y="76" width="46" height="16" rx="8" fill="#1565C0" opacity=".7"/>
+              <rect x="170" y="82" width="46" height="16" rx="8" fill="#1565C0" opacity=".7"/>
+              <text x="125" y="116" text-anchor="middle" font-size="10" fill="#555">Forme de <strong>bâtonnets</strong></text>
+              <text x="125" y="130" text-anchor="middle" font-size="9" fill="#555">Transforment le lactose en acide lactique</text>
+              <text x="125" y="142" text-anchor="middle" font-size="9" fill="#2E7D32" font-weight="600">Lait → Yaourt (acidification) ✓</text>
+              <rect x="285" y="30" width="220" height="110" rx="10" fill="#e8f5e9" stroke="#2E7D32" stroke-width="1.5"/>
+              <text x="395" y="50" text-anchor="middle" font-size="11" font-weight="700" fill="#2E7D32">Streptocoques</text>
+              <circle cx="318" cy="88" r="10" fill="#2E7D32" opacity=".65"/><circle cx="338" cy="88" r="10" fill="#2E7D32" opacity=".65"/>
+              <circle cx="358" cy="88" r="10" fill="#2E7D32" opacity=".65"/><circle cx="378" cy="88" r="10" fill="#2E7D32" opacity=".65"/>
+              <circle cx="398" cy="88" r="10" fill="#2E7D32" opacity=".65"/><circle cx="418" cy="88" r="10" fill="#2E7D32" opacity=".65"/>
+              <circle cx="438" cy="88" r="10" fill="#2E7D32" opacity=".65"/><circle cx="458" cy="88" r="10" fill="#2E7D32" opacity=".65"/>
+              <text x="395" y="116" text-anchor="middle" font-size="10" fill="#555">Grains en <strong>chaînettes</strong></text>
+              <text x="395" y="130" text-anchor="middle" font-size="9" fill="#555">Travaillent avec les lactobacilles</text>
+              <text x="395" y="142" text-anchor="middle" font-size="9" fill="#2E7D32" font-weight="600">Ensemble → fermentation lactique ✓</text>
+            </svg>
+            <figcaption>Fig. 3 — Deux types de bactéries lactiques qui transforment le lait en yaourt</figcaption>
+          </div>
+          <div class="explication">
+            <strong>Comment le yaourt se forme-t-il ?</strong> Les lactobacilles et les streptocoques se nourrissent du <em>lactose</em> (sucre du lait) et produisent de l'<em>acide lactique</em>. Cet acide fait coaguler les protéines du lait → le lait devient solide et acide : c'est le <strong>yaourt</strong>. C'est la <strong>fermentation lactique</strong>.
+          </div>
+        </div>
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" onclick="toggleSSAccord(this)">2.3 — Les Coques <span style="font-weight:400;font-size:.85rem;margin-left:8px">· classification selon le regroupement</span><span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="explication">
+            <strong>Comment classifier les coques ?</strong> Toutes les coques ont la même forme (sphérique), mais elles se distinguent par leur <strong>mode de regroupement</strong> après division. Ce critère est très important car il permet d'identifier les bactéries et de prévoir les maladies qu'elles causent.
+          </div>
+          <div class="svgbox">
+            <svg viewBox="0 0 560 180" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="280" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#333">Classification des coques selon leur regroupement</text>
+              <rect x="10" y="28" width="160" height="145" rx="10" fill="#fff3e0" stroke="#E65100" stroke-width="2"/>
+              <text x="90" y="46" text-anchor="middle" font-size="11" font-weight="700" fill="#E65100">Diplocoque</text>
+              <circle cx="72" cy="92" r="22" fill="#E65100" opacity=".55"/>
+              <circle cx="110" cy="92" r="22" fill="#E65100" opacity=".55"/>
+              <text x="90" y="128" text-anchor="middle" font-size="9" fill="#555">2 coques accolées</text>
+              <text x="90" y="143" text-anchor="middle" font-size="9" fill="#c62828">Méningocoque → méningite</text>
+              <text x="90" y="158" text-anchor="middle" font-size="9" fill="#c62828">Pneumocoque → pneumonie</text>
+              <rect x="195" y="28" width="165" height="145" rx="10" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
+              <text x="277" y="46" text-anchor="middle" font-size="11" font-weight="700" fill="#2E7D32">Streptocoque</text>
+              <circle cx="218" cy="88" r="14" fill="#2E7D32" opacity=".6"/><circle cx="244" cy="88" r="14" fill="#2E7D32" opacity=".6"/>
+              <circle cx="270" cy="88" r="14" fill="#2E7D32" opacity=".6"/><circle cx="296" cy="88" r="14" fill="#2E7D32" opacity=".6"/>
+              <circle cx="322" cy="88" r="14" fill="#2E7D32" opacity=".6"/>
+              <text x="277" y="120" text-anchor="middle" font-size="9" fill="#555">Chaîne de coques</text>
+              <text x="277" y="135" text-anchor="middle" font-size="9" fill="#c62828">Angine, abcès</text>
+              <text x="277" y="150" text-anchor="middle" font-size="9" fill="#c62828">Rhumatisme articulaire aigu</text>
+              <text x="277" y="165" text-anchor="middle" font-size="9" fill="#c62828">Atteinte cardiaque si non traité</text>
+              <rect x="385" y="28" width="165" height="145" rx="10" fill="#f3e5f5" stroke="#4A148C" stroke-width="2"/>
+              <text x="467" y="46" text-anchor="middle" font-size="11" font-weight="700" fill="#4A148C">Staphylocoque</text>
+              <circle cx="425" cy="76" r="13" fill="#4A148C" opacity=".5"/><circle cx="451" cy="73" r="13" fill="#4A148C" opacity=".5"/>
+              <circle cx="476" cy="78" r="13" fill="#4A148C" opacity=".5"/><circle cx="433" cy="97" r="13" fill="#4A148C" opacity=".5"/>
+              <circle cx="459" cy="95" r="13" fill="#4A148C" opacity=".5"/><circle cx="484" cy="100" r="13" fill="#4A148C" opacity=".5"/>
+              <text x="467" y="128" text-anchor="middle" font-size="9" fill="#555">Grappe de coques</text>
+              <text x="467" y="143" text-anchor="middle" font-size="9" fill="#555">Présents sur peau, nez, gorge</text>
+              <text x="467" y="158" text-anchor="middle" font-size="9" fill="#c62828">Furoncle, abcès (via plaie)</text>
+            </svg>
+            <figcaption>Fig. 4 — Les 3 types de coques : même forme, mais regroupements différents → maladies différentes</figcaption>
+          </div>
+        </div>
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" onclick="toggleSSAccord(this)">2.4 — E. Coli <span style="font-weight:400;font-size:.85rem;margin-left:8px">· structure procaryote + bipartition toutes les 20 min</span><span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="explication">
+            <strong>Pourquoi étudier E. Coli ?</strong> Escherichia Coli est la bactérie modèle de la biologie. Elle vit normalement dans notre intestin (<em>flore intestinale</em>) et est utile à la digestion. Sa petite taille (11 μm) oblige à l'observer au <strong>microscope électronique à balayage (MEB)</strong>. Elle illustre parfaitement la structure <strong>procaryote</strong> : pas de noyau délimité.
+          </div>
+          <div class="svgbox">
+            <svg viewBox="0 0 560 205" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="135" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#1565C0">Structure procaryote d'E. Coli</text>
+              <ellipse cx="135" cy="112" rx="105" ry="58" fill="#fff8e1" stroke="#E65100" stroke-width="3"/>
+              <ellipse cx="135" cy="112" rx="105" ry="58" fill="none" stroke="#795548" stroke-width="7" stroke-dasharray="5,3"/>
+              <ellipse cx="135" cy="112" rx="97" ry="50" fill="#ffe0b2" stroke="#E65100" stroke-width="2"/>
+              <ellipse cx="135" cy="112" rx="88" ry="42" fill="#fff8e1"/>
+              <path d="M95 100 Q135 80 175 100 Q165 122 135 130 Q105 122 95 100Z" fill="#ef9a9a" stroke="#c62828" stroke-width="1.5"/>
+              <text x="135" y="110" text-anchor="middle" font-size="9" fill="#c62828" font-weight="600">Matériel</text>
+              <text x="135" y="122" text-anchor="middle" font-size="9" fill="#c62828" font-weight="600">génétique (ADN)</text>
+              <text x="135" y="140" text-anchor="middle" font-size="9" fill="#777">Pas de membrane = procaryote</text>
+              <line x1="30" y1="60" x2="85" y2="82" stroke="#795548" stroke-width="1"/>
+              <text x="5" y="56" font-size="9" fill="#795548" font-weight="700">Paroi</text>
+              <text x="5" y="68" font-size="9" fill="#795548">(rigide, protection)</text>
+              <line x1="28" y1="82" x2="76" y2="94" stroke="#E65100" stroke-width="1"/>
+              <text x="2" y="80" font-size="9" fill="#E65100">Membrane</text>
+              <text x="2" y="92" font-size="9" fill="#E65100">cytoplasmique</text>
+              <text x="95" y="175" font-size="9" fill="#555">Cytoplasme</text>
+              <text x="135" y="192" text-anchor="middle" font-size="10" fill="#E65100" font-weight="600">Taille : 11 μm · Visible au MEB ×27000</text>
+              <!-- Bipartition -->
+              <text x="400" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#1565C0">Bipartition (toutes les 20 min)</text>
+              <ellipse cx="360" cy="65" rx="38" ry="22" fill="#fff3e0" stroke="#E65100" stroke-width="2"/>
+              <path d="M340 57 Q360 47 380 57 Q372 70 360 74 Q348 70 340 57Z" fill="#ef9a9a" stroke="#c62828" stroke-width="1"/>
+              <text x="360" y="96" text-anchor="middle" font-size="11" font-weight="700" fill="#555">1 bactérie</text>
+              <path d="M360 104 L360 118" stroke="#aaa" stroke-width="2" marker-end="url(#arr)"/>
+              <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#aaa"/></marker></defs>
+              <text x="378" y="113" font-size="9" fill="#E65100" font-weight="600">20 min</text>
+              <ellipse cx="328" cy="148" rx="33" ry="19" fill="#fff3e0" stroke="#E65100" stroke-width="2"/>
+              <path d="M312 141 Q328 132 344 141 Q337 153 328 156 Q319 153 312 141Z" fill="#ef9a9a" stroke="#c62828" stroke-width="1"/>
+              <ellipse cx="392" cy="148" rx="33" ry="19" fill="#fff3e0" stroke="#E65100" stroke-width="2"/>
+              <path d="M376 141 Q392 132 408 141 Q401 153 392 156 Q383 153 376 141Z" fill="#ef9a9a" stroke="#c62828" stroke-width="1"/>
+              <text x="360" y="177" text-anchor="middle" font-size="11" font-weight="700" fill="#555">2 bactéries identiques</text>
+              <rect x="300" y="185" width="140" height="18" rx="6" fill="#e3f2fd" stroke="#1565C0"/>
+              <text x="370" y="198" text-anchor="middle" font-size="11" font-weight="700" fill="#1565C0">Formule : N = 2ⁿ</text>
+            </svg>
+            <figcaption>Fig. 5 — Structure procaryote d'E. Coli (gauche) et bipartition (droite). N = nombre de bactéries, n = nombre de divisions.</figcaption>
+          </div>
+          <div class="explication">
+            <strong>Pourquoi la bipartition est-elle si efficace ?</strong> En conditions favorables, 1 bactérie → 2 toutes les 20 min. En 1 heure (3 divisions) : <strong>2³ = 8 bactéries</strong>. En 24h : 2⁷² bactéries soit des millions de milliards ! C'est pourquoi une infection bactérienne peut évoluer très rapidement si on ne la traite pas.
+          </div>
+        </div>
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" onclick="toggleSSAccord(this)">2.5 — Bactéries du sol <span style="font-weight:400;font-size:.85rem;margin-left:8px">· minéralisation · équilibre du milieu naturel</span><span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="explication">
+            <strong>Les bactéries ne sont pas toutes pathogènes !</strong> Les bactéries du sol jouent un rôle écologique essentiel. Elles décomposent les matières organiques mortes (feuilles, cadavres, déchets) en <strong>sels minéraux</strong> et CO₂ : c'est la <strong>minéralisation</strong>. Sans elles, les matières organiques s'accumuleraient et les plantes manqueraient de sels minéraux. Elles assurent le recyclage de la matière dans la nature.
+          </div>
+          <div class="svgbox">
+            <svg viewBox="0 0 540 115" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="270" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#2E7D32">Cycle de minéralisation par les bactéries du sol</text>
+              <rect x="10" y="32" width="118" height="58" rx="8" fill="#e8f5e9" stroke="#2E7D32" stroke-width="1.5"/>
+              <text x="69" y="54" text-anchor="middle" font-size="18">🍂🐾</text>
+              <text x="69" y="74" text-anchor="middle" font-size="10" font-weight="700" fill="#2E7D32">Matière organique</text>
+              <text x="69" y="86" text-anchor="middle" font-size="9" fill="#555">(feuilles, cadavres)</text>
+              <path d="M130 61 L178 61" stroke="#aaa" stroke-width="2" marker-end="url(#arr)"/>
+              <text x="154" y="54" text-anchor="middle" font-size="9" fill="#555">Bactéries</text>
+              <text x="154" y="74" text-anchor="middle" font-size="9" fill="#555">du sol</text>
+              <rect x="180" y="32" width="160" height="58" rx="8" fill="#fff8e1" stroke="#F9A825" stroke-width="1.5"/>
+              <text x="260" y="52" text-anchor="middle" font-size="11" font-weight="700" fill="#E65100">Décomposition</text>
+              <text x="260" y="67" text-anchor="middle" font-size="10" fill="#555">= Minéralisation</text>
+              <text x="260" y="82" text-anchor="middle" font-size="9" fill="#555">MO → sels minéraux + CO₂</text>
+              <path d="M342 61 L390 61" stroke="#aaa" stroke-width="2" marker-end="url(#arr)"/>
+              <rect x="392" y="32" width="138" height="58" rx="8" fill="#e3f2fd" stroke="#1565C0" stroke-width="1.5"/>
+              <text x="461" y="52" text-anchor="middle" font-size="11" font-weight="700" fill="#1565C0">Sol enrichi</text>
+              <text x="461" y="67" text-anchor="middle" font-size="10" fill="#555">Sels minéraux disponibles</text>
+              <text x="461" y="82" text-anchor="middle" font-size="10" fill="#2E7D32">→ Nutrition des plantes 🌱</text>
+              <text x="270" y="108" text-anchor="middle" font-size="10" fill="#2E7D32" font-weight="600">→ Recyclage de la matière · Équilibre de l'écosystème</text>
+            </svg>
+            <figcaption>Fig. 6 — Les bactéries du sol : actrices essentielles du recyclage de la matière organique</figcaption>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXERCICE BACTERIES -->
+      <div class="exo">
+        <div class="exo-title">✏️ Exercice — Les Bactéries</div>
+        <div class="exo-q" id="exo-bact-q">
+          <p>1. Une bactérie est dite <select class="blank" data-rep="procaryote"><option value="">—</option><option>eucaryote</option><option>procaryote</option><option>acellulaire</option></select> car son matériel génétique baigne dans le cytoplasme <select class="blank" data-rep="sans membrane nucléaire"><option value="">—</option><option>avec une membrane nucléaire</option><option>sans membrane nucléaire</option></select>.</p>
+          <p>2. Les bactéries lactiques du yaourt sont de deux types : les <select class="blank" data-rep="lactobacilles"><option value="">—</option><option>staphylocoques</option><option>lactobacilles</option><option>bacilles subtils</option></select> (en bâtonnets) et les <select class="blank" data-rep="streptocoques"><option value="">—</option><option>diplocoques</option><option>méningocoques</option><option>streptocoques</option></select> (en chaînettes). Elles transforment le lait en yaourt par <select class="blank" data-rep="fermentation lactique"><option value="">—</option><option>bipartition</option><option>photosynthèse</option><option>fermentation lactique</option></select>.</p>
+          <p>3. E. Coli se divise par <select class="blank" data-rep="bipartition"><option value="">—</option><option>bourgeonnement</option><option>bipartition</option><option>sporulation</option></select> toutes les <strong>20 min</strong>. Après 3 divisions (1 heure), on obtient <select class="blank" data-rep="8"><option value="">—</option><option>4</option><option>6</option><option>8</option><option>16</option></select> bactéries (N = 2ⁿ = 2³).</p>
+          <p>4. Les staphylocoques sont des coques groupées en <select class="blank" data-rep="grappes"><option value="">—</option><option>chaînettes</option><option>paires</option><option>grappes</option></select>. En pénétrant dans une plaie, ils peuvent causer un <select class="blank" data-rep="furoncle ou abcès"><option value="">—</option><option>rhumatisme articulaire</option><option>furoncle ou abcès</option><option>méningite</option></select>.</p>
+          <p>5. Les bactéries du sol réalisent la <select class="blank" data-rep="minéralisation"><option value="">—</option><option>photosynthèse</option><option>minéralisation</option><option>fermentation</option></select> : elles transforment la matière organique en <select class="blank" data-rep="sels minéraux et CO₂"><option value="">—</option><option>glucose et O₂</option><option>sels minéraux et CO₂</option><option>acides aminés</option></select>, utiles aux plantes.</p>
+        </div>
+        <button class="btn-exo" onclick="checkExo('exo-bact')">✓ Vérifier</button>
+        <button class="btn-reset-exo" onclick="resetExo('exo-bact')">↺ Réinitialiser</button>
+        <div class="exo-feedback" id="exo-bact-fb"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── CHAMPIGNONS ─── -->
+  <div class="subpanel" id="sub-1-2">
+    <div class="card">
+      <h2>🍄 Sous-partie 3 — Les Champignons Microscopiques</h2>
+      <div class="explication">
+        <strong>Champignons ≠ Plantes !</strong> Malgré leur apparence, les champignons ne font pas la photosynthèse. Ils sont <strong>hétérotrophes</strong> : ils se nourrissent de matières organiques déjà existantes (pain, peau, feuilles...). Ce sont des <strong>eucaryotes</strong> (noyau délimité). On les classe en deux grandes catégories : les <em>unicellulaires</em> (levures) et les <em>filamenteux</em> (moisissures).
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" onclick="toggleSSAccord(this)">3.1 — La Levure de bière <span style="font-weight:400;font-size:.85rem;margin-left:8px">· unicellulaire · bourgeonnement · 6–10 μm</span><span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="manip">
+            <h4>🧪 Manipulation</h4>
+            <ol>
+              <li>1g de levure + 10 ml de saccharose 10% → <strong>37°C</strong> (température optimale)</li>
+              <li>Laisser reposer quelques heures → la levure se nourrit du sucre et se multiplie</li>
+              <li>Observer au microscope (×1500) → cellules rondes avec bourgeons</li>
+            </ol>
+          </div>
+          <div class="explication">
+            <strong>Pourquoi la levure est-elle si utile ?</strong> La levure se nourrit de sucres et produit du CO₂ et de l'alcool : c'est la <strong>fermentation</strong>. Dans la fabrication du pain, le CO₂ produit fait gonfler la pâte. Dans la bière et le vin, c'est l'alcool qui est recherché. La levure se multiplie par <strong>bourgeonnement</strong> : un petit bourgeon se forme sur la cellule mère, grandit, puis se détache.
+          </div>
+          <div class="svgbox">
+            <svg viewBox="0 0 440 130" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="220" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#E65100">Levure de bière : cellule normale et bourgeonnement (×1500)</text>
+              <ellipse cx="100" cy="76" rx="40" ry="32" fill="#fff8e1" stroke="#E65100" stroke-width="2"/>
+              <ellipse cx="100" cy="71" rx="16" ry="12" fill="#ffcc80" stroke="#E65100" stroke-width="1.5"/>
+              <text x="100" y="75" text-anchor="middle" font-size="9" fill="#BF360C">Noyau</text>
+              <text x="100" y="118" text-anchor="middle" font-size="10" font-weight="600" fill="#555">Cellule normale</text>
+              <text x="100" y="130" text-anchor="middle" font-size="9" fill="#555">6–10 μm</text>
+              <path d="M145 76 L175 76" stroke="#aaa" stroke-width="2" marker-end="url(#arr)"/>
+              <text x="160" y="66" text-anchor="middle" font-size="9" fill="#555">division</text>
+              <ellipse cx="220" cy="76" rx="40" ry="32" fill="#fff8e1" stroke="#E65100" stroke-width="2"/>
+              <ellipse cx="220" cy="71" rx="16" ry="12" fill="#ffcc80" stroke="#E65100" stroke-width="1.5"/>
+              <text x="220" y="75" text-anchor="middle" font-size="9" fill="#BF360C">Noyau</text>
+              <ellipse cx="258" cy="63" rx="24" ry="18" fill="#fff3e0" stroke="#E65100" stroke-width="1.5" stroke-dasharray="4,2"/>
+              <text x="258" y="67" text-anchor="middle" font-size="9" fill="#E65100" font-weight="600">Bourgeon</text>
+              <text x="220" y="118" text-anchor="middle" font-size="10" font-weight="600" fill="#E65100">En bourgeonnement</text>
+              <!-- Utilisations -->
+              <rect x="320" y="28" width="108" height="95" rx="8" fill="#e8f5e9" stroke="#2E7D32" stroke-width="1.5"/>
+              <text x="374" y="46" text-anchor="middle" font-size="10" font-weight="700" fill="#2E7D32">Utilisations ✅</text>
+              <text x="374" y="62" text-anchor="middle" font-size="14">🍞</text><text x="374" y="76" text-anchor="middle" font-size="9" fill="#555">Pain (CO₂)</text>
+              <text x="374" y="88" text-anchor="middle" font-size="14">🍷</text><text x="374" y="102" text-anchor="middle" font-size="9" fill="#555">Vin · Bière</text>
+              <text x="374" y="116" text-anchor="middle" font-size="9" fill="#555">(alcool)</text>
+            </svg>
+            <figcaption>Fig. 7 — Levure de bière : le bourgeonnement produit deux cellules identiques</figcaption>
+          </div>
+        </div>
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" onclick="toggleSSAccord(this)">3.2 à 3.5 — Les Champignons filamenteux <span style="font-weight:400;font-size:.85rem;margin-left:8px">· moisissures · utiles et pathogènes</span><span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="explication">
+            <strong>Structure commune des champignons filamenteux :</strong> Ils sont formés de longs filaments appelés <strong>mycélium</strong> et de structures reproductrices appelées <strong>sporanges</strong> (boîtes à spores). Les spores se dispersent dans l'air et contaminent de nouveaux substrats. Certains sont bénéfiques, d'autres sont parasites.
+          </div>
+          <div class="ssaccord-item" style="margin:0 0 8px 0;">
+            <div class="ssaccord-head" onclick="toggleSSAccord(this)" style="background:#e8f5e9;color:#2E7D32;">3.2 — Moisissure de pain <span class="ssaccord-arrow" style="color:#2E7D32;">▼</span></div>
+            <div class="ssaccord-body" style="background:#f9fbe7;">
+              <p><strong>Manipulation :</strong> Pain humide à 25–30°C pendant 2 jours → duvet blanc. Observation x400 : <strong>mycélium</strong> (filaments) + <strong>sporanges</strong> (boîtes à spores en forme de têtes rondes).</p>
+            </div>
+          </div>
+          <div class="ssaccord-item" style="margin:0 0 8px 0;">
+            <div class="ssaccord-head" onclick="toggleSSAccord(this)" style="background:#e8f5e9;color:#2E7D32;">3.3 — Pénicillium notatum ✅ <span class="ssaccord-arrow" style="color:#2E7D32;">▼</span></div>
+            <div class="ssaccord-body" style="background:#f9fbe7;">
+              <p>Moisissure verte découverte par <strong>Fleming en 1928</strong>. En observant que ce champignon tuait les bactéries autour de lui, il a isolé la substance active : la <strong>pénicilline</strong>. C'est le premier <strong>antibiotique</strong> de l'histoire. Structure : spores + sporanges + filaments.</p>
+            </div>
+          </div>
+          <div class="ssaccord-item" style="margin:0 0 8px 0;">
+            <div class="ssaccord-head" onclick="toggleSSAccord(this)" style="background:#ffebee;color:#c62828;">3.4 — Trichophyton ❌ → Teigne <span class="ssaccord-arrow" style="color:#c62828;">▼</span></div>
+            <div class="ssaccord-body" style="background:#fff8f8;">
+              <p>Champignon filamenteux <strong>parasite de la peau et des cheveux</strong>. Il pénètre à l'intérieur des cheveux, les détériore et provoque la <strong>teigne</strong> (chute des cheveux par plaques). Contagieux par contact direct.</p>
+            </div>
+          </div>
+          <div class="ssaccord-item" style="margin:0 0 8px 0;">
+            <div class="ssaccord-head" onclick="toggleSSAccord(this)" style="background:#ffebee;color:#c62828;">3.5 — Phytophtora ❌ → Mildiou des végétaux <span class="ssaccord-arrow" style="color:#c62828;">▼</span></div>
+            <div class="ssaccord-body" style="background:#fff8f8;">
+              <p><em>Phytophtora infestans</em> est un champignon filamenteux qui parasite les <strong>végétaux</strong> (tomate, pomme de terre, vigne). Il pénètre dans les cellules des feuilles et cause le <strong>mildiou</strong> (taches brunes, pourriture). Structure : conidies + spores + filaments.</p>
+            </div>
+          </div>
+          <table>
+            <tr><th>Champignon</th><th>Type</th><th>Rôle</th><th>Maladie / Utilité</th></tr>
+            <tr><td>Levure de bière</td><td>Unicellulaire (6–10 μm)</td><td>Fermentation (CO₂ + alcool)</td><td>✅ Pain, vin, bière</td></tr>
+            <tr><td>Moisissure de pain</td><td>Filamenteux (mycélium)</td><td>Décomposition</td><td>Neutre</td></tr>
+            <tr><td>Pénicillium notatum</td><td>Filamenteux (vert)</td><td>Produit pénicilline</td><td>✅ Pénicilline (antibiotique)</td></tr>
+            <tr><td>Trichophyton</td><td>Filamenteux</td><td>Parasite humain (cheveux)</td><td>❌ Teigne</td></tr>
+            <tr><td>Phytophtora</td><td>Filamenteux</td><td>Parasite végétal</td><td>❌ Mildiou (tomate, vigne)</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- EXERCICE CHAMPIGNONS -->
+      <div class="exo">
+        <div class="exo-title">✏️ Exercice — Les Champignons microscopiques</div>
+        <div class="exo-q" id="exo-champ-q">
+          <p>1. Les champignons microscopiques sont des eucaryotes <select class="blank" data-rep="hétérotrophes"><option value="">—</option><option>autotrophes</option><option>hétérotrophes</option><option>photosynthétiques</option></select> car ils <select class="blank" data-rep="ne réalisent pas la photosynthèse"><option value="">—</option><option>réalisent la photosynthèse</option><option>ne réalisent pas la photosynthèse</option></select>.</p>
+          <p>2. La levure de bière est un champignon <select class="blank" data-rep="unicellulaire"><option value="">—</option><option>filamenteux</option><option>unicellulaire</option></select> de <select class="blank" data-rep="6–10 μm"><option value="">—</option><option>1–2 μm</option><option>6–10 μm</option><option>100–200 μm</option></select>. Elle se multiplie par <select class="blank" data-rep="bourgeonnement"><option value="">—</option><option>bipartition</option><option>bourgeonnement</option><option>sporulation</option></select>.</p>
+          <p>3. Le Pénicillium notatum est la moisissure à partir de laquelle on produit la <select class="blank" data-rep="pénicilline"><option value="">—</option><option>insuline</option><option>pénicilline</option><option>quinine</option></select>, le premier <select class="blank" data-rep="antibiotique"><option value="">—</option><option>vaccin</option><option>antibiotique</option><option>antiseptique</option></select> de l'histoire.</p>
+          <p>4. Les champignons filamenteux sont formés de <select class="blank" data-rep="mycélium"><option value="">—</option><option>cils vibratiles</option><option>mycélium</option><option>pseudopodes</option></select> (filaments) et de <select class="blank" data-rep="sporanges"><option value="">—</option><option>vacuoles</option><option>capsules</option><option>sporanges</option></select> (boîtes à spores).</p>
+          <p>5. Le Trichophyton provoque la <select class="blank" data-rep="teigne"><option value="">—</option><option>teigne</option><option>dysentérie</option><option>méningite</option></select> en parasitant la <select class="blank" data-rep="peau et les cheveux"><option value="">—</option><option>flore intestinale</option><option>peau et les cheveux</option><option>muqueuse respiratoire</option></select>.</p>
+        </div>
+        <button class="btn-exo" onclick="checkExo('exo-champ')">✓ Vérifier</button>
+        <button class="btn-reset-exo" onclick="resetExo('exo-champ')">↺ Réinitialiser</button>
+        <div class="exo-feedback" id="exo-champ-fb"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── VIRUS ─── -->
+  <div class="subpanel" id="sub-1-3">
+    <div class="card">
+      <h2>🔬 Sous-partie 4 — Les Virus</h2>
+      <div class="explication">
+        <strong>Un virus est-il vivant ?</strong> C'est une question fondamentale en biologie ! Un virus est une particule <strong>acellulaire</strong> (il n'a pas de cellule). Seul, il est totalement inerte : il ne mange pas, ne respire pas, ne se reproduit pas. Il n'est "actif" qu'une fois à l'intérieur d'une cellule vivante (cellule hôte) qu'il utilise comme usine pour se multiplier. On le considère comme à la frontière entre le vivant et le non-vivant.
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" onclick="toggleSSAccord(this)">4.1 à 4.4 — Les 4 virus étudiés <span style="font-weight:400;font-size:.85rem;margin-left:8px">· structure · taille · maladie</span><span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="svgbox">
+            <svg viewBox="0 0 580 200" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="290" y="18" text-anchor="middle" font-size="13" font-weight="700" fill="#1565C0">Comparaison des 4 virus à l'échelle (observable uniquement au MEB)</text>
+              <!-- Grippe -->
+              <circle cx="80" cy="95" r="32" fill="#e3f2fd" stroke="#1565C0" stroke-width="2"/>
+              <circle cx="80" cy="95" r="15" fill="#ffcc80" stroke="#E65100" stroke-width="1.5"/>
+              <text x="80" y="99" text-anchor="middle" font-size="8" fill="#BF360C">ARN</text>
+              <text x="80" y="148" text-anchor="middle" font-size="12" font-weight="700" fill="#1565C0">Grippe</text>
+              <text x="80" y="163" text-anchor="middle" font-size="10" fill="#555">150 nm</text>
+              <text x="80" y="178" text-anchor="middle" font-size="9" fill="#c62828">Voies respiratoires</text>
+              <text x="80" y="191" text-anchor="middle" font-size="9" fill="#555">Transmission : air</text>
+              <!-- VIH -->
+              <circle cx="200" cy="100" r="25" fill="#f3e5f5" stroke="#4A148C" stroke-width="2"/>
+              <circle cx="200" cy="100" r="12" fill="#ffcc80" stroke="#E65100" stroke-width="1.5"/>
+              <text x="200" y="104" text-anchor="middle" font-size="8" fill="#BF360C">ARN</text>
+              <text x="200" y="148" text-anchor="middle" font-size="12" font-weight="700" fill="#4A148C">VIH</text>
+              <text x="200" y="163" text-anchor="middle" font-size="10" fill="#555">100 nm</text>
+              <text x="200" y="178" text-anchor="middle" font-size="9" fill="#c62828">Système immunitaire</text>
+              <text x="200" y="191" text-anchor="middle" font-size="9" fill="#555">Transmission : sang/sex.</text>
+              <!-- Bacteriophage -->
+              <polygon points="320,65 345,65 345,112 333,125 320,112" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
+              <rect x="322" y="72" width="20" height="22" rx="2" fill="#a5d6a7"/>
+              <line x1="317" y1="125" x2="306" y2="142" stroke="#2E7D32" stroke-width="2"/>
+              <line x1="321" y1="125" x2="313" y2="144" stroke="#2E7D32" stroke-width="2"/>
+              <line x1="332" y1="125" x2="332" y2="146" stroke="#2E7D32" stroke-width="2"/>
+              <line x1="343" y1="125" x2="351" y2="144" stroke="#2E7D32" stroke-width="2"/>
+              <line x1="347" y1="125" x2="358" y2="142" stroke="#2E7D32" stroke-width="2"/>
+              <text x="332" y="162" text-anchor="middle" font-size="12" font-weight="700" fill="#2E7D32">Bactériophage</text>
+              <text x="332" y="177" text-anchor="middle" font-size="9" fill="#555">Variable</text>
+              <text x="332" y="192" text-anchor="middle" font-size="9" fill="#2E7D32">Infecte bactéries uniquement</text>
+              <!-- Variole -->
+              <rect x="420" y="68" width="60" height="57" rx="8" fill="#fff3e0" stroke="#E65100" stroke-width="2"/>
+              <rect x="430" y="78" width="40" height="28" rx="4" fill="#ffcc80" stroke="#E65100" stroke-width="1"/>
+              <text x="450" y="96" text-anchor="middle" font-size="8" fill="#BF360C">ADN</text>
+              <text x="450" y="148" text-anchor="middle" font-size="12" font-weight="700" fill="#E65100">Variole</text>
+              <text x="450" y="163" text-anchor="middle" font-size="10" fill="#555">240 nm (le plus grand)</text>
+              <text x="450" y="178" text-anchor="middle" font-size="9" fill="#c62828">Pustules cutanées</text>
+              <text x="450" y="191" text-anchor="middle" font-size="9" fill="#2E7D32">Éradiquée en 1980 ✓</text>
+              <!-- Structure commune -->
+              <rect x="10" y="197" width="560" height="0" rx="0" fill="none"/>
+            </svg>
+            <figcaption>Fig. 8 — Les 4 virus : tous acellulaires (matériel génétique + capsule), mais formes, tailles et cibles différentes</figcaption>
+          </div>
+          <table>
+            <tr><th>Virus</th><th>Taille</th><th>Matériel génétique</th><th>Cible</th><th>Maladie</th></tr>
+            <tr><td>Grippe (4.1)</td><td>150 nm</td><td>ARN</td><td>Muqueuses respiratoires</td><td>Grippe (épidémies saisonnières)</td></tr>
+            <tr><td>VIH (4.2)</td><td>100 nm</td><td>ARN</td><td>Cellules immunitaires</td><td>SIDA (immunodéficience)</td></tr>
+            <tr><td>Bactériophages (4.3)</td><td>Variable</td><td>ADN ou ARN</td><td>Bactéries uniquement</td><td>Aucune chez l'homme</td></tr>
+            <tr><td>Variole (4.4)</td><td>240 nm</td><td>ADN</td><td>Peau</td><td>Variole (éradiquée en 1980)</td></tr>
+          </table>
+          <div class="info-box rouge"><div class="icon">🔑</div><p><strong>Parasite intracellulaire obligatoire :</strong> un virus ne peut se multiplier qu'à l'intérieur d'une cellule vivante. Il "pirate" les machines cellulaires pour fabriquer des copies de lui-même, puis la cellule éclate et libère de nouveaux virus. C'est pourquoi les antibiotiques sont inefficaces contre les virus : les antibiotiques ciblent les bactéries, pas les virus !</p></div>
+        </div>
+      </div>
+
+      <!-- EXERCICE VIRUS -->
+      <div class="exo">
+        <div class="exo-title">✏️ Exercice — Les Virus</div>
+        <div class="exo-q" id="exo-virus-q">
+          <p>1. Un virus est une particule <select class="blank" data-rep="acellulaire"><option value="">—</option><option>unicellulaire</option><option>procaryote</option><option>acellulaire</option></select> car il ne possède pas de <select class="blank" data-rep="cytoplasme ni d'organisation cellulaire"><option value="">—</option><option>matériel génétique</option><option>cytoplasme ni d'organisation cellulaire</option><option>capsule</option></select>.</p>
+          <p>2. La structure d'un virus comprend un <select class="blank" data-rep="matériel génétique"><option value="">—</option><option>noyau</option><option>matériel génétique</option><option>cytoplasme</option></select> (ADN ou ARN) entouré d'une <select class="blank" data-rep="capsule"><option value="">—</option><option>membrane</option><option>paroi</option><option>capsule</option></select> protéique.</p>
+          <p>3. Un virus est dit "parasite intracellulaire obligatoire" parce qu'il ne peut se multiplier <select class="blank" data-rep="qu'à l'intérieur d'une cellule hôte"><option value="">—</option><option>que dans un milieu nutritif</option><option>qu'à l'intérieur d'une cellule hôte</option><option>que dans le sol</option></select>. Hors de cette cellule, il est <select class="blank" data-rep="totalement inerte"><option value="">—</option><option>très actif</option><option>totalement inerte</option><option>capable de se diviser</option></select>.</p>
+          <p>4. Le VIH mesure <select class="blank" data-rep="100 nm"><option value="">—</option><option>150 nm</option><option>240 nm</option><option>100 nm</option></select>. Il s'attaque aux cellules du <select class="blank" data-rep="système immunitaire"><option value="">—</option><option>système respiratoire</option><option>système immunitaire</option><option>système digestif</option></select> et se transmet par le sang ou les sécrétions sexuelles.</p>
+          <p>5. Les antibiotiques sont <select class="blank" data-rep="inefficaces"><option value="">—</option><option>efficaces</option><option>inefficaces</option></select> contre les virus car ils ciblent les <select class="blank" data-rep="bactéries"><option value="">—</option><option>virus</option><option>bactéries</option><option>champignons</option></select>, pas les virus.</p>
+        </div>
+        <button class="btn-exo" onclick="checkExo('exo-virus')">✓ Vérifier</button>
+        <button class="btn-reset-exo" onclick="resetExo('exo-virus')">↺ Réinitialiser</button>
+        <div class="exo-feedback" id="exo-virus-fb"></div>
+      </div>
+
+      <div class="retenons">
+        <h4>📌 Retenons — Vocabulaire clé (p.101)</h4>
+        <p><dt>Bactérie :</dt><dd>cellule procaryote unicellulaire, se multiplie par bipartition, matériel génétique libre dans le cytoplasme.</dd></p>
+        <p><dt>Procaryote :</dt><dd>être vivant dont la cellule ne contient pas de vrai noyau (ex : bactéries).</dd></p>
+        <p><dt>Eucaryote :</dt><dd>être vivant dont la cellule contient un noyau entouré d'une membrane (ex : protozoaires, champignons, nos cellules).</dd></p>
+        <p><dt>Bacille :</dt><dd>bactérie en forme de bâtonnet.</dd></p>
+        <p><dt>Coques :</dt><dd>bactéries sphériques isolées ou groupées (diplocoques, streptocoques, staphylocoques).</dd></p>
+        <p><dt>Champignons :</dt><dd>eucaryotes hétérotrophes, unicellulaires (levures) ou filamenteux (moisissures).</dd></p>
+        <p><dt>Virus :</dt><dd>particule acellulaire (matériel génétique + capsule), parasite intracellulaire obligatoire.</dd></p>
+        <p><dt>Protozoaire :</dt><dd>animal unicellulaire eucaryote.</dd></p>
+        <p><dt>Pathogène :</dt><dd>qui cause une maladie.</dd></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ BILAN ═══ -->
+<div class="panel" id="panel-2">
+  <div class="card">
+    <h2>📋 Bilan — La Diversité du Monde Microbien (p.102–103)</h2>
+    <div class="svgbox">
+      <svg viewBox="0 0 600 190" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+        <text x="300" y="18" text-anchor="middle" font-size="13" font-weight="700" fill="#1565C0">Les 4 groupes de microbes</text>
+        <ellipse cx="300" cy="105" rx="65" ry="40" fill="#e3f2fd" stroke="#1565C0" stroke-width="3"/>
+        <text x="300" y="99" text-anchor="middle" font-size="11" font-weight="700" fill="#1565C0">Monde</text>
+        <text x="300" y="113" text-anchor="middle" font-size="11" font-weight="700" fill="#1565C0">Microbien</text>
+        <rect x="10" y="18" width="140" height="54" rx="8" fill="#fff3e0" stroke="#E65100" stroke-width="2"/>
+        <text x="80" y="36" text-anchor="middle" font-size="11" font-weight="700" fill="#E65100">🦠 Protozoaires</text>
+        <text x="80" y="51" text-anchor="middle" font-size="9" fill="#555">Eucaryotes unicellulaires</text>
+        <text x="80" y="64" text-anchor="middle" font-size="9" fill="#555">Paramécie · Amibe</text>
+        <line x1="150" y1="45" x2="237" y2="85" stroke="#E65100" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <rect x="10" y="128" width="140" height="54" rx="8" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
+        <text x="80" y="146" text-anchor="middle" font-size="11" font-weight="700" fill="#2E7D32">🧫 Bactéries</text>
+        <text x="80" y="161" text-anchor="middle" font-size="9" fill="#555">Procaryotes · bipartition</text>
+        <text x="80" y="174" text-anchor="middle" font-size="9" fill="#555">E. Coli · Coques</text>
+        <line x1="150" y1="155" x2="237" y2="122" stroke="#2E7D32" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <rect x="450" y="18" width="140" height="54" rx="8" fill="#f3e5f5" stroke="#4A148C" stroke-width="2"/>
+        <text x="520" y="36" text-anchor="middle" font-size="11" font-weight="700" fill="#4A148C">🍄 Champignons</text>
+        <text x="520" y="51" text-anchor="middle" font-size="9" fill="#555">Eucaryotes hétérotrophes</text>
+        <text x="520" y="64" text-anchor="middle" font-size="9" fill="#555">Levure · Moisissures</text>
+        <line x1="450" y1="45" x2="363" y2="85" stroke="#4A148C" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <rect x="450" y="128" width="140" height="54" rx="8" fill="#ffebee" stroke="#B71C1C" stroke-width="2"/>
+        <text x="520" y="146" text-anchor="middle" font-size="11" font-weight="700" fill="#B71C1C">🔬 Virus</text>
+        <text x="520" y="161" text-anchor="middle" font-size="9" fill="#555">Acellulaires</text>
+        <text x="520" y="174" text-anchor="middle" font-size="9" fill="#555">Capsule + mat. génétique</text>
+        <line x1="450" y1="155" x2="363" y2="122" stroke="#B71C1C" stroke-width="1.5" stroke-dasharray="4,2"/>
+      </svg>
+    </div>
+  </div>
+  <div class="accord-item">
+    <div class="accord-head" onclick="toggleAccord(this)">🦠 Protozoaires <span class="accord-arrow">▼</span></div>
+    <div class="accord-body">Eucaryotes unicellulaires (noyau entouré d'une membrane). <strong>Paramécie</strong> : inoffensive, cils vibratiles, eaux stagnantes. <strong>Amibe dysentérique</strong> : pathogène, pseudopodes, s'enkyste → dysentérie amibienne par ingestion de kystes dans l'eau souillée.</div>
+  </div>
+  <div class="accord-item">
+    <div class="accord-head" onclick="toggleAccord(this)">🧫 Bactéries <span class="accord-arrow">▼</span></div>
+    <div class="accord-body">Cellules <strong>procaryotes</strong> (pas de noyau délimité). Formes : bacilles (bâtonnets), coques (sphériques), spiralées. Multiplication par <strong>bipartition</strong> toutes les 20 min : N = 2ⁿ. Bactéries lactiques → yaourt. Bactéries du sol → minéralisation. Certaines pathogènes (BK, bacille tétanique, staphylocoque).</div>
+  </div>
+  <div class="accord-item">
+    <div class="accord-head" onclick="toggleAccord(this)">🍄 Champignons microscopiques <span class="accord-arrow">▼</span></div>
+    <div class="accord-body">Eucaryotes hétérotrophes (pas de photosynthèse). <strong>Unicellulaires</strong> : levure de bière (bourgeonnement, 6–10 μm, pain/vin). <strong>Filamenteux</strong> : mycélium + sporanges. Pénicillium → pénicilline ✅ · Trichophyton → teigne ❌ · Phytophtora → mildiou ❌.</div>
+  </div>
+  <div class="accord-item">
+    <div class="accord-head" onclick="toggleAccord(this)">🔬 Virus <span class="accord-arrow">▼</span></div>
+    <div class="accord-body">Particules <strong>acellulaires</strong> : matériel génétique + capsule, pas de cytoplasme. Observable uniquement au MEB. <strong>Parasites intracellulaires obligatoires</strong> : inertes hors cellule, actifs dans la cellule hôte. Tailles : VIH 100 nm · Grippe 150 nm · Variole 240 nm. Les antibiotiques sont <strong>inefficaces</strong> contre les virus.</div>
+  </div>
+  <div class="accord-item">
+    <div class="accord-head" onclick="toggleAccord(this)">✅❌ Microbes utiles vs pathogènes <span class="accord-arrow">▼</span></div>
+    <div class="accord-body">
+      <div class="compare2">
+        <div class="cbox util"><h4>✅ Microbes utiles</h4>
+          <ul style="margin-left:16px;line-height:1.9;font-size:.88rem">
+            <li>Lactobacilles → yaourt, fromage</li><li>Levure → pain, vin, bière</li>
+            <li>Pénicillium → pénicilline</li><li>Bactéries du sol → minéralisation</li>
+            <li>Bactéries → enzymes, vaccins, hormones</li>
+          </ul>
+        </div>
+        <div class="cbox path"><h4>❌ Microbes pathogènes</h4>
+          <ul style="margin-left:16px;line-height:1.9;font-size:.88rem">
+            <li>Amibe → dysentérie amibienne</li><li>BK → tuberculose</li>
+            <li>Bacille tétanique → tétanos</li><li>Trichophyton → teigne</li>
+            <li>VIH → SIDA</li><li>Virus grippe → grippe</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FLASHCARDS ═══ -->
+<div class="panel" id="panel-3">
+  <h2 style="margin-bottom:16px">🃏 Flashcards — Choix multiple</h2>
+  <div class="fc-actions">
+    <button class="btn btn-bleu" onclick="verifierFC()">✓ Vérifier tout</button>
+    <button class="btn btn-grey" onclick="resetFC()">↺ Recommencer</button>
+    <span id="fc-score" style="display:none;padding:10px 16px;border-radius:8px;font-weight:700"></span>
+  </div>
+  <div class="fc-grid" id="fc-container"></div>
+</div>
+
+<!-- ═══ QCM ═══ -->
+<div class="panel" id="panel-4">
+  <h2 style="margin-bottom:8px">✏️ QCM Format CAPES</h2>
+  <p style="margin-bottom:16px;font-size:.88rem;color:var(--text-muted)">Plusieurs réponses correctes possibles par question.</p>
+  <div id="qcm-container"></div>
+  <div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap">
+    <button class="btn btn-bleu" onclick="corrigerQCM()">✓ Corriger</button>
+    <button class="btn btn-grey" onclick="resetQCM()">↺ Recommencer</button>
+  </div>
+  <div id="qcm-result"></div>
+</div>
+
+<!-- ═══ EXERCICES DU MANUEL ═══ -->
+<div class="panel" id="panel-5">
+  <h2 style="margin-bottom:20px">📝 Exercices — D'après le manuel (p.104–106)</h2>
+
+  <!-- Exercice 1 : Bipartition -->
+  <div class="exo-manuel">
+    <h3>📘 Exercice 1 — La bipartition bactérienne (p.104)</h3>
+    <div class="contexte">
+      Les bactéries se divisent toutes les <strong>20 minutes</strong> si le milieu est favorable. Au départ, il y a 1 bactérie dans une culture. La formule du nombre de bactéries après n divisions est : <strong>N = 2ⁿ</strong>.
+    </div>
+    <div class="exo-q" id="exo-man1-q">
+      <p>1. Au bout d'1 heure (soit 3 divisions de 20 min chacune), le nombre de bactéries est :<br>
+      N = 2³ = <select class="blank" data-rep="8"><option value="">—</option><option>4</option><option>6</option><option>8</option><option>16</option></select> bactéries.</p>
+      <p>2. La formule mathématique correcte pour n divisions est :<br>
+      N = <select class="blank" data-rep="2ⁿ"><option value="">—</option><option>2×n</option><option>n²</option><option>2ⁿ</option><option>n×20</option></select>.</p>
+      <p>3. Sur la courbe de croissance, les divisions se ralentissent à partir du temps T₁ car :<br>
+      <select class="blank" data-rep="les ressources alimentaires du milieu s'épuisent"><option value="">—</option><option>les bactéries deviennent plus grosses</option><option>les ressources alimentaires du milieu s'épuisent</option><option>il fait trop chaud</option><option>les bactéries mutent</option></select>.</p>
+      <p>4. Sur la courbe, la phase où les divisions sont les plus rapides est appelée phase :<br>
+      <select class="blank" data-rep="exponentielle"><option value="">—</option><option>de latence</option><option>exponentielle</option><option>de déclin</option><option>stationnaire</option></select>. Elle correspond à un milieu <select class="blank" data-rep="riche en nutriments"><option value="">—</option><option>épuisé</option><option>riche en nutriments</option><option>trop acide</option></select>.</p>
+    </div>
+    <button class="btn-exo" onclick="checkExo('exo-man1')">✓ Vérifier</button>
+    <button class="btn-reset-exo" onclick="resetExo('exo-man1')">↺ Réinitialiser</button>
+    <div class="exo-feedback" id="exo-man1-fb"></div>
+  </div>
+
+  <!-- Exercice 2 : Virus vs Bactérie -->
+  <div class="exo-manuel">
+    <h3>📘 Exercice 2 — Comparaison virus / bactérie (p.105)</h3>
+    <div class="contexte">
+      Deux schémas observés au microscope électronique : <strong>Document 1</strong> = deux éléments (capsule + matériel génétique). <strong>Document 2</strong> = quatre éléments (cytoplasme, matériel génétique, membrane cytoplasmique, paroi).
+    </div>
+    <div class="exo-q" id="exo-man2-q">
+      <p>1. Le Document 1 représente un <select class="blank" data-rep="virus"><option value="">—</option><option>virus</option><option>bactérie</option><option>protozoaire</option></select>. Ses deux composants sont la <select class="blank" data-rep="capsule"><option value="">—</option><option>paroi</option><option>capsule</option><option>membrane</option></select> et le <select class="blank" data-rep="matériel génétique"><option value="">—</option><option>cytoplasme</option><option>noyau</option><option>matériel génétique</option></select>.</p>
+      <p>2. Le Document 2 représente une <select class="blank" data-rep="bactérie"><option value="">—</option><option>virus</option><option>bactérie</option><option>levure</option></select>. C'est une cellule <select class="blank" data-rep="procaryote"><option value="">—</option><option>eucaryote</option><option>acellulaire</option><option>procaryote</option></select> car son matériel génétique est <select class="blank" data-rep="libre dans le cytoplasme, sans membrane nucléaire"><option value="">—</option><option>entouré d'une membrane nucléaire</option><option>libre dans le cytoplasme, sans membrane nucléaire</option><option>absent</option></select>.</p>
+      <p>3. La principale différence entre un virus et une bactérie est que le virus :<br>
+      <select class="blank" data-rep="n'a pas d'organisation cellulaire (acellulaire)"><option value="">—</option><option>est plus petit que la bactérie</option><option>n'a pas d'organisation cellulaire (acellulaire)</option><option>ne possède pas de matériel génétique</option></select>.</p>
+    </div>
+    <button class="btn-exo" onclick="checkExo('exo-man2')">✓ Vérifier</button>
+    <button class="btn-reset-exo" onclick="resetExo('exo-man2')">↺ Réinitialiser</button>
+    <div class="exo-feedback" id="exo-man2-fb"></div>
+  </div>
+
+  <!-- Exercice 3 : Corriger les phrases -->
+  <div class="exo-manuel">
+    <h3>📘 Exercice 3 — Corriger les phrases fausses (p.106)</h3>
+    <div class="contexte">Chaque phrase contient une erreur. Trouve la bonne réponse.</div>
+    <div class="exo-q" id="exo-man3-q">
+      <p>1. "La paramécie est un protozoaire qui vit dans <strong>la mer</strong>." → La paramécie vit en réalité dans :<br>
+      <select class="blank" data-rep="les eaux stagnantes (mares, étangs)"><option value="">—</option><option>la mer</option><option>les eaux stagnantes (mares, étangs)</option><option>le sol</option><option>l'intestin humain</option></select>.</p>
+      <p>2. "La cellule du colibacille (E. Coli) comporte un <strong>noyau délimité par une membrane</strong>." → E. Coli est en réalité une bactérie :<br>
+      <select class="blank" data-rep="procaryote : son matériel génétique est libre dans le cytoplasme"><option value="">—</option><option>eucaryote : son noyau est bien délimité</option><option>procaryote : son matériel génétique est libre dans le cytoplasme</option><option>acellulaire : elle n'a pas de cytoplasme</option></select>.</p>
+      <p>3. "La levure de bière est une <strong>bactérie</strong>." → La levure de bière est en réalité :<br>
+      <select class="blank" data-rep="un champignon unicellulaire (eucaryote)"><option value="">—</option><option>un virus</option><option>un protozoaire</option><option>un champignon unicellulaire (eucaryote)</option></select>.</p>
+      <p>4. "Un virus a une <strong>structure cellulaire</strong> et peut se reproduire <strong>de manière autonome</strong>." → En réalité, un virus :<br>
+      <select class="blank" data-rep="est acellulaire et ne peut se reproduire que dans une cellule hôte"><option value="">—</option><option>est unicellulaire mais ne peut se reproduire que dans une cellule hôte</option><option>est acellulaire et ne peut se reproduire que dans une cellule hôte</option><option>est acellulaire mais peut se reproduire seul dans un milieu nutritif</option></select>.</p>
+    </div>
+    <button class="btn-exo" onclick="checkExo('exo-man3')">✓ Vérifier</button>
+    <button class="btn-reset-exo" onclick="resetExo('exo-man3')">↺ Réinitialiser</button>
+    <div class="exo-feedback" id="exo-man3-fb"></div>
+  </div>
+
+  <!-- Exercice 4 : Identification -->
+  <div class="exo-manuel">
+    <h3>📘 Exercice 4 — Identifier les microbes et calculer (p.106)</h3>
+    <div class="contexte">
+      Trois photographies de microbes (A, B×600, C) sont observées au microscope. Le microbe B mesure <strong>3 cm sur la photo</strong> au grossissement ×600. Le microbe A a une longueur réelle de <strong>2 μm</strong>.
+    </div>
+    <div class="exo-q" id="exo-man4-q">
+      <p>1. Un microbe observé sous forme de grappes de coques est un :<br>
+      <select class="blank" data-rep="staphylocoque"><option value="">—</option><option>streptocoque</option><option>diplocoque</option><option>staphylocoque</option><option>lactobacille</option></select>.</p>
+      <p>2. La taille réelle du microbe B (photo = 3 cm = 30 000 μm au grossissement ×600) est :<br>
+      Taille réelle = Taille observée ÷ Grossissement = 30 000 ÷ 600 = <select class="blank" data-rep="50 μm"><option value="">—</option><option>5 μm</option><option>50 μm</option><option>500 μm</option><option>0,05 μm</option></select>. C'est probablement un <select class="blank" data-rep="protozoaire (paramécie ou amibe)"><option value="">—</option><option>virus</option><option>bactérie</option><option>protozoaire (paramécie ou amibe)</option></select>.</p>
+      <p>3. Le grossissement utilisé pour observer le microbe A (taille réelle = 2 μm, taille sur la photo = 1 cm = 10 000 μm) est :<br>
+      Grossissement = 10 000 ÷ 2 = <select class="blank" data-rep="× 5000"><option value="">—</option><option>× 200</option><option>× 1000</option><option>× 5000</option><option>× 10000</option></select>. Ce fort grossissement suggère que ce microbe est une <select class="blank" data-rep="bactérie (observable au microscope optique fort grossissement)"><option value="">—</option><option>paramécie</option><option>bactérie (observable au microscope optique fort grossissement)</option><option>levure</option></select>.</p>
+    </div>
+    <button class="btn-exo" onclick="checkExo('exo-man4')">✓ Vérifier</button>
+    <button class="btn-reset-exo" onclick="resetExo('exo-man4')">↺ Réinitialiser</button>
+    <div class="exo-feedback" id="exo-man4-fb"></div>
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<script>
+// TABS
+const panels=document.querySelectorAll('.panel'),tabs=document.querySelectorAll('.tab');
+const prog=document.getElementById('progFill');
+let visited=new Set([0]);
+function showTab(n){
+  panels.forEach(p=>p.classList.remove('active'));tabs.forEach(t=>t.classList.remove('active'));
+  panels[n].classList.add('active');tabs[n].classList.add('active');
+  visited.add(n);prog.style.width=Math.round(visited.size/tabs.length*100)+'%';
+  localStorage.setItem('p2ch1_tab',n);window.scrollTo({top:0,behavior:'smooth'});
+}
+const sv=localStorage.getItem('p2ch1_tab');if(sv)showTab(parseInt(sv));
+
+// SOUS-ONGLETS
+function showSubTab(act,sub){
+  document.querySelectorAll(`#panel-${act} > .subtabs-wrap + .subpanel, #panel-${act} .subpanel`).forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll(`#panel-${act} .subtab`).forEach(b=>b.classList.remove('active'));
+  document.getElementById(`sub-${act}-${sub}`).classList.add('active');
+  document.querySelectorAll(`#panel-${act} .subtab`)[sub].classList.add('active');
+}
+
+// ACCORDEONS
+function toggleAccord(head){
+  const body=head.nextElementSibling,isOpen=body.classList.contains('open');
+  document.querySelectorAll('.accord-body').forEach(b=>b.classList.remove('open'));
+  document.querySelectorAll('.accord-head').forEach(h=>h.classList.remove('open'));
+  if(!isOpen){body.classList.add('open');head.classList.add('open');}
+}
+function toggleSSAccord(head){
+  const body=head.nextElementSibling,isOpen=body.classList.contains('open');
+  body.classList.toggle('open',!isOpen);head.classList.toggle('open',!isOpen);
+}
+
+// EXERCICES
+function checkExo(id){
+  const selects=document.querySelectorAll(`#${id}-q select.blank`);
+  let ok=0,total=selects.length;
+  selects.forEach(s=>{
+    s.classList.remove('ok','ko');
+    if(s.value===s.dataset.rep){s.classList.add('ok');ok++;}
+    else s.classList.add('ko');
+  });
+  const fb=document.getElementById(`${id}-fb`);
+  fb.className='exo-feedback '+(ok===total?'ok':'ko');
+  fb.textContent=ok===total?`✅ Parfait ! ${ok}/${total} bonnes réponses.`:`❌ ${ok}/${total} — Revois les réponses en rouge.`;
+}
+function resetExo(id){
+  document.querySelectorAll(`#${id}-q select.blank`).forEach(s=>{s.value='';s.classList.remove('ok','ko');});
+  const fb=document.getElementById(`${id}-fb`);fb.className='exo-feedback';fb.textContent='';
+}
+
+// FLASHCARDS
+const flashcards=[
+  {p:"Les protozoaires sont des organismes [eucaryotes] car leur noyau est entouré d'une [membrane nucléaire].",t:[{rep:"eucaryotes",opts:["procaryotes","acellulaires","eucaryotes"]},{rep:"membrane nucléaire",opts:["paroi cellulaire","capsule","membrane nucléaire"]}]},
+  {p:"La paramécie se déplace grâce à ses [cils vibratiles] et est [inoffensive] pour l'homme.",t:[{rep:"cils vibratiles",opts:["pseudopodes","flagelles","cils vibratiles"]},{rep:"inoffensive",opts:["pathogène","parasite","inoffensive"]}]},
+  {p:"L'amibe peut former des [kystes] résistants. Ingérés avec l'eau souillée, ils causent la [dysentérie amibienne].",t:[{rep:"kystes",opts:["spores","capsules","kystes"]},{rep:"dysentérie amibienne",opts:["méningite","teigne","dysentérie amibienne"]}]},
+  {p:"Une bactérie est dite [procaryote] car son ADN baigne librement dans le [cytoplasme] sans membrane.",t:[{rep:"procaryote",opts:["eucaryote","acellulaire","procaryote"]},{rep:"cytoplasme",opts:["noyau","vacuole","cytoplasme"]}]},
+  {p:"E. Coli se divise par [bipartition] toutes les 20 min. Formule : N = [2ⁿ].",t:[{rep:"bipartition",opts:["bourgeonnement","sporulation","bipartition"]},{rep:"2ⁿ",opts:["n²","2n","2ⁿ"]}]},
+  {p:"Les bactéries du sol réalisent la [minéralisation] : MO → [sels minéraux] + CO₂, utiles aux plantes.",t:[{rep:"minéralisation",opts:["photosynthèse","fermentation","minéralisation"]},{rep:"sels minéraux",opts:["glucose","amidon","sels minéraux"]}]},
+  {p:"La levure de bière est un champignon [unicellulaire] (6–10 μm) qui se multiplie par [bourgeonnement].",t:[{rep:"unicellulaire",opts:["filamenteux","acellulaire","unicellulaire"]},{rep:"bourgeonnement",opts:["bipartition","sporulation","bourgeonnement"]}]},
+  {p:"Le Pénicillium notatum produit la [pénicilline], un [antibiotique] qui tue les bactéries.",t:[{rep:"pénicilline",opts:["insuline","vaccin","pénicilline"]},{rep:"antibiotique",opts:["hormone","antiseptique","antibiotique"]}]},
+  {p:"Les champignons filamenteux sont formés de [mycélium] (filaments) et de [sporanges] (boîtes à spores).",t:[{rep:"mycélium",opts:["cils vibratiles","flagelles","mycélium"]},{rep:"sporanges",opts:["vacuoles","noyaux","sporanges"]}]},
+  {p:"Un virus est [acellulaire] : il n'a pas de cytoplasme, juste un matériel génétique + une [capsule].",t:[{rep:"acellulaire",opts:["unicellulaire","procaryote","acellulaire"]},{rep:"capsule",opts:["paroi","membrane","capsule"]}]},
+  {p:"Un virus est un [parasite intracellulaire obligatoire] : il ne se multiplie qu'à l'intérieur d'une [cellule hôte].",t:[{rep:"parasite intracellulaire obligatoire",opts:["organisme libre","parasite extracellulaire","parasite intracellulaire obligatoire"]},{rep:"cellule hôte",opts:["milieu nutritif","sol","cellule hôte"]}]},
+  {p:"Les antibiotiques sont [inefficaces] contre les virus car ils ciblent les [bactéries], pas les virus.",t:[{rep:"inefficaces",opts:["très efficaces","inefficaces","partiellement efficaces"]},{rep:"bactéries",opts:["virus","champignons","bactéries"]}]},
+];
+
+function shuffle(arr){return arr.slice().sort(()=>Math.random()-.5);}
+function buildFC(){
+  const c=document.getElementById('fc-container');c.innerHTML='';
+  flashcards.forEach(fc=>{
+    let html=fc.p;
+    fc.t.forEach(trou=>{
+      const opts=shuffle(trou.opts);
+      const options=opts.map(o=>`<option value="${o}">${o}</option>`).join('');
+      html=html.replace(`[${trou.rep}]`,`<select class="fc-select" data-ans="${trou.rep}"><option value="">—</option>${options}</select>`);
+    });
+    c.innerHTML+=`<div class="fc-card"><div class="fc-phrase">${html}</div></div>`;
+  });
+}
+function verifierFC(){
+  const inputs=document.querySelectorAll('.fc-select');
+  let ok=0,total=inputs.length;
+  inputs.forEach(inp=>{
+    inp.classList.toggle('ok',inp.value===inp.dataset.ans);
+    inp.classList.toggle('ko',inp.value!==inp.dataset.ans||inp.value==='');
+    if(inp.value===inp.dataset.ans)ok++;
+  });
+  const sc=document.getElementById('fc-score');
+  sc.style.display='inline-block';
+  sc.textContent=`Score : ${ok}/${total} (${Math.round(ok/total*100)}%)`;
+  sc.style.background=ok===total?'#e8f5e9':ok>=total*.7?'#fff8e1':'#ffebee';
+}
+function resetFC(){
+  document.querySelectorAll('.fc-select').forEach(i=>{i.value='';i.classList.remove('ok','ko');});
+  document.getElementById('fc-score').style.display='none';
+}
+
+// QCM
+const qcm=[
+  {q:"1. Quels organismes sont des eucaryotes ?",opts:["A. Bactéries","B. Protozoaires","C. Champignons microscopiques","D. Virus"],rep:[1,2]},
+  {q:"2. La paramécie est caractérisée par :",opts:["A. Des pseudopodes pour se déplacer","B. Des cils vibratiles pour se déplacer","C. Un caractère inoffensif pour l'homme","D. Une vacuole pulsatile pour l'excrétion"],rep:[1,2,3]},
+  {q:"3. La bactérie E. Coli est procaryote car :",opts:["A. Son noyau est entouré d'une membrane","B. Son matériel génétique baigne dans le cytoplasme","C. Elle n'a pas de vrai noyau délimité","D. Elle est acellulaire"],rep:[1,2]},
+  {q:"4. La bipartition bactérienne donne après n = 4 divisions :",opts:["A. 4 bactéries","B. 8 bactéries","C. 16 bactéries (2⁴)","D. 32 bactéries"],rep:[2]},
+  {q:"5. Quels champignons microscopiques sont utiles à l'homme ?",opts:["A. Levure de bière (pain, vin)","B. Pénicillium notatum (pénicilline)","C. Trichophyton (teigne)","D. Phytophtora (mildiou)"],rep:[0,1]},
+  {q:"6. Un virus est qualifié de parasite intracellulaire obligatoire car :",opts:["A. Il est inerte en dehors d'une cellule","B. Il ne se reproduit que dans une cellule hôte","C. Il possède un cytoplasme","D. Les antibiotiques le tuent facilement"],rep:[0,1]},
+  {q:"7. Quelle est la structure d'un virus ?",opts:["A. Cytoplasme + noyau + membrane","B. Matériel génétique + capsule protéique","C. Paroi + membrane cytoplasmique + cytoplasme","D. Mycélium + sporanges"],rep:[1]},
+  {q:"8. Les bactéries du sol réalisent la minéralisation : elles transforment :",opts:["A. La matière organique en sels minéraux et CO₂","B. Les sels minéraux en matière organique","C. Le CO₂ en glucose par photosynthèse","D. Les déchets en éléments utiles aux plantes"],rep:[0,3]},
+  {q:"9. Quelles maladies sont causées par des bactéries ?",opts:["A. Méningite (méningocoque)","B. SIDA (VIH)","C. Tétanos (bacille tétanique)","D. Teigne (trichophyton)"],rep:[0,2]},
+  {q:"10. Quelle affirmation sur les bactéries lactiques est correcte ?",opts:["A. Les lactobacilles sont en forme de chaînettes","B. Les streptocoques sont en forme de bâtonnets","C. Elles transforment le lait en yaourt par fermentation lactique","D. Elles sont pathogènes pour l'homme"],rep:[2]},
+];
+
+function buildQCM(){
+  const c=document.getElementById('qcm-container');c.innerHTML='';
+  qcm.forEach((q,i)=>{
+    const opts=q.opts.map((o,j)=>`<label class="qcm-opt" id="opt-${i}-${j}"><input type="checkbox" data-q="${i}" data-o="${j}"> ${o}</label>`).join('');
+    c.innerHTML+=`<div class="qcm-item"><div class="qcm-q">${q.q}</div>${opts}</div>`;
+  });
+}
+function corrigerQCM(){
+  let score=0;
+  qcm.forEach((q,i)=>{
+    let correct=true;
+    q.opts.forEach((_,j)=>{
+      const el=document.getElementById(`opt-${i}-${j}`),inp=el.querySelector('input');
+      const checked=inp.checked,should=q.rep.includes(j);
+      el.classList.remove('correct','wrong');
+      if(should){el.classList.add('correct');if(!checked)correct=false;}
+      else if(checked){el.classList.add('wrong');correct=false;}
+    });
+    if(correct)score++;
+  });
+  const r=document.getElementById('qcm-result'),pct=Math.round(score/qcm.length*100);
+  r.style.display='block';
+  r.style.background=pct>=80?'#e8f5e9':pct>=50?'#fff8e1':'#ffebee';
+  r.style.color=pct>=80?'#2E7D32':pct>=50?'#E65100':'#c62828';
+  r.textContent=`Score : ${score}/10 (${pct}%) — ${pct>=80?'Excellent ✅':pct>=50?'Bien 👍':'À retravailler 📖'}`;
+}
+function resetQCM(){
+  document.querySelectorAll('.qcm-opt').forEach(el=>{el.classList.remove('correct','wrong');el.querySelector('input').checked=false;});
+  document.getElementById('qcm-result').style.display='none';
+}
+
+document.addEventListener('DOMContentLoaded',()=>{buildFC();buildQCM();});
+</script>
+</body>
+</html>
