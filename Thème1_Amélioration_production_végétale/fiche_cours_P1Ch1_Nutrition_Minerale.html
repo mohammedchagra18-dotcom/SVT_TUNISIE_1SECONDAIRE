@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P1-Ch1 — Nutrition Minérale</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --v:#1B5E20;--vm:#2E7D32;--vl:#e8f5e9;--vp:#f4faf5;
+  --b:#1565C0;--bl:#e3f2fd;
+  --e:#0288D1;--el:#e1f5fe;
+  --o:#E65100;--ol:#fff3e0;
+  --j:#F9A825;--jl:#fffde7;
+  --r:#B71C1C;--rl:#ffebee;
+  --t:#00695C;--tl:#e0f2f1;
+  --vi:#4A148C;--vil:#f3e5f5;
+  --bg:#f4faf5;--tx:#1a1a1a;--mu:#666;
+  --br:#c8e6c9;--sh:0 2px 12px rgba(0,0,0,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--tx);font-size:15px;line-height:1.6;}
+header{background:linear-gradient(135deg,#1B5E20,#2E7D32 50%,#0288D1);color:#fff;padding:18px 26px 13px;position:sticky;top:0;z-index:100;box-shadow:0 3px 16px rgba(0,0,0,.3);}
+header h1{font-family:'Playfair Display',serif;font-size:1.35rem;margin-bottom:2px;}
+header p{font-size:.8rem;opacity:.85;}
+.pb{height:4px;background:rgba(255,255,255,.3);border-radius:2px;margin-top:8px;}
+.pf{height:100%;background:#A5D6A7;border-radius:2px;transition:width .4s;width:9%;}
+.tw{background:#fff;border-bottom:2px solid var(--br);position:sticky;top:86px;z-index:99;overflow-x:auto;}
+.ts{display:flex;min-width:max-content;}
+.t{padding:10px 11px;font-size:.73rem;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:var(--mu);white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;transition:all .2s;}
+.t:hover{color:var(--vm);background:var(--vl);}
+.t.on{color:var(--vm);border-bottom-color:var(--vm);}
+.content{max-width:960px;margin:0 auto;padding:18px 18px 60px;}
+.pan{display:none;}.pan.on{display:block;}
+
+/* CARDS */
+.card{background:#fff;border-radius:12px;padding:18px;margin-bottom:13px;box-shadow:var(--sh);border-left:5px solid var(--vm);}
+.card.b{border-left-color:var(--b);}.card.e{border-left-color:var(--e);}
+.card.o{border-left-color:var(--o);}.card.t{border-left-color:var(--t);}
+.card.r{border-left-color:var(--r);}
+h2{font-family:'Playfair Display',serif;font-size:1.08rem;margin-bottom:9px;color:var(--vm);}
+h2.b{color:var(--b);}h2.e{color:var(--e);}h2.o{color:var(--o);}h2.t{color:var(--t);}
+h3{font-size:.9rem;font-weight:700;margin:9px 0 5px;}
+
+/* SECTION HEADER — titre d'activité */
+.sech{color:#fff;padding:10px 15px;border-radius:10px;font-weight:600;margin-bottom:12px;font-size:.88rem;}
+.sech.v{background:linear-gradient(135deg,#1B5E20,#2E7D32);}
+.sech.b{background:linear-gradient(135deg,#0D47A1,#1565C0);}
+.sech.e{background:linear-gradient(135deg,#01579B,#0288D1);}
+.sech.o{background:linear-gradient(135deg,#BF360C,#E65100);}
+.sech.t{background:linear-gradient(135deg,#004D40,#00695C);}
+
+/* TIP — le tuteur parle */
+.tip{background:#fffbea;border:1.5px solid var(--j);border-radius:10px;margin:8px 0;overflow:hidden;}
+.tip-head{padding:8px 13px;cursor:pointer;display:flex;gap:8px;align-items:center;font-size:.86rem;font-weight:600;color:#7B5800;}
+.tip-head:hover{background:#fff8d6;}
+.tip-body{display:none;padding:10px 13px 12px;font-size:.85rem;line-height:1.7;color:#4a3800;border-top:1px solid #ffe082;}
+.tip-body.on{display:block;}
+
+/* DONNÉES — blocs de données compacts */
+.data{background:#fff;border:1px solid var(--br);border-radius:10px;margin:8px 0;overflow:hidden;}
+.data-head{padding:8px 13px;background:var(--vl);font-size:.87rem;font-weight:700;color:var(--vm);display:flex;justify-content:space-between;align-items:center;cursor:pointer;}
+.data-head.b{background:var(--bl);color:var(--b);}
+.data-head.e{background:var(--el);color:var(--e);}
+.data-head.o{background:var(--ol);color:var(--o);}
+.data-head.t{background:var(--tl);color:var(--t);}
+.data-body{display:none;padding:12px 13px;font-size:.86rem;}
+.data-body.on{display:block;}
+.darr{font-size:.85rem;transition:transform .3s;}
+.data-head.op .darr{transform:rotate(180deg);}
+
+/* MINI-QUIZ intégré dans les activités */
+.mq{background:linear-gradient(135deg,#f0e6ff,var(--vl));border:2px solid var(--vi);border-radius:10px;padding:13px;margin:10px 0;}
+.mq-title{font-weight:700;color:var(--vi);font-size:.82rem;letter-spacing:.8px;text-transform:uppercase;margin-bottom:9px;}
+.mq p{margin-bottom:7px;font-size:.88rem;line-height:1.85;}
+select.bl{border:2px solid var(--vi);border-radius:5px;padding:2px 6px;font-size:.84rem;background:#fff;cursor:pointer;color:var(--vi);font-weight:600;}
+select.bl.ok{border-color:#4CAF50;background:#e8f5e9;color:#2E7D32;}
+select.bl.ko{border-color:#f44336;background:#ffebee;color:#c62828;}
+.mq-fb{font-size:.82rem;padding:6px 10px;border-radius:7px;margin-top:7px;font-weight:600;display:none;}
+.mq-fb.ok{background:#e8f5e9;color:#2E7D32;display:block;}
+.mq-fb.ko{background:#ffebee;color:#c62828;display:block;}
+.bck{background:var(--vi);color:#fff;border:none;padding:6px 13px;border-radius:7px;cursor:pointer;font-weight:700;font-size:.8rem;margin-top:8px;}
+.bck:hover{background:#6A1B9A;}
+.brs{background:var(--br);color:var(--tx);border:none;padding:6px 11px;border-radius:7px;cursor:pointer;font-size:.8rem;margin-top:8px;margin-left:5px;}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse;margin:7px 0;font-size:.83rem;}
+th{background:var(--vm);color:#fff;padding:7px 9px;text-align:left;}
+th.b{background:var(--b);}th.e{background:var(--e);}th.o{background:var(--o);}th.t{background:var(--t);}th.r{background:var(--r);}
+td{padding:6px 9px;border-bottom:1px solid var(--br);}
+tr:nth-child(even) td{background:var(--vp);}
+
+/* HIGHLIGHT ROW */
+tr.hl td{background:#e8f5e9 !important;font-weight:700;}
+tr.hl-r td{background:#ffebee !important;}
+
+/* GRAPHBOX */
+.gb{background:#fafafa;border:1px solid var(--br);border-radius:9px;padding:10px;margin:9px 0;text-align:center;}
+.gb canvas{max-width:100%;}
+.gb figcaption{font-size:.74rem;color:var(--mu);margin-top:4px;font-style:italic;}
+
+/* GRADIENT BARRE pression osmotique */
+.grad{display:flex;align-items:stretch;border-radius:9px;overflow:hidden;margin:9px 0;border:1px solid var(--br);}
+.gc{flex:1;padding:8px 5px;text-align:center;font-size:.83rem;}
+.gc .atm{font-size:1rem;font-weight:700;}
+.gc .lb{font-size:.72rem;margin-top:2px;}
+.garr{display:flex;align-items:center;color:#0288D1;font-weight:700;font-size:1.1rem;padding:0 3px;}
+
+/* BILAN */
+.bstep{background:#fff;border-radius:11px;padding:14px;margin-bottom:10px;box-shadow:var(--sh);border-top:4px solid var(--vm);}
+.bstep.b{border-top-color:var(--b);}
+.bstep.e{border-top-color:var(--e);}
+.bstep.o{border-top-color:var(--o);}
+.bstep.t{border-top-color:var(--t);}
+.bnum{display:inline-flex;align-items:center;justify-content:center;background:var(--vm);color:#fff;border-radius:50%;width:26px;height:26px;font-weight:700;font-size:.88rem;margin-right:8px;flex-shrink:0;}
+.bnum.b{background:var(--b);}
+.bnum.e{background:var(--e);}
+.bnum.o{background:var(--o);}
+.bnum.t{background:var(--t);}
+.btxt{font-size:.87rem;line-height:1.7;}
+
+/* CARENCE BOXES */
+.cr3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:9px 0;}
+.cr6{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:9px 0;}
+.crb{border-radius:9px;padding:10px;text-align:center;border:2px solid;}
+.crb .val{font-size:1.3rem;font-weight:700;margin-bottom:2px;}
+.crb .sym{font-size:.75rem;color:var(--mu);}
+
+/* STOMATE */
+.stm{background:#f0faf0;border:2px solid var(--vm);border-radius:11px;padding:12px;margin:9px 0;text-align:center;}
+.stm-btns{display:flex;gap:9px;justify-content:center;margin-bottom:10px;}
+.stmbtn{padding:6px 16px;border-radius:20px;border:2px solid var(--vm);background:#fff;color:var(--vm);font-weight:700;font-size:.82rem;cursor:pointer;}
+.stmbtn.on{background:var(--vm);color:#fff;}
+
+/* QCM */
+.qi{background:#fff;border-radius:10px;padding:13px;margin-bottom:10px;box-shadow:var(--sh);}
+.qq{font-weight:600;margin-bottom:8px;font-size:.89rem;}
+.qo{display:flex;align-items:flex-start;gap:8px;padding:6px 8px;border-radius:6px;margin-bottom:4px;cursor:pointer;font-size:.86rem;border:1.5px solid transparent;transition:background .15s;}
+.qo:hover:not(.locked){background:var(--vl);}
+.qo input{accent-color:var(--vm);margin-top:3px;flex-shrink:0;}
+.qo.correct{background:#e8f5e9;border-color:#4CAF50;}
+.qo.wrong{background:#ffebee;border-color:#f44336;}
+.qo.missed{background:#fff8e1;border-color:#FF9800;}
+.fb-txt{font-size:.8rem;margin-top:3px;display:none;line-height:1.5;}
+.qo.correct .fb-txt,.qo.wrong .fb-txt,.qo.missed .fb-txt{display:block;}
+.qo.correct .fb-txt{color:#2E7D32;}
+.qo.wrong .fb-txt{color:#c62828;}
+.qo.missed .fb-txt{color:#E65100;}
+#qr{font-size:.98rem;font-weight:700;padding:10px 15px;border-radius:10px;margin-top:10px;text-align:center;display:none;}
+
+/* FC */
+.fcg{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin:10px 0;}
+.fcc{background:#fff;border-radius:9px;padding:12px;box-shadow:var(--sh);border-top:4px solid var(--vm);}
+.fcp{font-size:.87rem;line-height:1.9;margin-bottom:7px;}
+select.fs{border:2px solid var(--vi);border-radius:5px;padding:2px 6px;font-size:.81rem;background:#fff;cursor:pointer;color:var(--vi);font-weight:600;}
+select.fs.ok{border-color:#4CAF50;background:#e8f5e9;color:#2E7D32;}
+select.fs.ko{border-color:#f44336;background:#ffebee;color:#c62828;}
+.fa{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
+.btn{padding:7px 14px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:.83rem;}
+.bv{background:var(--vm);color:#fff;}.bv:hover{background:var(--v);}
+.bg{background:var(--br);color:var(--tx);}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:9px 0;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:8px 0;}
+
+/* AL liste prérequis */
+.al{list-style:none;display:grid;gap:5px;}
+.al li{padding:7px 11px;background:var(--vl);border-radius:7px;border-left:4px solid var(--vm);font-size:.85rem;}
+.al li::before{content:"✓ ";color:var(--vm);font-weight:700;}
+
+/* RET - retenons */
+.ret{background:var(--jl);border:1.5px solid var(--j);border-radius:9px;padding:10px 13px;margin:10px 0;}
+.ret h4{color:var(--o);font-size:.73rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.ret p{margin-bottom:4px;font-size:.85rem;}
+.ret dt{font-weight:700;color:var(--o);display:inline;}
+.ret dd{display:inline;margin-left:3px;}
+
+/* CB formule */
+.cb{background:#fafafa;border:2px solid var(--b);border-radius:9px;padding:9px 13px;margin:8px 0;text-align:center;}
+.cb .eq{font-size:.95rem;font-weight:700;color:var(--b);font-family:monospace;line-height:2;}
+.cb .nt{font-size:.78rem;color:var(--mu);margin-top:3px;}
+
+/* EXERCICES INTERACTIFS */
+.exo-section{margin-bottom:16px;}
+.exo-section h3{color:var(--t);margin-bottom:10px;font-size:.94rem;padding-bottom:5px;border-bottom:2px solid var(--tl);}
+
+/* Texte a trous */
+.trous{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;box-shadow:var(--sh);border-left:4px solid var(--vi);}
+.trous .ctx{background:var(--vil);border-radius:7px;padding:9px 12px;margin-bottom:10px;font-size:.84rem;line-height:1.6;color:#4a0080;}
+.trous p{margin-bottom:8px;font-size:.88rem;line-height:1.9;}
+
+/* Tableau interactif */
+.tab-exo{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;box-shadow:var(--sh);border-left:4px solid var(--t);}
+.tab-exo .ctx{background:var(--tl);border-radius:7px;padding:9px 12px;margin-bottom:10px;font-size:.84rem;border-left:3px solid var(--t);}
+select.tcell{border:1.5px solid var(--vi);border-radius:4px;padding:2px 5px;font-size:.81rem;background:#fff;cursor:pointer;color:var(--vi);font-weight:600;max-width:160px;}
+select.tcell.ok{border-color:#4CAF50;background:#e8f5e9;color:#2E7D32;}
+select.tcell.ko{border-color:#f44336;background:#ffebee;color:#c62828;}
+
+/* Ordonnancement */
+.ord-exo{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;box-shadow:var(--sh);border-left:4px solid var(--e);}
+.ord-items{display:flex;flex-direction:column;gap:5px;margin:9px 0;}
+.ord-item{padding:8px 12px;background:var(--el);border-radius:7px;cursor:grab;border:2px solid transparent;font-size:.86rem;display:flex;align-items:center;gap:8px;user-select:none;}
+.ord-item:active{cursor:grabbing;}
+.ord-item .drag-handle{color:#aaa;font-size:1rem;}
+.ord-item.correct-pos{background:#e8f5e9;border-color:#4CAF50;}
+.ord-item.wrong-pos{background:#ffebee;border-color:#f44336;}
+.ord-item .pos-num{background:var(--e);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;flex-shrink:0;}
+.ord-item.correct-pos .pos-num{background:#4CAF50;}
+.ord-item.wrong-pos .pos-num{background:#f44336;}
+
+/* Graphe lecture */
+.graphlec{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;box-shadow:var(--sh);border-left:4px solid var(--o);}
+
+/* feedback global */
+.gfb{font-size:.83rem;padding:7px 11px;border-radius:8px;margin-top:8px;font-weight:600;}
+.gfb.ok{background:#e8f5e9;color:#2E7D32;}
+.gfb.ko{background:#ffebee;color:#c62828;}
+
+@media(max-width:600px){
+  .g2,.g3,.cr6,.cr3{grid-template-columns:1fr;}
+  header h1{font-size:.92rem;}
+  .t{padding:8px 5px;font-size:.67rem;}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Chapitre 1 — La Nutrition Minérale</h1>
+  <p>1ère Secondaire SVT · Partie 1 · Pages 8–43 · 6 Activités</p>
+  <div class="pb"><div class="pf" id="pf"></div></div>
+</header>
+<div class="tw"><div class="ts">
+  <button class="t on" onclick="showTab(0)">📚 Acquis</button>
+  <button class="t" onclick="showTab(1)">💧 Act.1 — Absorption</button>
+  <button class="t" onclick="showTab(2)">🔬 Act.2 — Osmose</button>
+  <button class="t" onclick="showTab(3)">🌿 Act.3 — Transpiration</button>
+  <button class="t" onclick="showTab(4)">🧪 Act.4 — Sels minéraux</button>
+  <button class="t" onclick="showTab(5)">🌾 Act.5 — Conduction</button>
+  <button class="t" onclick="showTab(6)">🌱 Act.6 — Production</button>
+  <button class="t" onclick="showTab(7)">📋 Bilan</button>
+  <button class="t" onclick="showTab(8)">🃏 Flashcards</button>
+  <button class="t" onclick="showTab(9)">✏️ QCM</button>
+  <button class="t" onclick="showTab(10)">📝 Exercices</button>
+</div></div>
+<div class="content">
+
+<!-- ══ 0 ACQUIS ══ -->
+<div class="pan on" id="p0">
+  <div class="card"><h2>📚 Acquis du Collège</h2>
+    <ul class="al">
+      <li>Organisation d'une plante : partie aérienne (feuilles, tige, fleurs) + partie souterraine (racines)</li>
+      <li>Absorption de l'eau et des sels minéraux par les racines au niveau des <strong>poils absorbants</strong></li>
+      <li>Eau + sels minéraux = <strong>sève brute</strong> → vaisseaux conducteurs → organes aériens</li>
+      <li>La plante verte <strong>transpire</strong> par les feuilles (stomates)</li>
+      <li>Sol = sable + argile + calcaire + eau + sels minéraux + matières organiques</li>
+    </ul>
+  </div>
+  <div class="card b"><h2 class="b">❓ 4 Questions directrices</h2>
+    <ol style="margin-left:17px;line-height:2.1;font-size:.91rem">
+      <li>Comment la plante prélève-t-elle l'<strong>eau</strong> du sol ?</li>
+      <li>Quels sont ses besoins en <strong>sels minéraux</strong> ?</li>
+      <li>Comment les substances absorbées <strong>circulent</strong>-elles dans la plante ?</li>
+      <li>Comment <strong>améliorer le rendement</strong> par l'irrigation et la fertilisation ?</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ══ 1 ABSORPTION EAU ══ -->
+<div class="pan" id="p1">
+  <div class="sech e">💧 Activité 1 — L'absorption d'eau (p.10–12)</div>
+
+  <div class="card e"><h2 class="e">Les 3 zones de la racine</h2>
+    <table><tr><th class="e">Zone</th><th class="e">Structure</th><th class="e">Rôle</th></tr>
+      <tr class="hl"><td><strong>Zone pilifère ⭐</strong></td><td>Poils absorbants (cellules allongées, 12–15 μm)</td><td><strong>ABSORPTION eau + sels minéraux</strong></td></tr>
+      <tr><td>Zone subéreuse</td><td>Parois subérifiées (imperméables)</td><td>Ancrage · PAS d'absorption</td></tr>
+      <tr><td>Coiffe</td><td>Cellules protectrices à l'apex</td><td>Protection zone de croissance</td></tr>
+    </table>
+    <div class="tip"><div class="tip-head" onclick="togTip(this)">💡 Pourquoi 400 m² de surface d'absorption ?</div>
+      <div class="tip-body">Chez un plant de seigle : <strong>2 000 poils/cm²</strong>, soit 14 milliards au total. La surface totale atteint <strong>400 m²</strong> — l'équivalent d'un terrain de tennis. Cette surface gigantesque maximise les échanges avec le sol. Les poils absorbants ont des parois minces et perméables (contrairement à la zone subéreuse dont les parois imperméables bloquent l'eau).</div>
+    </div>
+    <div class="tip"><div class="tip-head" onclick="togTip(this)">💡 Pourquoi la zone subéreuse n'absorbe-t-elle pas ?</div>
+      <div class="tip-body">Ses parois sont imprégnées de <strong>subérine</strong>, une matière hydrophobe et imperméable (comme le liège). L'eau ne peut pas traverser. C'est pour ça que dans l'expérience de Rosène, le tube E (subéreuse dans l'eau) ne montre pas d'absorption.</div>
+    </div>
+
+    <div class="mq"><div class="mq-title">✏️ Mini-quiz</div>
+      <div id="mq1-q">
+        <p>1. La zone d'absorption de l'eau est la zone <select class="bl" data-rep="pilifère (poils absorbants)"><option value="">—</option><option>subéreuse</option><option>pilifère (poils absorbants)</option><option>de la coiffe</option></select>.</p>
+        <p>2. Chez le seigle, la surface totale d'absorption est d'environ <select class="bl" data-rep="400 m²"><option value="">—</option><option>4 cm²</option><option>400 m²</option><option>4 km²</option></select>.</p>
+        <p>3. La zone subéreuse n'absorbe pas car ses parois sont <select class="bl" data-rep="subérifiées (imperméables)"><option value="">—</option><option>minces et perméables</option><option>subérifiées (imperméables)</option></select>.</p>
+      </div>
+      <button class="bck" onclick="ckMQ('mq1')">✓ Vérifier</button>
+      <button class="brs" onclick="rsMQ('mq1')">↺</button>
+      <div class="mq-fb" id="mq1-fb"></div>
+    </div>
+  </div>
+
+  <div class="card e"><h2 class="e">Expérience de Rosène — Identification de la zone d'absorption</h2>
+    <table><tr><th class="e">Tube</th><th class="e">Zones dans l'eau</th><th class="e">Zones dans l'huile</th><th class="e">Résultat</th></tr>
+      <tr><td><strong>A</strong> (témoin)</td><td>Toute la racine</td><td>—</td><td>✅ Absorption (référence)</td></tr>
+      <tr><td><strong>B</strong></td><td>Coiffe + Zone pilifère</td><td>Zone subéreuse</td><td>✅ Absorption</td></tr>
+      <tr><td><strong>C</strong></td><td>Coiffe seulement</td><td>Pilifère + subéreuse</td><td>❌ Pas d'absorption</td></tr>
+      <tr class="hl"><td><strong>D ⭐</strong></td><td><strong>Zone pilifère</strong></td><td>Coiffe + subéreuse</td><td><strong>✅✅ Maximum</strong></td></tr>
+      <tr><td><strong>E</strong></td><td>Zone subéreuse</td><td>Pilifère + coiffe</td><td>❌ Pas d'absorption</td></tr>
+    </table>
+    <div class="tip"><div class="tip-head" onclick="togTip(this)">💡 À quoi sert l'huile dans cette expérience ?</div>
+      <div class="tip-body">L'huile est imperméable et non miscible à l'eau. Elle "isole" les zones qui y sont plongées, les empêchant d'être en contact avec l'eau. C'est la seule façon de tester chaque zone séparément sans démonter la racine. Le tube A est le témoin : il prouve qu'une plante entière absorbe normalement.</div>
+    </div>
+
+    <div class="mq"><div class="mq-title">✏️ Mini-quiz</div>
+      <div id="mq2-q">
+        <p>1. Le tube D montre l'absorption maximale parce que <select class="bl" data-rep="seule la zone pilifère est dans l'eau → c'est la zone active"><option value="">—</option><option>le tube D contient plus d'eau que les autres</option><option>seule la zone pilifère est dans l'eau → c'est la zone active</option></select>.</p>
+        <p>2. Le tube C montre une absorption nulle parce que <select class="bl" data-rep="la zone pilifère est dans l'huile (isolée)"><option value="">—</option><option>la coiffe absorbe moins bien que la zone pilifère</option><option>la zone pilifère est dans l'huile (isolée)</option></select>.</p>
+      </div>
+      <button class="bck" onclick="ckMQ('mq2')">✓ Vérifier</button>
+      <button class="brs" onclick="rsMQ('mq2')">↺</button>
+      <div class="mq-fb" id="mq2-fb"></div>
+    </div>
+  </div>
+
+  <div class="card e"><h2 class="e">Le Potomètre — Mesure de l'absorption</h2>
+    <div class="g2">
+      <div>
+        <div class="cb"><div class="eq">V = π × R² × h</div><div class="nt">V = volume (cm³) · R = rayon tube capillaire (cm) · h = déplacement index (cm)</div></div>
+        <div class="cb" style="margin-top:7px;border-color:var(--vm)"><div class="eq" style="color:var(--vm)">Vitesse = ΔV / Δt (cm³/h)</div></div>
+        <div class="tip"><div class="tip-head" onclick="togTip(this)">💡 Pourquoi l'index se déplace-t-il ?</div>
+          <div class="tip-body">La plante absorbe de l'eau via ses racines → crée une dépression dans le flacon → l'eau du tube capillaire est aspirée vers la plante → l'index se déplace. Plus la plante transpire (donc absorbe vite), plus l'index avance rapidement.</div>
+        </div>
+      </div>
+      <div>
+        <h3>Données réelles (exercice corrigé p.36) — R = 1 mm = 0,1 cm</h3>
+        <table><tr><th class="e">t (min)</th><th class="e">0</th><th class="e">5</th><th class="e">10</th><th class="e">15</th><th class="e">20</th><th class="e">25</th><th class="e">30</th></tr>
+          <tr><td>Position (cm)</td><td>1,0</td><td>1,8</td><td>2,5</td><td>3,3</td><td>4,2</td><td>5,0</td><td>5,8</td></tr>
+          <tr><td>Δh (cm)</td><td>0</td><td>0,8</td><td>1,5</td><td>2,3</td><td>3,2</td><td>4,0</td><td>4,8</td></tr>
+          <tr><td><strong>V (cm³)</strong></td><td>0</td><td>0,025</td><td>0,047</td><td>0,072</td><td>0,100</td><td>0,125</td><td>0,151</td></tr>
+        </table>
+        <div class="gb"><canvas id="cgPoto" width="320" height="170"></canvas><figcaption>Volume absorbé (cm³) en fonction du temps — courbe linéaire → vitesse constante ≈ 0,3 cm³/h</figcaption></div>
+      </div>
+    </div>
+    <div class="ret"><h4>📌 Retenons</h4><p><dt>Absorption d'eau :</dt><dd>entrée d'eau dans la plante par les poils absorbants de la zone pilifère.</dd></p></div>
+
+    <div class="mq"><div class="mq-title">✏️ Mini-quiz</div>
+      <div id="mq3-q">
+        <p>1. Pour R = 0,1 cm et un déplacement h = 2,3 cm → V = π × 0,01 × 2,3 = <select class="bl" data-rep="0,072 cm³"><option value="">—</option><option>0,72 cm³</option><option>0,072 cm³</option><option>7,2 cm³</option></select>.</p>
+        <p>2. La courbe du potomètre est une droite → la vitesse d'absorption est <select class="bl" data-rep="constante (≈ 0,3 cm³/heure)"><option value="">—</option><option>croissante (s'accélère)</option><option>constante (≈ 0,3 cm³/heure)</option><option>décroissante (ralentit)</option></select>.</p>
+      </div>
+      <button class="bck" onclick="ckMQ('mq3')">✓ Vérifier</button>
+      <button class="brs" onclick="rsMQ('mq3')">↺</button>
+      <div class="mq-fb" id="mq3-fb"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 2 OSMOSE ══ -->
+<div class="pan" id="p2">
+  <div class="sech b">🔬 Activité 2 — Le mécanisme de l'absorption (p.13–16)</div>
+
+  <div class="card b"><h2 class="b">Turgescence et Plasmolyse</h2>
+    <table><tr><th class="b">Solution NaCl</th><th class="b">Milieu</th><th class="b">Échange</th><th class="b">État cellulaire</th></tr>
+      <tr><td>2 g/L (dilué)</td><td>Hypotonique</td><td>💧 Eau ENTRE</td><td><strong style="color:var(--vm)">Turgescence</strong> — vacuole grande, cytoplasme plaqué</td></tr>
+      <tr><td>9 g/L</td><td>Isotonique</td><td>↔ Équilibre</td><td><strong style="color:var(--o)">Normale</strong></td></tr>
+      <tr><td>20 g/L (concentré)</td><td>Hypertonique</td><td>💧 Eau SORT</td><td><strong style="color:var(--r)">Plasmolyse</strong> — vacuole rétrécie, cytoplasme décollé</td></tr>
+    </table>
+    <div class="tip"><div class="tip-head" onclick="togTip(this)">💡 Lien avec pois chiche et olives</div>
+      <div class="tip-body">
+        🟢 <strong>Pois chiche dans l'eau</strong> → gonfle. Ses cellules sont hypertoniques / eau pure → eau entre → turgescence.<br>
+        🔴 <strong>Olives dans eau salée</strong> → se crènelent. L'eau salée est hypertonique / cellules → eau sort → plasmolyse.<br>
+        <strong>Important pour le CAPES :</strong> un excès d'engrais dans le sol rend la solution du sol hypertonique → plasmolyse des racines → mort possible de la plante.
+      </div>
+    </div>
+
+    <div class="mq"><div class="mq-title">✏️ Mini-quiz</div>
+      <div id="mq4-q">
+        <p>1. Des olives plongées dans l'eau fortement salée se crènelent car leurs cellules sont <select class="bl" data-rep="hypotoniques → eau sort → plasmolyse"><option value="">—</option><option>hypertoniques → eau entre → turgescence</option><option>hypotoniques → eau sort → plasmolyse</option></select>.</p>
+        <p>2. Un excès d'engrais dans le sol peut tuer la plante car <select class="bl" data-rep="la solution du sol devient hypertonique → plasmolyse des racines"><option value="">—</option><option>les racines reçoivent trop de nutriments</option><option>la solution du sol devient hypertonique → plasmolyse des racines</option></select>.</p>
+      </div>
+      <button class="bck" onclick="ckMQ('mq4')">✓ Vérifier</button>
+      <button class="brs" onclick="rsMQ('mq4')">↺</button>
+      <div class="mq-fb" id="mq4-fb"></div>
+    </div>
+  </div>
+
+  <div class="card b"><h2 class="b">La Loi de l'Osmose — Osmomètre</h2>
+    <div class="g2">
+      <div>
+        <div class="cb"><div class="eq">π = n · R · T</div><div class="nt">π = pression osmotique (atm) · n = mol/L · R = 0,082 · T = °C + 273</div></div>
+        <div class="tip"><div class="tip-head" onclick="togTip(this)">💡 Analogie osmomètre / cellule végétale</div>
+          <div class="tip-body">
+            Membrane semi-perméable (cellophane) ↔ membrane cellulaire<br>
+            Solution SO₄Cu dans le tube (hypertonique) ↔ solution vacuolaire<br>
+            Eau pure dans le bécher (hypotonique) ↔ solution du sol<br>
+            <strong>Résultat :</strong> l'eau pure monte dans le tube (h₁ > h₀). Dans la cellule : l'eau du sol entre dans le poil → turgescence → absorption.
+          </div>
+        </div>
+        <table style="margin-top:8px"><tr><th class="b">Terme</th><th class="b">Définition</th></tr>
+          <tr><td><strong>Hypotonique</strong></td><td>Moins concentré → eau en sort</td></tr>
+          <tr><td><strong>Hypertonique</strong></td><td>Plus concentré → eau y entre</td></tr>
+          <tr><td><strong>Isotonie</strong></td><td>Concentrations égales → équilibre</td></tr>
+        </table>
+      </div>
+      <div>
+        <h3>Gradient de pression osmotique dans la racine</h3>
+        <div class="grad">
+          <div class="gc" style="background:#e1f5fe"><div class="atm" style="color:#0277bd">0,5</div><div class="lb">Sol</div></div>
+          <div class="garr">→</div>
+          <div class="gc" style="background:#b3e5fc"><div class="atm" style="color:#01579B">0,7</div><div class="lb">Poil abs.</div></div>
+          <div class="garr">→</div>
+          <div class="gc" style="background:#81d4fa"><div class="atm" style="color:#01579B">1,4</div><div class="lb">Cortex 1</div></div>
+          <div class="garr">→</div>
+          <div class="gc" style="background:#4fc3f7"><div class="atm" style="color:#fff">1,8</div><div class="lb" style="color:#fff">Cortex 2</div></div>
+          <div class="garr">→</div>
+          <div class="gc" style="background:#039be5"><div class="atm" style="color:#fff">2,8</div><div class="lb" style="color:#fff">Cortex</div></div>
+          <div class="garr">→</div>
+          <div class="gc" style="background:#0277bd"><div class="atm" style="color:#FFD54F">3,0</div><div class="lb" style="color:#fff">Cyl. central</div></div>
+        </div>
+        <div class="tip"><div class="tip-head" onclick="togTip(this)">💡 Pourquoi la solution du sol doit être très diluée ?</div>
+          <div class="tip-body">Si π sol (0,5 atm) dépassait π poil (0,7 atm), le sol serait hypertonique par rapport aux poils → l'eau sortirait des poils → plasmolyse → arrêt de l'absorption. La plante mourrait. C'est la base scientifique du dosage des engrais : ne jamais dépasser la concentration osmotique des racines.</div>
+        </div>
+      </div>
+    </div>
+    <div class="ret"><h4>📌 Retenons</h4>
+      <p><dt>Osmose :</dt><dd>passage d'eau à travers une membrane semi-perméable du milieu hypotonique vers le milieu hypertonique.</dd></p>
+      <p><dt>Pression osmotique :</dt><dd>π = n·R·T (n = mol/L, R = 0,082, T = °C + 273).</dd></p>
+    </div>
+
+    <div class="mq"><div class="mq-title">✏️ Mini-quiz</div>
+      <div id="mq5-q">
+        <p>1. L'osmose se fait du milieu <select class="bl" data-rep="hypotonique → hypertonique"><option value="">—</option><option>hypertonique → hypotonique</option><option>hypotonique → hypertonique</option></select>, jusqu'à <select class="bl" data-rep="isotonie (équilibre)"><option value="">—</option><option>plasmolyse complète</option><option>isotonie (équilibre)</option></select>.</p>
+        <p>2. Le gradient de pression osmotique dans la racine va de <select class="bl" data-rep="0,7 atm (poil) à 3 atm (cylindre central)"><option value="">—</option><option>3 atm (poil) à 0,7 atm (cylindre central)</option><option>0,7 atm (poil) à 3 atm (cylindre central)</option></select>. L'eau progresse donc vers <select class="bl" data-rep="le cylindre central (conduction latérale)"><option value="">—</option><option>les poils absorbants</option><option>le cylindre central (conduction latérale)</option></select>.</p>
+        <p>3. Pour n = 0,1 mol/L et T = 27°C (= 300 K) : π = 0,1 × 0,082 × 300 = <select class="bl" data-rep="2,46 atm"><option value="">—</option><option>0,246 atm</option><option>2,46 atm</option><option>24,6 atm</option></select>.</p>
+      </div>
+      <button class="bck" onclick="ckMQ('mq5')">✓ Vérifier</button>
+      <button class="brs" onclick="rsMQ('mq5')">↺</button>
+      <div class="mq-fb" id="mq5-fb"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 3 TRANSPIRATION ══ -->
+<div class="pan" id="p3">
+  <div class="sech v">🌿 Activité 3 — La Transpiration (p.17–20)</div>
+
+  <div class="card"><h2>Les Stomates — Structures responsables</h2>
+    <div class="g2">
+      <div>
+        <h3>Tableau Dahlia / Tilleul (exercice corrigé p.38)</h3>
+        <table><tr><th>Espèce</th><th>Face</th><th>Stomates/mm²</th><th>H₂O transpirée (mg/24h)</th></tr>
+          <tr><td rowspan="2">Dahlia</td><td>Supérieure</td><td>110</td><td>500</td></tr>
+          <tr><td><strong>Inférieure</strong></td><td><strong>150</strong></td><td><strong>600</strong></td></tr>
+          <tr><td rowspan="2">Tilleul</td><td>Supérieure</td><td style="color:var(--r);font-weight:700">0</td><td>200</td></tr>
+          <tr><td><strong>Inférieure</strong></td><td><strong>300</strong></td><td><strong>490</strong></td></tr>
+        </table>
+        <div class="tip"><div class="tip-head" onclick="togTip(this)">💡 Pourquoi le Tilleul transpire face sup. sans stomates ?</div>
+          <div class="tip-body">La face supérieure du Tilleul (0 stomate) transpire quand même 200 mg/24h. Une autre structure est responsable : la <strong>cuticule</strong>. Chez le Dahlia, la cuticule face sup. est épaisse → peu perméable. Chez le Tilleul, elle est mince → laisse passer la vapeur d'eau. C'est la <strong>transpiration cuticulaire</strong>.</div>
+        </div>
+      </div>
+      <div>
+        <div class="stm">
+          <div class="stm-btns">
+            <button class="stmbtn on" id="stb1" onclick="togStomate('ouvert')">☀️ Lumière (ouvert)</button>
+            <button class="stmbtn" id="stb2" onclick="togStomate('ferme')">🌑 Obscurité (fermé)</button>
+          </div>
+          <canvas id="cgStomate" width="300" height="140"></canvas>
+          <div id="stm-txt" style="font-size:.81rem;color:var(--mu);margin-top:6px;line-height:1.5">Lumiere : photosynthese → sucres augmentent → pression osmotique augmente → eau entre → turgescence → courbure → ostiole ouvert → transpiration augmente</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mq"><div class="mq-title">✏️ Mini-quiz</div>
+      <div id="mq6-q">
+        <p>1. D'après le tableau, la transpiration est plus intense par la face <select class="bl" data-rep="inférieure (plus de stomates)"><option value="">—</option><option>supérieure (exposée au soleil)</option><option>inférieure (plus de stomates)</option></select>.</p>
+        <p>2. À la lumière, les stomates <select class="bl" data-rep="s'ouvrent (photosynthèse → turgescence des cellules stomatiques)"><option value="">—</option><option>se ferment (plasmolyse des cellules stomatiques)</option><option>s'ouvrent (photosynthèse → turgescence des cellules stomatiques)</option></select>.</p>
+        <p>3. La transpiration de la face supérieure du Tilleul (200 mg/24h) sans stomates est due à <select class="bl" data-rep="la cuticule mince (transpiration cuticulaire)"><option value="">—</option><option>des stomates invisibles au microscope</option><option>la cuticule mince (transpiration cuticulaire)</option></select>.</p>
+      </div>
+      <button class="bck" onclick="ckMQ('mq6')">✓ Vérifier</button>
+      <button class="brs" onclick="rsMQ('mq6')">↺</button>
+      <div class="mq-fb" id="mq6-fb"></div>
+    </div>
+  </div>
+
+  <div class="card"><h2>Facteurs et Relation Absorption ↔ Transpiration</h2>
+    <div class="g2">
+      <div>
+        <h3>Facteurs externes (données graphes p.18)</h3>
+        <table><tr><th>Facteur</th><th>Effet sur transpiration</th></tr>
+          <tr><td>Humidité relative ↑</td><td>Transpiration ↓ (gradient réduit)</td></tr>
+          <tr><td>Lumière ↑</td><td>Transpiration ↑ (stomates ouverts)</td></tr>
+          <tr><td>Température ↑</td><td>Transpiration ↑ (jusqu'à 25–30°C)</td></tr>
+          <tr><td>Vent ↑</td><td>Transpiration ↑ (air saturé renouvelé)</td></tr>
+        </table>
+        <div class="gb"><canvas id="cgHumid" width="290" height="150"></canvas><figcaption>Transpiration vs Humidité relative de l'air (tracé 3, p.18)</figcaption></div>
+      </div>
+      <div>
+        <h3>Potomètre A vs B — données réelles (p.20)</h3>
+        <table><tr><th>Temps (min)</th><th>0</th><th>5</th><th>10</th><th>15</th><th>20</th></tr>
+          <tr><td><strong>A</strong> (complet)</td><td>0</td><td>11</td><td>21</td><td>37</td><td><strong>48</strong> mm</td></tr>
+          <tr><td><strong>B</strong> (réduit)</td><td>0</td><td>6</td><td>12</td><td>16</td><td><strong>21</strong> mm</td></tr>
+        </table>
+        <div class="tip"><div class="tip-head" onclick="togTip(this)">💡 Ce que prouve cet écart A/B</div>
+          <div class="tip-body">A absorbe 48 mm vs B absorbe 21 mm en 20 min (rapport ~2,3). Plus de feuilles = plus de transpiration = plus d'aspiration foliaire = plus d'absorption. La transpiration "tire" l'eau vers le haut → c'est l'<strong>aspiration foliaire</strong>. Les sacs plastiques de A contiennent aussi plus de gouttes → confirmation.</div>
+        </div>
+        <h3 style="margin-top:10px">La Poussée Radiculaire (expérience Hales)</h3>
+        <table><tr><th>Observation</th><th>Explication</th></tr>
+          <tr><td>"Pleurs de la vigne" (sève s'écoule sans feuilles au printemps)</td><td>Sève sous pression dans les vaisseaux → <strong>poussée radiculaire</strong></td></tr>
+          <tr><td>Mercure monte dans le manomètre de Hales (h₁ > h₀)</td><td>Pression exercée par les racines sur la sève</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="ret"><h4>📌 Retenons</h4>
+      <p><dt>Transpiration :</dt><dd>perte d'eau sous forme de vapeur, surtout par les stomates face inférieure.</dd></p>
+      <p><dt>Aspiration foliaire :</dt><dd>mouvement d'eau vers les feuilles provoqué par la transpiration.</dd></p>
+      <p><dt>Poussée radiculaire :</dt><dd>pression exercée par la racine → montée de la sève même sans feuilles.</dd></p>
+      <p><dt>Bilan hydrique :</dt><dd>absorption − transpiration. Négatif le jour (chaud) → irrigation nécessaire le soir.</dd></p>
+    </div>
+
+    <div class="mq"><div class="mq-title">✏️ Mini-quiz</div>
+      <div id="mq7-q">
+        <p>1. D'après le tableau A/B, le potomètre A (plante complète) déplace son index de 48 mm vs 21 mm pour B. Cela prouve que <select class="bl" data-rep="plus de feuilles = plus de transpiration = plus d'absorption (aspiration foliaire)"><option value="">—</option><option>la plante B est moins efficace pour les raisons chimiques</option><option>plus de feuilles = plus de transpiration = plus d'absorption (aspiration foliaire)</option></select>.</p>
+        <p>2. Les "pleurs de la vigne" au printemps prouvent l'existence d'une <select class="bl" data-rep="poussée radiculaire (sève monte sans feuilles)"><option value="">—</option><option>aspiration foliaire (due à la transpiration)</option><option>poussée radiculaire (sève monte sans feuilles)</option></select>.</p>
+        <p>3. Il est conseillé d'irriguer le soir car <select class="bl" data-rep="la transpiration est minimale (stomates fermés) → bilan hydrique positif"><option value="">—</option><option>la chaleur aide l'absorption racinaire</option><option>la transpiration est minimale (stomates fermés) → bilan hydrique positif</option></select>.</p>
+      </div>
+      <button class="bck" onclick="ckMQ('mq7')">✓ Vérifier</button>
+      <button class="brs" onclick="rsMQ('mq7')">↺</button>
+      <div class="mq-fb" id="mq7-fb"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 4 SELS MINERAUX ══ -->
+<div class="pan" id="p4">
+  <div class="sech o">🧪 Activité 4 — Besoins en Sels Minéraux (p.21–24)</div>
+
+  <div class="card o"><h2 class="o">Milieu de Knop (1860) — Composition exacte</h2>
+    <div class="g2">
+      <table><tr><th class="o">Sel</th><th class="o">Formule</th><th class="o">g/L</th><th class="o">Éléments</th></tr>
+        <tr><td>Nitrate de calcium</td><td>Ca(NO₃)₂</td><td>1,000</td><td>Ca + N</td></tr>
+        <tr><td>Nitrate de potassium</td><td>KNO₃</td><td>0,250</td><td>K + N</td></tr>
+        <tr><td>Sulfate de magnésium</td><td>MgSO₄</td><td>0,250</td><td>Mg + S</td></tr>
+        <tr><td>Phosphate monopotassique</td><td>KH₂PO₄</td><td>0,250</td><td>K + P</td></tr>
+        <tr><td>Chlorure ferrique</td><td>FeCl₃</td><td>0,001</td><td>Fe (traces)</td></tr>
+        <tr><td>Eau distillée</td><td>H₂O</td><td>qsp 1 L</td><td>—</td></tr>
+      </table>
+      <div>
+        <div class="tip"><div class="tip-head" onclick="togTip(this)">💡 Résultat de l'expérience de Knop</div>
+          <div class="tip-body">Les plantes de maïs cultivées sur le milieu de Knop sont <strong>normalement développées, ont fleuri et produit des graines viables</strong>. Ce milieu artificiel suffit → les éléments N, P, K, S, Ca, Mg, Fe sont indispensables à la nutrition minérale.</div>
+        </div>
+        <div class="tip"><div class="tip-head" onclick="togTip(this)">💡 Méthode analytique vs synthétique</div>
+          <div class="tip-body"><strong>Analytique :</strong> brûler la plante → gaz (C, H, O venant de H₂O et CO₂) + cendres → analyser pour trouver les éléments. Ex : luzerne = 77,9% O + 11,3% C + 8,7% H + minéraux.<br><strong>Synthétique :</strong> fabriquer un milieu artificiel et observer quelle composition permet la croissance normale. C'est la méthode de Knop.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mq"><div class="mq-title">✏️ Mini-quiz</div>
+      <div id="mq8-q">
+        <p>1. Dans le milieu de Knop, l'azote N est apporté sous forme de <select class="bl" data-rep="nitrates (NO₃⁻) dans Ca(NO₃)₂ et KNO₃"><option value="">—</option><option>gaz diazote N₂ de l'air</option><option>nitrates (NO₃⁻) dans Ca(NO₃)₂ et KNO₃</option></select>.</p>
+        <p>2. Le résultat de l'expérience de Knop (plantes normales, floraison, graines viables) prouve que <select class="bl" data-rep="les sels minéraux du milieu sont suffisants pour la nutrition minérale complète"><option value="">—</option><option>la plante peut se passer de lumière si le milieu est riche</option><option>les sels minéraux du milieu sont suffisants pour la nutrition minérale complète</option></select>.</p>
+      </div>
+      <button class="bck" onclick="ckMQ('mq8')">✓ Vérifier</button>
+      <button class="brs" onclick="rsMQ('mq8')">↺</button>
+      <div class="mq-fb" id="mq8-fb"></div>
+    </div>
+  </div>
+
+  <div class="card o"><h2 class="o">Cultures carencées — Résultats</h2>
+    <div class="cr6">
+      <div class="crb" style="background:var(--vl);border-color:var(--vm)"><div class="val" style="color:var(--vm)">162 g</div><strong>Complet (Knop)</strong><div class="sym">Feuilles normales ✅</div></div>
+      <div class="crb" style="background:#fff3e0;border-color:#FF9800"><div class="val" style="color:var(--o)">68 g</div><strong>Sans Azote (N)</strong><div class="sym">🟡 Chlorose générale</div></div>
+      <div class="crb" style="background:#e8f4fd;border-color:#2196F3"><div class="val" style="color:var(--b)">116 g</div><strong>Sans Phosphore (P)</strong><div class="sym">🟡 Jaunissement extrémités</div></div>
+      <div class="crb" style="background:var(--rl);border-color:var(--r)"><div class="val" style="color:var(--r)">44 g ⚠️</div><strong>Sans Potassium (K)</strong><div class="sym">🔴 Nécrose du limbe</div></div>
+      <div class="crb" style="background:var(--jl);border-color:var(--j)"><div class="val" style="color:#7B5800">120 g</div><strong>Sans Magnésium (Mg)</strong><div class="sym">🟡 Chlorose inter-nervaire</div></div>
+      <div class="crb" style="background:var(--vil);border-color:var(--vi)"><div class="val" style="color:var(--vi)">130 g</div><strong>Sans Fer (Fe)</strong><div class="sym">🟡 Chlorose générale</div></div>
+    </div>
+    <div class="tip"><div class="tip-head" onclick="togTip(this)">💡 Pourquoi K est-il le plus limitant (44 g) ?</div>
+      <div class="tip-body">Le potassium K régule la turgescence cellulaire et l'ouverture des stomates. Sans K, les cellules perdent leur turgescence → nécrose du limbe (tissu mort). C'est l'élément dont l'absence réduit le plus la masse sèche (162 → 44 g = 73% de réduction).</div>
+    </div>
+    <div class="tip"><div class="tip-head" onclick="togTip(this)">💡 Pourquoi Mg et Fe causent-ils de la chlorose ?</div>
+      <div class="tip-body"><strong>Mg</strong> est l'atome central de la molécule de chlorophylle (structure porphyrine). Sans Mg, pas de chlorophylle entre les nervures → chlorose internervaire.<br><strong>Fe</strong> est nécessaire à la synthèse de la chlorophylle (cofacteur enzymatique). Sans Fe → chlorose générale sur toute la feuille.</div>
+    </div>
+
+    <div class="g2" style="margin-top:10px">
+      <div>
+        <h3>Macroéléments vs Oligoéléments</h3>
+        <table><tr><th class="o">Type</th><th class="o">Éléments</th><th class="o">Concentration</th><th class="o">Rôle</th></tr>
+          <tr><td><strong>Macroéléments</strong></td><td>N, P, K, S</td><td>10⁻⁴ à 10⁻³ mg/ml</td><td>Composants des organes (protéines, ADN, parois, chlorophylle)</td></tr>
+          <tr><td><strong>Oligoéléments</strong></td><td>Ca, Mg, Fe, Cl, Zn</td><td>10⁻⁸ à 10⁻⁶ mg/ml</td><td>Fonctionnement cellulaire (cofacteurs, pigments)</td></tr>
+        </table>
+      </div>
+      <div>
+        <h3>Courbe K — données exactes (p.23)</h3>
+        <div class="gb"><canvas id="cgK" width="290" height="170"></canvas><figcaption>Croissance en fonction de [K] — 13 points réels du manuel</figcaption></div>
+      </div>
+    </div>
+    <div class="ret"><h4>📌 Retenons</h4>
+      <p><dt>Macroélément :</dt><dd>nécessaire en grande quantité (10⁻⁴ à 10⁻³ mg/ml) : N, P, S, K.</dd></p>
+      <p><dt>Oligoélément :</dt><dd>nécessaire en très faible quantité (10⁻⁸ à 10⁻⁶ mg/ml) : Ca, Mg, Fe...</dd></p>
+      <p><dt>Concentration optimale :</dt><dd>permet la vitesse de croissance maximale.</dd></p>
+      <p><dt>Concentration toxique :</dt><dd>empoisonnement → croissance chute.</dd></p>
+    </div>
+
+    <div class="mq"><div class="mq-title">✏️ Mini-quiz</div>
+      <div id="mq9-q">
+        <p>1. L'élément dont la carence est la plus limitante est <select class="bl" data-rep="K (potassium — masse sèche 44 g, nécrose du limbe)"><option value="">—</option><option>Fe (fer — masse sèche 130 g, chlorose légère)</option><option>N (azote — masse sèche 68 g, chlorose)</option><option>K (potassium — masse sèche 44 g, nécrose du limbe)</option></select>.</p>
+        <p>2. Sur la courbe K, l'optimum se situe entre <select class="bl" data-rep="500 et 700 mg/L (croissance max ≈ 143 mg)"><option value="">—</option><option>100 et 200 mg/L</option><option>500 et 700 mg/L (croissance max ≈ 143 mg)</option><option>800 et 1000 mg/L</option></select>. Au-delà de 700 mg/L, la croissance diminue car <select class="bl" data-rep="la solution devient hypertonique → plasmolyse des racines (toxicité)"><option value="">—</option><option>la plante n'a plus besoin de K après un certain seuil</option><option>la solution devient hypertonique → plasmolyse des racines (toxicité)</option></select>.</p>
+      </div>
+      <button class="bck" onclick="ckMQ('mq9')">✓ Vérifier</button>
+      <button class="brs" onclick="rsMQ('mq9')">↺</button>
+      <div class="mq-fb" id="mq9-fb"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 5 CONDUCTION ══ -->
+<div class="pan" id="p5">
+  <div class="sech t">🌾 Activité 5 — La Conduction (p.25–27)</div>
+
+  <div class="card t"><h2 class="t" style="color:var(--t)">Mise en évidence du xylème</h2>
+    <table><tr><th class="t">Expérience</th><th class="t">Manipulation</th><th class="t">Résultat</th><th class="t">Conclusion</th></tr>
+      <tr><td><strong>Éosine dans marguerite</strong></td><td>Tige dans éosine 2% / 30 min</td><td>Pétales colorés en rouge</td><td>Éosine conduite tige → fleur dans les vaisseaux</td></tr>
+      <tr><td><strong>Bleu méthylène dans carotte</strong></td><td>Racine dans bleu méthylène 1% / 24h → coupe transversale</td><td>Cylindre central coloré en bleu</td><td>Vaisseaux du cylindre central = conducteurs de sève brute</td></tr>
+    </table>
+    <div class="g2" style="margin-top:10px">
+      <div>
+        <h3>Caractéristiques du Xylème</h3>
+        <table><tr><th class="t">Caractéristique</th><th class="t">Description</th></tr>
+          <tr><td>Cellules</td><td><strong>Mortes</strong>, disposées en files</td></tr>
+          <tr><td>Paroi</td><td>Riche en <strong>lignine</strong> (colorée en vert au carmino-vert)</td></tr>
+          <tr><td>Contenu</td><td>Sève brute (eau + sels minéraux)</td></tr>
+          <tr><td>Sens circulation</td><td>Racines → feuilles (montant)</td></tr>
+        </table>
+        <div class="tip"><div class="tip-head" onclick="togTip(this)">💡 Pourquoi des cellules mortes ?</div>
+          <div class="tip-body">Les cellules mortes sont réduites à leur paroi lignifiée → tube rigide et vide parfait pour la sève brute. Les cellules vivantes auraient un cytoplasme et une vacuole qui gêneraient la circulation. La lignine imperméabilise aussi les parois latérales → pas de fuite de sève.</div>
+        </div>
+      </div>
+      <div>
+        <h3>Disposition dans les organes</h3>
+        <table><tr><th class="t">Organe</th><th class="t">Localisation du xylème</th></tr>
+          <tr><td>Racine</td><td>Cylindre central (au centre)</td></tr>
+          <tr><td>Tige</td><td>Faisceaux conducteurs (liber + bois)</td></tr>
+          <tr><td>Feuille</td><td>Nervures (principale + secondaires)</td></tr>
+        </table>
+        <h3 style="margin-top:9px">3 types de vaisseaux (p.27)</h3>
+        <table><tr><th class="t">Type</th><th class="t">Structure des parois</th></tr>
+          <tr><td>Annelé</td><td>Renforcements en anneaux espacés</td></tr>
+          <tr><td>Spiralé</td><td>Renforcement en hélice</td></tr>
+          <tr><td>Réticulé</td><td>Réseau de renforcements</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="ret"><h4>📌 Retenons</h4>
+      <p><dt>Xylème :</dt><dd>ensemble des vaisseaux du bois (cellules mortes, parois lignifiées) → conduction sève brute racines → feuilles.</dd></p>
+      <p><dt>Sève brute :</dt><dd>eau + sels minéraux absorbés circulant dans le xylème.</dd></p>
+    </div>
+
+    <div class="mq"><div class="mq-title">✏️ Mini-quiz</div>
+      <div id="mq10-q">
+        <p>1. Au carmino-vert, les vaisseaux du bois se colorent en <select class="bl" data-rep="vert (parois riches en lignine)"><option value="">—</option><option>rose foncé (parois riches en cellulose)</option><option>vert (parois riches en lignine)</option></select>.</p>
+        <p>2. Les vaisseaux du xylème sont des cellules <select class="bl" data-rep="mortes réduites à leur paroi lignifiée"><option value="">—</option><option>vivantes riches en cytoplasme</option><option>mortes réduites à leur paroi lignifiée</option></select>. Dans la tige, ils se trouvent dans les <select class="bl" data-rep="faisceaux conducteurs"><option value="">—</option><option>stomates épidermiques</option><option>faisceaux conducteurs</option></select>.</p>
+      </div>
+      <button class="bck" onclick="ckMQ('mq10')">✓ Vérifier</button>
+      <button class="brs" onclick="rsMQ('mq10')">↺</button>
+      <div class="mq-fb" id="mq10-fb"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 6 PRODUCTION ══ -->
+<div class="pan" id="p6">
+  <div class="sech t">🌱 Activité 6 — Amélioration de la Production Végétale (p.28–32)</div>
+
+  <div class="card t"><h2 class="t" style="color:var(--t)">Irrigation et Fertilisation — Données réelles</h2>
+    <div class="g2">
+      <div>
+        <h3>Irrigation — Maïs irrigué vs non irrigué (p.28)</h3>
+        <div class="gb"><canvas id="cgMais" width="280" height="170"></canvas><figcaption>Rendement maïs : irrigué = 75 q/ha vs non irrigué = 25 q/ha (×3)</figcaption></div>
+        <table><tr><th class="t">Situation</th><th class="t">Conséquence</th></tr>
+          <tr><td>Excès d'eau</td><td>Asphyxie des racines → absorption ↓</td></tr>
+          <tr><td>Déficit en eau</td><td>Bilan hydrique négatif → flétrissement</td></tr>
+          <tr><td>Optimum</td><td>Rendement maximal (75 q/ha)</td></tr>
+        </table>
+      </div>
+      <div>
+        <h3>Fertilisation — Tomate vs dose azotée (exercice 6, p.42)</h3>
+        <div class="gb"><canvas id="cgTomate" width="280" height="170"></canvas><figcaption>Production tomate vs engrais azoté — même loi que courbe K</figcaption></div>
+        <table><tr><th class="t">Type</th><th class="t">Nature</th><th class="t">Action</th></tr>
+          <tr><td><strong>Minérale</strong></td><td>Engrais chimiques NPK</td><td>Rapide · Dosage précis</td></tr>
+          <tr><td><strong>Organique</strong></td><td>Fumier · engrais vert</td><td>Progressive (microorganismes)</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="tip"><div class="tip-head" onclick="togTip(this)">💡 Pourquoi irriguer le soir et pas le midi ?</div>
+      <div class="tip-body">Le midi, la transpiration est maximale (soleil + chaleur + stomates ouverts) → l'eau apportée est immédiatement perdue par transpiration. Le soir/nuit, les stomates se ferment → transpiration presque nulle → bilan hydrique positif → l'eau sert entièrement à l'absorption. De plus, les gouttes d'eau sous le soleil agissent comme des loupes et peuvent brûler les feuilles.</div>
+    </div>
+    <div class="tip"><div class="tip-head" onclick="togTip(this)">💡 Lien entre courbe K (Act.4) et courbe tomate (Act.6)</div>
+      <div class="tip-body">Les deux courbes ont exactement la même forme en cloche : déficience → optimum → toxicité. C'est une loi universelle pour tous les éléments minéraux. Pour la tomate : optimum à 200 kg/ha (38 q/ha). Au-delà → toxicité → la solution du sol devient hypertonique → plasmolyse des racines → production chute.</div>
+    </div>
+    <div class="ret"><h4>📌 Retenons</h4>
+      <p><dt>Irrigation complémentaire :</dt><dd>apport d'eau pour compenser les pertes par transpiration.</dd></p>
+      <p><dt>Pesticide / Fongicide / Insecticide :</dt><dd>produits actifs contre parasites, champignons, insectes.</dd></p>
+    </div>
+
+    <div class="mq"><div class="mq-title">✏️ Mini-quiz</div>
+      <div id="mq11-q">
+        <p>1. L'irrigation triple le rendement du maïs : <select class="bl" data-rep="75 q/ha avec irrigation vs 25 q/ha sans irrigation"><option value="">—</option><option>50 q/ha avec vs 50 q/ha sans (pas de différence)</option><option>75 q/ha avec irrigation vs 25 q/ha sans irrigation</option></select>.</p>
+        <p>2. Pour la tomate, la dose optimale d'engrais azoté est de <select class="bl" data-rep="200 kg/ha → 38 q/ha (maximum)"><option value="">—</option><option>50 kg/ha → 20 q/ha</option><option>250 kg/ha → 30 q/ha</option><option>200 kg/ha → 38 q/ha (maximum)</option></select>. Au-delà de 200 kg/ha, la production chute (même phénomène que la <select class="bl" data-rep="toxicité de la courbe K">  <option value="">—</option><option>déficience de la courbe K</option><option>toxicité de la courbe K</option></select>).</p>
+      </div>
+      <button class="bck" onclick="ckMQ('mq11')">✓ Vérifier</button>
+      <button class="brs" onclick="rsMQ('mq11')">↺</button>
+      <div class="mq-fb" id="mq11-fb"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 7 BILAN ══ -->
+<div class="pan" id="p7">
+  <div class="sech v">📋 Bilan — Nutrition Minérale (p.33–35)</div>
+
+  <!-- Bilan 1 -->
+  <div class="bstep e">
+    <p style="font-size:.92rem"><span class="bnum e">1</span><strong>L'absorption d'eau</strong> — les racines absorbent par les <select class="bl" data-rep="poils absorbants de la zone pilifère"><option value="">—</option><option>vaisseaux du bois</option><option>poils absorbants de la zone pilifère</option><option>cellules de la coiffe</option></select>. Le mécanisme est l'<select class="bl" data-rep="osmose"><option value="">—</option><option>transpiration</option><option>osmose</option><option>photosynthèse</option></select> : l'eau passe du sol (π = 0,5 atm) vers les poils (π = <select class="bl" data-rep="0,7 atm"><option value="">—</option><option>3 atm</option><option>0,7 atm</option><option>0,1 atm</option></select>) car le poil est <select class="bl" data-rep="hypertonique"><option value="">—</option><option>hypotonique</option><option>hypertonique</option></select> par rapport au sol.</p>
+    <div class="tip" style="margin-top:8px"><div class="tip-head" onclick="togTip(this)">🔑 À retenir absolument</div>
+      <div class="tip-body">Gradient osmotique dans la racine : 0,5 (sol) → 0,7 (poil) → 1,4 → 1,8 → 2,1 → 2,8 → 3 atm (cylindre central). Ce gradient croissant est la force motrice de la <strong>conduction latérale</strong>. L'eau progresse de cellule en cellule par osmose vers le centre.</div>
+    </div>
+  </div>
+
+  <!-- Bilan 2 -->
+  <div class="bstep b">
+    <p style="font-size:.92rem"><span class="bnum b">2</span><strong>La transpiration</strong> s'effectue surtout par les <select class="bl" data-rep="stomates de la face inférieure"><option value="">—</option><option>stomates de la face supérieure</option><option>stomates de la face inférieure</option></select> des feuilles. Un stomate = <select class="bl" data-rep="2 cellules stomatiques + 1 ostiole"><option value="">—</option><option>1 cellule de garde sans ostiole</option><option>2 cellules stomatiques + 1 ostiole</option></select>. À la lumière, l'ostiole <select class="bl" data-rep="s'ouvre (photosynthèse → turgescence)"><option value="">—</option><option>se ferme (plasmolyse)</option><option>s'ouvre (photosynthèse → turgescence)</option></select>.</p>
+    <div class="tip" style="margin-top:8px"><div class="tip-head" onclick="togTip(this)">🔑 Les facteurs : synthèse</div>
+      <div class="tip-body">La transpiration augmente avec : lumière ↑ · température ↑ (jusqu'à 25–30°C) · humidité ↓ · vent ↑ · surface foliaire ↑ · densité stomates ↑. Elle diminue avec : humidité ↑ · obscurité. Conséquence pratique : irriguer le soir pour maximiser l'absorption.</div>
+    </div>
+  </div>
+
+  <!-- Bilan 3 -->
+  <div class="bstep">
+    <p style="font-size:.92rem"><span class="bnum">3</span><strong>Relation absorption ↔ transpiration</strong> — La transpiration crée une <select class="bl" data-rep="aspiration foliaire"><option value="">—</option><option>poussée radiculaire</option><option>aspiration foliaire</option></select> qui tire la sève vers le haut. Les racines exercent aussi une <select class="bl" data-rep="poussée radiculaire"><option value="">—</option><option>aspiration foliaire</option><option>poussée radiculaire</option></select> (prouvée par les pleurs de la vigne). La sève est donc à la fois <select class="bl" data-rep="poussée et aspirée"><option value="">—</option><option>poussée uniquement</option><option>poussée et aspirée</option></select>.</p>
+    <div class="tip" style="margin-top:8px"><div class="tip-head" onclick="togTip(this)">🔑 Bilan hydrique</div>
+      <div class="tip-body">Bilan hydrique = absorption − transpiration. Négatif le jour (chaud, ensoleillé) → la plante se déshydrate progressivement. Positif la nuit (stomates fermés) → reconstitution des réserves. Un bilan chroniquement négatif → flétrissement → mort si pas d'irrigation.</div>
+    </div>
+  </div>
+
+  <!-- Bilan 4 -->
+  <div class="bstep o">
+    <p style="font-size:.92rem"><span class="bnum o">4</span><strong>Besoins en sels minéraux</strong> — Les <select class="bl" data-rep="macroéléments (N, P, K, S)"><option value="">—</option><option>oligoéléments (Ca, Mg, Fe)</option><option>macroéléments (N, P, K, S)</option></select> sont nécessaires en grande quantité (composants des organes). Les <select class="bl" data-rep="oligoéléments (Ca, Mg, Fe)"><option value="">—</option><option>macroéléments (N, P, K, S)</option><option>oligoéléments (Ca, Mg, Fe)</option></select> sont nécessaires en très faible quantité (fonctionnement cellulaire). La carence la plus limitante est celle en <select class="bl" data-rep="K (potassium — 44 g, nécrose du limbe)"><option value="">—</option><option>N (azote — 68 g, chlorose)</option><option>K (potassium — 44 g, nécrose du limbe)</option></select>.</p>
+    <div class="tip" style="margin-top:8px"><div class="tip-head" onclick="togTip(this)">🔑 Courbe concentration / croissance</div>
+      <div class="tip-body">Pour tout élément minéral : déficience (< optimum) → croissance sous-maximale. Optimum → croissance maximale. Toxicité (> optimum) → la solution devient hypertonique → plasmolyse → croissance chute. Pour K : optimum = 500–700 mg/L, max = 143 mg. Pour engrais azoté tomate : optimum = 200 kg/ha, max = 38 q/ha.</div>
+    </div>
+  </div>
+
+  <!-- Bilan 5 -->
+  <div class="bstep t">
+    <p style="font-size:.92rem"><span class="bnum t">5</span><strong>La conduction verticale</strong> — Eau + sels minéraux = <select class="bl" data-rep="sève brute"><option value="">—</option><option>sève élaborée</option><option>sève brute</option></select>, conduite dans les <select class="bl" data-rep="vaisseaux du bois (xylème)"><option value="">—</option><option>tubes criblés (phloème)</option><option>vaisseaux du bois (xylème)</option></select> = cellules <select class="bl" data-rep="mortes à parois lignifiées"><option value="">—</option><option>vivantes à parois cellulosiques</option><option>mortes à parois lignifiées</option></select>, des racines jusqu'aux feuilles.</p>
+    <div class="tip" style="margin-top:8px"><div class="tip-head" onclick="togTip(this)">🔑 Coloration carmino-vert</div>
+      <div class="tip-body">Le carmino-vert est un double colorant : il colore en <strong>vert</strong> les parois riches en <strong>lignine</strong> (vaisseaux du bois) et en <strong>rose foncé</strong> les parois riches en cellulose. Cela permet d'identifier et localiser précisément les vaisseaux conducteurs dans les coupes histologiques.</div>
+    </div>
+  </div>
+
+  <!-- Bilan 6 -->
+  <div class="bstep" style="border-top-color:var(--t)">
+    <p style="font-size:.92rem"><span class="bnum" style="background:var(--t)">6</span><strong>Amélioration de la production</strong> — Irrigation rationnelle : ni excès (asphyxie racines) ni déficit (flétrissement). Fertilisation : <select class="bl" data-rep="minérale (engrais chimiques NPK) + organique (fumier, engrais vert)"><option value="">—</option><option>uniquement chimique pour des résultats rapides</option><option>minérale (engrais chimiques NPK) + organique (fumier, engrais vert)</option></select>. Semences sélectionnées selon <select class="bl" data-rep="productivité et résistance aux maladies"><option value="">—</option><option>couleur et taille uniquement</option><option>productivité et résistance aux maladies</option></select>.</p>
+  </div>
+
+  <div style="margin-top:14px">
+    <button class="bck" onclick="ckBilan()">✓ Vérifier tout le bilan</button>
+    <button class="brs" onclick="rsBilan()">↺ Réinitialiser</button>
+    <div class="gfb" id="bilan-fb"></div>
+  </div>
+</div>
+
+<!-- ══ 8 FLASHCARDS ══ -->
+<div class="pan" id="p8">
+  <h2 style="margin-bottom:12px">🃏 Flashcards — Tous les Retenons</h2>
+  <div class="fa">
+    <button class="btn bv" onclick="chkFC()">✓ Vérifier tout</button>
+    <button class="btn bg" onclick="rstFC()">↺ Recommencer</button>
+    <span id="fcs" style="display:none;padding:7px 12px;border-radius:8px;font-weight:700"></span>
+  </div>
+  <div class="fcg" id="fcg"></div>
+</div>
+
+<!-- ══ 9 QCM ══ -->
+<div class="pan" id="p9">
+  <h2 style="margin-bottom:6px">✏️ QCM Format CAPES — avec feedback complet</h2>
+  <p style="margin-bottom:12px;font-size:.85rem;color:var(--mu)">Après correction : ✅ pourquoi correct · ❌ pourquoi incorrect · 🟡 bonne réponse manquée</p>
+  <div id="qcm-c"></div>
+  <div style="display:flex;gap:10px;margin-top:12px;">
+    <button class="btn bv" onclick="corrQ()">✓ Corriger</button>
+    <button class="btn bg" onclick="rstQ()">↺ Recommencer</button>
+  </div>
+  <div id="qr"></div>
+</div>
+
+<!-- ══ 10 EXERCICES ══ -->
+<div class="pan" id="p10">
+  <h2 style="margin-bottom:6px">📝 Exercices interactifs — D'après le manuel</h2>
+  <p style="margin-bottom:14px;font-size:.84rem;color:var(--mu)">Tous les exercices corrigés et non corrigés du manuel (p.36–43) — transformés en exercices interactifs</p>
+
+  <!-- EX 1 : Potomètre -->
+  <div class="tab-exo">
+    <h3>📊 Ex.1 — Potomètre : calcul du volume et de la vitesse (p.36)</h3>
+    <div class="ctx">R = 1 mm = 0,1 cm. Positions de l'index : 0 / 1,8 / 2,5 / 3,3 / 4,2 / 5,0 / 5,8 cm aux temps 0 / 5 / 10 / 15 / 20 / 25 / 30 min.</div>
+    <table>
+      <tr><th class="t">t (min)</th><th class="t">0</th><th class="t">5</th><th class="t">10</th><th class="t">15</th><th class="t">20</th></tr>
+      <tr><td>Position (cm)</td><td>1,0</td><td>1,8</td><td>2,5</td><td>3,3</td><td>4,2</td></tr>
+      <tr><td>Δh (cm)</td><td>0</td><td>0,8</td><td>
+        <select class="tcell" data-rep="1,5"><option value="">?</option><option>1,2</option><option>1,5</option><option>2,5</option></select>
+      </td><td>
+        <select class="tcell" data-rep="2,3"><option value="">?</option><option>1,8</option><option>2,3</option><option>3,3</option></select>
+      </td><td>
+        <select class="tcell" data-rep="3,2"><option value="">?</option><option>2,5</option><option>3,2</option><option>4,2</option></select>
+      </td></tr>
+      <tr><td>V = π×R²×h (cm³)</td><td>0</td><td>0,025</td><td>
+        <select class="tcell" data-rep="0,047"><option value="">?</option><option>0,037</option><option>0,047</option><option>0,147</option></select>
+      </td><td>
+        <select class="tcell" data-rep="0,072"><option value="">?</option><option>0,057</option><option>0,072</option><option>0,720</option></select>
+      </td><td>
+        <select class="tcell" data-rep="0,100"><option value="">?</option><option>0,085</option><option>0,100</option><option>0,150</option></select>
+      </td></tr>
+    </table>
+    <div class="mq" style="margin-top:10px"><div class="mq-title">Questions d'analyse</div>
+      <div id="ex1q-q">
+        <p>1. La vitesse d'absorption entre t=10 et t=15 min = ΔV/Δt = (0,072 - 0,047)/5 × 60 = <select class="bl" data-rep="0,30 cm³/heure"><option value="">—</option><option>0,025 cm³/heure</option><option>0,30 cm³/heure</option><option>3,0 cm³/heure</option></select>.</p>
+        <p>2. La courbe du potomètre est une droite → la vitesse d'absorption est <select class="bl" data-rep="constante (conditions stables : même température, même lumière)"><option value="">—</option><option>croissante car la plante absorbe de plus en plus</option><option>constante (conditions stables : même température, même lumière)</option></select>.</p>
+      </div>
+      <button class="bck" onclick="ckTabExo('ex1tab');ckMQ('ex1q')">✓ Vérifier tout</button>
+      <button class="brs" onclick="rsTabExo('ex1tab');rsMQ('ex1q')">↺</button>
+      <div class="gfb" id="ex1tab-fb"></div>
+      <div class="mq-fb" id="ex1q-fb"></div>
+    </div>
+  </div>
+
+  <!-- EX 2 : Chlorure de cobalt -->
+  <div class="trous">
+    <h3 style="color:var(--vi);margin-bottom:8px">🌿 Ex.2 — Chlorure de cobalt et transpiration (p.37)</h3>
+    <div class="ctx">Papier filtre au chlorure de cobalt (bleu sec → rose humide) appliqué sur les 2 faces d'une feuille de laurier pendant 1h.</div>
+    <div id="ex2-q">
+      <p>Le papier vire au rose car le chlorure de cobalt réagit à l'<select class="bl" data-rep="humidité (vapeur d'eau sortant de la feuille)"><option value="">—</option><option>oxygène de l'air</option><option>humidité (vapeur d'eau sortant de la feuille)</option><option>CO₂ de la respiration</option></select>. Les taches roses sont plus nombreuses sur la face <select class="bl" data-rep="inférieure"><option value="">—</option><option>supérieure</option><option>inférieure</option></select> car les stomates y sont plus <select class="bl" data-rep="nombreux"><option value="">—</option><option>rares</option><option>nombreux</option></select>. On déduit que la transpiration s'effectue principalement à travers les <select class="bl" data-rep="stomates"><option value="">—</option><option>cuticules épaisses</option><option>stomates</option></select>. Chaque tache rose correspond à l'emplacement d'un <select class="bl" data-rep="stomate (point de sortie de vapeur d'eau)"><option value="">—</option><option>poil absorbant</option><option>stomate (point de sortie de vapeur d'eau)</option></select>.</p>
+    </div>
+    <button class="bck" onclick="ckMQ('ex2')">✓ Vérifier</button>
+    <button class="brs" onclick="rsMQ('ex2')">↺</button>
+    <div class="mq-fb" id="ex2-fb"></div>
+  </div>
+
+  <!-- EX 3 : Stomates Dahlia/Tilleul -->
+  <div class="tab-exo">
+    <h3>🔬 Ex.3 — Stomates Dahlia / Tilleul (p.38)</h3>
+    <div class="ctx">Données : Dahlia face sup = 110 stomates/mm² → 500 mg/24h · Tilleul face sup = 0 stomate → 200 mg/24h</div>
+    <table>
+      <tr><th class="t">Question</th><th class="t">Réponse</th></tr>
+      <tr><td>Relation stomates ↔ transpiration</td><td><select class="tcell" data-rep="Plus de stomates → plus de transpiration (relation directe)"><option value="">—</option><option>Pas de relation entre stomates et transpiration</option><option>Plus de stomates → plus de transpiration (relation directe)</option><option>Plus de stomates → moins de transpiration</option></select></td></tr>
+      <tr><td>Transpiration face sup. Tilleul (0 stomate, 200 mg)</td><td><select class="tcell" data-rep="Due à la cuticule mince (transpiration cuticulaire)"><option value="">—</option><option>Due à des stomates invisibles</option><option>Due à la cuticule mince (transpiration cuticulaire)</option><option>Erreur de mesure</option></select></td></tr>
+      <tr><td>Déduction sur la structure de la face sup. du Tilleul</td><td><select class="tcell" data-rep="Cuticule mince → perméable à la vapeur d'eau"><option value="">—</option><option>Cuticule épaisse → imperméable comme le Dahlia</option><option>Cuticule mince → perméable à la vapeur d'eau</option></select></td></tr>
+    </table>
+    <button class="bck" onclick="ckTabExo('ex3tab')">✓ Vérifier</button>
+    <button class="brs" onclick="rsTabExo('ex3tab')">↺</button>
+    <div class="gfb" id="ex3tab-fb"></div>
+  </div>
+
+  <!-- EX 4 : Ordonnancement — étapes de formation calcaire oolithique -->
+  <div class="ord-exo">
+    <h3 style="color:var(--e);margin-bottom:8px">🔢 Ex.4 — Ordonner les étapes de la montée de la sève</h3>
+    <p style="font-size:.85rem;margin-bottom:9px;color:var(--mu)">Glisser-déposer pour ordonner ces étapes dans la logique de la nutrition minérale :</p>
+    <div class="ord-items" id="ord1" ondragover="ev.preventDefault()" ondrop="dropOrd(ev,'ord1')">
+      <div class="ord-item" draggable="true" ondragstart="dragOrd(ev)" data-order="4" data-id="o1a"><div class="pos-num">?</div><span class="drag-handle">⠿</span>Sève brute conduite dans les vaisseaux du bois (xylème) vers les feuilles</div>
+      <div class="ord-item" draggable="true" ondragstart="dragOrd(ev)" data-order="1" data-id="o1b"><div class="pos-num">?</div><span class="drag-handle">⠿</span>Eau du sol passe dans les poils absorbants par osmose (π sol &lt; π poil)</div>
+      <div class="ord-item" draggable="true" ondragstart="dragOrd(ev)" data-order="5" data-id="o1c"><div class="pos-num">?</div><span class="drag-handle">⠿</span>Transpiration foliaire crée une aspiration → la sève monte vers les feuilles</div>
+      <div class="ord-item" draggable="true" ondragstart="dragOrd(ev)" data-order="2" data-id="o1d"><div class="pos-num">?</div><span class="drag-handle">⠿</span>Conduction latérale : eau passe de cellule en cellule vers le cylindre central</div>
+      <div class="ord-item" draggable="true" ondragstart="dragOrd(ev)" data-order="3" data-id="o1e"><div class="pos-num">?</div><span class="drag-handle">⠿</span>Eau arrive au cylindre central → rejoint les vaisseaux du bois (xylème)</div>
+    </div>
+    <button class="bck" onclick="ckOrd('ord1')">✓ Vérifier l'ordre</button>
+    <button class="brs" onclick="rsOrd('ord1')">↺ Mélanger</button>
+    <div class="gfb" id="ord1-fb"></div>
+  </div>
+
+  <!-- EX 5 : Milieux carencés a, b, c -->
+  <div class="tab-exo">
+    <h3>⚗️ Ex.5 — Milieux carencés a, b, c (p.42)</h3>
+    <div class="ctx">Milieu c = complet. Milieu a : sans CaNO₃, KNO₃, NaNO₃ → masse = 42% du complet. Milieu b : sans KH₂PO₄, NaH₂PO₄ → masse = 73% du complet.</div>
+    <table>
+      <tr><th class="t">Question</th><th class="t">Réponse</th></tr>
+      <tr><td>Élément testé dans le milieu a (sels azotés retirés)</td><td><select class="tcell" data-rep="Azote (N) — les sels retirés sont tous des nitrates NO₃⁻"><option value="">—</option><option>Phosphore (P)</option><option>Azote (N) — les sels retirés sont tous des nitrates NO₃⁻</option><option>Potassium (K)</option></select></td></tr>
+      <tr><td>Élément testé dans le milieu b (sels phosphatés retirés)</td><td><select class="tcell" data-rep="Phosphore (P) — les sels retirés sont KH₂PO₄ et NaH₂PO₄"><option value="">—</option><option>Azote (N)</option><option>Phosphore (P) — les sels retirés sont KH₂PO₄ et NaH₂PO₄</option><option>Magnésium (Mg)</option></select></td></tr>
+      <tr><td>Élément le plus limitant entre N et P (d'après les masses)</td><td><select class="tcell" data-rep="N est plus limitant (42% vs 73%) — N est donc plus nécessaire que P dans ces conditions"><option value="">—</option><option>P est plus limitant (73% vs 42%)</option><option>N est plus limitant (42% vs 73%) — N est donc plus nécessaire que P dans ces conditions</option></select></td></tr>
+    </table>
+    <button class="bck" onclick="ckTabExo('ex5tab')">✓ Vérifier</button>
+    <button class="brs" onclick="rsTabExo('ex5tab')">↺</button>
+    <div class="gfb" id="ex5tab-fb"></div>
+  </div>
+
+  <!-- EX 6 : Graphe tomate lecture -->
+  <div class="graphlec">
+    <h3 style="color:var(--o);margin-bottom:8px">📈 Ex.6 — Lecture de la courbe tomate vs engrais azoté (p.42)</h3>
+    <div class="ctx" style="background:var(--ol);border-left-color:var(--o)">Doses : 0/50/100/150/200/250 kg/ha → Productions : 10/20/25/30/38/30 q/ha</div>
+    <div class="gb"><canvas id="cgTomEx" width="560" height="180"></canvas></div>
+    <div id="ex6-q">
+      <p style="font-size:.88rem;margin-top:9px">1. La dose optimale d'engrais azoté est de <select class="bl" data-rep="200 kg/ha → production maximale de 38 q/ha"><option value="">—</option><option>50 kg/ha → 20 q/ha</option><option>200 kg/ha → production maximale de 38 q/ha</option><option>250 kg/ha → 30 q/ha</option></select>.</p>
+      <p style="font-size:.88rem">2. Entre 0 et 200 kg/ha, c'est la zone de <select class="bl" data-rep="déficience → la croissance augmente avec la dose"><option value="">—</option><option>toxicité → la croissance diminue</option><option>déficience → la croissance augmente avec la dose</option></select>. Au-delà de 200 kg/ha, c'est la zone de <select class="bl" data-rep="toxicité → la solution du sol devient hypertonique → plasmolyse"><option value="">—</option><option>optimum → la production se stabilise</option><option>toxicité → la solution du sol devient hypertonique → plasmolyse</option></select>.</p>
+      <p style="font-size:.88rem">3. Cette courbe a la même forme que la courbe K (Act.4) car <select class="bl" data-rep="c'est une loi universelle pour tous les éléments minéraux (déficience → optimum → toxicité)"><option value="">—</option><option>le potassium et l'azote sont le même élément minéral</option><option>c'est une loi universelle pour tous les éléments minéraux (déficience → optimum → toxicité)</option></select>.</p>
+    </div>
+    <button class="bck" onclick="ckMQ('ex6')">✓ Vérifier</button>
+    <button class="brs" onclick="rsMQ('ex6')">↺</button>
+    <div class="mq-fb" id="ex6-fb"></div>
+  </div>
+
+  <!-- EX 7 : Turgescence / Plasmolyse -->
+  <div class="trous">
+    <h3 style="color:var(--vi);margin-bottom:8px">🔬 Ex.7 — Turgescence et Plasmolyse dans deux solutions (p.43)</h3>
+    <div class="ctx">Fig.1 (solution A) : grande vacuole colorée, cytoplasme plaqué contre la paroi. Fig.2 (solution B) : vacuole rétrécie, cytoplasme décollé de la paroi.</div>
+    <div id="ex7-q">
+      <p>La cellule de la Fig.1 est en état de <select class="bl" data-rep="turgescence"><option value="">—</option><option>plasmolyse</option><option>turgescence</option><option>isotonie</option></select> car la solution A est <select class="bl" data-rep="hypotonique (moins concentrée que la cellule → eau entre)"><option value="">—</option><option>hypertonique (plus concentrée → eau sort)</option><option>hypotonique (moins concentrée que la cellule → eau entre)</option></select>.</p>
+      <p>La cellule de la Fig.2 est en état de <select class="bl" data-rep="plasmolyse"><option value="">—</option><option>turgescence</option><option>plasmolyse</option></select> car la solution B est <select class="bl" data-rep="hypertonique (plus concentrée → eau sort → cytoplasme se décolle)"><option value="">—</option><option>hypotonique (eau entre → vacuole gonflée)</option><option>hypertonique (plus concentrée → eau sort → cytoplasme se décolle)</option></select>.</p>
+      <p>Ce phénomène est analogue à ce qui se passe dans les racines quand <select class="bl" data-rep="un excès d'engrais rend le sol hypertonique → plasmolyse des poils absorbants → mort"><option value="">—</option><option>la plante est bien irriguée (sol hypotonique → turgescence normale)</option><option>un excès d'engrais rend le sol hypertonique → plasmolyse des poils absorbants → mort</option></select>.</p>
+    </div>
+    <button class="bck" onclick="ckMQ('ex7')">✓ Vérifier</button>
+    <button class="brs" onclick="rsMQ('ex7')">↺</button>
+    <div class="mq-fb" id="ex7-fb"></div>
+  </div>
+
+</div>
+</div><!-- /content -->
+
+<script>
+// ══ TABS ══
+const panels=document.querySelectorAll('.pan'),tabs=document.querySelectorAll('.t');
+const pf=document.getElementById('pf');let vis=new Set([0]);
+function showTab(n){
+  panels.forEach(p=>p.classList.remove('on'));tabs.forEach(t=>t.classList.remove('on'));
+  panels[n].classList.add('on');tabs[n].classList.add('on');
+  vis.add(n);pf.style.width=Math.round(vis.size/tabs.length*100)+'%';
+  localStorage.setItem('nmtab',n);window.scrollTo({top:0,behavior:'smooth'});
+  if(n===1)setTimeout(drawPoto,80);
+  if(n===3){setTimeout(()=>{drawHumid();drawStomate();},80);}
+  if(n===4)setTimeout(drawK,80);
+  if(n===6){setTimeout(()=>{drawMais();drawTomate();},80);}
+  if(n===10)setTimeout(drawTomEx,80);
+}
+const sv=localStorage.getItem('nmtab');
+if(sv){const n=parseInt(sv);if(n>0){panels[n].classList.add('on');panels[0].classList.remove('on');tabs[n].classList.add('on');tabs[0].classList.remove('on');vis.add(n);pf.style.width=Math.round(vis.size/tabs.length*100)+'%';}}
+
+// ══ TIPS ══
+function togTip(h){const b=h.nextElementSibling;b.classList.toggle('on');}
+
+// ══ DATA DÉPLIABLES ══
+function togData(h){const b=h.nextElementSibling;b.classList.toggle('on');h.classList.toggle('op');}
+
+// ══ MINI-QUIZ ══
+function ckMQ(id){
+  const sels=document.querySelectorAll(`#${id}-q select.bl`);let ok=0,tot=sels.length;
+  sels.forEach(s=>{s.classList.remove('ok','ko');if(s.value===s.dataset.rep){s.classList.add('ok');ok++;}else if(s.value) s.classList.add('ko');});
+  const fb=document.getElementById(`${id}-fb`);
+  if(ok===tot){fb.className='mq-fb ok';fb.textContent=`✅ Parfait ! ${ok}/${tot}`;}
+  else{fb.className='mq-fb ko';fb.textContent=`❌ ${ok}/${tot} — revois les réponses en rouge.`;}
+}
+function rsMQ(id){
+  document.querySelectorAll(`#${id}-q select.bl`).forEach(s=>{s.value='';s.classList.remove('ok','ko');});
+  const fb=document.getElementById(`${id}-fb`);fb.className='mq-fb';fb.textContent='';
+}
+
+// ══ TABLEAU EXERCICE ══
+function ckTabExo(id){
+  const sels=document.querySelectorAll(`#${id.replace('-tab','')} .tcell, .tab-exo .tcell`);
+  // find by parent
+  const parent=document.querySelector(`#${id.replace('-fb','').replace('tab','')}`);
+  // simpler: find all tcells in nearest tab-exo
+  const fb=document.getElementById(`${id}-fb`);
+  if(!fb)return;
+  // Get tcells from the same tab-exo block
+  const block=fb.closest('.tab-exo,.ord-exo,.trous,.graphlec');
+  if(!block){return;}
+  const cells=block.querySelectorAll('.tcell');
+  let ok=0,tot=cells.length;
+  cells.forEach(s=>{s.classList.remove('ok','ko');if(s.value===s.dataset.rep){s.classList.add('ok');ok++;}else if(s.value) s.classList.add('ko');});
+  fb.className='gfb '+(ok===tot?'ok':'ko');
+  fb.textContent=ok===tot?`✅ Parfait ! ${ok}/${tot}`:`❌ ${ok}/${tot} — revois les cellules en rouge.`;
+}
+function rsTabExo(id){
+  const fb=document.getElementById(`${id}-fb`);if(!fb)return;
+  const block=fb.closest('.tab-exo,.ord-exo');if(!block)return;
+  block.querySelectorAll('.tcell').forEach(s=>{s.value='';s.classList.remove('ok','ko');});
+  fb.className='gfb';fb.textContent='';
+}
+
+// ══ BILAN ══
+function ckBilan(){
+  const sels=document.querySelectorAll('#p7 select.bl');let ok=0,tot=sels.length;
+  sels.forEach(s=>{s.classList.remove('ok','ko');if(s.value===s.dataset.rep){s.classList.add('ok');ok++;}else if(s.value) s.classList.add('ko');});
+  const fb=document.getElementById('bilan-fb');
+  fb.className='gfb '+(ok===tot?'ok':'ko');
+  fb.textContent=ok===tot?`✅ Bilan complet ! ${ok}/${tot} — Tu maîtrises tout le chapitre.`:`❌ ${ok}/${tot} — Revois les encadrés colorés.`;
+}
+function rsBilan(){
+  document.querySelectorAll('#p7 select.bl').forEach(s=>{s.value='';s.classList.remove('ok','ko');});
+  const fb=document.getElementById('bilan-fb');fb.className='gfb';fb.textContent='';
+}
+
+// ══ STOMATE ══
+let stmState='ouvert';
+function togStomate(s){
+  stmState=s;
+  document.getElementById('stb1').classList.toggle('on',s==='ouvert');
+  document.getElementById('stb2').classList.toggle('on',s==='ferme');
+  const txt=document.getElementById('stm-txt');
+  if(s==='ouvert') txt.textContent='Lumiere: photosynthese dans cellules stomatiques, sucres augmentent, pression osmotique augmente, eau entre, turgescence, courbure, ostiole ouvert, transpiration augmente';
+  else txt.textContent='Obscurite: pas de photosynthese, sucres diminuent, pression osmotique diminue, eau sort, plasmolyse partielle, cellules droites, ostiole ferme, transpiration diminue';
+  drawStomate();
+}
+
+// ══ DRAG & DROP ordonnancement ══
+let dragItem=null;
+function dragOrd(ev){dragItem=ev.currentTarget;ev.dataTransfer.effectAllowed='move';}
+function dropOrd(ev,listId){
+  ev.preventDefault();
+  const list=document.getElementById(listId);
+  const items=[...list.querySelectorAll('.ord-item')];
+  const target=ev.target.closest('.ord-item');
+  if(!target||target===dragItem)return;
+  const idx=items.indexOf(target);
+  list.insertBefore(dragItem,idx>items.indexOf(dragItem)?target.nextSibling:target);
+  updateOrdNumbers(listId);
+}
+function updateOrdNumbers(listId){
+  const items=document.getElementById(listId).querySelectorAll('.ord-item');
+  items.forEach((item,i)=>{item.querySelector('.pos-num').textContent=i+1;item.classList.remove('correct-pos','wrong-pos');});
+}
+function ckOrd(listId){
+  const items=document.getElementById(listId).querySelectorAll('.ord-item');
+  let ok=0;
+  items.forEach((item,i)=>{
+    item.classList.remove('correct-pos','wrong-pos');
+    const correct=parseInt(item.dataset.order)===i+1;
+    item.classList.add(correct?'correct-pos':'wrong-pos');
+    item.querySelector('.pos-num').textContent=i+1;
+    if(correct)ok++;
+  });
+  const fb=document.getElementById(`${listId}-fb`);
+  fb.className='gfb '+(ok===items.length?'ok':'ko');
+  fb.textContent=ok===items.length?`✅ Ordre parfait ! Les 5 étapes sont correctes.`:`❌ ${ok}/5 étapes correctes — les rouges sont mal placées.`;
+}
+function rsOrd(listId){
+  const list=document.getElementById(listId);
+  const items=[...list.querySelectorAll('.ord-item')];
+  items.sort(()=>Math.random()-0.5);
+  items.forEach(i=>{i.classList.remove('correct-pos','wrong-pos');list.appendChild(i);});
+  updateOrdNumbers(listId);
+  const fb=document.getElementById(`${listId}-fb`);fb.className='gfb';fb.textContent='';
+}
+
+// ══ GRAPHES CANVAS ══
+function mkC(id,w,h){const c=document.getElementById(id);if(!c)return null;c.width=w;c.height=h;const ctx=c.getContext('2d');ctx.clearRect(0,0,w,h);return ctx;}
+function drawAxes(ctx,xl,xr,yb,yt,xLabel,yLabel,color){
+  ctx.strokeStyle=color||'#333';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(xl,yt);ctx.lineTo(xl,yb);ctx.lineTo(xr,yb);ctx.stroke();
+  ctx.fillStyle=color||'#333';ctx.font='10px sans-serif';ctx.textAlign='center';
+  ctx.fillText(xLabel,(xl+xr)/2,yb+28);
+  ctx.save();ctx.translate(xl-32,(yt+yb)/2);ctx.rotate(-Math.PI/2);ctx.fillText(yLabel,0,0);ctx.restore();
+}
+function px(v,mn,mx,l,r){return l+(v-mn)/(mx-mn)*(r-l);}
+function py(v,mn,mx,t,b){return b-(v-mn)/(mx-mn)*(b-t);}
+function defs(ctx){ctx.font='9px sans-serif';ctx.fillStyle='#555';}
+
+function drawPoto(){
+  const ctx=mkC('cgPoto',320,170);if(!ctx)return;
+  const xl=52,xr=305,yb=145,yt=15,xMn=0,xMx=30,yMn=0,yMx=0.16;
+  drawAxes(ctx,xl,xr,yb,yt,'Temps (min)','Volume (cm³)','#0288D1');
+  ctx.strokeStyle='#e0f5fe';ctx.lineWidth=0.7;
+  [10,20,30].forEach(x=>{ctx.beginPath();ctx.moveTo(px(x,xMn,xMx,xl,xr),yt);ctx.lineTo(px(x,xMn,xMx,xl,xr),yb);ctx.stroke();});
+  [0.05,0.10,0.15].forEach(y=>{ctx.beginPath();ctx.moveTo(xl,py(y,yMn,yMx,yt,yb));ctx.lineTo(xr,py(y,yMn,yMx,yt,yb));ctx.stroke();});
+  const data=[[0,0],[5,.025],[10,.047],[15,.072],[20,.100],[25,.125],[30,.151]];
+  ctx.strokeStyle='#0288D1';ctx.lineWidth=2.5;ctx.beginPath();
+  data.forEach(([x,y],i)=>{const cx=px(x,xMn,xMx,xl,xr),cy=py(y,yMn,yMx,yt,yb);i===0?ctx.moveTo(cx,cy):ctx.lineTo(cx,cy);});ctx.stroke();
+  ctx.fillStyle='#1565C0';data.forEach(([x,y])=>{ctx.beginPath();ctx.arc(px(x,xMn,xMx,xl,xr),py(y,yMn,yMx,yt,yb),3.5,0,Math.PI*2);ctx.fill();});
+  defs(ctx);ctx.textAlign='center';
+  [0,10,20,30].forEach(x=>ctx.fillText(x,px(x,xMn,xMx,xl,xr),yb+12));
+  ctx.textAlign='right';[0,.05,.10,.15].forEach(y=>ctx.fillText(y.toFixed(2),xl-4,py(y,yMn,yMx,yt,yb)+4));
+  ctx.fillStyle='#2E7D32';ctx.font='10px sans-serif';ctx.textAlign='left';ctx.fillText('Droite → vitesse constante',xl+5,yt+12);
+}
+
+function drawHumid(){
+  const ctx=mkC('cgHumid',290,150);if(!ctx)return;
+  const xl=50,xr=275,yb=125,yt=14,xMn=0,xMx=100,yMn=0,yMx=5;
+  drawAxes(ctx,xl,xr,yb,yt,'Humidite relative (%)','Transpiration','#2E7D32');
+  ctx.strokeStyle='#ddffdd';ctx.lineWidth=0.7;
+  [25,50,75,100].forEach(x=>{ctx.beginPath();ctx.moveTo(px(x,xMn,xMx,xl,xr),yt);ctx.lineTo(px(x,xMn,xMx,xl,xr),yb);ctx.stroke();});
+  const data=[[0,4],[25,3],[50,2],[75,1],[100,0]];
+  ctx.strokeStyle='#2E7D32';ctx.lineWidth=2.5;ctx.beginPath();
+  data.forEach(([x,y],i)=>{const cx=px(x,xMn,xMx,xl,xr),cy=py(y,yMn,yMx,yt,yb);i===0?ctx.moveTo(cx,cy):ctx.lineTo(cx,cy);});ctx.stroke();
+  ctx.fillStyle='#1B5E20';data.forEach(([x,y])=>{ctx.beginPath();ctx.arc(px(x,xMn,xMx,xl,xr),py(y,yMn,yMx,yt,yb),4,0,Math.PI*2);ctx.fill();});
+  defs(ctx);ctx.textAlign='center';
+  [0,25,50,75,100].forEach(x=>ctx.fillText(x,px(x,xMn,xMx,xl,xr),yb+12));
+  ctx.textAlign='right';[0,1,2,3,4].forEach(y=>ctx.fillText(y,xl-4,py(y,yMn,yMx,yt,yb)+4));
+}
+
+function drawStomate(){
+  const ctx=mkC('cgStomate',300,140);if(!ctx)return;
+  const ouv=stmState==='ouvert';
+  ctx.fillStyle='#f0faf0';ctx.fillRect(0,0,300,140);
+  ctx.font='bold 12px Source Sans 3,sans-serif';ctx.textAlign='center';
+  ctx.fillStyle=ouv?'#1B5E20':'#B71C1C';
+  ctx.fillText(ouv?'OUVERT — ostiole elargi':'FERME — ostiole resserre',150,16);
+  ctx.save();ctx.translate(150,78);
+  if(ouv){
+    ctx.fillStyle='#66BB6A';
+    ctx.beginPath();ctx.ellipse(-30,0,32,19,Math.PI*.14,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.ellipse(30,0,32,19,-Math.PI*.14,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='white';ctx.beginPath();ctx.ellipse(0,0,13,7,0,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle='#1B5E20';ctx.lineWidth=1.5;ctx.beginPath();ctx.ellipse(0,0,13,7,0,0,Math.PI*2);ctx.stroke();
+    ctx.strokeStyle='#0288D1';ctx.lineWidth=1.5;ctx.setLineDash([3,3]);
+    [[-6,0],[-1,0],[5,0]].forEach(([dx])=>{ctx.beginPath();ctx.moveTo(dx,-7);ctx.lineTo(dx,-25);ctx.stroke();});
+    ctx.setLineDash([]);
+    ctx.fillStyle='#0288D1';ctx.font='10px sans-serif';ctx.fillText('Vapeur sort',0,-32);
+    ctx.fillStyle='#555';ctx.font='9px sans-serif';ctx.fillText('Cellules turgescentes (courbees)',0,28);
+  } else {
+    ctx.fillStyle='#EF9A9A';
+    ctx.beginPath();ctx.ellipse(-26,0,26,13,0,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.ellipse(26,0,26,13,0,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle='#B71C1C';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(-10,0);ctx.lineTo(10,0);ctx.stroke();
+    ctx.fillStyle='#B71C1C';ctx.font='10px sans-serif';ctx.fillText('Ferme — pas de vapeur',0,-25);
+    ctx.fillStyle='#555';ctx.font='9px sans-serif';ctx.fillText('Cellules plasmolysees (droites)',0,28);
+  }
+  ctx.restore();
+}
+
+function drawK(){
+  const ctx=mkC('cgK',290,170);if(!ctx)return;
+  const xl=50,xr=275,yb=145,yt=14,xMn=0,xMx=1100,yMn=0,yMx=160;
+  drawAxes(ctx,xl,xr,yb,yt,'[K] mg/L','Croissance (mg)','#E65100');
+  ctx.fillStyle='rgba(255,100,100,.12)';ctx.fillRect(xl,yt,px(500,xMn,xMx,xl,xr)-xl,yb-yt);
+  ctx.fillStyle='rgba(100,200,100,.18)';ctx.fillRect(px(500,xMn,xMx,xl,xr),yt,px(700,xMn,xMx,xl,xr)-px(500,xMn,xMx,xl,xr),yb-yt);
+  ctx.fillStyle='rgba(255,160,50,.14)';ctx.fillRect(px(700,xMn,xMx,xl,xr),yt,xr-px(700,xMn,xMx,xl,xr),yb-yt);
+  ctx.strokeStyle='#ffe0cc';ctx.lineWidth=0.7;
+  [200,400,600,800,1000].forEach(x=>{ctx.beginPath();ctx.moveTo(px(x,xMn,xMx,xl,xr),yt);ctx.lineTo(px(x,xMn,xMx,xl,xr),yb);ctx.stroke();});
+  const data=[[100,21],[150,30],[200,42],[300,60],[400,90],[500,139],[550,142],[600,143],[650,141],[700,140],[800,100],[900,50],[1000,10]];
+  ctx.strokeStyle='#E65100';ctx.lineWidth=2.5;ctx.beginPath();
+  data.forEach(([x,y],i)=>{const cx=px(x,xMn,xMx,xl,xr),cy=py(y,yMn,yMx,yt,yb);i===0?ctx.moveTo(cx,cy):ctx.lineTo(cx,cy);});ctx.stroke();
+  ctx.fillStyle='#1B5E20';data.forEach(([x,y])=>{ctx.beginPath();ctx.arc(px(x,xMn,xMx,xl,xr),py(y,yMn,yMx,yt,yb),y===143?5.5:3,0,Math.PI*2);ctx.fill();});
+  defs(ctx);ctx.font='8px sans-serif';ctx.textAlign='center';
+  ctx.fillStyle='#B71C1C';ctx.fillText('DEFICIENCE',px(300,xMn,xMx,xl,xr),yt+10);
+  ctx.fillStyle='#1B5E20';ctx.fillText('OPTIMUM',px(600,xMn,xMx,xl,xr),yt+10);
+  ctx.fillStyle='#E65100';ctx.fillText('TOXICITE',px(870,xMn,xMx,xl,xr),yt+10);
+  ctx.fillStyle='#1B5E20';ctx.font='bold 10px sans-serif';ctx.fillText('Max=143',px(600,xMn,xMx,xl,xr)+5,py(143,yMn,yMx,yt,yb)-5);
+  ctx.fillStyle='#555';ctx.font='9px sans-serif';ctx.textAlign='center';
+  [0,200,400,600,800,1000].forEach(x=>ctx.fillText(x,px(x,xMn,xMx,xl,xr),yb+12));
+  ctx.textAlign='right';[0,40,80,120,160].forEach(y=>ctx.fillText(y,xl-3,py(y,yMn,yMx,yt,yb)+4));
+}
+
+function drawMais(){
+  const ctx=mkC('cgMais',280,170);if(!ctx)return;
+  ctx.fillStyle='#f5f5f5';ctx.fillRect(0,0,280,170);
+  ctx.font='bold 11px sans-serif';ctx.fillStyle='#333';ctx.textAlign='center';ctx.fillText('Rendement mais (q/ha)',140,15);
+  [['Irrigué','#2E7D32',75],['Non irrigué','#B71C1C',25]].forEach(([lbl,col,val],i)=>{
+    const x=45+i*110,bw=75,yBase=148,h=(val/100)*110;
+    ctx.fillStyle=col;ctx.fillRect(x,yBase-h,bw,h);
+    ctx.fillStyle='#fff';ctx.font='bold 14px sans-serif';ctx.fillText(val+' q/ha',x+bw/2,yBase-h-5);
+    ctx.fillStyle='#333';ctx.font='11px sans-serif';ctx.fillText(lbl,x+bw/2,yBase+16);
+  });
+}
+
+function drawTomate(){
+  const ctx=mkC('cgTomate',280,170);if(!ctx)return;
+  const xl=48,xr=265,yb=140,yt=14,xMn=0,xMx=260,yMn=0,yMx=44;
+  drawAxes(ctx,xl,xr,yb,yt,'Dose engrais (kg/ha)','Production (q/ha)','#00695C');
+  const data=[[0,10],[50,20],[100,25],[150,30],[200,38],[250,30]];
+  ctx.fillStyle='rgba(100,200,100,.15)';ctx.fillRect(px(170,xMn,xMx,xl,xr),yt,px(210,xMn,xMx,xl,xr)-px(170,xMn,xMx,xl,xr),yb-yt);
+  ctx.strokeStyle='#00695C';ctx.lineWidth=2.5;ctx.beginPath();
+  data.forEach(([x,y],i)=>{const cx=px(x,xMn,xMx,xl,xr),cy=py(y,yMn,yMx,yt,yb);i===0?ctx.moveTo(cx,cy):ctx.lineTo(cx,cy);});ctx.stroke();
+  ctx.fillStyle='#1B5E20';data.forEach(([x,y])=>{ctx.beginPath();ctx.arc(px(x,xMn,xMx,xl,xr),py(y,yMn,yMx,yt,yb),y===38?5.5:3.5,0,Math.PI*2);ctx.fill();});
+  ctx.fillStyle='#1B5E20';ctx.font='bold 9px sans-serif';ctx.textAlign='center';
+  ctx.fillText('Max 38',px(200,xMn,xMx,xl,xr),py(38,yMn,yMx,yt,yb)-6);
+  defs(ctx);ctx.textAlign='center';
+  [0,50,100,150,200,250].forEach(x=>ctx.fillText(x,px(x,xMn,xMx,xl,xr),yb+12));
+  ctx.textAlign='right';[0,10,20,30,40].forEach(y=>ctx.fillText(y,xl-3,py(y,yMn,yMx,yt,yb)+4));
+}
+
+function drawTomEx(){
+  const ctx=mkC('cgTomEx',560,180);if(!ctx)return;
+  const xl=50,xr=530,yb=148,yt=14,xMn=0,xMx=260,yMn=0,yMx=44;
+  drawAxes(ctx,xl,xr,yb,yt,'Dose engrais azoté (kg/ha)','Production de tomate (q/ha)','#00695C');
+  const data=[[0,10],[50,20],[100,25],[150,30],[200,38],[250,30]];
+  ctx.fillStyle='rgba(255,100,100,.1)';ctx.fillRect(xl,yt,px(190,xMn,xMx,xl,xr)-xl,yb-yt);
+  ctx.fillStyle='rgba(100,200,100,.18)';ctx.fillRect(px(190,xMn,xMx,xl,xr),yt,px(210,xMn,xMx,xl,xr)-px(190,xMn,xMx,xl,xr),yb-yt);
+  ctx.fillStyle='rgba(255,160,50,.14)';ctx.fillRect(px(210,xMn,xMx,xl,xr),yt,xr-px(210,xMn,xMx,xl,xr),yb-yt);
+  ctx.strokeStyle='#ddfdd5';ctx.lineWidth=0.7;
+  [50,100,150,200,250].forEach(x=>{ctx.beginPath();ctx.moveTo(px(x,xMn,xMx,xl,xr),yt);ctx.lineTo(px(x,xMn,xMx,xl,xr),yb);ctx.stroke();});
+  ctx.strokeStyle='#00695C';ctx.lineWidth=2.5;ctx.beginPath();
+  data.forEach(([x,y],i)=>{const cx=px(x,xMn,xMx,xl,xr),cy=py(y,yMn,yMx,yt,yb);i===0?ctx.moveTo(cx,cy):ctx.lineTo(cx,cy);});ctx.stroke();
+  ctx.fillStyle='#1B5E20';data.forEach(([x,y])=>{ctx.beginPath();ctx.arc(px(x,xMn,xMx,xl,xr),py(y,yMn,yMx,yt,yb),y===38?6:4,0,Math.PI*2);ctx.fill();});
+  ctx.font='9px sans-serif';ctx.textAlign='center';
+  ctx.fillStyle='#B71C1C';ctx.fillText('DEFICIENCE',px(100,xMn,xMx,xl,xr),yt+11);
+  ctx.fillStyle='#1B5E20';ctx.fillText('OPTIMUM',px(200,xMn,xMx,xl,xr),yt+11);
+  ctx.fillStyle='#E65100';ctx.fillText('TOXICITE',px(235,xMn,xMx,xl,xr),yt+11);
+  ctx.fillStyle='#1B5E20';ctx.font='bold 10px sans-serif';ctx.fillText('Max 38 q/ha',px(200,xMn,xMx,xl,xr)+5,py(38,yMn,yMx,yt,yb)-6);
+  ctx.fillStyle='#555';ctx.font='9px sans-serif';
+  defs(ctx);ctx.textAlign='center';
+  [0,50,100,150,200,250].forEach(x=>ctx.fillText(x,px(x,xMn,xMx,xl,xr),yb+12));
+  ctx.textAlign='right';[0,10,20,30,40].forEach(y=>ctx.fillText(y,xl-3,py(y,yMn,yMx,yt,yb)+4));
+}
+
+// ══ FLASHCARDS ══
+const fcData=[
+  {p:"L'[absorption d'eau] se fait au niveau des [poils absorbants] de la [zone pilifère] de la racine.",t:[{r:"absorption d'eau",o:["transpiration","absorption d'eau","photosynthèse"]},{r:"poils absorbants",o:["cellules stomatiques","poils absorbants","vaisseaux du bois"]},{r:"zone pilifère",o:["zone subéreuse","coiffe","zone pilifère"]}]},
+  {p:"L'[osmose] est le passage d'eau du milieu [hypotonique] vers le milieu [hypertonique] à travers une membrane [semi-perméable].",t:[{r:"osmose",o:["diffusion","osmose","transpiration"]},{r:"hypotonique",o:["hypertonique","isotonique","hypotonique"]},{r:"hypertonique",o:["hypotonique","isotonique","hypertonique"]},{r:"semi-perméable",o:["imperméable","semi-perméable","perméable"]}]},
+  {p:"La formule de la pression osmotique est [π = n · R · T] avec T = [°C + 273] (Kelvin).",t:[{r:"π = n · R · T",o:["V = π × R² × h","π = n · R · T","Vitesse = ΔV/Δt"]},{r:"°C + 273",o:["°C + 100","°C + 273","°C - 273"]}]},
+  {p:"Dans la racine, la pression osmotique va de [0,7 atm] (poil) à [3 atm] (cylindre central) : c'est le gradient qui permet la [conduction latérale].",t:[{r:"0,7 atm",o:["0,5 atm","0,7 atm","3 atm"]},{r:"3 atm",o:["0,7 atm","1,5 atm","3 atm"]},{r:"conduction latérale",o:["transpiration","osmose","conduction latérale"]}]},
+  {p:"Un stomate = [2 cellules stomatiques] + [1 ostiole]. À la lumière, l'ostiole [s'ouvre] (photosynthèse → turgescence).",t:[{r:"2 cellules stomatiques",o:["1 cellule de garde","2 cellules stomatiques","3 cellules épidermiques"]},{r:"1 ostiole",o:["1 vacuole","1 ostiole","2 stomates"]},{r:"s'ouvre",o:["se ferme","reste neutre","s'ouvre"]}]},
+  {p:"La [transpiration] foliaire crée une [aspiration foliaire] (tire l'eau vers le haut). La [poussée radiculaire] pousse la sève depuis les racines (pleurs de la vigne).",t:[{r:"transpiration",o:["photosynthèse","transpiration","absorption"]},{r:"aspiration foliaire",o:["poussée radiculaire","aspiration foliaire","osmose"]},{r:"poussée radiculaire",o:["aspiration foliaire","conduction latérale","poussée radiculaire"]}]},
+  {p:"Le bilan hydrique = [absorption - transpiration]. S'il est [négatif] (jour chaud), la plante se fane → [irriguer le soir].",t:[{r:"absorption - transpiration",o:["transpiration - absorption","absorption - transpiration","absorption + transpiration"]},{r:"négatif",o:["positif","neutre","négatif"]},{r:"irriguer le soir",o:["irriguer à midi","irriguer le matin","irriguer le soir"]}]},
+  {p:"Les [macroéléments] (N, P, K, S) nécessaires à [10⁻⁴–10⁻³ mg/ml] composent les organes. Les [oligoéléments] (Ca, Mg, Fe) nécessaires à [10⁻⁸–10⁻⁶ mg/ml] assurent le fonctionnement.",t:[{r:"macroéléments",o:["oligoéléments","macroéléments","microéléments"]},{r:"10⁻⁴–10⁻³ mg/ml",o:["10⁻⁸–10⁻⁶ mg/ml","10⁻⁴–10⁻³ mg/ml","1–10 mg/ml"]},{r:"oligoéléments",o:["macroéléments","oligoéléments","radioéléments"]},{r:"10⁻⁸–10⁻⁶ mg/ml",o:["10⁻⁴–10⁻³ mg/ml","10⁻⁸–10⁻⁶ mg/ml","1–10 μg/ml"]}]},
+  {p:"La carence en [K (potassium)] est la plus limitante (masse sèche = [44 g/100 pieds]), avec symptôme de [nécrose du limbe].",t:[{r:"K (potassium)",o:["N (azote)","Fe (fer)","K (potassium)"]},{r:"44 g/100 pieds",o:["68 g","130 g","44 g/100 pieds"]},{r:"nécrose du limbe",o:["chlorose générale","jaunissement extrémités","nécrose du limbe"]}]},
+  {p:"Le [xylème] = vaisseaux du bois : cellules [mortes] à parois riches en [lignine] (colorées en vert au carmino-vert), conduisant la [sève brute].",t:[{r:"xylème",o:["phloème","xylème","cambium"]},{r:"mortes",o:["vivantes en division","mortes","jeunes en croissance"]},{r:"lignine",o:["cellulose","subérine","lignine"]},{r:"sève brute",o:["sève élaborée","suc cellulaire","sève brute"]}]},
+  {p:"Sur la courbe K : [déficience] si K < 500 mg/L · [optimum] si K = 500–700 mg/L (max = [143 mg]) · [toxicité] si K > 700 mg/L.",t:[{r:"déficience",o:["toxicité","optimum","déficience"]},{r:"optimum",o:["déficience","toxicité","optimum"]},{r:"143 mg",o:["21 mg","90 mg","143 mg"]},{r:"toxicité",o:["optimum","déficience","toxicité"]}]},
+  {p:"Pour le potomètre : V = [π × R² × h] et vitesse = [ΔV / Δt]. Pour R=0,1 cm et h=0,8 cm : V = [0,025 cm³].",t:[{r:"π × R² × h",o:["π × h / R²","π × R² × h","π × R × h"]},{r:"ΔV / Δt",o:["V / R","ΔV × Δt","ΔV / Δt"]},{r:"0,025 cm³",o:["0,25 cm³","2,5 cm³","0,025 cm³"]}]},
+];
+function shuffle(a){return a.slice().sort(()=>Math.random()-.5);}
+function buildFC(){
+  const c=document.getElementById('fcg');if(!c)return;c.innerHTML='';
+  fcData.forEach(fc=>{
+    let html=fc.p;
+    fc.t.forEach(tr=>{
+      const opts=shuffle(tr.o).map(o=>`<option value="${o}">${o}</option>`).join('');
+      html=html.replace(`[${tr.r}]`,`<select class="fs" data-ans="${tr.r}"><option value="">—</option>${opts}</select>`);
+    });
+    c.innerHTML+=`<div class="fcc"><div class="fcp">${html}</div></div>`;
+  });
+}
+function chkFC(){
+  const ins=document.querySelectorAll('.fs');let ok=0,tot=ins.length;
+  ins.forEach(i=>{i.classList.toggle('ok',i.value===i.dataset.ans);i.classList.toggle('ko',i.value!==i.dataset.ans&&i.value!=='');if(i.value===i.dataset.ans)ok++;});
+  const s=document.getElementById('fcs');s.style.display='inline-block';
+  s.textContent=`Score : ${ok}/${tot} (${Math.round(ok/tot*100)}%)`;
+  s.style.background=ok===tot?'#e8f5e9':ok>=tot*.7?'#fff8e1':'#ffebee';
+}
+function rstFC(){document.querySelectorAll('.fs').forEach(i=>{i.value='';i.classList.remove('ok','ko');});document.getElementById('fcs').style.display='none';}
+
+// ══ QCM ══
+const qcmData=[
+  {q:"1. L'expérience de Rosène prouve que :",opts:[
+    {t:"A. La zone pilifère est la seule zone d'absorption (tube D = maximum)",c:true,ok:"✅ Correct. Tube D = zone pilifère dans l'eau + reste dans l'huile → absorption maximale. Tubes C et E (pilifère dans l'huile) → pas d'absorption.",ko:""},
+    {t:"B. La zone subéreuse absorbe mieux car elle est plus proche des vaisseaux",c:false,ok:"",ko:"❌ Incorrect. Tube E (subéreuse dans l'eau) → pas d'absorption. La subérine imperméabilise les parois → l'eau ne peut pas traverser."},
+    {t:"C. L'huile sert à isoler les zones non testées (imperméable à l'eau)",c:true,ok:"✅ Correct. L'huile, non miscible à l'eau, empêche le contact entre l'eau et les zones plongées dedans. C'est la façon d'isoler chaque zone séparément.",ko:""},
+    {t:"D. Le tube A (témoin) montre qu'une plante entière absorbe normalement",c:true,ok:"✅ Correct. Le témoin valide que les conditions expérimentales permettent une absorption. Sans lui, on ne peut pas interpréter les autres tubes.",ko:""},
+  ],rep:[0,2,3]},
+  {q:"2. L'osmose dans les poils absorbants se produit car :",opts:[
+    {t:"A. π poil (0,7 atm) > π sol (0,5 atm) → le poil est hypertonique par rapport au sol",c:true,ok:"✅ Correct. L'eau se déplace du milieu hypotonique (sol 0,5 atm) vers le milieu hypertonique (poil 0,7 atm). C'est la définition de l'osmose.",ko:""},
+    {t:"B. Si le sol devient hypertonique (excès d'engrais), l'eau sort des poils → plasmolyse",c:true,ok:"✅ Correct. Un excès d'engrais rend la solution du sol hypertonique par rapport aux poils → eau sort → plasmolyse → mort possible. D'où l'importance du dosage des engrais.",ko:""},
+    {t:"C. π = n·R·T permet de calculer la pression osmotique d'une solution",c:true,ok:"✅ Correct. π = n×R×T avec n=mol/L, R=0,082, T=Kelvin (°C+273). Ex : 0,1 mol/L à 27°C = 0,1×0,082×300 = 2,46 atm.",ko:""},
+    {t:"D. L'osmose se fait du milieu hypertonique vers le milieu hypotonique",c:false,ok:"",ko:"❌ Incorrect. C'est l'inverse : l'osmose se fait TOUJOURS du milieu le MOINS concentré (hypotonique) vers le milieu le PLUS concentré (hypertonique). L'eau 'cherche à diluer' le côté concentré."},
+  ],rep:[0,1,2]},
+  {q:"3. Concernant les stomates (données Dahlia/Tilleul p.38) :",opts:[
+    {t:"A. Plus de stomates face inférieure → plus de transpiration (Dahlia inf : 150 stomates → 600 mg/24h)",c:true,ok:"✅ Correct. Relation directe : densité stomates ∝ transpiration. Dahlia inf (150 stomates, 600 mg) > sup (110 stomates, 500 mg). Tilleul inf (300 stomates, 490 mg) >> sup (0 stomate, 200 mg).",ko:""},
+    {t:"B. Le Tilleul transpire 200 mg/24h face supérieure sans stomates grâce à sa cuticule mince",c:true,ok:"✅ Correct. La cuticule mince du Tilleul face sup laisse passer la vapeur d'eau (transpiration cuticulaire). Le Dahlia a une cuticule épaisse face sup → moins perméable.",ko:""},
+    {t:"C. À l'obscurité les stomates s'ouvrent car les cellules stomatiques font de la photosynthèse",c:false,ok:"",ko:"❌ Incorrect. C'est le contraire. À la lumière, les cellules stomatiques font de la photosynthèse → sucres ↑ → π osmotique ↑ → eau entre → turgescence → ostiole s'ouvre. À l'obscurité → fermeture."},
+    {t:"D. La transpiration est influencée par : lumière, humidité, température, vent",c:true,ok:"✅ Correct. Lumière ↑ et humidité ↓ → transpiration ↑. Température ↑ (jusqu'à 25-30°C) → transpiration ↑. Vent ↑ → renouvelle l'air saturé → transpiration ↑.",ko:""},
+  ],rep:[0,1,3]},
+  {q:"4. Concernant le milieu de Knop et les cultures carencées :",opts:[
+    {t:"A. Le milieu de Knop contient Ca(NO₃)₂ / KNO₃ / MgSO₄ / KH₂PO₄ / FeCl₃ dans l'eau distillée",c:true,ok:"✅ Correct. Composition exacte du manuel p.21. Ces 5 sels apportent tous les éléments nécessaires : N, P, K, S, Ca, Mg, Fe.",ko:""},
+    {t:"B. La carence en K est la plus limitante : masse sèche = 44 g (vs 162 g pour le complet) → nécrose du limbe",c:true,ok:"✅ Correct. K régule la turgescence cellulaire et l'ouverture des stomates. Sa carence est la plus grave (73% de réduction de masse). Symptôme = nécrose du limbe (tissu mort).",ko:""},
+    {t:"C. La carence en Mg cause une chlorose générale car Mg est l'atome central de la chlorophylle",c:true,ok:"✅ Correct. Le magnésium est l'atome central de la porphyrine (molécule de chlorophylle). Sans Mg → pas de chlorophylle entre les nervures → chlorose internervaire.",ko:""},
+    {t:"D. Les oligoéléments (N, P, K) sont nécessaires en plus grande quantité que les macroéléments",c:false,ok:"",ko:"❌ Incorrect. C'est l'inverse ! Les MACROÉLÉMENTS (N, P, K, S) sont nécessaires en grande quantité (10⁻⁴ à 10⁻³ mg/ml). Les OLIGOÉLÉMENTS (Ca, Mg, Fe) sont nécessaires en très faible quantité (10⁻⁸ à 10⁻⁶ mg/ml)."},
+  ],rep:[0,1,2]},
+  {q:"5. Sur la courbe de croissance en fonction de [K] (données p.23) :",opts:[
+    {t:"A. L'optimum se situe entre 500 et 700 mg/L (croissance maximale = 143 mg à [K]=600 mg/L)",c:true,ok:"✅ Correct. Données exactes : y(500)=139, y(550)=142, y(600)=143, y(650)=141, y(700)=140. Le maximum absolu est 143 mg à 600 mg/L. La zone 500-700 correspond à l'optimum.",ko:""},
+    {t:"B. Au-delà de 700 mg/L, la croissance chute car la solution devient hypertonique → plasmolyse",c:true,ok:"✅ Correct. Données : y(800)=100, y(900)=50, y(1000)=10. L'excès de K rend la solution hypertonique par rapport aux racines → plasmolyse → absorption perturbée → croissance chute.",ko:""},
+    {t:"C. Cette loi déficience/optimum/toxicité s'applique uniquement au potassium K",c:false,ok:"",ko:"❌ Incorrect. Cette loi en cloche est UNIVERSELLE pour tous les éléments minéraux. L'exercice 6 (p.42) montre la même forme pour les engrais azotés chez la tomate : optimum = 200 kg/ha."},
+    {t:"D. La production de tomate est maximale à 200 kg/ha d'engrais azoté (38 q/ha)",c:true,ok:"✅ Correct. Données p.42 : 0→10, 50→20, 100→25, 150→30, 200→38 (max), 250→30. Même loi que la courbe K : déficience → optimum (200 kg/ha) → toxicité.",ko:""},
+  ],rep:[0,1,3]},
+  {q:"6. Concernant le xylème et la conduction :",opts:[
+    {t:"A. Les vaisseaux du bois sont des cellules mortes à parois riches en lignine",c:true,ok:"✅ Correct. Les vaisseaux du bois sont des cellules mortes réduites à leur paroi lignifiée → tube rigide et vide parfait pour la circulation de la sève brute.",ko:""},
+    {t:"B. Au carmino-vert, les vaisseaux du bois se colorent en rose (parois cellulosiques)",c:false,ok:"",ko:"❌ Incorrect. Au carmino-vert, les parois riches en LIGNINE se colorent en VERT. Les parois riches en cellulose se colorent en rose. Les vaisseaux du bois = lignine = couleur VERTE."},
+    {t:"C. L'éosine monte dans la marguerite et colore les pétales → les vaisseaux du bois conduisent la sève",c:true,ok:"✅ Correct. L'éosine (traceur rouge de la sève brute) circule dans les vaisseaux du xylème de la tige jusqu'aux pétales. Preuve directe de la continuité et de la fonction conductrice du xylème.",ko:""},
+    {t:"D. La sève brute monte grâce à l'aspiration foliaire (transpiration) + la poussée radiculaire",c:true,ok:"✅ Correct. Deux forces complémentaires : aspiration foliaire (transpiration crée une dépression, tire la sève) + poussée radiculaire (pression des racines, pousse la sève). Prouvée par l'expérience de Hales.",ko:""},
+  ],rep:[0,2,3]},
+  {q:"7. Concernant le bilan hydrique et l'irrigation :",opts:[
+    {t:"A. Le jour, la transpiration dépasse l'absorption → bilan hydrique négatif",c:true,ok:"✅ Correct. Le jour : soleil + chaleur + stomates ouverts → transpiration maximale > absorption → bilan négatif → plante se déshydrate progressivement.",ko:""},
+    {t:"B. Irriguer la nuit est plus efficace car la transpiration est minimale (stomates fermés)",c:true,ok:"✅ Correct. La nuit, les stomates sont fermés → transpiration quasi nulle → bilan hydrique positif → toute l'eau apportée est absorbée et stockée. L'irrigation nocturne maximise l'efficacité de l'eau.",ko:""},
+    {t:"C. Un excès d'eau est bénéfique pour les racines car elles baignent dans leur milieu",c:false,ok:"",ko:"❌ Incorrect. Un excès d'eau déplace l'air du sol → asphyxie des racines (manque d'O₂ pour la respiration cellulaire) → absorption diminue → rendement chute. Le sol doit avoir un équilibre eau/air."},
+    {t:"D. L'engrais vert (trèfle, luzerne enfoui) est une fertilisation organique → libération progressive",c:true,ok:"✅ Correct. Les légumineuses (trèfle, luzerne) fixent l'azote atmosphérique. Après enfouissement, les micro-organismes décomposent la matière organique → nitrates libérés progressivement → fertilisation naturelle.",ko:""},
+  ],rep:[0,1,3]},
+  {q:"8. Concernant la méthode de Knop et les besoins minéraux :",opts:[
+    {t:"A. Les plantes cultivées sur milieu de Knop fleurissent et produisent des graines viables",c:true,ok:"✅ Correct. Résultat de l'expérience de Knop (1860) : développement normal, floraison, graines viables → le milieu synthétique est suffisant pour une croissance complète.",ko:""},
+    {t:"B. La méthode analytique consiste à brûler la plante et analyser les cendres et les gaz",c:true,ok:"✅ Correct. On brûle la plante → gaz (C, H, O venant de H₂O et CO₂) + cendres (minéraux N, P, K, S, Ca, Mg, Fe...). L'analyse chimique donne la composition élémentaire de la plante.",ko:""},
+    {t:"C. L'azote N est absorbé par la plante sous forme de gaz N₂ de l'atmosphère",c:false,ok:"",ko:"❌ Incorrect. Les plantes ordinaires absorbent N sous forme de NITRATES (NO₃⁻) dissous dans l'eau du sol (nitrate de calcium, nitrate de potassium dans Knop). Seules les légumineuses (avec leurs bactéries symbiotiques) peuvent fixer N₂ gazeux."},
+    {t:"D. La culture hors-sol applique le principe du milieu de Knop à l'échelle industrielle",c:true,ok:"✅ Correct. La culture hors-sol = plantes sur solution nutritive (eau + sels minéraux dosés). C'est exactement le même principe que Knop. La tomate hors-sol donne de meilleurs rendements que la culture en sol traditionnel.",ko:""},
+  ],rep:[0,1,3]},
+  {q:"9. Quelles affirmations sur la transpiration sont correctes d'après les données du manuel ?",opts:[
+    {t:"A. Potomètre A (complet) : 48 mm en 20 min > Potomètre B (feuilles réduites) : 21 mm",c:true,ok:"✅ Correct. Données exactes p.20. Le rapport A/B ≈ 2,3. Plus de feuilles = plus de transpiration = plus d'aspiration foliaire = plus d'absorption. Relation directe et quantifiée.",ko:""},
+    {t:"B. La poussée radiculaire est prouvée par les 'pleurs de la vigne' (sève sans feuilles au printemps)",c:true,ok:"✅ Correct. Un rameau de vigne coupé au printemps laisse s'écouler de la sève même sans feuilles → la montée n'est pas due à la transpiration mais à une pression propre des racines.",ko:""},
+    {t:"C. L'humidité relative élevée augmente la transpiration car les stomates s'ouvrent davantage",c:false,ok:"",ko:"❌ Incorrect. L'humidité élevée DIMINUE la transpiration. Quand l'air est saturé en vapeur d'eau, le gradient de concentration feuille/air est faible → peu d'évaporation. Ce n'est pas l'humidité qui ouvre les stomates mais la lumière."},
+    {t:"D. L'ouverture des stomates est maximale vers 10–14h et nulle la nuit (d'après le tracé 5 p.18)",c:true,ok:"✅ Correct. Le tracé 5 montre : ouverture qui augmente le matin avec la lumière, atteint ~80% vers 10-14h, diminue l'après-midi et devient nulle la nuit. Ce profil journalier est lié à l'intensité lumineuse.",ko:""},
+  ],rep:[0,1,3]},
+  {q:"10. Synthèse globale du chapitre :",opts:[
+    {t:"A. Le chemin de l'eau : sol → osmose → poil absorbant → conduction latérale → cylindre central → xylème → feuilles",c:true,ok:"✅ Correct. C'est le trajet complet de l'eau dans la plante. Chaque étape est expliquée par l'osmose (gradient croissant 0,5 → 3 atm) puis par l'aspiration foliaire + poussée radiculaire dans le xylème.",ko:""},
+    {t:"B. La concentration optimale en K est la même pour toutes les espèces végétales",c:false,ok:"",ko:"❌ Incorrect. La FORME de la courbe (déficience/optimum/toxicité) est universelle mais les valeurs numériques varient selon l'espèce. Pour l'expérience du manuel, l'optimum est 500-700 mg/L pour le maïs."},
+    {t:"C. Maïs irrigué (75 q/ha) vs non irrigué (25 q/ha) → l'irrigation triple le rendement",c:true,ok:"✅ Correct. Données réelles p.28. L'irrigation compense les pertes par transpiration et maintient un bilan hydrique positif ou neutre → la plante peut consacrer son énergie à la croissance et à la production.",ko:""},
+    {t:"D. La culture hors-sol (tomates sur solution nutritive) applique les connaissances de Knop pour obtenir des rendements supérieurs à la culture en sol",c:true,ok:"✅ Correct. Manuel p.31 : 'La culture hors-sol assure une production aussi bonne, voire meilleure que la culture traditionnelle.' Le contrôle précis de la solution nutritive optimise la nutrition minérale.",ko:""},
+  ],rep:[0,2,3]},
+];
+function buildQCM(){
+  const c=document.getElementById('qcm-c');if(!c)return;c.innerHTML='';
+  qcmData.forEach((q,i)=>{
+    const opts=q.opts.map((o,j)=>`<label class="qo" id="qo-${i}-${j}"><input type="checkbox" data-q="${i}" data-o="${j}"><span>${o.t}</span><div class="fb-txt" id="fb-${i}-${j}"></div></label>`).join('');
+    c.innerHTML+=`<div class="qi"><div class="qq">${q.q}</div>${opts}</div>`;
+  });
+}
+function corrQ(){
+  let sc=0;
+  qcmData.forEach((q,i)=>{
+    let ok=true;
+    q.opts.forEach((o,j)=>{
+      const lbl=document.getElementById(`qo-${i}-${j}`);
+      const inp=lbl.querySelector('input');
+      const fb=document.getElementById(`fb-${i}-${j}`);
+      const chk=inp.checked,shd=q.rep.includes(j);
+      lbl.classList.remove('correct','wrong','missed');fb.textContent='';
+      if(shd&&chk){lbl.classList.add('correct');fb.textContent=o.ok;}
+      else if(!shd&&chk){lbl.classList.add('wrong');fb.textContent=o.ko;ok=false;}
+      else if(shd&&!chk){lbl.classList.add('missed');fb.textContent='🟡 Bonne réponse manquée : '+o.ok;ok=false;}
+    });
+    if(ok)sc++;
+  });
+  document.querySelectorAll('.qo').forEach(el=>el.classList.add('locked'));
+  const r=document.getElementById('qr'),p=Math.round(sc/qcmData.length*100);
+  r.style.display='block';r.style.background=p>=80?'#e8f5e9':p>=50?'#fff8e1':'#ffebee';
+  r.style.color=p>=80?'#2E7D32':p>=50?'#E65100':'#c62828';
+  r.textContent=`Score : ${sc}/10 (${p}%) — ${p>=80?'Excellent ✅':p>=50?'Bien 👍':'À retravailler 📖'}`;
+}
+function rstQ(){
+  document.querySelectorAll('.qo').forEach(el=>{el.classList.remove('correct','wrong','missed','locked');el.querySelector('input').checked=false;});
+  document.querySelectorAll('.fb-txt').forEach(el=>el.textContent='');
+  document.getElementById('qr').style.display='none';
+}
+
+window.addEventListener('load',()=>{
+  buildFC();buildQCM();drawStomate();
+  rsOrd('ord1');
+  const cur=parseInt(localStorage.getItem('nmtab')||'0');
+  setTimeout(()=>{
+    if(cur===1)drawPoto();
+    if(cur===3){drawHumid();drawStomate();}
+    if(cur===4)drawK();
+    if(cur===6){drawMais();drawTomate();}
+    if(cur===10)drawTomEx();
+  },150);
+});
+</script>
+</body>
+</html>

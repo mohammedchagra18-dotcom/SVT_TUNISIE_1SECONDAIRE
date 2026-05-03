@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapitre 3 — Multiplication Végétative</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --vert:#2E7D32;--vert-light:#e8f5e9;
+  --orange:#E65100;--orange-light:#fff3e0;
+  --bleu:#1565C0;--bleu-light:#e3f2fd;
+  --teal:#00695C;--teal-light:#e0f2f1;
+  --violet:#4A148C;--violet-light:#f3e5f5;
+  --bg:#fafaf8;--text:#1a1a1a;--text-muted:#666;
+  --border:#e0e0e0;--shadow:0 2px 12px rgba(0,0,0,0.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;}
+
+/* HEADER */
+header{background:linear-gradient(135deg,#1b5e20 0%,#2E7D32 60%,#558B2F 100%);color:white;padding:24px 32px 20px;position:sticky;top:0;z-index:100;box-shadow:0 3px 16px rgba(0,0,0,0.2);}
+header h1{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:4px;}
+header p{font-size:.85rem;opacity:.85;}
+.prog-bar{height:4px;background:rgba(255,255,255,.3);border-radius:2px;margin-top:12px;}
+.prog-fill{height:100%;background:#fff;border-radius:2px;transition:width .4s;width:11%;}
+
+/* TABS PRINCIPAUX */
+.tabs-wrap{background:white;border-bottom:2px solid var(--border);position:sticky;top:96px;z-index:99;overflow-x:auto;}
+.tabs{display:flex;min-width:max-content;}
+.tab{padding:12px 16px;font-size:.8rem;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:var(--text-muted);white-space:nowrap;transition:all .2s;background:none;border-top:none;border-left:none;border-right:none;}
+.tab:hover{color:var(--vert);background:var(--vert-light);}
+.tab.active{color:var(--vert);border-bottom-color:var(--vert);}
+
+/* SOUS-ONGLETS */
+.subtabs-wrap{background:var(--vert-light);border-bottom:1px solid var(--vert-mid, #a5d6a7);overflow-x:auto;margin-bottom:20px;border-radius:0 0 8px 8px;}
+.subtabs{display:flex;min-width:max-content;padding:6px 12px;gap:6px;}
+.subtab{padding:7px 14px;font-size:.78rem;font-weight:600;cursor:pointer;border-radius:20px;color:var(--vert);background:white;border:1.5px solid var(--vert-mid, #a5d6a7);white-space:nowrap;transition:all .2s;}
+.subtab:hover{background:var(--vert);color:white;}
+.subtab.active{background:var(--vert);color:white;border-color:var(--vert);}
+.subpanel{display:none;}.subpanel.active{display:block;}
+
+/* CONTENT */
+.content{max-width:920px;margin:0 auto;padding:20px 20px 60px;}
+.panel{display:none;}.panel.active{display:block;}
+
+/* CARDS */
+.card{background:white;border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:var(--shadow);border-left:5px solid var(--vert);}
+.card.orange{border-left-color:var(--orange);}
+.card.bleu{border-left-color:var(--bleu);}
+.card.teal{border-left-color:var(--teal);}
+.card.violet{border-left-color:var(--violet);}
+h2{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:14px;color:var(--vert);}
+h3{font-size:.97rem;font-weight:700;margin:16px 0 8px;color:var(--text);}
+
+.question-dir{background:linear-gradient(135deg,#1b5e20 0%,#558B2F 100%);color:white;padding:14px 18px;border-radius:10px;font-weight:600;margin-bottom:18px;font-size:.95rem;}
+
+.retenons{background:var(--orange-light);border:1.5px solid var(--orange);border-radius:10px;padding:16px 18px;margin:16px 0;}
+.retenons h4{color:var(--orange);font-size:.78rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+.retenons p{margin-bottom:5px;font-size:.9rem;}
+.retenons dt{font-weight:700;color:var(--orange);display:inline;}
+.retenons dd{display:inline;margin-left:4px;}
+
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.88rem;}
+th{background:var(--vert);color:white;padding:10px 12px;text-align:left;}
+td{padding:9px 12px;border-bottom:1px solid var(--border);}
+tr:nth-child(even) td{background:var(--vert-light);}
+
+.svgbox{background:white;border-radius:10px;padding:12px;margin:14px 0;text-align:center;border:1px solid var(--border);}
+.svgbox svg{max-width:100%;height:auto;}
+.svgbox figcaption{font-size:.78rem;color:var(--text-muted);margin-top:6px;font-style:italic;}
+
+.info-box{display:flex;gap:12px;align-items:flex-start;background:var(--bleu-light);border-radius:10px;padding:14px 16px;margin:12px 0;border-left:4px solid var(--bleu);}
+.info-box .icon{font-size:1.4rem;flex-shrink:0;}
+.info-box p{font-size:.88rem;line-height:1.6;}
+
+.steps{counter-reset:step;display:grid;gap:10px;margin:12px 0;}
+.step{display:flex;gap:12px;align-items:flex-start;background:white;border-radius:10px;padding:12px 16px;box-shadow:var(--shadow);border-left:4px solid var(--teal);}
+.step-num{background:var(--teal);color:white;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0;}
+.step-txt{font-size:.9rem;line-height:1.5;}
+
+/* COMPARATIF */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0;}
+.compare-box{border-radius:10px;padding:16px;}
+.compare-box.trad{background:#fff8e1;border:2px solid #F9A825;}
+.compare-box.vitro{background:var(--teal-light);border:2px solid var(--teal);}
+.compare-box h4{font-weight:700;margin-bottom:8px;font-size:.95rem;}
+
+/* EXERCICE */
+.exo{background:linear-gradient(135deg,#f3e5f5,#e8f5e9);border:2px solid var(--violet);border-radius:12px;padding:20px;margin-top:20px;}
+.exo-title{font-weight:700;color:var(--violet);font-size:.88rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;}
+.exo-q p{margin-bottom:10px;font-size:.93rem;line-height:1.9;}
+select.blank{border:2px solid var(--violet);border-radius:6px;padding:3px 8px;font-size:.88rem;background:white;cursor:pointer;color:var(--violet);font-weight:600;transition:all .2s;}
+select.blank:focus{outline:none;border-color:var(--vert);}
+select.blank.ok{border-color:#4CAF50;background:#e8f5e9;color:#2E7D32;}
+select.blank.ko{border-color:#f44336;background:#ffebee;color:#c62828;}
+.exo-feedback{font-size:.85rem;padding:8px 12px;border-radius:8px;margin-top:10px;font-weight:600;}
+.exo-feedback.ok{background:#e8f5e9;color:#2E7D32;}
+.exo-feedback.ko{background:#ffebee;color:#c62828;}
+.btn-exo{background:var(--violet);color:white;border:none;padding:9px 20px;border-radius:8px;cursor:pointer;font-weight:700;font-size:.85rem;margin-top:12px;transition:background .2s;}
+.btn-exo:hover{background:#6A1B9A;}
+.btn-reset-exo{background:var(--border);color:var(--text);border:none;padding:9px 16px;border-radius:8px;cursor:pointer;font-weight:600;font-size:.85rem;margin-top:12px;margin-left:8px;}
+
+/* BILAN ACCORDEON */
+.accord-item{border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden;}
+.accord-head{padding:14px 18px;font-weight:600;cursor:pointer;background:white;display:flex;justify-content:space-between;align-items:center;transition:background .2s;}
+.accord-head:hover{background:var(--vert-light);}
+.accord-head.open{background:var(--vert);color:white;}
+.accord-body{display:none;padding:16px 18px;background:var(--bg);font-size:.9rem;line-height:1.7;}
+.accord-body.open{display:block;}
+.accord-arrow{font-size:1.1rem;transition:transform .3s;}
+.accord-head.open .accord-arrow{transform:rotate(180deg);}
+
+/* FLASHCARDS */
+.fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin:16px 0;}
+.fc-card{background:white;border-radius:10px;padding:16px;box-shadow:var(--shadow);border-top:4px solid var(--vert);}
+.fc-phrase{font-size:.92rem;line-height:1.9;margin-bottom:10px;}
+select.fc-select{border:2px solid var(--violet);border-radius:6px;padding:3px 8px;font-size:.85rem;background:white;cursor:pointer;color:var(--violet);font-weight:600;}
+select.fc-select.ok{border-color:#4CAF50;background:#e8f5e9;color:#2E7D32;}
+select.fc-select.ko{border-color:#f44336;background:#ffebee;color:#c62828;}
+.fc-actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+.btn{padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:.88rem;transition:all .2s;}
+.btn-vert{background:var(--vert);color:white;}.btn-vert:hover{background:#1b5e20;}
+.btn-grey{background:var(--border);color:var(--text);}.btn-grey:hover{background:#ccc;}
+#fc-score{font-weight:700;font-size:1rem;padding:10px 16px;border-radius:8px;}
+
+/* QCM */
+.qcm-item{background:white;border-radius:10px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow);}
+.qcm-q{font-weight:600;margin-bottom:12px;}
+.qcm-opt{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:6px;margin-bottom:6px;cursor:pointer;transition:background .15s;}
+.qcm-opt:hover{background:var(--vert-light);}
+.qcm-opt input{accent-color:var(--vert);}
+.qcm-opt.correct{background:#e8f5e9;border:1.5px solid #4CAF50;}
+.qcm-opt.wrong{background:#ffebee;border:1.5px solid #f44336;}
+#qcm-result{font-size:1.1rem;font-weight:700;padding:14px 20px;border-radius:10px;margin-top:16px;text-align:center;display:none;}
+
+.acquis-list{list-style:none;display:grid;gap:8px;}
+.acquis-list li{padding:10px 14px;background:var(--vert-light);border-radius:8px;border-left:4px solid var(--vert);font-size:.9rem;}
+.acquis-list li::before{content:"✓ ";color:var(--vert);font-weight:700;}
+
+.chiffre-box{background:linear-gradient(135deg,var(--teal-light),var(--bleu-light));border:2px solid var(--teal);border-radius:12px;padding:16px 24px;text-align:center;margin:14px 0;}
+.chiffre-box .big{font-size:2rem;font-weight:700;color:var(--teal);font-family:'Playfair Display',serif;}
+.chiffre-box p{font-size:.88rem;color:var(--text-muted);margin-top:4px;}
+
+@media(max-width:600px){
+  .compare{grid-template-columns:1fr;}
+  header h1{font-size:1.1rem;}
+  .tab{padding:10px 10px;font-size:.72rem;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Chapitre 3 — Multiplication Végétative</h1>
+  <p>1ère Année Secondaire SVT · Thème 1 : Amélioration de la production végétale</p>
+  <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+</header>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab active" onclick="showTab(0)">📚 Acquis</button>
+    <button class="tab" onclick="showTab(1)">Act. 1 — Techniques traditionnelles</button>
+    <button class="tab" onclick="showTab(2)">Act. 2 — Culture in vitro</button>
+    <button class="tab" onclick="showTab(3)">📋 Bilan</button>
+    <button class="tab" onclick="showTab(4)">🃏 Flashcards</button>
+    <button class="tab" onclick="showTab(5)">✏️ QCM</button>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ═══════════ ACQUIS ═══════════ -->
+<div class="panel active" id="panel-0">
+  <div class="card">
+    <h2>📚 Acquis du Collège</h2>
+    <ul class="acquis-list">
+      <li><strong>Reproduction sexuée</strong> : assurée par la graine (recombinaison génétique)</li>
+      <li><strong>Reproduction asexuée</strong> (multiplication végétative) : à partir d'organes végétatifs</li>
+      <li>Organes végétatifs utilisés : tige, rhizome, tubercule, bulbe</li>
+      <li>3 techniques traditionnelles : <strong>bouturage · marcottage · greffage</strong></li>
+    </ul>
+  </div>
+  <div class="card orange">
+    <h2>❓ Question directrice</h2>
+    <p style="font-size:.95rem;line-height:1.8">Afin d'améliorer la production végétale, l'agriculteur pratique des techniques variées permettant la multiplication rapide des plantes performantes. <strong>Quelles sont ces techniques ?</strong></p>
+  </div>
+  <div class="card bleu">
+    <h2>🗺️ Plan — 2 activités</h2>
+    <table>
+      <tr><th>#</th><th>Titre</th><th>Sous-parties</th><th>Pages</th></tr>
+      <tr><td>1</td><td>Techniques traditionnelles</td><td>Bouturage · Marcottage · Greffage · Importance</td><td>76–80</td></tr>
+      <tr><td>2</td><td>Culture in vitro</td><td>Microbouturage · Cellules méristématiques · Importance</td><td>81–84</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════ ACTIVITE 1 ═══════════ -->
+<div class="panel" id="panel-1">
+  <div class="question-dir">🌿 Activité 1 — Techniques traditionnelles de la multiplication végétative (p.76–80)</div>
+
+  <!-- SOUS-ONGLETS -->
+  <div class="subtabs-wrap">
+    <div class="subtabs">
+      <button class="subtab active" onclick="showSubTab(1,0)">🌱 Bouturage</button>
+      <button class="subtab" onclick="showSubTab(1,1)">🌿 Marcottage</button>
+      <button class="subtab" onclick="showSubTab(1,2)">✂️ Greffage</button>
+      <button class="subtab" onclick="showSubTab(1,3)">📊 Importance</button>
+      <button class="subtab" onclick="showSubTab(1,4)">✏️ Exercice</button>
+    </div>
+  </div>
+
+  <!-- BOUTURAGE -->
+  <div class="subpanel active" id="sub-1-0">
+    <div class="card">
+      <h2>🌱 Le Bouturage</h2>
+      <p style="margin-bottom:12px"><strong>Principe :</strong> un fragment d'organe végétatif (la <em>bouture</em>), mis en terre, s'enracine et développe une nouvelle plante identique à la plante mère.</p>
+
+      <h3>1. Bouturage chez la pomme de terre</h3>
+      <div class="svgbox">
+        <svg viewBox="0 0 620 200" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+          <!-- Cycle vegetatif: 4 phases -->
+          <!-- Phase repos -->
+          <rect x="10" y="60" width="120" height="80" rx="10" fill="#fff8e1" stroke="#F9A825" stroke-width="2"/>
+          <text x="70" y="82" text-anchor="middle" font-size="18">🥔</text>
+          <text x="70" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="#E65100">Tubercule</text>
+          <text x="70" y="115" text-anchor="middle" font-size="10" fill="#777">Phase de repos</text>
+          <text x="70" y="130" text-anchor="middle" font-size="10" fill="#777">(plusieurs mois)</text>
+          <!-- fleche -->
+          <path d="M133 100 L163 100" stroke="#aaa" stroke-width="2" marker-end="url(#a1)"/>
+          <defs><marker id="a1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#aaa"/></marker></defs>
+          <text x="148" y="92" text-anchor="middle" font-size="9" fill="#888">bourgeon</text>
+          <!-- Phase germination -->
+          <rect x="165" y="60" width="120" height="80" rx="10" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
+          <text x="225" y="82" text-anchor="middle" font-size="18">🌱</text>
+          <text x="225" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="#2E7D32">Germination</text>
+          <text x="225" y="115" text-anchor="middle" font-size="10" fill="#777">Rameau sans</text>
+          <text x="225" y="128" text-anchor="middle" font-size="10" fill="#777">chlorophylle</text>
+          <!-- fleche -->
+          <path d="M288 100 L318 100" stroke="#aaa" stroke-width="2" marker-end="url(#a1)"/>
+          <!-- Phase croissance -->
+          <rect x="320" y="60" width="120" height="80" rx="10" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
+          <text x="380" y="82" text-anchor="middle" font-size="18">🌿</text>
+          <text x="380" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="#2E7D32">Croissance</text>
+          <text x="380" y="115" text-anchor="middle" font-size="10" fill="#777">Tiges feuillées</text>
+          <text x="380" y="128" text-anchor="middle" font-size="10" fill="#777">fleurs</text>
+          <!-- fleche -->
+          <path d="M443 100 L473 100" stroke="#aaa" stroke-width="2" marker-end="url(#a1)"/>
+          <!-- Phase tubérisation -->
+          <rect x="475" y="60" width="130" height="80" rx="10" fill="#fff3e0" stroke="#E65100" stroke-width="2"/>
+          <text x="540" y="82" text-anchor="middle" font-size="18">🥔🥔🥔</text>
+          <text x="540" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="#E65100">Tubérisation</text>
+          <text x="540" y="115" text-anchor="middle" font-size="10" fill="#777">15–30 nouveaux</text>
+          <text x="540" y="128" text-anchor="middle" font-size="10" fill="#777">tubercules</text>
+          <!-- Titre -->
+          <text x="310" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="#333">Cycle végétatif de la pomme de terre</text>
+          <!-- Fleche retour -->
+          <path d="M540 143 Q540 185 70 185 Q70 185 70 143" fill="none" stroke="#ccc" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#a1)"/>
+          <text x="310" y="198" text-anchor="middle" font-size="9" fill="#aaa">nouveau cycle</text>
+        </svg>
+        <figcaption>Fig. 1 — Cycle végétatif de la pomme de terre : 1 tubercule → 15 à 30 nouveaux tubercules</figcaption>
+      </div>
+      <div class="info-box"><div class="icon">💡</div><p>Un seul bourgeon isolé d'un tubercule suffit à produire un plant normal producteur de tubercules normaux → preuve de la <strong>totipotence</strong>.</p></div>
+
+      <h3>2. Bouturage chez le pélargonium</h3>
+      <div class="svgbox">
+        <svg viewBox="0 0 500 160" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+          <!-- Rameau initial -->
+          <rect x="30" y="30" width="130" height="110" rx="10" fill="#f9fbe7" stroke="#558B2F" stroke-width="1.5"/>
+          <text x="95" y="52" text-anchor="middle" font-size="11" font-weight="700" fill="#33691E">Rameau feuillé</text>
+          <!-- Tige -->
+          <line x1="95" y1="60" x2="95" y2="125" stroke="#795548" stroke-width="5" stroke-linecap="round"/>
+          <!-- Feuilles -->
+          <ellipse cx="78" cy="78" rx="18" ry="10" fill="#66BB6A" stroke="#2E7D32" stroke-width="1" transform="rotate(-30,78,78)"/>
+          <ellipse cx="112" cy="85" rx="18" ry="10" fill="#66BB6A" stroke="#2E7D32" stroke-width="1" transform="rotate(30,112,85)"/>
+          <ellipse cx="80" cy="100" rx="18" ry="10" fill="#66BB6A" stroke="#2E7D32" stroke-width="1" transform="rotate(-20,80,100)"/>
+          <!-- Sol -->
+          <rect x="40" y="120" width="110" height="15" rx="4" fill="#8D6E63" opacity=".6"/>
+          <text x="95" y="150" text-anchor="middle" font-size="10" fill="#666">Enfoncé en terre humide</text>
+
+          <!-- Fleche -->
+          <path d="M165 90 L215 90" stroke="#aaa" stroke-width="2" marker-end="url(#a1)"/>
+          <text x="190" y="82" text-anchor="middle" font-size="9" fill="#888">quelques semaines</text>
+
+          <!-- Plante enracinee -->
+          <rect x="220" y="30" width="250" height="110" rx="10" fill="#e8f5e9" stroke="#2E7D32" stroke-width="1.5"/>
+          <text x="345" y="52" text-anchor="middle" font-size="11" font-weight="700" fill="#2E7D32">Nouvelle plante</text>
+          <!-- Tige plus grande -->
+          <line x1="345" y1="58" x2="345" y2="120" stroke="#795548" stroke-width="5" stroke-linecap="round"/>
+          <!-- Feuilles plus -->
+          <ellipse cx="322" cy="70" rx="20" ry="11" fill="#66BB6A" stroke="#2E7D32" stroke-width="1" transform="rotate(-30,322,70)"/>
+          <ellipse cx="368" cy="78" rx="20" ry="11" fill="#66BB6A" stroke="#2E7D32" stroke-width="1" transform="rotate(30,368,78)"/>
+          <ellipse cx="318" cy="95" rx="20" ry="11" fill="#66BB6A" stroke="#2E7D32" stroke-width="1" transform="rotate(-20,318,95)"/>
+          <ellipse cx="370" cy="100" rx="20" ry="11" fill="#66BB6A" stroke="#2E7D32" stroke-width="1" transform="rotate(20,370,100)"/>
+          <!-- Racines adventives -->
+          <path d="M345 120 Q330 132 320 128" fill="none" stroke="#795548" stroke-width="2"/>
+          <path d="M345 120 Q338 135 332 135" fill="none" stroke="#795548" stroke-width="2"/>
+          <path d="M345 120 Q350 133 356 130" fill="none" stroke="#795548" stroke-width="2"/>
+          <path d="M345 120 Q358 134 368 130" fill="none" stroke="#795548" stroke-width="2"/>
+          <rect x="230" y="120" width="230" height="15" rx="4" fill="#8D6E63" opacity=".6"/>
+          <text x="345" y="152" text-anchor="middle" font-size="10" fill="#2E7D32" font-weight="600">Racines adventives ✓</text>
+        </svg>
+        <figcaption>Fig. 2 — Bouturage du pélargonium : formation de racines adventives au niveau de la section</figcaption>
+      </div>
+
+      <h3>3. Bouturage chez l'olivier</h3>
+      <table>
+        <tr><th>Type</th><th>Technique</th><th>Conditions</th><th>Résultat</th></tr>
+        <tr><td><strong>Semi-ligneux</strong></td><td>Rameau de 15–17 cm, 2 paires de feuilles au sommet</td><td>23–25°C · humidité &gt;80%</td><td>Cal → racines en ~8 semaines</td></tr>
+        <tr><td><strong>Éclat de souche</strong></td><td>Fragment du tronc (souchet) 15–20 cm · 500g à 5 kg</td><td>Enterré + irrigué</td><td>Enracinement → nouvelle plante identique</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- MARCOTTAGE -->
+  <div class="subpanel" id="sub-1-1">
+    <div class="card">
+      <h2>🌿 Le Marcottage</h2>
+      <p style="margin-bottom:14px"><strong>Principe :</strong> une tige aérienne est enterrée <em>sans être détachée</em> de la plante mère → racines adventives → séparation → nouvelle plante identique.</p>
+      <div class="svgbox">
+        <svg viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+          <!-- Plante mere -->
+          <text x="120" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#2E7D32">Plante mère</text>
+          <!-- Tronc -->
+          <line x1="120" y1="25" x2="120" y2="100" stroke="#795548" stroke-width="6" stroke-linecap="round"/>
+          <!-- Feuilles plante mere -->
+          <ellipse cx="95" cy="45" rx="22" ry="12" fill="#66BB6A" stroke="#2E7D32" stroke-width="1.5" transform="rotate(-25,95,45)"/>
+          <ellipse cx="145" cy="50" rx="22" ry="12" fill="#66BB6A" stroke="#2E7D32" stroke-width="1.5" transform="rotate(25,145,50)"/>
+          <ellipse cx="92" cy="72" rx="22" ry="12" fill="#66BB6A" stroke="#2E7D32" stroke-width="1.5" transform="rotate(-20,92,72)"/>
+          <!-- Tige laterale -->
+          <path d="M120 70 Q200 55 290 70 Q350 80 380 90" fill="none" stroke="#795548" stroke-width="4" stroke-linecap="round"/>
+          <!-- Feuilles tige laterale -->
+          <ellipse cx="200" cy="52" rx="18" ry="9" fill="#a5d6a7" stroke="#2E7D32" stroke-width="1" transform="rotate(-15,200,52)"/>
+          <ellipse cx="280" cy="58" rx="18" ry="9" fill="#a5d6a7" stroke="#2E7D32" stroke-width="1" transform="rotate(10,280,58)"/>
+          <ellipse cx="370" cy="78" rx="18" ry="9" fill="#a5d6a7" stroke="#2E7D32" stroke-width="1" transform="rotate(20,370,78)"/>
+          <!-- Partie enterree -->
+          <rect x="195" y="100" width="140" height="50" rx="8" fill="#8D6E63" opacity=".35"/>
+          <text x="265" y="120" text-anchor="middle" font-size="10" fill="#5D4037">Partie enterrée</text>
+          <!-- Racines adventives -->
+          <path d="M250 118 Q238 135 230 140" fill="none" stroke="#795548" stroke-width="2"/>
+          <path d="M255 118 Q250 138 246 145" fill="none" stroke="#795548" stroke-width="2"/>
+          <path d="M265 120 Q265 138 260 148" fill="none" stroke="#795548" stroke-width="2"/>
+          <path d="M275 118 Q280 136 285 140" fill="none" stroke="#795548" stroke-width="2"/>
+          <text x="265" y="162" text-anchor="middle" font-size="10" fill="#795548" font-weight="600">Racines adventives ✓</text>
+          <!-- Ligne de coupe -->
+          <line x1="188" y1="88" x2="188" y2="160" stroke="#f44336" stroke-width="2" stroke-dasharray="5,3"/>
+          <text x="175" y="175" text-anchor="middle" font-size="10" fill="#f44336">✂ coupe</text>
+          <!-- Resultat -->
+          <rect x="400" y="50" width="145" height="130" rx="10" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
+          <text x="472" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="#2E7D32">Nouvelle plante</text>
+          <text x="472" y="85" text-anchor="middle" font-size="10" fill="#555">identique à la plante mère</text>
+          <line x1="472" y1="92" x2="472" y2="155" stroke="#795548" stroke-width="4" stroke-linecap="round"/>
+          <ellipse cx="452" cy="108" rx="18" ry="9" fill="#66BB6A" stroke="#2E7D32" stroke-width="1" transform="rotate(-20,452,108)"/>
+          <ellipse cx="492" cy="115" rx="18" ry="9" fill="#66BB6A" stroke="#2E7D32" stroke-width="1" transform="rotate(20,492,115)"/>
+          <path d="M472 155 Q455 168 445 165" fill="none" stroke="#795548" stroke-width="2"/>
+          <path d="M472 155 Q470 170 464 172" fill="none" stroke="#795548" stroke-width="2"/>
+          <path d="M472 155 Q480 168 490 165" fill="none" stroke="#795548" stroke-width="2"/>
+          <rect x="408" y="155" width="128" height="18" rx="4" fill="#8D6E63" opacity=".5"/>
+          <text x="472" y="185" text-anchor="middle" font-size="9" fill="#555">Exemple : jasmin</text>
+        </svg>
+        <figcaption>Fig. 3 — Principe du marcottage : tige enterrée sans détacher → racines → séparation</figcaption>
+      </div>
+      <div class="info-box"><div class="icon">🌿</div><p>Le marcottage diffère du bouturage : la tige reste attachée à la plante mère pendant l'enracinement → meilleure alimentation en eau et nutriments → taux de réussite plus élevé.</p></div>
+    </div>
+  </div>
+
+  <!-- GREFFAGE -->
+  <div class="subpanel" id="sub-1-2">
+    <div class="card">
+      <h2>✂️ Le Greffage</h2>
+      <p style="margin-bottom:12px"><strong>Principe :</strong> un <em>greffon</em> (bourgeon ou rameau sélectionné) est fixé sur un <em>porte-greffe</em> de sorte que leurs vaisseaux conducteurs se raccordent. La nouvelle plante porte les caractères du <strong>greffon</strong>.</p>
+
+      <div class="svgbox">
+        <svg viewBox="0 0 580 200" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+          <!-- GREFFE EN FENTE -->
+          <text x="145" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#333">Greffe en fente</text>
+          <!-- Porte greffe -->
+          <rect x="120" y="80" width="50" height="100" rx="6" fill="#BCAAA4" stroke="#795548" stroke-width="2"/>
+          <text x="145" y="198" text-anchor="middle" font-size="9" fill="#795548">Porte-greffe</text>
+          <!-- Fente -->
+          <line x1="145" y1="78" x2="145" y2="108" stroke="#555" stroke-width="2"/>
+          <!-- Greffon biseau -->
+          <polygon points="132,30 158,30 145,78" fill="#a5d6a7" stroke="#2E7D32" stroke-width="2"/>
+          <text x="145" y="22" text-anchor="middle" font-size="9" fill="#2E7D32">Greffon (biseau)</text>
+          <!-- Feuilles greffon -->
+          <ellipse cx="128" cy="42" rx="16" ry="8" fill="#66BB6A" stroke="#2E7D32" stroke-width="1" transform="rotate(-25,128,42)"/>
+          <ellipse cx="162" cy="42" rx="16" ry="8" fill="#66BB6A" stroke="#2E7D32" stroke-width="1" transform="rotate(25,162,42)"/>
+          <!-- Ligature -->
+          <path d="M125 82 Q145 76 165 82 Q165 96 145 92 Q125 96 125 82" fill="none" stroke="#E65100" stroke-width="2" stroke-dasharray="4,2"/>
+          <text x="190" y="92" font-size="9" fill="#E65100">ligature + mastic</text>
+
+          <!-- GREFFE EN ECUSSON -->
+          <text x="420" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#333">Greffe en écusson</text>
+          <!-- Porte greffe ecusson -->
+          <rect x="395" y="50" width="50" height="140" rx="6" fill="#BCAAA4" stroke="#795548" stroke-width="2"/>
+          <text x="420" y="198" text-anchor="middle" font-size="9" fill="#795548">Porte-greffe</text>
+          <!-- Incision T -->
+          <line x1="420" y1="75" x2="420" y2="120" stroke="#555" stroke-width="2"/>
+          <line x1="400" y1="75" x2="440" y2="75" stroke="#555" stroke-width="2"/>
+          <text x="455" y="80" font-size="9" fill="#555">Incision en T</text>
+          <!-- Ecusson -->
+          <rect x="410" y="77" width="20" height="28" rx="3" fill="#66BB6A" stroke="#2E7D32" stroke-width="1.5"/>
+          <circle cx="420" cy="88" r="5" fill="#2E7D32"/>
+          <text x="455" y="96" font-size="9" fill="#2E7D32">Greffon</text>
+          <text x="455" y="108" font-size="9" fill="#2E7D32">(bourgeon)</text>
+          <!-- Ligature ecusson -->
+          <path d="M398 108 Q420 102 442 108 Q442 118 420 114 Q398 118 398 108" fill="none" stroke="#E65100" stroke-width="2" stroke-dasharray="4,2"/>
+          <!-- Resultat commun -->
+          <rect x="200" y="60" width="170" height="120" rx="10" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
+          <text x="285" y="80" text-anchor="middle" font-size="12" font-weight="700" fill="#2E7D32">Résultat</text>
+          <text x="285" y="98" text-anchor="middle" font-size="10" fill="#555">• Porte-greffe : racines + base tige</text>
+          <text x="285" y="113" text-anchor="middle" font-size="10" fill="#555">• Greffon : feuilles, rameaux, fruits</text>
+          <text x="285" y="130" text-anchor="middle" font-size="10" fill="#2E7D32" font-weight="600">Caractères = ceux du GREFFON</text>
+          <text x="285" y="148" text-anchor="middle" font-size="10" fill="#555">Vaisseaux raccordés ✓</text>
+          <text x="285" y="163" text-anchor="middle" font-size="10" fill="#777">végétal sélectionné conservé</text>
+        </svg>
+        <figcaption>Fig. 4 — Greffe en fente (à gauche) et greffe en écusson (à droite)</figcaption>
+      </div>
+
+      <h3>Tableau des modalités de greffage</h3>
+      <table>
+        <tr><th>Type de greffe</th><th>Greffon</th><th>Porte-greffe</th><th>Période</th></tr>
+        <tr><td>Greffe en fente</td><td>Pommier</td><td>Pommier franc</td><td>Hiver</td></tr>
+        <tr><td>Greffe en fente</td><td>Poirier</td><td>Poirier franc, cognassier</td><td>Hiver</td></tr>
+        <tr><td>Greffe en écusson</td><td>Abricotier</td><td>Abricotier franc, amandier franc</td><td>Mai</td></tr>
+        <tr><td>Greffe en écusson</td><td>Pêcher</td><td>Pêcher franc, amandier franc</td><td>Juin</td></tr>
+      </table>
+      <div class="info-box"><div class="icon">⚠️</div><p>Le greffon et le porte-greffe doivent appartenir à la <strong>même espèce ou à des espèces voisines</strong> pour que la greffe réussisse. Un <em>végétal franc</em> est un végétal provenant de semis.</p></div>
+    </div>
+  </div>
+
+  <!-- IMPORTANCE TRAD -->
+  <div class="subpanel" id="sub-1-3">
+    <div class="card">
+      <h2>📊 Importance de la multiplication végétative traditionnelle</h2>
+      <div class="info-box"><div class="icon">🎯</div><p>La multiplication végétative permet de multiplier rapidement des plantes ayant des caractères appréciés : <strong>rendement élevé · qualité alimentaire · résistance aux maladies · valeur ornementale</strong>.</p></div>
+
+      <div class="svgbox">
+        <svg viewBox="0 0 560 130" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+          <!-- Comparaison bouturage vs graine -->
+          <text x="280" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="#333">Pomme de terre : bouturage vs reproduction sexuée</text>
+          <!-- Bouturage -->
+          <rect x="20" y="35" width="240" height="80" rx="10" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
+          <text x="140" y="56" text-anchor="middle" font-size="12" font-weight="700" fill="#2E7D32">🥔 Bouturage (fragment)</text>
+          <text x="140" y="74" text-anchor="middle" font-size="11" fill="#555">Planté en automne</text>
+          <text x="140" y="90" text-anchor="middle" font-size="12" font-weight="700" fill="#2E7D32">→ 15 à 30 tubercules</text>
+          <text x="140" y="107" text-anchor="middle" font-size="11" fill="#2E7D32">récoltés au printemps</text>
+          <!-- Graine -->
+          <rect x="300" y="35" width="240" height="80" rx="10" fill="#ffebee" stroke="#f44336" stroke-width="2"/>
+          <text x="420" y="56" text-anchor="middle" font-size="12" font-weight="700" fill="#c62828">🌱 Graine</text>
+          <text x="420" y="74" text-anchor="middle" font-size="11" fill="#555">Semée</text>
+          <text x="420" y="90" text-anchor="middle" font-size="12" font-weight="700" fill="#c62828">→ Plant à tubercules normaux</text>
+          <text x="420" y="107" text-anchor="middle" font-size="11" fill="#c62828">seulement après 4 ans</text>
+        </svg>
+        <figcaption>Fig. 5 — Avantage du bouturage sur la reproduction par graine pour la pomme de terre</figcaption>
+      </div>
+
+      <div class="retenons">
+        <h4>📌 Retenons</h4>
+        <p><dt>Bouture :</dt><dd>portion d'une plante (feuille, tige, rhizome…) capable de régénérer les parties manquantes.</dd></p>
+        <p><dt>Bouturage :</dt><dd>technique consistant à réaliser des boutures pour multiplier asexuément une plante.</dd></p>
+        <p><dt>Marcottage :</dt><dd>mise en contact d'une tige aérienne avec le sol pour l'enraciner, puis séparation de la plante mère.</dd></p>
+        <p><dt>Greffage :</dt><dd>insertion d'un greffon sur un porte-greffe pour développer les caractères du greffon.</dd></p>
+        <p><dt>Végétal franc :</dt><dd>végétal provenant de semis (graine).</dd></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXERCICE ACT 1 -->
+  <div class="subpanel" id="sub-1-4">
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice interactif — Techniques traditionnelles</div>
+      <div class="exo-q" id="exo1-q">
+        <p>1. Dans le bouturage, le fragment de plante capable de s'enraciner s'appelle une <select class="blank" data-rep="bouture"><option value="">—</option><option>marcotte</option><option>bouture</option><option>greffe</option><option>graine</option></select>. Les racines qui se forment sur la tige sont des racines <select class="blank" data-rep="adventives"><option value="">—</option><option>primaires</option><option>adventives</option><option>secondaires</option></select>.</p>
+        <p>2. Dans le marcottage, la tige est enterrée <select class="blank" data-rep="sans être détachée"><option value="">—</option><option>après avoir été détachée</option><option>sans être détachée</option></select> de la plante mère, puis séparée après <select class="blank" data-rep="enracinement"><option value="">—</option><option>germination</option><option>enracinement</option><option>fructification</option></select>.</p>
+        <p>3. Dans le greffage, la nouvelle plante porte les caractères de <select class="blank" data-rep="du greffon"><option value="">—</option><option>du porte-greffe</option><option>du greffon</option><option>des deux</option></select>. Le porte-greffe fournit <select class="blank" data-rep="les racines"><option value="">—</option><option>les feuilles et fruits</option><option>les racines</option><option>les bourgeons</option></select>.</p>
+        <p>4. Pour le bouturage semi-ligneux de l'olivier, la température optimale est de <select class="blank" data-rep="23–25°C"><option value="">—</option><option>10–15°C</option><option>23–25°C</option><option>35–40°C</option></select> avec une humidité supérieure à <select class="blank" data-rep="80%"><option value="">—</option><option>30%</option><option>50%</option><option>80%</option></select>.</p>
+        <p>5. Un fragment de tubercule de pomme de terre planté en automne produit <select class="blank" data-rep="15 à 30 tubercules"><option value="">—</option><option>1 à 3 tubercules</option><option>5 à 10 tubercules</option><option>15 à 30 tubercules</option></select> au printemps. Une graine met <select class="blank" data-rep="4 ans"><option value="">—</option><option>1 an</option><option>2 ans</option><option>4 ans</option></select> pour produire un plant normal.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo1')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo1')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo1-fb"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ ACTIVITE 2 ═══════════ -->
+<div class="panel" id="panel-2">
+  <div class="question-dir">🔬 Activité 2 — Multiplication végétative par culture in vitro (p.81–84)</div>
+
+  <div class="subtabs-wrap">
+    <div class="subtabs">
+      <button class="subtab active" onclick="showSubTab(2,0)">🧫 Microbouturage</button>
+      <button class="subtab" onclick="showSubTab(2,1)">🔬 Cellules méristématiques</button>
+      <button class="subtab" onclick="showSubTab(2,2)">📊 Importance</button>
+      <button class="subtab" onclick="showSubTab(2,3)">✏️ Exercice</button>
+    </div>
+  </div>
+
+  <!-- MICROBOUTURAGE -->
+  <div class="subpanel active" id="sub-2-0">
+    <div class="card">
+      <h2>🧫 Microbouturage in vitro</h2>
+      <p style="margin-bottom:12px">Cette technique prélève une <strong>microbouture</strong> (bourgeon) sur une plante performante. Les cellules du bourgeon sont des cellules <strong>totipotentes</strong> : capables de se développer en n'importe quel organe.</p>
+
+      <div class="chiffre-box">
+        <div class="big">400 000</div>
+        <p>oliviers identiques obtenus en 1 an par microbouturage</p>
+        <p style="margin-top:6px;font-size:.8rem;color:var(--orange)">vs ~20 plants par bouturage traditionnel dans le même temps</p>
+      </div>
+
+      <h3>Les 9 étapes du microbouturage chez l'olivier</h3>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-txt">Fragmentation d'un rameau d'olivier en <strong>microboutures</strong> (chacune porte un bourgeon)</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-txt">Mise en culture dans un <strong>milieu nutritif stérile</strong> (conditions d'asepsie)</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-txt">Développement de <strong>vitro-pousses</strong> pendant ~3 mois</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-txt">Fragmentation de la vitro-pousse en nouvelles microboutures (sous conditions stériles)</div></div>
+        <div class="step"><div class="step-num">5</div><div class="step-txt">Remise sur milieu nutritif</div></div>
+        <div class="step"><div class="step-num">6</div><div class="step-txt">Nouveau développement <em>(les étapes 4-5-6 se répètent plusieurs fois)</em></div></div>
+        <div class="step"><div class="step-num">7</div><div class="step-txt"><strong>Enracinement</strong> des vitro-pousses</div></div>
+        <div class="step"><div class="step-num">8</div><div class="step-txt">Mise en pot : phase d'<strong>acclimatation</strong></div></div>
+        <div class="step"><div class="step-num">9</div><div class="step-txt"><strong>Plantation</strong> en plein champ</div></div>
+      </div>
+      <div class="info-box"><div class="icon">🧬</div><p>Toutes les plantes issues du microbouturage d'une même plante mère forment un <strong>clone</strong> : elles sont génétiquement identiques entre elles et à la plante d'origine.</p></div>
+    </div>
+  </div>
+
+  <!-- MERISTEMES -->
+  <div class="subpanel" id="sub-2-1">
+    <div class="card">
+      <h2>🔬 Culture de cellules méristématiques</h2>
+      <p style="margin-bottom:14px">À l'extrémité des <strong>bourgeons terminaux</strong>, des cellules méristématiques assurent la croissance et l'édification des organes. Isolées et cultivées in vitro, elles donnent des individus identiques.</p>
+
+      <div class="svgbox">
+        <svg viewBox="0 0 580 200" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+          <!-- Plante performante -->
+          <rect x="10" y="40" width="90" height="120" rx="10" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
+          <text x="55" y="60" text-anchor="middle" font-size="10" font-weight="700" fill="#2E7D32">Plante</text>
+          <text x="55" y="73" text-anchor="middle" font-size="10" font-weight="700" fill="#2E7D32">performante</text>
+          <line x1="55" y1="80" x2="55" y2="145" stroke="#795548" stroke-width="4"/>
+          <ellipse cx="38" cy="98" rx="16" ry="8" fill="#66BB6A" stroke="#2E7D32" stroke-width="1" transform="rotate(-20,38,98)"/>
+          <ellipse cx="72" cy="107" rx="16" ry="8" fill="#66BB6A" stroke="#2E7D32" stroke-width="1" transform="rotate(20,72,107)"/>
+          <!-- Bourgeon terminal -->
+          <ellipse cx="55" cy="82" rx="10" ry="7" fill="#ff8f00" stroke="#E65100" stroke-width="1.5"/>
+          <text x="55" y="170" text-anchor="middle" font-size="9" fill="#E65100">Bourgeon terminal</text>
+          <text x="55" y="182" text-anchor="middle" font-size="9" fill="#2E7D32">cellules méristématiques</text>
+
+          <!-- Flèche 1 -->
+          <path d="M103 100 L140 100" stroke="#aaa" stroke-width="2" marker-end="url(#a1)"/>
+          <text x="121" y="90" text-anchor="middle" font-size="9" fill="#888">prélèvement</text>
+
+          <!-- Tube culture -->
+          <rect x="143" y="60" width="70" height="100" rx="10" fill="#e3f2fd" stroke="#1565C0" stroke-width="2"/>
+          <text x="178" y="82" text-anchor="middle" font-size="10" font-weight="700" fill="#1565C0">Culture</text>
+          <text x="178" y="95" text-anchor="middle" font-size="10" fill="#1565C0">in vitro</text>
+          <text x="178" y="110" text-anchor="middle" font-size="9" fill="#555">milieu nutritif</text>
+          <text x="178" y="123" text-anchor="middle" font-size="9" fill="#555">stérile</text>
+          <rect x="155" y="128" width="46" height="20" rx="4" fill="#a5d6a7" stroke="#2E7D32"/>
+          <text x="178" y="142" text-anchor="middle" font-size="9" fill="#1b5e20">massif cell.</text>
+
+          <!-- Flèche 2 -->
+          <path d="M216 100 L253 100" stroke="#aaa" stroke-width="2" marker-end="url(#a1)"/>
+          <text x="234" y="90" text-anchor="middle" font-size="9" fill="#888">fragmentation</text>
+
+          <!-- Multiplication -->
+          <rect x="256" y="50" width="90" height="120" rx="10" fill="#fff8e1" stroke="#F9A825" stroke-width="2"/>
+          <text x="301" y="72" text-anchor="middle" font-size="10" font-weight="700" fill="#E65100">Fragmentation</text>
+          <text x="301" y="85" text-anchor="middle" font-size="10" font-weight="700" fill="#E65100">répétée</text>
+          <rect x="270" y="92" width="62" height="14" rx="3" fill="#a5d6a7" stroke="#2E7D32"/>
+          <rect x="270" y="110" width="62" height="14" rx="3" fill="#a5d6a7" stroke="#2E7D32"/>
+          <rect x="270" y="128" width="62" height="14" rx="3" fill="#a5d6a7" stroke="#2E7D32"/>
+          <text x="301" y="155" text-anchor="middle" font-size="9" fill="#555">×N cycles</text>
+
+          <!-- Flèche 3 -->
+          <path d="M349 100 L386 100" stroke="#aaa" stroke-width="2" marker-end="url(#a1)"/>
+          <text x="367" y="90" text-anchor="middle" font-size="9" fill="#888">enracinement</text>
+
+          <!-- Clone -->
+          <rect x="389" y="40" width="175" height="130" rx="10" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2.5"/>
+          <text x="476" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#2E7D32">CLONE</text>
+          <text x="476" y="76" text-anchor="middle" font-size="10" fill="#555">Très grand nombre</text>
+          <text x="476" y="89" text-anchor="middle" font-size="10" fill="#555">de plantes identiques</text>
+          <text x="402" y="108" font-size="20">🌱🌱🌱</text>
+          <text x="448" y="108" font-size="20">🌱🌱🌱</text>
+          <text x="402" y="130" font-size="20">🌱🌱🌱</text>
+          <text x="448" y="130" font-size="20">🌱🌱🌱</text>
+          <text x="476" y="160" text-anchor="middle" font-size="10" font-weight="700" fill="#2E7D32">= caractères de la plante mère</text>
+        </svg>
+        <figcaption>Fig. 6 — Étapes de la culture in vitro de cellules méristématiques → clone</figcaption>
+      </div>
+
+      <div class="info-box"><div class="icon">🧬</div><p>Les cellules méristématiques sont dites <strong>totipotentes</strong> : une seule cellule peut donner n'importe quel organe (tige, racine, feuille…) et un individu entier.</p></div>
+    </div>
+  </div>
+
+  <!-- IMPORTANCE VITRO -->
+  <div class="subpanel" id="sub-2-2">
+    <div class="card teal">
+      <h2>📊 Importance de la culture in vitro</h2>
+      <div class="compare">
+        <div class="compare-box trad">
+          <h4>🌿 Techniques traditionnelles</h4>
+          <ul style="margin-left:16px;line-height:2;font-size:.9rem">
+            <li>Bouturage · Marcottage · Greffage</li>
+            <li>Nombre de plants <strong>faible</strong></li>
+            <li>~20 oliviers/an par bouturage</li>
+            <li>Caractères de la plante mère conservés</li>
+            <li>Risque de transmission de maladies</li>
+          </ul>
+        </div>
+        <div class="compare-box vitro">
+          <h4>🔬 Culture in vitro</h4>
+          <ul style="margin-left:16px;line-height:2;font-size:.9rem">
+            <li>Microbouturage · Méristèmes</li>
+            <li>Nombre de plants <strong>massif</strong></li>
+            <li>400 000 oliviers/an en 9m²</li>
+            <li>Caractères conservés + plantes saines</li>
+            <li>Conditions stériles → sans maladies</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Applications concrètes</h3>
+      <table>
+        <tr><th>Application</th><th>Exemple</th><th>Résultat</th></tr>
+        <tr><td>Clones sains</td><td>Pomme de terre atteinte par virus</td><td>Économie de 30t/an de pertes (15% production)</td></tr>
+        <tr><td>Conservation espèces rares</td><td>Pommier ancien, rosier ancien</td><td>Espèces sauvées de la disparition</td></tr>
+        <tr><td>Économie d'espace</td><td>Local de 9 m²</td><td>Remplace 25 500 m² de serres chauffées</td></tr>
+        <tr><td>Gain de temps</td><td>Producteur d'œillets</td><td>Production en 2 ans au lieu de 4 ans</td></tr>
+      </table>
+
+      <div class="retenons">
+        <h4>📌 Retenons</h4>
+        <p><dt>Culture in vitro :</dt><dd>multiplication de cellules végétales sur milieu nutritif adapté pour obtenir de nouvelles plantes identiques.</dd></p>
+        <p><dt>Clone :</dt><dd>ensemble d'individus possédant les mêmes caractères, issus de la multiplication végétative d'un individu unique.</dd></p>
+        <p><dt>Cellules totipotentes :</dt><dd>cellules capables de se développer en n'importe quel organe et de donner un individu entier.</dd></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXERCICE ACT 2 -->
+  <div class="subpanel" id="sub-2-3">
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice interactif — Culture in vitro</div>
+      <div class="exo-q" id="exo2-q">
+        <p>1. La culture in vitro par microbouturage prélève un <select class="blank" data-rep="bourgeon"><option value="">—</option><option>tubercule</option><option>bourgeon</option><option>fruit</option></select> sur la plante performante. Les cellules utilisées sont dites <select class="blank" data-rep="totipotentes"><option value="">—</option><option>totipotentes</option><option>reproductrices</option><option>chlorophylliennes</option></select> car elles peuvent donner n'importe quel organe.</p>
+        <p>2. Par microbouturage, on peut obtenir <select class="blank" data-rep="400 000"><option value="">—</option><option>20</option><option>400 000</option><option>5 000</option></select> oliviers en un an, contre seulement <select class="blank" data-rep="~20"><option value="">—</option><option>~200</option><option>~2000</option><option>~20</option></select> par bouturage traditionnel.</p>
+        <p>3. Toutes les plantes issues du microbouturage d'une même plante mère forment un <select class="blank" data-rep="clone"><option value="">—</option><option>hybride</option><option>clone</option><option>variant</option></select> : elles sont <select class="blank" data-rep="génétiquement identiques"><option value="">—</option><option>génétiquement différentes</option><option>génétiquement identiques</option></select>.</p>
+        <p>4. La culture in vitro se réalise dans des conditions <select class="blank" data-rep="stériles (asepsie)"><option value="">—</option><option>normales</option><option>stériles (asepsie)</option><option>humides uniquement</option></select> pour éviter toute <select class="blank" data-rep="contamination par des maladies"><option value="">—</option><option>perte d'eau</option><option>contamination par des maladies</option><option>perte de chlorophylle</option></select>.</p>
+        <p>5. Un local de <select class="blank" data-rep="9 m²"><option value="">—</option><option>100 m²</option><option>9 m²</option><option>1 m²</option></select> de culture in vitro remplace <select class="blank" data-rep="25 500 m²"><option value="">—</option><option>1 000 m²</option><option>5 000 m²</option><option>25 500 m²</option></select> de serres chauffées.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo2')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo2')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo2-fb"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ BILAN ═══════════ -->
+<div class="panel" id="panel-3">
+  <div class="card">
+    <h2>📋 Bilan — La Multiplication Végétative</h2>
+    <div class="svgbox">
+      <svg viewBox="0 0 580 180" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+        <text x="290" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="#333">Schéma de synthèse — Multiplication végétative</text>
+        <!-- Centre: Totipotence -->
+        <ellipse cx="290" cy="95" rx="75" ry="45" fill="#e8f5e9" stroke="#2E7D32" stroke-width="3"/>
+        <text x="290" y="88" text-anchor="middle" font-size="12" font-weight="700" fill="#2E7D32">Totipotence</text>
+        <text x="290" y="104" text-anchor="middle" font-size="10" fill="#555">des cellules végétales</text>
+        <text x="290" y="118" text-anchor="middle" font-size="10" fill="#2E7D32">→ Clone</text>
+        <!-- Bouturage -->
+        <rect x="10" y="30" width="110" height="50" rx="8" fill="#fff8e1" stroke="#F9A825" stroke-width="2"/>
+        <text x="65" y="50" text-anchor="middle" font-size="11" font-weight="700" fill="#E65100">Bouturage</text>
+        <text x="65" y="65" text-anchor="middle" font-size="9" fill="#555">fragment → plante</text>
+        <line x1="122" y1="55" x2="218" y2="80" stroke="#F9A825" stroke-width="2" stroke-dasharray="4,2"/>
+        <!-- Marcottage -->
+        <rect x="10" y="110" width="110" height="50" rx="8" fill="#fff8e1" stroke="#F9A825" stroke-width="2"/>
+        <text x="65" y="130" text-anchor="middle" font-size="11" font-weight="700" fill="#E65100">Marcottage</text>
+        <text x="65" y="145" text-anchor="middle" font-size="9" fill="#555">tige enterrée → séparée</text>
+        <line x1="122" y1="135" x2="218" y2="110" stroke="#F9A825" stroke-width="2" stroke-dasharray="4,2"/>
+        <!-- Greffage -->
+        <rect x="460" y="30" width="110" height="50" rx="8" fill="#e3f2fd" stroke="#1565C0" stroke-width="2"/>
+        <text x="515" y="50" text-anchor="middle" font-size="11" font-weight="700" fill="#1565C0">Greffage</text>
+        <text x="515" y="65" text-anchor="middle" font-size="9" fill="#555">greffon + porte-greffe</text>
+        <line x1="460" y1="55" x2="365" y2="80" stroke="#1565C0" stroke-width="2" stroke-dasharray="4,2"/>
+        <!-- Culture in vitro -->
+        <rect x="460" y="110" width="110" height="50" rx="8" fill="#e0f2f1" stroke="#00695C" stroke-width="2"/>
+        <text x="515" y="128" text-anchor="middle" font-size="11" font-weight="700" fill="#00695C">Culture in vitro</text>
+        <text x="515" y="143" text-anchor="middle" font-size="9" fill="#555">microbouturage / méristèmes</text>
+        <line x1="460" y1="135" x2="365" y2="110" stroke="#00695C" stroke-width="2" stroke-dasharray="4,2"/>
+        <!-- Labels traditionnel / moderne -->
+        <rect x="5" y="8" width="120" height="18" rx="4" fill="#F9A825" opacity=".3"/>
+        <text x="65" y="21" text-anchor="middle" font-size="9" font-weight="700" fill="#E65100">TECHNIQUES TRADITIONNELLES</text>
+        <rect x="455" y="8" width="120" height="18" rx="4" fill="#00695C" opacity=".2"/>
+        <text x="515" y="21" text-anchor="middle" font-size="9" font-weight="700" fill="#00695C">TECHNIQUE MODERNE</text>
+      </svg>
+      <figcaption>Fig. 7 — Schéma de synthèse : toutes les techniques reposent sur la totipotence cellulaire</figcaption>
+    </div>
+  </div>
+  <div id="accord-bilan">
+    <div class="accord-item">
+      <div class="accord-head" onclick="toggleAccord(this)">🌿 Techniques traditionnelles <span class="accord-arrow">▼</span></div>
+      <div class="accord-body"><strong>Bouturage :</strong> fragment (bouture) → racines adventives → nouvelle plante. Ex : pomme de terre, pélargonium, olivier.<br><strong>Marcottage :</strong> tige enterrée sans détacher → enracinement → séparation. Ex : jasmin.<br><strong>Greffage :</strong> greffon + porte-greffe de même espèce → vaisseaux raccordés → plante aux caractères du greffon.<br>Toutes ces techniques conservent les caractères de la plante mère.</div>
+    </div>
+    <div class="accord-item">
+      <div class="accord-head" onclick="toggleAccord(this)">🔬 Culture in vitro <span class="accord-arrow">▼</span></div>
+      <div class="accord-body"><strong>Microbouturage :</strong> microboutures (bourgeons) sur milieu stérile → vitro-pousses → fragmentation répétée → 400 000 plants/an.<br><strong>Cellules méristématiques :</strong> cellules totipotentes isolées → culture → clone. Applications : clones sains, conservation espèces rares, économie d'espace (9m² = 25 500m² de serres).</div>
+    </div>
+    <div class="accord-item">
+      <div class="accord-head" onclick="toggleAccord(this)">🧬 Totipotence et clone <span class="accord-arrow">▼</span></div>
+      <div class="accord-body"><strong>Totipotence :</strong> propriété d'une cellule végétale à se développer en n'importe quel organe et en un individu entier.<br><strong>Clone :</strong> ensemble d'individus génétiquement identiques issus de la multiplication végétative d'une même plante mère.<br>Toutes les techniques de multiplication végétative (traditionnelles et modernes) produisent des clones.</div>
+    </div>
+    <div class="accord-item">
+      <div class="accord-head" onclick="toggleAccord(this)">📊 Comparatif traditionnel vs in vitro <span class="accord-arrow">▼</span></div>
+      <div class="accord-body">
+        <table>
+          <tr><th>Critère</th><th>Traditionnel</th><th>In vitro</th></tr>
+          <tr><td>Nombre de plants</td><td>Faible (~20/an)</td><td>Massif (400 000/an)</td></tr>
+          <tr><td>Caractères</td><td>Conservés</td><td>Conservés</td></tr>
+          <tr><td>Maladies</td><td>Possible transmission</td><td>Plants sains (stérile)</td></tr>
+          <tr><td>Espace</td><td>Grand terrain</td><td>9 m² suffisent</td></tr>
+          <tr><td>Délai</td><td>Normal</td><td>2× plus rapide</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ FLASHCARDS ═══════════ -->
+<div class="panel" id="panel-4">
+  <h2 style="margin-bottom:16px">🃏 Flashcards — Choix multiple</h2>
+  <div class="fc-actions">
+    <button class="btn btn-vert" onclick="verifierFC()">✓ Vérifier tout</button>
+    <button class="btn btn-grey" onclick="resetFC()">↺ Recommencer</button>
+    <span id="fc-score" style="display:none;padding:10px 16px;border-radius:8px;font-weight:700"></span>
+  </div>
+  <div class="fc-grid" id="fc-container"></div>
+</div>
+
+<!-- ═══════════ QCM ═══════════ -->
+<div class="panel" id="panel-5">
+  <h2 style="margin-bottom:8px">✏️ QCM Format CAPES</h2>
+  <p style="margin-bottom:16px;font-size:.88rem;color:var(--text-muted)">Plusieurs réponses correctes possibles par question.</p>
+  <div id="qcm-container"></div>
+  <div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap">
+    <button class="btn btn-vert" onclick="corrigerQCM()">✓ Corriger</button>
+    <button class="btn btn-grey" onclick="resetQCM()">↺ Recommencer</button>
+  </div>
+  <div id="qcm-result"></div>
+</div>
+
+</div><!-- /content -->
+
+<script>
+// ─── TABS PRINCIPAUX ───
+const panels=document.querySelectorAll('.panel'),tabs=document.querySelectorAll('.tab');
+const prog=document.getElementById('progFill');
+let visited=new Set([0]);
+function showTab(n){
+  panels.forEach(p=>p.classList.remove('active'));
+  tabs.forEach(t=>t.classList.remove('active'));
+  panels[n].classList.add('active');
+  tabs[n].classList.add('active');
+  visited.add(n);
+  prog.style.width=Math.round(visited.size/tabs.length*100)+'%';
+  localStorage.setItem('ch3_tab',n);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+const sv=localStorage.getItem('ch3_tab');
+if(sv)showTab(parseInt(sv));
+
+// ─── SOUS-ONGLETS ───
+function showSubTab(actNum, subNum){
+  const allSubs=document.querySelectorAll(`#panel-${actNum} .subpanel`);
+  const allBtns=document.querySelectorAll(`#panel-${actNum} .subtab`);
+  allSubs.forEach(s=>s.classList.remove('active'));
+  allBtns.forEach(b=>b.classList.remove('active'));
+  document.getElementById(`sub-${actNum}-${subNum}`).classList.add('active');
+  allBtns[subNum].classList.add('active');
+}
+
+// ─── ACCORDEON ───
+function toggleAccord(head){
+  const body=head.nextElementSibling,isOpen=body.classList.contains('open');
+  document.querySelectorAll('.accord-body').forEach(b=>b.classList.remove('open'));
+  document.querySelectorAll('.accord-head').forEach(h=>h.classList.remove('open'));
+  if(!isOpen){body.classList.add('open');head.classList.add('open');}
+}
+
+// ─── EXERCICES ───
+function checkExo(id){
+  const selects=document.querySelectorAll(`#${id}-q select.blank`);
+  let ok=0,total=selects.length;
+  selects.forEach(s=>{
+    s.classList.remove('ok','ko');
+    if(s.value===s.dataset.rep){s.classList.add('ok');ok++;}
+    else s.classList.add('ko');
+  });
+  const fb=document.getElementById(`${id}-fb`);
+  fb.className='exo-feedback '+(ok===total?'ok':'ko');
+  fb.textContent=ok===total?`✅ Parfait ! ${ok}/${total} bonnes réponses.`:`❌ ${ok}/${total} — Revois les réponses en rouge.`;
+}
+function resetExo(id){
+  document.querySelectorAll(`#${id}-q select.blank`).forEach(s=>{s.value='';s.classList.remove('ok','ko');});
+  const fb=document.getElementById(`${id}-fb`);
+  fb.className='exo-feedback';fb.textContent='';
+}
+
+// ─── FLASHCARDS ───
+const flashcards=[
+  {p:"Le [bouturage] est une technique qui consiste à mettre en terre un fragment de plante (bouture) pour obtenir une nouvelle plante.",t:[{rep:"bouturage",opts:["marcottage","greffage","bouturage"]}]},
+  {p:"Les [racines adventives] apparaissent sur la partie enterrée d'une bouture ou d'une marcotte.",t:[{rep:"racines adventives",opts:["racines primaires","racines adventives","poils absorbants"]}]},
+  {p:"Dans le marcottage, la tige est enterrée [sans être détachée] de la plante mère, puis séparée après enracinement.",t:[{rep:"sans être détachée",opts:["après avoir été détachée","sans être détachée","après taille"]}]},
+  {p:"Dans le greffage, la nouvelle plante porte les caractères [du greffon], tandis que le porte-greffe fournit les racines.",t:[{rep:"du greffon",opts:["du porte-greffe","des deux parents","du greffon"]}]},
+  {p:"Un [végétal franc] est un végétal issu de semis (graine), par opposition aux végétaux issus de multiplication végétative.",t:[{rep:"végétal franc",opts:["végétal clone","végétal hybride","végétal franc"]}]},
+  {p:"Les cellules [totipotentes] sont capables de se développer en n'importe quel organe et de donner un individu entier.",t:[{rep:"totipotentes",opts:["méristématiques seulement","différenciées","totipotentes"]}]},
+  {p:"Par microbouturage, on obtient [400 000] oliviers en un an, contre ~20 par bouturage traditionnel.",t:[{rep:"400 000",opts:["2 000","400 000","50 000"]}]},
+  {p:"Un [clone] est un ensemble d'individus génétiquement identiques issus de la multiplication végétative d'un individu unique.",t:[{rep:"clone",opts:["hybride","mutant","clone"]}]},
+  {p:"La culture in vitro se réalise en conditions [stériles] pour éviter la contamination par des maladies.",t:[{rep:"stériles",opts:["humides","stériles","lumineuses"]}]},
+  {p:"Un local de [9 m²] de culture in vitro remplace 25 500 m² de serres chauffées traditionnelles.",t:[{rep:"9 m²",opts:["100 m²","50 m²","9 m²"]}]},
+  {p:"La greffe en [écusson] utilise un bourgeon accompagné d'une bande d'écorce, inséré dans une incision en T.",t:[{rep:"écusson",opts:["fente","écusson","couronne"]}]},
+  {p:"La multiplication végétative permet d'obtenir en un temps court des plantes [identiques] à la plante mère, formant un clone.",t:[{rep:"identiques",opts:["différentes","améliorées","identiques"]}]},
+];
+
+function shuffle(arr){return arr.slice().sort(()=>Math.random()-.5);}
+function buildFC(){
+  const c=document.getElementById('fc-container');c.innerHTML='';
+  flashcards.forEach((fc,i)=>{
+    let html=fc.p;
+    fc.t.forEach(trou=>{
+      const opts=shuffle(trou.opts);
+      const options=opts.map(o=>`<option value="${o}">${o}</option>`).join('');
+      html=html.replace(`[${trou.rep}]`,`<select class="fc-select" data-ans="${trou.rep}"><option value="">—</option>${options}</select>`);
+    });
+    c.innerHTML+=`<div class="fc-card"><div class="fc-phrase">${html}</div></div>`;
+  });
+}
+function verifierFC(){
+  const inputs=document.querySelectorAll('.fc-select');
+  let ok=0,total=inputs.length;
+  inputs.forEach(inp=>{
+    inp.classList.toggle('ok',inp.value===inp.dataset.ans);
+    inp.classList.toggle('ko',inp.value!==inp.dataset.ans||inp.value==='');
+    if(inp.value===inp.dataset.ans)ok++;
+  });
+  const sc=document.getElementById('fc-score');
+  sc.style.display='inline-block';
+  sc.textContent=`Score : ${ok}/${total} (${Math.round(ok/total*100)}%)`;
+  sc.style.background=ok===total?'#e8f5e9':ok>=total*.7?'#fff8e1':'#ffebee';
+}
+function resetFC(){
+  document.querySelectorAll('.fc-select').forEach(i=>{i.value='';i.classList.remove('ok','ko');});
+  document.getElementById('fc-score').style.display='none';
+}
+
+// ─── QCM ───
+const qcm=[
+  {q:"1. Quelles techniques font partie de la multiplication végétative traditionnelle ?",opts:["A. Bouturage","B. Marcottage","C. Greffage","D. Culture in vitro"],rep:[0,1,2]},
+  {q:"2. Dans le bouturage semi-ligneux de l'olivier, les conditions optimales sont :",opts:["A. Température 23–25°C","B. Humidité > 80%","C. Obscurité totale","D. Formation d'un cal puis de racines en 8 semaines"],rep:[0,1,3]},
+  {q:"3. Dans le greffage, la nouvelle plante porte les caractères :",opts:["A. Du porte-greffe","B. Du greffon","C. Des deux parents","D. Ni de l'un ni de l'autre"],rep:[1]},
+  {q:"4. Les cellules totipotentes sont caractérisées par :",opts:["A. Leur capacité à donner n'importe quel organe","B. Leur présence dans les bourgeons terminaux","C. Leur couleur verte","D. Leur rôle dans la photosynthèse"],rep:[0,1]},
+  {q:"5. Par microbouturage, on peut obtenir en un an à partir d'un olivier :",opts:["A. ~20 plants","B. ~5 000 plants","C. ~400 000 plants","D. ~1 000 000 plants"],rep:[2]},
+  {q:"6. La culture in vitro présente comme avantage par rapport aux techniques traditionnelles :",opts:["A. Obtention de plants sains (conditions stériles)","B. Multiplication massive","C. Gain de temps","D. Économie d'espace"],rep:[0,1,2,3]},
+  {q:"7. Un clone est défini comme :",opts:["A. Un individu issu d'une graine","B. Un hybride entre deux espèces","C. Un ensemble d'individus génétiquement identiques","D. Issus de la multiplication végétative d'un même individu"],rep:[2,3]},
+  {q:"8. La greffe en écusson est pratiquée sur l'abricotier :",opts:["A. En hiver","B. En mai","C. Sur porte-greffe de pommier","D. Sur abricotier franc ou amandier franc"],rep:[1,3]},
+  {q:"9. La multiplication végétative par culture de méristèmes permet :",opts:["A. La reconstitution de clones sains après maladies à virus","B. La conservation d'espèces rares","C. Le remplacement de 25 500 m² de serres par 9 m²","D. L'augmentation de la diversité génétique"],rep:[0,1,2]},
+  {q:"10. En Tunisie, la multiplication végétative de l'olivier est importante car :",opts:["A. Elle conserve les caractères des variétés sélectionnées","B. Elle permet une production rapide","C. Elle est la seule façon de reproduire l'olivier","D. Elle donne des plants plus résistants aux maladies"],rep:[0,1]},
+];
+
+function buildQCM(){
+  const c=document.getElementById('qcm-container');c.innerHTML='';
+  qcm.forEach((q,i)=>{
+    const opts=q.opts.map((o,j)=>`<label class="qcm-opt" id="opt-${i}-${j}"><input type="checkbox" data-q="${i}" data-o="${j}"> ${o}</label>`).join('');
+    c.innerHTML+=`<div class="qcm-item"><div class="qcm-q">${q.q}</div>${opts}</div>`;
+  });
+}
+function corrigerQCM(){
+  let score=0;
+  qcm.forEach((q,i)=>{
+    let correct=true;
+    q.opts.forEach((_,j)=>{
+      const el=document.getElementById(`opt-${i}-${j}`),inp=el.querySelector('input');
+      const checked=inp.checked,should=q.rep.includes(j);
+      el.classList.remove('correct','wrong');
+      if(should){el.classList.add('correct');if(!checked)correct=false;}
+      else if(checked){el.classList.add('wrong');correct=false;}
+    });
+    if(correct)score++;
+  });
+  const r=document.getElementById('qcm-result'),pct=Math.round(score/qcm.length*100);
+  r.style.display='block';
+  r.style.background=pct>=80?'#e8f5e9':pct>=50?'#fff8e1':'#ffebee';
+  r.style.color=pct>=80?'#2E7D32':pct>=50?'#E65100':'#c62828';
+  r.textContent=`Score : ${score}/10 (${pct}%) — ${pct>=80?'Excellent ✅':pct>=50?'Bien 👍':'À retravailler 📖'}`;
+}
+function resetQCM(){
+  document.querySelectorAll('.qcm-opt').forEach(el=>{el.classList.remove('correct','wrong');el.querySelector('input').checked=false;});
+  document.getElementById('qcm-result').style.display='none';
+}
+
+document.addEventListener('DOMContentLoaded',()=>{buildFC();buildQCM();});
+</script>
+</body>
+</html>

@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapitre 2 — Nutrition Carbonée</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --vert:#2E7D32;--vert-light:#e8f5e9;--vert-mid:#a5d6a7;
+  --orange:#E65100;--orange-light:#fff3e0;
+  --bleu:#1565C0;--bleu-light:#e3f2fd;
+  --teal:#00695C;--teal-light:#e0f2f1;
+  --violet:#4A148C;--violet-light:#f3e5f5;
+  --bg:#fafaf8;--text:#1a1a1a;--text-muted:#666;
+  --border:#e0e0e0;--shadow:0 2px 12px rgba(0,0,0,0.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;}
+
+header{background:linear-gradient(135deg,var(--vert) 0%,var(--teal) 100%);color:white;padding:24px 32px 20px;position:sticky;top:0;z-index:100;box-shadow:0 3px 16px rgba(0,0,0,0.2);}
+header h1{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:4px;}
+header p{font-size:.85rem;opacity:.85;}
+.prog-bar{height:4px;background:rgba(255,255,255,.3);border-radius:2px;margin-top:12px;}
+.prog-fill{height:100%;background:#fff;border-radius:2px;transition:width .4s;width:9%;}
+
+.tabs-wrap{background:white;border-bottom:2px solid var(--border);position:sticky;top:96px;z-index:99;overflow-x:auto;}
+.tabs{display:flex;min-width:max-content;}
+.tab{padding:12px 16px;font-size:.8rem;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:var(--text-muted);white-space:nowrap;transition:all .2s;background:none;border-top:none;border-left:none;border-right:none;}
+.tab:hover{color:var(--vert);background:var(--vert-light);}
+.tab.active{color:var(--vert);border-bottom-color:var(--vert);}
+
+.content{max-width:920px;margin:0 auto;padding:28px 20px 60px;}
+.panel{display:none;}.panel.active{display:block;}
+
+.card{background:white;border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:var(--shadow);border-left:5px solid var(--vert);}
+.card.orange{border-left-color:var(--orange);}
+.card.bleu{border-left-color:var(--bleu);}
+.card.teal{border-left-color:var(--teal);}
+.card.violet{border-left-color:var(--violet);}
+
+h2{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:14px;color:var(--vert);}
+h3{font-size:.97rem;font-weight:700;margin:16px 0 8px;color:var(--text);}
+
+.question-dir{background:linear-gradient(135deg,var(--vert) 0%,var(--teal) 100%);color:white;padding:14px 18px;border-radius:10px;font-weight:600;margin-bottom:18px;font-size:.95rem;}
+
+.retenons{background:var(--orange-light);border:1.5px solid var(--orange);border-radius:10px;padding:16px 18px;margin:16px 0;}
+.retenons h4{color:var(--orange);font-size:.78rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+.retenons p{margin-bottom:5px;font-size:.9rem;}
+.retenons dt{font-weight:700;color:var(--orange);display:inline;}
+.retenons dd{display:inline;margin-left:4px;}
+
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.88rem;}
+th{background:var(--vert);color:white;padding:10px 12px;text-align:left;}
+td{padding:9px 12px;border-bottom:1px solid var(--border);}
+tr:nth-child(even) td{background:var(--vert-light);}
+
+.svgbox{background:white;border-radius:10px;padding:12px;margin:14px 0;text-align:center;border:1px solid var(--border);}
+.svgbox svg{max-width:100%;height:auto;}
+.svgbox figcaption{font-size:.78rem;color:var(--text-muted);margin-top:6px;font-style:italic;}
+
+/* EXERCICE INTERACTIF */
+.exo{background:linear-gradient(135deg,#f3e5f5,#e8f5e9);border:2px solid var(--violet);border-radius:12px;padding:20px;margin-top:20px;}
+.exo-title{font-weight:700;color:var(--violet);font-size:.88rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.exo-q{margin-bottom:14px;line-height:1.9;}
+.exo-q p{margin-bottom:10px;font-size:.93rem;}
+.blank-wrap{display:inline-flex;align-items:center;}
+select.blank{border:2px solid var(--violet);border-radius:6px;padding:3px 8px;font-size:.88rem;background:white;cursor:pointer;color:var(--violet);font-weight:600;transition:all .2s;}
+select.blank:focus{outline:none;border-color:var(--vert);}
+select.blank.ok{border-color:#4CAF50;background:#e8f5e9;color:#2E7D32;}
+select.blank.ko{border-color:#f44336;background:#ffebee;color:#c62828;}
+.exo-feedback{font-size:.85rem;padding:8px 12px;border-radius:8px;margin-top:10px;display:none;font-weight:600;}
+.exo-feedback.ok{background:#e8f5e9;color:#2E7D32;display:block;}
+.exo-feedback.ko{background:#ffebee;color:#c62828;display:block;}
+.btn-exo{background:var(--violet);color:white;border:none;padding:9px 20px;border-radius:8px;cursor:pointer;font-weight:700;font-size:.85rem;margin-top:12px;transition:background .2s;}
+.btn-exo:hover{background:#6A1B9A;}
+.btn-reset-exo{background:var(--border);color:var(--text);border:none;padding:9px 16px;border-radius:8px;cursor:pointer;font-weight:600;font-size:.85rem;margin-top:12px;margin-left:8px;}
+
+/* BILAN */
+.accord-item{border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden;}
+.accord-head{padding:14px 18px;font-weight:600;cursor:pointer;background:white;display:flex;justify-content:space-between;align-items:center;transition:background .2s;}
+.accord-head:hover{background:var(--vert-light);}
+.accord-head.open{background:var(--vert);color:white;}
+.accord-body{display:none;padding:16px 18px;background:var(--bg);font-size:.9rem;line-height:1.7;}
+.accord-body.open{display:block;}
+.accord-arrow{font-size:1.1rem;transition:transform .3s;}
+.accord-head.open .accord-arrow{transform:rotate(180deg);}
+
+.equation{background:linear-gradient(135deg,var(--teal-light),var(--bleu-light));border-radius:12px;padding:18px 24px;text-align:center;font-size:1.05rem;font-weight:700;margin:16px 0;border:2px solid var(--teal);color:var(--teal);}
+.phases{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0;}
+.phase{padding:16px;border-radius:10px;}
+.phase.lumineuse{background:#fff8e1;border:2px solid #F9A825;}
+.phase.sombre{background:var(--bleu-light);border:2px solid var(--bleu);}
+.phase h4{font-weight:700;margin-bottom:6px;}
+
+/* FLASHCARDS */
+.fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin:16px 0;}
+.fc-card{background:white;border-radius:10px;padding:16px;box-shadow:var(--shadow);border-top:4px solid var(--vert);}
+.fc-phrase{font-size:.92rem;line-height:1.9;margin-bottom:10px;}
+.fc-input{border:2px solid var(--border);border-radius:6px;padding:4px 8px;font-size:.88rem;min-width:80px;text-align:center;transition:border .2s;}
+.fc-input.ok{border-color:#4CAF50;background:#e8f5e9;}
+.fc-input.ko{border-color:#f44336;background:#ffebee;}
+.fc-input:focus{outline:none;border-color:var(--vert);}
+.fc-actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+.btn{padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:.88rem;transition:all .2s;}
+.btn-vert{background:var(--vert);color:white;}.btn-vert:hover{background:#1b5e20;}
+.btn-grey{background:var(--border);color:var(--text);}.btn-grey:hover{background:#ccc;}
+#fc-score{font-weight:700;font-size:1rem;padding:10px 16px;border-radius:8px;}
+
+/* QCM */
+.qcm-item{background:white;border-radius:10px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow);}
+.qcm-q{font-weight:600;margin-bottom:12px;}
+.qcm-opt{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:6px;margin-bottom:6px;cursor:pointer;transition:background .15s;}
+.qcm-opt:hover{background:var(--vert-light);}
+.qcm-opt input{accent-color:var(--vert);}
+.qcm-opt.correct{background:#e8f5e9;border:1.5px solid #4CAF50;}
+.qcm-opt.wrong{background:#ffebee;border:1.5px solid #f44336;}
+#qcm-result{font-size:1.1rem;font-weight:700;padding:14px 20px;border-radius:10px;margin-top:16px;text-align:center;display:none;}
+
+.acquis-list{list-style:none;display:grid;gap:8px;}
+.acquis-list li{padding:10px 14px;background:var(--vert-light);border-radius:8px;border-left:4px solid var(--vert);font-size:.9rem;}
+.acquis-list li::before{content:"✓ ";color:var(--vert);font-weight:700;}
+
+.info-box{display:flex;gap:12px;align-items:flex-start;background:var(--bleu-light);border-radius:10px;padding:14px 16px;margin:12px 0;border-left:4px solid var(--bleu);}
+.info-box .icon{font-size:1.4rem;flex-shrink:0;}
+.info-box p{font-size:.88rem;line-height:1.6;}
+
+@media(max-width:600px){
+  .phases{grid-template-columns:1fr;}
+  header h1{font-size:1.1rem;}
+  .tab{padding:10px 10px;font-size:.72rem;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Chapitre 2 — Nutrition Carbonée des Plantes Vertes</h1>
+  <p>1ère Année Secondaire SVT · Thème 1 : Amélioration de la production végétale</p>
+  <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+</header>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab active" onclick="showTab(0)">📚 Acquis</button>
+    <button class="tab" onclick="showTab(1)">Act. 1</button>
+    <button class="tab" onclick="showTab(2)">Act. 2</button>
+    <button class="tab" onclick="showTab(3)">Act. 3</button>
+    <button class="tab" onclick="showTab(4)">Act. 4</button>
+    <button class="tab" onclick="showTab(5)">Act. 5</button>
+    <button class="tab" onclick="showTab(6)">Act. 6</button>
+    <button class="tab" onclick="showTab(7)">Act. 7</button>
+    <button class="tab" onclick="showTab(8)">📋 Bilan</button>
+    <button class="tab" onclick="showTab(9)">🃏 Flashcards</button>
+    <button class="tab" onclick="showTab(10)">✏️ QCM</button>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ═══════════ ACQUIS ═══════════ -->
+<div class="panel active" id="panel-0">
+  <div class="card">
+    <h2>📚 Acquis du Collège</h2>
+    <ul class="acquis-list">
+      <li>À la lumière, la plante verte absorbe le CO₂ et rejette de l'O₂ → <strong>échanges gazeux chlorophylliens</strong></li>
+      <li>Grâce à la chlorophylle + CO₂ + eau → fabrication d'amidon dans les feuilles = <strong>photosynthèse</strong></li>
+      <li>Substances organiques (amidon, huile, sucres) stockées dans les organes de réserve</li>
+      <li>La plante se nourrit uniquement de matière <strong>minérale</strong> (eau + sels minéraux)</li>
+    </ul>
+  </div>
+  <div class="card orange">
+    <h2>❓ Questions directrices</h2>
+    <ol style="margin-left:18px;line-height:2.2">
+      <li>Comment la plante verte fabrique-t-elle les substances carbonées ?</li>
+      <li>Quelles sont les conditions de cette synthèse ?</li>
+      <li>Les techniques agricoles modernes ont-elles des effets indésirables sur la santé ?</li>
+    </ol>
+  </div>
+  <div class="card bleu">
+    <h2>🗺️ Plan — 7 activités</h2>
+    <table>
+      <tr><th>#</th><th>Titre</th><th>Pages</th></tr>
+      <tr><td>1</td><td>La matière organique dans la plante verte</td><td>46–47</td></tr>
+      <tr><td>2</td><td>Les conditions de la photosynthèse</td><td>48–49</td></tr>
+      <tr><td>3</td><td>Rôle de la lumière et de la chlorophylle</td><td>50–53</td></tr>
+      <tr><td>4</td><td>Rôle du dioxyde de carbone</td><td>54–56</td></tr>
+      <tr><td>5</td><td>Transport de la sève élaborée</td><td>57–61</td></tr>
+      <tr><td>6</td><td>Conditions optimales de la photosynthèse</td><td>62–63</td></tr>
+      <tr><td>7</td><td>Risques liés aux engrais chimiques et pesticides</td><td>64–67</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════ ACTIVITE 1 ═══════════ -->
+<div class="panel" id="panel-1">
+  <div class="question-dir">🔬 Activité 1 — La matière organique dans la plante verte (p.46–47)</div>
+
+  <div class="card">
+    <h2>Mise en évidence des substances organiques</h2>
+    <p style="margin-bottom:12px">La plante se nourrit de matière <em>minérale</em> uniquement, mais elle synthétise et contient des <strong>substances organiques</strong> variées. On les identifie par des réactions chimiques spécifiques.</p>
+
+    <!-- Illustration réactifs -->
+    <div class="svgbox">
+      <svg viewBox="0 0 600 190" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+        <!-- Tube 1: Amidon -->
+        <rect x="30" y="30" width="110" height="130" rx="8" fill="#f5f5f5" stroke="#ccc" stroke-width="1.5"/>
+        <rect x="48" y="80" width="74" height="65" rx="4" fill="#1A237E" opacity=".85"/>
+        <ellipse cx="85" cy="80" rx="37" ry="8" fill="#3949AB" opacity=".9"/>
+        <text x="85" y="55" text-anchor="middle" font-size="11" fill="#555">Pomme de terre</text>
+        <text x="85" y="70" text-anchor="middle" font-size="10" fill="#999">+ eau iodée</text>
+        <text x="85" y="162" text-anchor="middle" font-size="12" font-weight="700" fill="#1A237E">Amidon</text>
+        <text x="85" y="176" text-anchor="middle" font-size="10" fill="#1A237E">🔵 Bleu foncé</text>
+
+        <!-- Tube 2: Glucose -->
+        <rect x="165" y="30" width="110" height="130" rx="8" fill="#f5f5f5" stroke="#ccc" stroke-width="1.5"/>
+        <rect x="183" y="80" width="74" height="65" rx="4" fill="#BF360C" opacity=".8"/>
+        <ellipse cx="220" cy="80" rx="37" ry="8" fill="#E64A19" opacity=".9"/>
+        <text x="220" y="55" text-anchor="middle" font-size="11" fill="#555">Raisin</text>
+        <text x="220" y="70" text-anchor="middle" font-size="10" fill="#999">+ Fehling + chaleur</text>
+        <text x="220" y="162" text-anchor="middle" font-size="12" font-weight="700" fill="#BF360C">Glucose</text>
+        <text x="220" y="176" text-anchor="middle" font-size="10" fill="#BF360C">🔴 Rouge brique</text>
+
+        <!-- Tube 3: Gluten -->
+        <rect x="300" y="30" width="110" height="130" rx="8" fill="#f5f5f5" stroke="#ccc" stroke-width="1.5"/>
+        <rect x="318" y="80" width="74" height="65" rx="4" fill="#4A148C" opacity=".8"/>
+        <ellipse cx="355" cy="80" rx="37" ry="8" fill="#7B1FA2" opacity=".9"/>
+        <text x="355" y="55" text-anchor="middle" font-size="11" fill="#555">Haricot</text>
+        <text x="355" y="70" text-anchor="middle" font-size="10" fill="#999">+ CuSO₄ + NaOH</text>
+        <text x="355" y="162" text-anchor="middle" font-size="12" font-weight="700" fill="#4A148C">Protide</text>
+        <text x="355" y="176" text-anchor="middle" font-size="10" fill="#4A148C">🟣 Violet</text>
+
+        <!-- Papier: Huile -->
+        <rect x="435" y="40" width="130" height="105" rx="8" fill="#fffde7" stroke="#F9A825" stroke-width="2"/>
+        <ellipse cx="500" cy="92" rx="35" ry="20" fill="#FFF9C4" stroke="#F9A825" stroke-width="1.5" opacity=".9"/>
+        <text x="500" y="97" text-anchor="middle" font-size="20">🫒</text>
+        <text x="500" y="55" text-anchor="middle" font-size="11" fill="#555">Olive sur papier</text>
+        <text x="500" y="162" text-anchor="middle" font-size="12" font-weight="700" fill="#E65100">Lipide (huile)</text>
+        <text x="500" y="176" text-anchor="middle" font-size="10" fill="#E65100">Tache translucide</text>
+      </svg>
+      <figcaption>Fig. 1 — Réactions d'identification des substances organiques</figcaption>
+    </div>
+
+    <h3>Recherche de l'amidon dans la feuille</h3>
+    <div class="svgbox">
+      <svg viewBox="0 0 560 160" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+        <!-- Feuille matin -->
+        <ellipse cx="120" cy="80" rx="90" ry="55" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
+        <line x1="120" y1="25" x2="120" y2="135" stroke="#2E7D32" stroke-width="1.5"/>
+        <line x1="120" y1="60" x2="95" y2="75" stroke="#2E7D32" stroke-width="1"/>
+        <line x1="120" y1="80" x2="90" y2="90" stroke="#2E7D32" stroke-width="1"/>
+        <line x1="120" y1="60" x2="145" y2="75" stroke="#2E7D32" stroke-width="1"/>
+        <line x1="120" y1="80" x2="150" y2="90" stroke="#2E7D32" stroke-width="1"/>
+        <text x="120" y="155" text-anchor="middle" font-size="12" font-weight="600" fill="#555">Matin (avant lumière)</text>
+        <text x="120" y="75" text-anchor="middle" font-size="28">🌿</text>
+        <rect x="55" y="85" width="130" height="18" rx="4" fill="white" stroke="#ddd"/>
+        <text x="120" y="98" text-anchor="middle" font-size="10" fill="#888">Eau iodée → jaune (pas d'amidon)</text>
+
+        <!-- Flèche -->
+        <path d="M225 80 L295 80" stroke="#999" stroke-width="2" marker-end="url(#arw1)"/>
+        <defs><marker id="arw1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#999"/></marker></defs>
+        <text x="260" y="68" text-anchor="middle" font-size="10" fill="#666">+ lumière</text>
+        <text x="260" y="100" text-anchor="middle" font-size="18">☀️</text>
+
+        <!-- Feuille soir -->
+        <ellipse cx="420" cy="80" rx="90" ry="55" fill="#1A237E" stroke="#0D47A1" stroke-width="2" opacity=".85"/>
+        <line x1="420" y1="25" x2="420" y2="135" stroke="#5C6BC0" stroke-width="1.5"/>
+        <line x1="420" y1="60" x2="395" y2="75" stroke="#5C6BC0" stroke-width="1"/>
+        <line x1="420" y1="80" x2="390" y2="90" stroke="#5C6BC0" stroke-width="1"/>
+        <line x1="420" y1="60" x2="445" y2="75" stroke="#5C6BC0" stroke-width="1"/>
+        <line x1="420" y1="80" x2="450" y2="90" stroke="#5C6BC0" stroke-width="1"/>
+        <text x="420" y="155" text-anchor="middle" font-size="12" font-weight="600" fill="#1A237E">Soir (après lumière)</text>
+        <rect x="355" y="85" width="130" height="18" rx="4" fill="white" stroke="#ddd"/>
+        <text x="420" y="98" text-anchor="middle" font-size="10" fill="#1A237E" font-weight="600">Eau iodée → bleu (amidon présent ✓)</text>
+      </svg>
+      <figcaption>Fig. 2 — Feuille de pélargonium : matin vs soir après traitement à l'eau iodée</figcaption>
+    </div>
+    <div class="info-box">
+      <div class="icon">💡</div>
+      <p>La lumière permet la synthèse d'amidon dans les feuilles. L'amidon absent le matin est présent le soir après exposition à la lumière → preuve que la <strong>photosynthèse nécessite la lumière</strong>.</p>
+    </div>
+  </div>
+
+  <div class="retenons">
+    <h4>📌 Retenons</h4>
+    <p><dt>Amidon :</dt><dd>grosse molécule glucidique = association de nombreuses molécules de glucose. Mis en évidence par l'eau iodée (bleu foncé).</dd></p>
+    <p><dt>Protide :</dt><dd>substance organique formée de plusieurs acides aminés (biuret → violet).</dd></p>
+    <p><dt>Lipide :</dt><dd>substance organique grasse (tache translucide persistante sur papier).</dd></p>
+  </div>
+
+  <!-- EXERCICE -->
+  <div class="exo">
+    <div class="exo-title">✏️ Exercice interactif — Associe le réactif au résultat</div>
+    <div class="exo-q" id="exo1-q">
+      <p>1. Pour détecter l'<strong>amidon</strong>, on utilise <select class="blank" data-rep="eau iodée"><option value="">—</option><option>liqueur de Fehling</option><option>eau iodée</option><option>NaOH</option><option>CuSO₄</option></select>, ce qui donne une coloration <select class="blank" data-rep="bleue foncée"><option value="">—</option><option>rouge brique</option><option>bleue foncée</option><option>violette</option><option>jaune</option></select>.</p>
+      <p>2. La liqueur de Fehling chauffée révèle le <select class="blank" data-rep="glucose"><option value="">—</option><option>amidon</option><option>glucose</option><option>gluten</option><option>lipide</option></select> par un précipité <select class="blank" data-rep="rouge brique"><option value="">—</option><option>bleu</option><option>rouge brique</option><option>violet</option><option>vert</option></select>.</p>
+      <p>3. Les protides (gluten) sont mis en évidence par CuSO₄ + NaOH → coloration <select class="blank" data-rep="violette"><option value="">—</option><option>bleue</option><option>rouge</option><option>violette</option><option>verte</option></select>.</p>
+      <p>4. Une feuille prélevée le <select class="blank" data-rep="soir"><option value="">—</option><option>matin</option><option>soir</option></select> (après exposition à la lumière) bleuit à l'eau iodée car elle contient de l'<select class="blank" data-rep="amidon"><option value="">—</option><option>eau</option><option>amidon</option><option>glucose</option><option>lipide</option></select>.</p>
+    </div>
+    <button class="btn-exo" onclick="checkExo('exo1')">✓ Vérifier</button>
+    <button class="btn-reset-exo" onclick="resetExo('exo1')">↺ Réinitialiser</button>
+    <div class="exo-feedback" id="exo1-fb"></div>
+  </div>
+</div>
+
+<!-- ═══════════ ACTIVITE 2 ═══════════ -->
+<div class="panel" id="panel-2">
+  <div class="question-dir">🔬 Activité 2 — Les conditions de la photosynthèse (p.48–49)</div>
+
+  <div class="card">
+    <h2>3 conditions indispensables à la photosynthèse</h2>
+    <div class="svgbox">
+      <svg viewBox="0 0 580 230" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+        <!-- Centre: Amidon -->
+        <circle cx="290" cy="115" r="48" fill="#e8f5e9" stroke="#2E7D32" stroke-width="3"/>
+        <text x="290" y="110" text-anchor="middle" font-size="13" font-weight="700" fill="#1b5e20">Synthèse</text>
+        <text x="290" y="127" text-anchor="middle" font-size="12" fill="#2E7D32">d'amidon</text>
+        <text x="290" y="143" text-anchor="middle" font-size="18">🌱</text>
+
+        <!-- Lumiere -->
+        <circle cx="100" cy="55" r="44" fill="#fff8e1" stroke="#F9A825" stroke-width="2.5"/>
+        <text x="100" y="42" text-anchor="middle" font-size="22">☀️</text>
+        <text x="100" y="62" text-anchor="middle" font-size="12" font-weight="700" fill="#E65100">Lumière</text>
+        <text x="100" y="77" text-anchor="middle" font-size="10" fill="#777">énergie</text>
+        <line x1="142" y1="72" x2="248" y2="98" stroke="#F9A825" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#a1)"/>
+        <defs>
+          <marker id="a1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#F9A825"/></marker>
+          <marker id="a2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#2E7D32"/></marker>
+          <marker id="a3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#1565C0"/></marker>
+        </defs>
+
+        <!-- Chlorophylle -->
+        <circle cx="100" cy="180" r="44" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2.5"/>
+        <text x="100" y="167" text-anchor="middle" font-size="22">🍃</text>
+        <text x="100" y="187" text-anchor="middle" font-size="12" font-weight="700" fill="#2E7D32">Chlorophylle</text>
+        <text x="100" y="202" text-anchor="middle" font-size="10" fill="#777">pigment vert</text>
+        <line x1="142" y1="163" x2="248" y2="130" stroke="#2E7D32" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#a2)"/>
+
+        <!-- CO2 -->
+        <circle cx="480" cy="115" r="44" fill="#e3f2fd" stroke="#1565C0" stroke-width="2.5"/>
+        <text x="480" y="103" text-anchor="middle" font-size="22">💨</text>
+        <text x="480" y="123" text-anchor="middle" font-size="13" font-weight="700" fill="#1565C0">CO₂</text>
+        <text x="480" y="138" text-anchor="middle" font-size="10" fill="#777">dioxyde de carbone</text>
+        <line x1="436" y1="115" x2="338" y2="115" stroke="#1565C0" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#a3)"/>
+
+        <!-- Labels experience -->
+        <text x="180" y="58" font-size="10" fill="#E65100" font-style="italic">cache opaque → pas d'amidon</text>
+        <text x="175" y="205" font-size="10" fill="#2E7D32" font-style="italic">feuille panachée → zones vertes seulement</text>
+        <text x="310" y="145" font-size="10" fill="#1565C0" font-style="italic">air sans CO₂ → pas d'amidon</text>
+      </svg>
+      <figcaption>Fig. 3 — Schéma des 3 conditions indispensables à la photosynthèse</figcaption>
+    </div>
+
+    <h3>Expériences clés du manuel</h3>
+    <table>
+      <tr><th>Expérience</th><th>Dispositif</th><th>Résultat (eau iodée)</th><th>Conclusion</th></tr>
+      <tr><td><strong>Lumière</strong></td><td>Cache opaque sur feuille de pélargonium</td><td>Zone cachée : jaune · Zone éclairée : bleu</td><td>Lumière indispensable</td></tr>
+      <tr><td><strong>Chlorophylle</strong></td><td>Feuille panachée (zones vertes/blanches)</td><td>Seules les zones vertes bleuis-sent</td><td>Chlorophylle indispensable</td></tr>
+      <tr><td><strong>CO₂</strong></td><td>Feuilles dans atmosphère sans CO₂ (potasse)</td><td>Pas de coloration bleue</td><td>CO₂ indispensable</td></tr>
+    </table>
+  </div>
+
+  <div class="retenons">
+    <h4>📌 Retenons</h4>
+    <p><dt>Photosynthèse :</dt><dd>formation de la matière organique qui nécessite de l'énergie lumineuse, la chlorophylle et le CO₂.</dd></p>
+    <p><dt>Chlorophylle :</dt><dd>pigment vert des végétaux, capte l'énergie lumineuse nécessaire à la photosynthèse.</dd></p>
+  </div>
+
+  <div class="exo">
+    <div class="exo-title">✏️ Exercice interactif — Vrai ou faux ? Complète les phrases</div>
+    <div class="exo-q" id="exo2-q">
+      <p>1. Une feuille placée dans une atmosphère sans CO₂ <select class="blank" data-rep="ne peut pas"><option value="">—</option><option>peut</option><option>ne peut pas</option></select> réaliser la photosynthèse.</p>
+      <p>2. Les zones <select class="blank" data-rep="blanches"><option value="">—</option><option>vertes</option><option>blanches</option></select> d'une feuille panachée ne contiennent pas de chlorophylle et ne synthétisent donc <select class="blank" data-rep="pas d'amidon"><option value="">—</option><option>de l'amidon</option><option>pas d'amidon</option></select>.</p>
+      <p>3. La partie d'une feuille couverte par un cache opaque <select class="blank" data-rep="ne bleuit pas"><option value="">—</option><option>bleuit</option><option>ne bleuit pas</option></select> à l'eau iodée car elle n'a pas reçu de <select class="blank" data-rep="lumière"><option value="">—</option><option>eau</option><option>lumière</option><option>CO₂</option></select>.</p>
+      <p>4. La démarche expérimentale comprend : observation → hypothèse → <select class="blank" data-rep="expérience"><option value="">—</option><option>résultat</option><option>expérience</option><option>conclusion</option></select> → résultats → <select class="blank" data-rep="conclusion"><option value="">—</option><option>hypothèse</option><option>observation</option><option>conclusion</option></select>.</p>
+    </div>
+    <button class="btn-exo" onclick="checkExo('exo2')">✓ Vérifier</button>
+    <button class="btn-reset-exo" onclick="resetExo('exo2')">↺ Réinitialiser</button>
+    <div class="exo-feedback" id="exo2-fb"></div>
+  </div>
+</div>
+
+<!-- ═══════════ ACTIVITE 3 ═══════════ -->
+<div class="panel" id="panel-3">
+  <div class="question-dir">🔬 Activité 3 — Rôle de la lumière et de la chlorophylle (p.50–53)</div>
+
+  <div class="card">
+    <h2>La cellule chlorophyllienne</h2>
+    <div class="svgbox">
+      <svg viewBox="0 0 580 230" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+        <!-- Cellule -->
+        <ellipse cx="190" cy="115" rx="165" ry="95" fill="#f9fbe7" stroke="#558B2F" stroke-width="3"/>
+        <text x="190" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="#33691E">Cellule chlorophyllienne</text>
+        <!-- Paroi -->
+        <ellipse cx="190" cy="115" rx="165" ry="95" fill="none" stroke="#8BC34A" stroke-width="7" stroke-dasharray="5,3"/>
+        <!-- Vacuole -->
+        <ellipse cx="185" cy="100" rx="40" ry="28" fill="#b3e5fc" stroke="#0288D1" stroke-width="1.5"/>
+        <text x="185" y="104" text-anchor="middle" font-size="10" fill="#01579B">Vacuole</text>
+        <!-- Noyau -->
+        <ellipse cx="185" cy="148" rx="28" ry="20" fill="#ffcdd2" stroke="#e57373" stroke-width="1.5"/>
+        <text x="185" y="152" text-anchor="middle" font-size="10" fill="#c62828">Noyau</text>
+        <!-- Chloroplastes -->
+        <ellipse cx="105" cy="85" rx="24" ry="13" fill="#66BB6A" stroke="#2E7D32" stroke-width="1.5"/>
+        <ellipse cx="148" cy="62" rx="24" ry="13" fill="#66BB6A" stroke="#2E7D32" stroke-width="1.5"/>
+        <ellipse cx="255" cy="72" rx="24" ry="13" fill="#66BB6A" stroke="#2E7D32" stroke-width="1.5"/>
+        <ellipse cx="270" cy="110" rx="24" ry="13" fill="#66BB6A" stroke="#2E7D32" stroke-width="1.5"/>
+        <ellipse cx="128" cy="148" rx="24" ry="13" fill="#66BB6A" stroke="#2E7D32" stroke-width="1.5"/>
+        <ellipse cx="240" cy="155" rx="24" ry="13" fill="#66BB6A" stroke="#2E7D32" stroke-width="1.5"/>
+        <!-- Cytoplasme -->
+        <text x="80" y="185" font-size="10" fill="#666">Cytoplasme</text>
+        <!-- Legende chloroplaste -->
+        <line x1="312" y1="90" x2="355" y2="75" stroke="#2E7D32" stroke-width="1"/>
+        <rect x="355" y="60" width="190" height="38" rx="6" fill="#e8f5e9" stroke="#2E7D32"/>
+        <text x="450" y="76" text-anchor="middle" font-size="11" font-weight="700" fill="#2E7D32">Chloroplastes</text>
+        <text x="450" y="91" text-anchor="middle" font-size="10" fill="#555">Siège de la photosynthèse</text>
+        <!-- Legende paroi -->
+        <rect x="355" y="110" width="190" height="38" rx="6" fill="#f1f8e9" stroke="#8BC34A"/>
+        <text x="450" y="126" text-anchor="middle" font-size="11" font-weight="700" fill="#558B2F">Paroi pectocellulosique</text>
+        <text x="450" y="141" text-anchor="middle" font-size="10" fill="#555">Rigide · externe</text>
+        <!-- Legende noyau -->
+        <rect x="355" y="160" width="190" height="38" rx="6" fill="#ffebee" stroke="#e57373"/>
+        <text x="450" y="176" text-anchor="middle" font-size="11" font-weight="700" fill="#c62828">Noyau</text>
+        <text x="450" y="191" text-anchor="middle" font-size="10" fill="#555">Centre de contrôle</text>
+      </svg>
+      <figcaption>Fig. 4 — Organisation schématique d'une cellule chlorophyllienne</figcaption>
+    </div>
+
+    <h3>Spectres d'absorption et d'action</h3>
+    <div class="svgbox">
+      <svg viewBox="0 0 580 170" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+        <!-- Spectre lumiere blanche -->
+        <defs>
+          <linearGradient id="sp" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#7B1FA2"/>
+            <stop offset="20%" stop-color="#1565C0"/>
+            <stop offset="40%" stop-color="#2E7D32"/>
+            <stop offset="60%" stop-color="#F9A825"/>
+            <stop offset="80%" stop-color="#E65100"/>
+            <stop offset="100%" stop-color="#B71C1C"/>
+          </linearGradient>
+        </defs>
+        <text x="290" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="#333">Spectre lumineux et photosynthèse</text>
+        <rect x="40" y="30" width="500" height="35" rx="4" fill="url(#sp)"/>
+        <text x="40" y="82" font-size="10" fill="#7B1FA2" font-weight="700">Violet</text>
+        <text x="130" y="82" font-size="10" fill="#1565C0">Bleu</text>
+        <text x="230" y="82" font-size="10" fill="#2E7D32">Vert</text>
+        <text x="330" y="82" font-size="10" fill="#F9A825">Jaune</text>
+        <text x="430" y="82" font-size="10" fill="#E65100">Orange</text>
+        <text x="502" y="82" font-size="10" fill="#B71C1C">Rouge</text>
+        <!-- Bandes absorbées -->
+        <rect x="40" y="95" width="80" height="25" rx="4" fill="#7B1FA2" opacity=".8"/>
+        <rect x="440" y="95" width="100" height="25" rx="4" fill="#B71C1C" opacity=".8"/>
+        <text x="290" y="112" text-anchor="middle" font-size="11" fill="#999">——— non absorbé (réfléchi → vert perçu) ———</text>
+        <text x="80" y="138" text-anchor="middle" font-size="11" font-weight="700" fill="#7B1FA2">Violet absorbé ✓</text>
+        <text x="490" y="138" text-anchor="middle" font-size="11" font-weight="700" fill="#B71C1C">Rouge absorbé ✓</text>
+        <text x="290" y="155" text-anchor="middle" font-size="10" fill="#E65100">→ Photosynthèse maximale dans le violet et le rouge</text>
+      </svg>
+      <figcaption>Fig. 5 — La chlorophylle absorbe le violet et le rouge ; le vert est réfléchi (d'où la couleur verte des feuilles)</figcaption>
+    </div>
+
+    <h3>Intensité lumineuse et production végétale</h3>
+    <table>
+      <tr><th>Intensité (lux)</th><th>1000</th><th>2000</th><th>4000</th><th>6000</th><th>8000</th><th>10000</th></tr>
+      <tr><td>Masse sèche (g)</td><td>2,5</td><td>5</td><td>12,5</td><td>17,5</td><td>20</td><td>20,5</td></tr>
+    </table>
+    <p style="margin-top:8px;font-size:.88rem;color:var(--text-muted)">→ Production augmente avec la lumière puis plateau : un autre facteur devient limitant (CO₂, température).</p>
+  </div>
+
+  <div class="retenons">
+    <h4>📌 Retenons</h4>
+    <p><dt>Chloroplaste :</dt><dd>organite de la cellule végétale, siège de la photosynthèse, contient la chlorophylle.</dd></p>
+    <p><dt>Spectre d'absorption :</dt><dd>la chlorophylle absorbe le violet et le rouge, réfléchit le vert (couleur perçue).</dd></p>
+    <p><dt>Spectre d'action :</dt><dd>l'intensité photosynthétique est maximale dans le violet et le rouge → corrèle avec le spectre d'absorption.</dd></p>
+  </div>
+
+  <div class="exo">
+    <div class="exo-title">✏️ Exercice interactif — Lumière et chlorophylle</div>
+    <div class="exo-q" id="exo3-q">
+      <p>1. Les <select class="blank" data-rep="chloroplastes"><option value="">—</option><option>vacuoles</option><option>chloroplastes</option><option>noyaux</option></select> sont les organites cellulaires siège de la photosynthèse.</p>
+      <p>2. La chlorophylle absorbe principalement les radiations <select class="blank" data-rep="rouge et violette"><option value="">—</option><option>verte et bleue</option><option>rouge et violette</option><option>jaune et orange</option></select> du spectre lumineux.</p>
+      <p>3. Les feuilles paraissent <select class="blank" data-rep="vertes"><option value="">—</option><option>rouges</option><option>vertes</option><option>bleues</option></select> car la chlorophylle <select class="blank" data-rep="réfléchit"><option value="">—</option><option>absorbe</option><option>réfléchit</option><option>décompose</option></select> le vert.</p>
+      <p>4. Au-delà d'une certaine intensité, la production végétale atteint un <select class="blank" data-rep="plateau"><option value="">—</option><option>minimum</option><option>plateau</option><option>pic</option></select> : un autre facteur est alors <select class="blank" data-rep="limitant"><option value="">—</option><option>optimal</option><option>limitant</option><option>nul</option></select>.</p>
+    </div>
+    <button class="btn-exo" onclick="checkExo('exo3')">✓ Vérifier</button>
+    <button class="btn-reset-exo" onclick="resetExo('exo3')">↺ Réinitialiser</button>
+    <div class="exo-feedback" id="exo3-fb"></div>
+  </div>
+</div>
+
+<!-- ═══════════ ACTIVITE 4 ═══════════ -->
+<div class="panel" id="panel-4">
+  <div class="question-dir">🔬 Activité 4 — Rôle du dioxyde de carbone (p.54–56)</div>
+
+  <div class="card">
+    <h2>Le CO₂ : matière première de la photosynthèse</h2>
+    <div class="svgbox">
+      <svg viewBox="0 0 580 200" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+        <!-- Deux phases -->
+        <!-- Phase photo -->
+        <rect x="20" y="50" width="240" height="110" rx="12" fill="#fff8e1" stroke="#F9A825" stroke-width="2.5"/>
+        <text x="140" y="75" text-anchor="middle" font-size="13" font-weight="700" fill="#E65100">☀️ Phase photochimique</text>
+        <text x="140" y="95" text-anchor="middle" font-size="11" fill="#555">2H₂O → O₂ + 4H⁺ + 4e⁻</text>
+        <text x="140" y="113" text-anchor="middle" font-size="10" fill="#777">Photolyse de l'eau</text>
+        <text x="140" y="130" text-anchor="middle" font-size="10" fill="#777">Stockage énergie chimique (ATP)</text>
+        <rect x="30" y="140" width="220" height="12" rx="3" fill="#F9A825" opacity=".3"/>
+        <text x="140" y="150" text-anchor="middle" font-size="9" fill="#E65100">Dépend directement de la lumière</text>
+
+        <!-- Fleche energie -->
+        <path d="M265 105 L315 105" stroke="#999" stroke-width="2.5" marker-end="url(#ae)"/>
+        <defs><marker id="ae" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#999"/></marker></defs>
+        <text x="290" y="97" text-anchor="middle" font-size="9" fill="#999">énergie</text>
+
+        <!-- Phase sombre -->
+        <rect x="320" y="50" width="240" height="110" rx="12" fill="#e3f2fd" stroke="#1565C0" stroke-width="2.5"/>
+        <text x="440" y="75" text-anchor="middle" font-size="13" font-weight="700" fill="#1565C0">🌙 Phase sombre</text>
+        <text x="440" y="95" text-anchor="middle" font-size="11" fill="#555">CO₂ + H⁺ + e⁻ → C₆H₁₂O₆</text>
+        <text x="440" y="113" text-anchor="middle" font-size="10" fill="#777">Réactions sombres</text>
+        <text x="440" y="130" text-anchor="middle" font-size="10" fill="#777">Synthèse des glucides</text>
+        <rect x="330" y="140" width="220" height="12" rx="3" fill="#1565C0" opacity=".15"/>
+        <text x="440" y="150" text-anchor="middle" font-size="9" fill="#1565C0">Pas directement dépendante de la lumière</text>
+
+        <!-- Equation globale -->
+        <rect x="100" y="175" width="380" height="22" rx="6" fill="#e0f2f1" stroke="#00695C"/>
+        <text x="290" y="190" text-anchor="middle" font-size="11" font-weight="700" fill="#00695C">6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂  (lumière + chlorophylle)</text>
+
+        <!-- O2 fleche sortante -->
+        <text x="140" y="30" text-anchor="middle" font-size="11" fill="#555">O₂ dégagé ↑</text>
+        <line x1="140" y1="35" x2="140" y2="50" stroke="#2E7D32" stroke-width="2" marker-end="url(#ao)"/>
+        <defs><marker id="ao" markerWidth="8" markerHeight="8" refX="6" refY="6" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#2E7D32" transform="rotate(180,4,3)"/></marker></defs>
+
+        <!-- CO2 fleche entrante -->
+        <text x="440" y="30" text-anchor="middle" font-size="11" fill="#555">CO₂ absorbé ↓</text>
+        <line x1="440" y1="50" x2="440" y2="36" stroke="#1565C0" stroke-width="2"/>
+        <path d="M434 36 L440 28 L446 36" fill="none" stroke="#1565C0" stroke-width="2"/>
+      </svg>
+      <figcaption>Fig. 6 — Les deux phases de la photosynthèse et bilan</figcaption>
+    </div>
+
+    <h3>Expériences avec isotopes radioactifs (preuve directe)</h3>
+    <table>
+      <tr><th>Expérience</th><th>Marquage</th><th>Résultat</th><th>Conclusion</th></tr>
+      <tr><td>Origine du carbone</td><td>¹⁴C dans le CO₂</td><td>Glucides radioactifs</td><td>C de la MO vient du <strong>CO₂</strong></td></tr>
+      <tr><td>Origine de l'O₂ (exp. 1)</td><td>¹⁸O dans le CO₂</td><td>O₂ dégagé NON radioactif</td><td>O₂ ne vient PAS du CO₂</td></tr>
+      <tr><td>Origine de l'O₂ (exp. 2)</td><td>¹⁸O dans l'eau</td><td>O₂ dégagé radioactif</td><td>O₂ vient de l'<strong>eau</strong> (photolyse)</td></tr>
+      <tr><td>Obscurité</td><td>—</td><td>Pas de dégagement d'O₂</td><td>Lumière indispensable à la photolyse</td></tr>
+    </table>
+
+    <div class="info-box">
+      <div class="icon">🔬</div>
+      <p><strong>Expérience de Gaffron (1951) :</strong> après une forte illumination, l'incorporation de CO₂ continue encore 15–20 secondes à l'obscurité → preuve que les réactions sombres stockent de l'énergie produite par la phase lumineuse.</p>
+    </div>
+  </div>
+
+  <div class="retenons">
+    <h4>📌 Retenons</h4>
+    <p><dt>Photolyse de l'eau :</dt><dd>2H₂O → O₂ + 4H⁺ + 4e⁻ sous lumière + chlorophylle. L'O₂ dégagé vient de l'eau, pas du CO₂.</dd></p>
+  </div>
+
+  <div class="exo">
+    <div class="exo-title">✏️ Exercice interactif — Photolyse et phases</div>
+    <div class="exo-q" id="exo4-q">
+      <p>1. Le carbone de la matière organique provient du <select class="blank" data-rep="CO₂"><option value="">—</option><option>eau</option><option>CO₂</option><option>amidon</option></select> atmosphérique (expérience au ¹⁴C).</p>
+      <p>2. L'oxygène dégagé lors de la photosynthèse provient de l'<select class="blank" data-rep="eau"><option value="">—</option><option>eau</option><option>CO₂</option><option>amidon</option></select> par <select class="blank" data-rep="photolyse"><option value="">—</option><option>osmose</option><option>photolyse</option><option>combustion</option></select>.</p>
+      <p>3. La phase <select class="blank" data-rep="photochimique"><option value="">—</option><option>sombre</option><option>photochimique</option></select> dépend directement de la lumière et aboutit à la <select class="blank" data-rep="photolyse de l'eau"><option value="">—</option><option>synthèse du glucose</option><option>photolyse de l'eau</option><option>absorption du CO₂</option></select>.</p>
+      <p>4. L'équation globale : 6CO₂ + 6H₂O → <select class="blank" data-rep="C₆H₁₂O₆"><option value="">—</option><option>C₆H₁₂O₆</option><option>H₂CO₃</option><option>NH₃</option></select> + <select class="blank" data-rep="6O₂"><option value="">—</option><option>6CO₂</option><option>6H₂O</option><option>6O₂</option></select>.</p>
+    </div>
+    <button class="btn-exo" onclick="checkExo('exo4')">✓ Vérifier</button>
+    <button class="btn-reset-exo" onclick="resetExo('exo4')">↺ Réinitialiser</button>
+    <div class="exo-feedback" id="exo4-fb"></div>
+  </div>
+</div>
+
+<!-- ═══════════ ACTIVITE 5 ═══════════ -->
+<div class="panel" id="panel-5">
+  <div class="question-dir">🔬 Activité 5 — Transport de la sève élaborée (p.57–61)</div>
+
+  <div class="card">
+    <h2>Devenir de l'amidon fabriqué dans les feuilles</h2>
+    <div class="svgbox">
+      <svg viewBox="0 0 580 270" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+        <!-- Plante -->
+        <!-- Feuilles -->
+        <ellipse cx="180" cy="45" rx="130" ry="38" fill="#c8e6c9" stroke="#2E7D32" stroke-width="2"/>
+        <line x1="180" y1="7" x2="180" y2="83" stroke="#2E7D32" stroke-width="1.5"/>
+        <line x1="180" y1="30" x2="150" y2="50" stroke="#2E7D32" stroke-width="1"/>
+        <line x1="180" y1="50" x2="145" y2="62" stroke="#2E7D32" stroke-width="1"/>
+        <line x1="180" y1="30" x2="210" y2="50" stroke="#2E7D32" stroke-width="1"/>
+        <line x1="180" y1="50" x2="215" y2="62" stroke="#2E7D32" stroke-width="1"/>
+        <text x="180" y="40" text-anchor="middle" font-size="11" font-weight="700" fill="#1b5e20">FEUILLE</text>
+        <text x="180" y="57" text-anchor="middle" font-size="10" fill="#2E7D32">Photosynthèse → amidon → glucose</text>
+
+        <!-- Tige double vaisseau -->
+        <rect x="163" y="83" width="16" height="120" fill="#ef9a9a" stroke="#c62828" stroke-width="1"/>
+        <rect x="181" y="83" width="16" height="120" fill="#a5d6a7" stroke="#2E7D32" stroke-width="1"/>
+        <text x="140" y="143" text-anchor="end" font-size="9" fill="#c62828">Xylème</text>
+        <text x="140" y="155" text-anchor="end" font-size="9" fill="#c62828">(sève brute ↑)</text>
+        <text x="220" y="143" font-size="9" fill="#2E7D32">Phloème</text>
+        <text x="220" y="155" font-size="9" fill="#2E7D32">(sève élaborée ↓)</text>
+
+        <!-- Fleches -->
+        <path d="M171 200 L171 95" stroke="#c62828" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#axyl)"/>
+        <defs>
+          <marker id="axyl" markerWidth="8" markerHeight="8" refX="6" refY="6" orient="auto"><path d="M0,6 L8,3 L0,0 Z" fill="#c62828" transform="rotate(180,4,3)"/></marker>
+          <marker id="aphl" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 Z" fill="#2E7D32"/></marker>
+        </defs>
+        <path d="M189 95 L189 200" stroke="#2E7D32" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#aphl)"/>
+
+        <!-- Racine -->
+        <ellipse cx="180" cy="225" rx="100" ry="35" fill="#ffe0b2" stroke="#E65100" stroke-width="2"/>
+        <text x="180" y="220" text-anchor="middle" font-size="11" font-weight="700" fill="#BF360C">RACINE / ORGANES DE RÉSERVE</text>
+        <text x="180" y="236" text-anchor="middle" font-size="10" fill="#E65100">Stockage amidon (amyloplastes)</text>
+        <!-- Poils absorbants -->
+        <text x="80" y="255" font-size="20">〰️</text>
+        <text x="78" y="268" font-size="9" fill="#888">Poils absorbants</text>
+
+        <!-- Légende tubes criblés -->
+        <rect x="340" y="50" width="210" height="90" rx="10" fill="white" stroke="#2E7D32" stroke-width="1.5"/>
+        <text x="445" y="70" text-anchor="middle" font-size="12" font-weight="700" fill="#2E7D32">Tubes criblés (phloème)</text>
+        <text x="445" y="88" text-anchor="middle" font-size="10" fill="#555">• Cellules vivantes</text>
+        <text x="445" y="103" text-anchor="middle" font-size="10" fill="#555">• Parois transversales percées de pores</text>
+        <text x="445" y="118" text-anchor="middle" font-size="10" fill="#555">• Conduction : feuilles → racines</text>
+        <text x="445" y="133" text-anchor="middle" font-size="10" fill="#555">• Coloration rose (carmin aluné)</text>
+
+        <!-- Double coloration -->
+        <rect x="340" y="155" width="210" height="80" rx="10" fill="white" stroke="#ccc" stroke-width="1.5"/>
+        <text x="445" y="173" text-anchor="middle" font-size="12" font-weight="700" fill="#333">Double coloration</text>
+        <rect x="355" y="182" width="80" height="18" rx="4" fill="#ef9a9a"/>
+        <text x="395" y="195" text-anchor="middle" font-size="10" fill="#c62828">Xylème (vert)</text>
+        <rect x="445" y="182" width="90" height="18" rx="4" fill="#f48fb1"/>
+        <text x="490" y="195" text-anchor="middle" font-size="10" fill="#880E4F">Phloème (rose)</text>
+        <text x="445" y="225" text-anchor="middle" font-size="9" fill="#666">Lignine → vert d'iode (vert)</text>
+        <text x="445" y="238" text-anchor="middle" font-size="9" fill="#666">Cellulose → carmin aluné (rose)</text>
+
+        <!-- Annelation -->
+        <rect x="340" y="248" width="210" height="18" rx="6" fill="#fff3e0" stroke="#E65100"/>
+        <text x="445" y="261" text-anchor="middle" font-size="9" fill="#E65100">Annélation : MO s'accumule AU-DESSUS → sens ↓ confirmé</text>
+      </svg>
+      <figcaption>Fig. 7 — Schéma de la circulation des sèves dans la plante</figcaption>
+    </div>
+  </div>
+
+  <div class="retenons">
+    <h4>📌 Retenons</h4>
+    <p><dt>Sève élaborée :</dt><dd>solution contenant les produits de la photosynthèse, circule des feuilles vers tous les organes (sens descendant).</dd></p>
+    <p><dt>Phloème :</dt><dd>tubes criblés conduisant la sève élaborée. Parois transversales percées de pores. Coloration rose.</dd></p>
+    <p><dt>Cellulose :</dt><dd>rose (carmin aluné). <dt style="margin-left:8px">Lignine :</dt><dd>verte (vert d'iode).</dd></p>
+  </div>
+
+  <div class="exo">
+    <div class="exo-title">✏️ Exercice interactif — Sèves et vaisseaux</div>
+    <div class="exo-q" id="exo5-q">
+      <p>1. La sève élaborée circule dans les <select class="blank" data-rep="tubes criblés du phloème"><option value="">—</option><option>vaisseaux du xylème</option><option>tubes criblés du phloème</option><option>poils absorbants</option></select>, du <select class="blank" data-rep="haut vers le bas"><option value="">—</option><option>bas vers le haut</option><option>haut vers le bas</option></select>.</p>
+      <p>2. La lignine se colore en <select class="blank" data-rep="vert"><option value="">—</option><option>rose</option><option>vert</option><option>bleu</option></select> par le vert d'iode ; la cellulose se colore en <select class="blank" data-rep="rose"><option value="">—</option><option>vert</option><option>rose</option><option>violet</option></select> par le carmin aluné.</p>
+      <p>3. L'expérience d'annélation (suppression de l'écorce en anneau) montre que les substances organiques s'accumulent <select class="blank" data-rep="au-dessus"><option value="">—</option><option>au-dessous</option><option>au-dessus</option></select> de la zone décortiquée.</p>
+      <p>4. L'amidon est stocké sous forme de grains dans des organites appelés <select class="blank" data-rep="amyloplastes"><option value="">—</option><option>chloroplastes</option><option>amyloplastes</option><option>vacuoles</option></select> dans le <select class="blank" data-rep="tubercule"><option value="">—</option><option>phloème</option><option>tubercule</option><option>noyau</option></select> de pomme de terre.</p>
+    </div>
+    <button class="btn-exo" onclick="checkExo('exo5')">✓ Vérifier</button>
+    <button class="btn-reset-exo" onclick="resetExo('exo5')">↺ Réinitialiser</button>
+    <div class="exo-feedback" id="exo5-fb"></div>
+  </div>
+</div>
+
+<!-- ═══════════ ACTIVITE 6 ═══════════ -->
+<div class="panel" id="panel-6">
+  <div class="question-dir">🔬 Activité 6 — Conditions optimales de la photosynthèse (p.62–63)</div>
+
+  <div class="card">
+    <h2>Intensité photosynthétique (IP) et ses facteurs</h2>
+    <div class="svgbox">
+      <svg viewBox="0 0 580 200" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+        <!-- Courbe lumière -->
+        <g transform="translate(20,10)">
+          <text x="85" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#F9A825">☀️ Lumière</text>
+          <line x1="10" y1="155" x2="170" y2="155" stroke="#333" stroke-width="1.5"/>
+          <line x1="10" y1="30" x2="10" y2="155" stroke="#333" stroke-width="1.5"/>
+          <!-- Point compensation -->
+          <circle cx="38" cy="145" r="4" fill="#E65100"/>
+          <text x="38" y="175" text-anchor="middle" font-size="8" fill="#E65100">Pt comp.</text>
+          <!-- Courbe epinard -->
+          <path d="M10,152 Q38,140 65,105 Q100,68 130,52 L170,50" fill="none" stroke="#F9A825" stroke-width="2.5"/>
+          <!-- Courbe ombre -->
+          <path d="M10,152 Q38,145 65,130 Q100,115 130,112 L170,112" fill="none" stroke="#7B1FA2" stroke-width="2" stroke-dasharray="4,2"/>
+          <text x="100" y="48" font-size="8" fill="#F9A825">Épinard (soleil)</text>
+          <text x="100" y="110" font-size="8" fill="#7B1FA2">Fougère (ombre)</text>
+          <!-- Axe labels -->
+          <text x="85" y="185" text-anchor="middle" font-size="9" fill="#666">Intensité lumineuse →</text>
+          <text x="-5" y="95" font-size="9" fill="#666" transform="rotate(-90,-5,95)">IP →</text>
+        </g>
+
+        <!-- Courbe CO2 -->
+        <g transform="translate(200,10)">
+          <text x="85" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#1565C0">💨 CO₂</text>
+          <line x1="10" y1="155" x2="170" y2="155" stroke="#333" stroke-width="1.5"/>
+          <line x1="10" y1="30" x2="10" y2="155" stroke="#333" stroke-width="1.5"/>
+          <path d="M10,150 Q60,110 95,70 Q115,52 135,50 L170,50" fill="none" stroke="#1565C0" stroke-width="2.5"/>
+          <!-- Toxique -->
+          <line x1="130" y1="30" x2="130" y2="155" stroke="#f44336" stroke-width="1" stroke-dasharray="3,2"/>
+          <text x="132" y="45" font-size="8" fill="#f44336">0,3%</text>
+          <text x="152" y="35" font-size="8" fill="#f44336">toxique</text>
+          <text x="85" y="185" text-anchor="middle" font-size="9" fill="#666">Teneur CO₂ →</text>
+        </g>
+
+        <!-- Courbe temperature -->
+        <g transform="translate(390,10)">
+          <text x="85" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#E65100">🌡️ Température</text>
+          <line x1="10" y1="155" x2="170" y2="155" stroke="#333" stroke-width="1.5"/>
+          <line x1="10" y1="30" x2="10" y2="155" stroke="#333" stroke-width="1.5"/>
+          <path d="M10,150 Q40,110 70,65 Q85,48 95,47 Q110,48 125,75 Q145,115 170,150" fill="none" stroke="#E65100" stroke-width="2.5"/>
+          <!-- Optimum -->
+          <line x1="95" y1="30" x2="95" y2="155" stroke="#2E7D32" stroke-width="1" stroke-dasharray="3,2"/>
+          <text x="97" y="42" font-size="8" fill="#2E7D32">30-40°C</text>
+          <text x="85" y="185" text-anchor="middle" font-size="9" fill="#666">Température →</text>
+        </g>
+      </svg>
+      <figcaption>Fig. 8 — Courbes de variation de l'intensité photosynthétique selon les trois facteurs principaux</figcaption>
+    </div>
+
+    <h3>Notion de point de compensation</h3>
+    <div class="info-box">
+      <div class="icon">⚖️</div>
+      <p>Le <strong>point de compensation</strong> est l'intensité lumineuse pour laquelle <strong>IPB = IR</strong>, soit l'O₂ produit par photosynthèse = O₂ consommé par respiration → IPN = 0.<br>
+      <em>IPN = IPB − IR</em> &nbsp;(Nette = Brute − Respiratoire)</p>
+    </div>
+    <table>
+      <tr><th>Condition</th><th>IPN</th><th>Ce qui se passe</th></tr>
+      <tr><td>Obscurité totale</td><td>Négative</td><td>Seule la respiration fonctionne (consomme O₂)</td></tr>
+      <tr><td>Point de compensation</td><td>= 0</td><td>Photosynthèse = Respiration</td></tr>
+      <tr><td>Lumière forte</td><td>Positive</td><td>Photosynthèse &gt; Respiration, O₂ dégagé</td></tr>
+    </table>
+  </div>
+
+  <div class="retenons">
+    <h4>📌 Retenons</h4>
+    <p><dt>Intensité photosynthétique (IP) :</dt><dd>quantité de CO₂ absorbé ou O₂ rejeté par unité de masse végétale et par unité de temps.</dd></p>
+  </div>
+
+  <div class="exo">
+    <div class="exo-title">✏️ Exercice interactif — Facteurs et IP</div>
+    <div class="exo-q" id="exo6-q">
+      <p>1. Le point de compensation est l'intensité lumineuse où la photosynthèse est <select class="blank" data-rep="égale à"><option value="">—</option><option>supérieure à</option><option>inférieure à</option><option>égale à</option></select> la respiration (IPN = <select class="blank" data-rep="0"><option value="">—</option><option>max</option><option>0</option><option>négatif</option></select>).</p>
+      <p>2. La température optimale de la photosynthèse est de <select class="blank" data-rep="30–40°C"><option value="">—</option><option>10–15°C</option><option>20–25°C</option><option>30–40°C</option><option>50–60°C</option></select>.</p>
+      <p>3. Au-delà de <select class="blank" data-rep="0,3%"><option value="">—</option><option>0,03%</option><option>0,3%</option><option>3%</option></select> de CO₂ dans l'air, l'IP n'augmente plus et le CO₂ devient <select class="blank" data-rep="toxique"><option value="">—</option><option>bénéfique</option><option>toxique</option><option>neutre</option></select> pour le végétal.</p>
+      <p>4. La fougère est une plante d'<select class="blank" data-rep="ombre"><option value="">—</option><option>ombre</option><option>soleil</option></select> : son optimum est atteint à des intensités lumineuses <select class="blank" data-rep="faibles"><option value="">—</option><option>élevées</option><option>faibles</option></select> comparées à l'épinard.</p>
+    </div>
+    <button class="btn-exo" onclick="checkExo('exo6')">✓ Vérifier</button>
+    <button class="btn-reset-exo" onclick="resetExo('exo6')">↺ Réinitialiser</button>
+    <div class="exo-feedback" id="exo6-fb"></div>
+  </div>
+</div>
+
+<!-- ═══════════ ACTIVITE 7 ═══════════ -->
+<div class="panel" id="panel-7">
+  <div class="question-dir">🔬 Activité 7 — Risques liés aux engrais chimiques et pesticides (p.64–67)</div>
+
+  <div class="card">
+    <h2>Pollution par les nitrates → Méthémoglobinémie</h2>
+    <div class="svgbox">
+      <svg viewBox="0 0 560 130" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+        <!-- Barre gradient -->
+        <defs>
+          <linearGradient id="nitgr" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#4CAF50"/>
+            <stop offset="40%" stop-color="#FFC107"/>
+            <stop offset="70%" stop-color="#f44336"/>
+          </linearGradient>
+        </defs>
+        <rect x="30" y="40" width="500" height="30" rx="6" fill="url(#nitgr)"/>
+        <!-- Seuils -->
+        <line x1="230" y1="30" x2="230" y2="80" stroke="#555" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <line x1="380" y1="30" x2="380" y2="80" stroke="#555" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <text x="230" y="24" text-anchor="middle" font-size="11" font-weight="700" fill="#E65100">50 mg/L</text>
+        <text x="380" y="24" text-anchor="middle" font-size="11" font-weight="700" fill="#c62828">100 mg/L</text>
+        <!-- Labels -->
+        <text x="30" y="95" font-size="10" fill="#2E7D32">0</text>
+        <text x="100" y="95" text-anchor="middle" font-size="10" fill="#2E7D32">✅ Eau saine</text>
+        <text x="305" y="95" text-anchor="middle" font-size="10" fill="#E65100">⚠️ Déconseillé femmes<br/>enceintes + nourrissons</text>
+        <text x="460" y="95" text-anchor="middle" font-size="10" fill="#c62828">❌ Interdit à la conso.</text>
+        <text x="290" y="118" text-anchor="middle" font-size="10" font-weight="700" fill="#555">Concentration en nitrates (mg/L)</text>
+      </svg>
+      <figcaption>Fig. 9 — Seuils de potabilité de l'eau selon la teneur en nitrates (OMS)</figcaption>
+    </div>
+    <p style="font-size:.88rem;margin-top:4px">Les nitrates transforment l'<strong>hémoglobine</strong> en <strong>méthémoglobine</strong> (impropre à fixer l'O₂) → difficulté respiratoire, vertiges. Surtout dangereux pour les <strong>nourrissons &lt; 6 mois</strong>.</p>
+  </div>
+
+  <div class="card orange">
+    <h2>Dangers des pesticides</h2>
+    <table>
+      <tr><th>Population</th><th>Risque principal</th></tr>
+      <tr><td>Enfants 0–15 ans</td><td>45% des intoxications (Québec) · leucémie, sarcome, cancer cérébral</td></tr>
+      <tr><td>Femmes enceintes</td><td>Anomalies congénitales, avortements spontanés (2,4-D dans le sperme)</td></tr>
+      <tr><td>Consommateurs (ex: fraises)</td><td>Résidus fongicides si rémanence non respectée → diarrhées</td></tr>
+    </table>
+  </div>
+
+  <div class="card teal">
+    <h2>Alternatives biologiques</h2>
+    <div class="svgbox">
+      <svg viewBox="0 0 560 120" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+        <!-- 4 boîtes -->
+        <rect x="10" y="20" width="120" height="80" rx="10" fill="#e0f2f1" stroke="#00695C" stroke-width="1.5"/>
+        <text x="70" y="42" text-anchor="middle" font-size="18">🌿</text>
+        <text x="70" y="60" text-anchor="middle" font-size="11" font-weight="700" fill="#00695C">Compost</text>
+        <text x="70" y="75" text-anchor="middle" font-size="9" fill="#555">Ammoniaque</text>
+        <text x="70" y="88" text-anchor="middle" font-size="9" fill="#555">moins toxique</text>
+
+        <rect x="145" y="20" width="120" height="80" rx="10" fill="#e0f2f1" stroke="#00695C" stroke-width="1.5"/>
+        <text x="205" y="42" text-anchor="middle" font-size="18">🐞</text>
+        <text x="205" y="60" text-anchor="middle" font-size="11" font-weight="700" fill="#00695C">Coccinelle</text>
+        <text x="205" y="75" text-anchor="middle" font-size="9" fill="#555">300 pucerons</text>
+        <text x="205" y="88" text-anchor="middle" font-size="9" fill="#555">par jour</text>
+
+        <rect x="280" y="20" width="130" height="80" rx="10" fill="#e0f2f1" stroke="#00695C" stroke-width="1.5"/>
+        <text x="345" y="42" text-anchor="middle" font-size="18">🧪</text>
+        <text x="345" y="60" text-anchor="middle" font-size="11" font-weight="700" fill="#00695C">Phéromones</text>
+        <text x="345" y="75" text-anchor="middle" font-size="9" fill="#555">Stérilisation</text>
+        <text x="345" y="88" text-anchor="middle" font-size="9" fill="#555">ou confusion des mâles</text>
+
+        <rect x="425" y="20" width="120" height="80" rx="10" fill="#e0f2f1" stroke="#00695C" stroke-width="1.5"/>
+        <text x="485" y="42" text-anchor="middle" font-size="18">⏱️</text>
+        <text x="485" y="60" text-anchor="middle" font-size="11" font-weight="700" fill="#00695C">Rémanence</text>
+        <text x="485" y="75" text-anchor="middle" font-size="9" fill="#555">Respecter la durée</text>
+        <text x="485" y="88" text-anchor="middle" font-size="9" fill="#555">d'activité du pesticide</text>
+      </svg>
+      <figcaption>Fig. 10 — Alternatives biologiques aux engrais chimiques et pesticides</figcaption>
+    </div>
+  </div>
+
+  <div class="retenons">
+    <h4>📌 Retenons</h4>
+    <p><dt>Méthémoglobinémie :</dt><dd>maladie causée par excès de nitrates → hémoglobine transformée, incapable de fixer l'O₂.</dd></p>
+    <p><dt>Phéromones :</dt><dd>substances émises par les femelles pour attirer les mâles. Utilisées en lutte biologique (stérilisation ou confusion).</dd></p>
+    <p><dt>Rémanence :</dt><dd>durée pendant laquelle un pesticide reste actif. Doit être respectée avant la récolte.</dd></p>
+  </div>
+
+  <div class="exo">
+    <div class="exo-title">✏️ Exercice interactif — Santé et agriculture</div>
+    <div class="exo-q" id="exo7-q">
+      <p>1. La <select class="blank" data-rep="méthémoglobinémie"><option value="">—</option><option>photosynthèse</option><option>méthémoglobinémie</option><option>osmose</option></select> est causée par une trop forte concentration de <select class="blank" data-rep="nitrates"><option value="">—</option><option>pesticides</option><option>nitrates</option><option>phosphates</option></select> dans l'eau.</p>
+      <p>2. Une eau contenant plus de <select class="blank" data-rep="100"><option value="">—</option><option>50</option><option>100</option><option>200</option></select> mg/L de nitrates est interdite à la consommation humaine.</p>
+      <p>3. La lutte biologique utilise la <select class="blank" data-rep="coccinelle"><option value="">—</option><option>mouche</option><option>coccinelle</option><option>fourmi</option></select> contre les pucerons (300 pucerons/jour) et les <select class="blank" data-rep="phéromones"><option value="">—</option><option>hormones</option><option>nitrates</option><option>phéromones</option></select> pour perturber la reproduction des ravageurs.</p>
+      <p>4. Le compostage produit de l'<select class="blank" data-rep="ammoniaque"><option value="">—</option><option>ammoniaque</option><option>nitrate</option><option>pesticide</option></select>, forme azotée moins toxique que les nitrates pour la santé.</p>
+    </div>
+    <button class="btn-exo" onclick="checkExo('exo7')">✓ Vérifier</button>
+    <button class="btn-reset-exo" onclick="resetExo('exo7')">↺ Réinitialiser</button>
+    <div class="exo-feedback" id="exo7-fb"></div>
+  </div>
+</div>
+
+<!-- ═══════════ BILAN ═══════════ -->
+<div class="panel" id="panel-8">
+  <div class="card">
+    <h2>📋 Bilan — La Photosynthèse</h2>
+    <div class="equation">6CO₂ + 6H₂O &nbsp;→&nbsp; C₆H₁₂O₆ + 6O₂ &nbsp;&nbsp;<span style="font-size:.8rem;opacity:.7">(lumière + chlorophylle)</span></div>
+    <div class="phases">
+      <div class="phase lumineuse">
+        <h4>☀️ Phase photochimique</h4>
+        <p>À la <strong>lumière</strong> dans les chloroplastes<br>
+        2H₂O → O₂ + 4H⁺ + 4e⁻<br>
+        <em>Photolyse de l'eau · Stockage énergie ATP</em></p>
+      </div>
+      <div class="phase sombre">
+        <h4>🌙 Phase sombre</h4>
+        <p>Ne dépend pas directement de la lumière<br>
+        CO₂ + H⁺ + e⁻ → C₆H₁₂O₆<br>
+        <em>Utilise l'énergie de la phase lumineuse</em></p>
+      </div>
+    </div>
+  </div>
+  <div id="accord-bilan">
+    <div class="accord-item">
+      <div class="accord-head" onclick="toggleAccord(this)">🌿 Conditions et siège de la photosynthèse <span class="accord-arrow">▼</span></div>
+      <div class="accord-body">La photosynthèse se déroule dans les <strong>chloroplastes</strong> des cellules chlorophylliennes. 3 conditions : <strong>lumière · chlorophylle · CO₂</strong>. La chlorophylle absorbe le violet et le rouge → photosynthèse maximale dans ces longueurs d'onde (spectre d'action = spectre d'absorption). Les feuilles sont vertes car le vert est réfléchi.</div>
+    </div>
+    <div class="accord-item">
+      <div class="accord-head" onclick="toggleAccord(this)">💧 Photolyse — origine des produits <span class="accord-arrow">▼</span></div>
+      <div class="accord-body">Le <strong>carbone</strong> de la MO vient du <strong>CO₂</strong> (exp. ¹⁴C). L'<strong>oxygène</strong> dégagé vient de l'<strong>eau</strong> (exp. ¹⁸O), par photolyse : 2H₂O → O₂ + 4H⁺ + 4e⁻. L'O₂ est libéré, les H⁺ servent à réduire le CO₂ en glucides.</div>
+    </div>
+    <div class="accord-item">
+      <div class="accord-head" onclick="toggleAccord(this)">🌿 Transport et devenir de la MO <span class="accord-arrow">▼</span></div>
+      <div class="accord-body">L'amidon (feuilles) → glucose → sève élaborée → tubes criblés du phloème → sens descendant (feuilles → racines). Utilisé pour : croissance · respiration · stockage (tubercules, graines, fruits sous forme d'amyloplastes).</div>
+    </div>
+    <div class="accord-item">
+      <div class="accord-head" onclick="toggleAccord(this)">📊 Facteurs de l'intensité photosynthétique <span class="accord-arrow">▼</span></div>
+      <div class="accord-body"><strong>Lumière :</strong> IP croît puis plateau · point de compensation (IPB=IR) · plantes de soleil (épinard) vs ombre (fougère)<br><strong>CO₂ :</strong> optimum à 0,3%, toxique au-delà<br><strong>Température :</strong> optimum 30–40°C puis chute rapide des enzymes</div>
+    </div>
+    <div class="accord-item">
+      <div class="accord-head" onclick="toggleAccord(this)">⚗️ Production agricole et santé <span class="accord-arrow">▼</span></div>
+      <div class="accord-body"><strong>Nitrates &gt; 50 mg/L :</strong> méthémoglobinémie (nourrissons ++)<br><strong>Pesticides :</strong> cancers chez l'enfant, anomalies congénitales, résidus alimentaires<br><strong>Alternatives :</strong> compostage (ammoniaque), lutte biologique (coccinelle, phéromones), respect de la rémanence</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ FLASHCARDS ═══════════ -->
+<div class="panel" id="panel-9">
+  <h2 style="margin-bottom:16px">🃏 Flashcards — Texte à compléter</h2>
+  <div class="fc-actions">
+    <button class="btn btn-vert" onclick="verifierFC()">✓ Vérifier tout</button>
+    <button class="btn btn-grey" onclick="resetFC()">↺ Recommencer</button>
+    <span id="fc-score" style="display:none;padding:10px 16px;border-radius:8px;font-weight:700"></span>
+  </div>
+  <div class="fc-grid" id="fc-container"></div>
+</div>
+
+<!-- ═══════════ QCM ═══════════ -->
+<div class="panel" id="panel-10">
+  <h2 style="margin-bottom:8px">✏️ QCM Format CAPES</h2>
+  <p style="margin-bottom:16px;font-size:.88rem;color:var(--text-muted)">Plusieurs réponses correctes possibles par question.</p>
+  <div id="qcm-container"></div>
+  <div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap">
+    <button class="btn btn-vert" onclick="corrigerQCM()">✓ Corriger</button>
+    <button class="btn btn-grey" onclick="resetQCM()">↺ Recommencer</button>
+  </div>
+  <div id="qcm-result"></div>
+</div>
+
+</div><!-- /content -->
+
+<script>
+// ─── TABS ───
+const panels=document.querySelectorAll('.panel'),tabs=document.querySelectorAll('.tab');
+const prog=document.getElementById('progFill');
+let visited=new Set([0]);
+function showTab(n){
+  panels.forEach(p=>p.classList.remove('active'));
+  tabs.forEach(t=>t.classList.remove('active'));
+  panels[n].classList.add('active');
+  tabs[n].classList.add('active');
+  visited.add(n);
+  prog.style.width=Math.round(visited.size/tabs.length*100)+'%';
+  localStorage.setItem('ch2_tab',n);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+const sv=localStorage.getItem('ch2_tab');
+if(sv)showTab(parseInt(sv));
+
+// ─── ACCORDEON ───
+function toggleAccord(head){
+  const body=head.nextElementSibling,isOpen=body.classList.contains('open');
+  document.querySelectorAll('.accord-body').forEach(b=>b.classList.remove('open'));
+  document.querySelectorAll('.accord-head').forEach(h=>h.classList.remove('open'));
+  if(!isOpen){body.classList.add('open');head.classList.add('open');}
+}
+
+// ─── EXERCICES ───
+function checkExo(id){
+  const selects=document.querySelectorAll(`#${id}-q select.blank`);
+  let ok=0,total=selects.length;
+  selects.forEach(s=>{
+    s.classList.remove('ok','ko');
+    if(s.value===s.dataset.rep){s.classList.add('ok');ok++;}
+    else s.classList.add('ko');
+  });
+  const fb=document.getElementById(`${id}-fb`);
+  fb.className='exo-feedback '+(ok===total?'ok':'ko');
+  fb.textContent=ok===total?`✅ Parfait ! ${ok}/${total} bonnes réponses.`:`❌ ${ok}/${total} — Revois tes réponses en rouge.`;
+}
+function resetExo(id){
+  document.querySelectorAll(`#${id}-q select.blank`).forEach(s=>{s.value='';s.classList.remove('ok','ko');});
+  const fb=document.getElementById(`${id}-fb`);
+  fb.className='exo-feedback';fb.textContent='';
+}
+
+// ─── FLASHCARDS ───
+const flashcards=[
+  {p:"La [photosynthèse] est la fabrication de matière organique par la plante grâce à la [lumière] et à la [chlorophylle].",
+   t:[{rep:"photosynthèse",opts:["respiration","photosynthèse","transpiration"]},{rep:"lumière",opts:["chaleur","lumière","eau"]},{rep:"chlorophylle",opts:["cellulose","lignine","chlorophylle"]}]},
+  {p:"Le [chloroplaste] est l'organite cellulaire, siège de la photosynthèse.",
+   t:[{rep:"chloroplaste",opts:["noyau","vacuole","chloroplaste"]}]},
+  {p:"L'[amidon] est une grosse molécule glucidique formée de molécules de [glucose] assemblées.",
+   t:[{rep:"amidon",opts:["lipide","amidon","gluten"]},{rep:"glucose",opts:["fructose","glucose","saccharose"]}]},
+  {p:"La [photolyse] de l'eau : 2H₂O → [O₂] + 4H⁺ + 4e⁻, sous lumière + chlorophylle.",
+   t:[{rep:"photolyse",opts:["osmose","photolyse","transpiration"]},{rep:"O₂",opts:["CO₂","H₂O","O₂"]}]},
+  {p:"L'oxygène dégagé lors de la photosynthèse provient de l'[eau], non du CO₂ (expérience ¹⁸O).",
+   t:[{rep:"eau",opts:["eau","CO₂","glucose"]}]},
+  {p:"Le carbone de la matière organique provient du [CO₂] atmosphérique (expérience ¹⁴C).",
+   t:[{rep:"CO₂",opts:["eau","CO₂","O₂"]}]},
+  {p:"La chlorophylle absorbe principalement les radiations [rouge] et [violette] du spectre lumineux.",
+   t:[{rep:"rouge",opts:["verte","rouge","jaune"]},{rep:"violette",opts:["bleue","orange","violette"]}]},
+  {p:"La [sève élaborée] circule des feuilles vers les racines dans les [tubes criblés] du phloème.",
+   t:[{rep:"sève élaborée",opts:["sève brute","sève élaborée","eau minérale"]},{rep:"tubes criblés",opts:["vaisseaux du xylème","tubes criblés","poils absorbants"]}]},
+  {p:"La [lignine] se colore en vert (vert d'iode) ; la [cellulose] se colore en rose (carmin aluné).",
+   t:[{rep:"lignine",opts:["cellulose","lignine","chlorophylle"]},{rep:"cellulose",opts:["lignine","amidon","cellulose"]}]},
+  {p:"Le [point de compensation] est l'intensité lumineuse pour laquelle la photosynthèse = la [respiration] (IPN = 0).",
+   t:[{rep:"point de compensation",opts:["point d'optimum","point de saturation","point de compensation"]},{rep:"respiration",opts:["transpiration","respiration","absorption"]}]},
+  {p:"L'IP optimale est atteinte vers [30-40]°C. Au-delà, elle diminue rapidement.",
+   t:[{rep:"30-40",opts:["10-15","20-25","30-40","50-60"]}]},
+  {p:"Au-delà de [0,3]% de CO₂, l'IP n'augmente plus ; le CO₂ devient [toxique].",
+   t:[{rep:"0,3",opts:["0,03","0,3","3","30"]},{rep:"toxique",opts:["optimal","toxique","neutre"]}]},
+  {p:"La [méthémoglobinémie] est causée par une forte teneur en [nitrates] dans l'eau de boisson.",
+   t:[{rep:"méthémoglobinémie",opts:["leucémie","méthémoglobinémie","anémie"]},{rep:"nitrates",opts:["pesticides","phosphates","nitrates"]}]},
+  {p:"Une eau contenant plus de [100] mg/L de nitrates est interdite à la consommation.",
+   t:[{rep:"100",opts:["25","50","100","200"]}]},
+  {p:"La lutte biologique utilise des [phéromones] ou des prédateurs comme la [coccinelle] (300 pucerons/jour).",
+   t:[{rep:"phéromones",opts:["hormones","phéromones","vitamines"]},{rep:"coccinelle",opts:["abeille","mouche","coccinelle"]}]},
+  {p:"La [fumure organique] libère de l'[ammoniaque] dans le sol, moins toxique que les nitrates.",
+   t:[{rep:"fumure organique",opts:["engrais chimique","fumure organique","pesticide"]},{rep:"ammoniaque",opts:["nitrate","ammoniaque","phosphate"]}]},
+  {p:"L'équation globale de la photosynthèse : [6CO₂] + 6H₂O → C₆H₁₂O₆ + [6O₂].",
+   t:[{rep:"6CO₂",opts:["6H₂O","6O₂","6CO₂"]},{rep:"6O₂",opts:["6CO₂","6H₂O","6O₂"]}]},
+];
+
+function shuffle(arr){return arr.slice().sort(()=>Math.random()-.5);}
+
+function buildFC(){
+  const c=document.getElementById('fc-container');c.innerHTML='';
+  flashcards.forEach((fc,i)=>{
+    let html=fc.p;
+    fc.t.forEach((trou,j)=>{
+      const opts=shuffle(trou.opts);
+      const options=opts.map(o=>`<option value="${o}"${o===trou.rep?' data-correct':''} >${o}</option>`).join('');
+      html=html.replace(`[${trou.rep}]`,
+        `<select class="blank fc-select" data-ans="${trou.rep}"><option value="">—</option>${options}</select>`);
+    });
+    c.innerHTML+=`<div class="fc-card"><div class="fc-phrase">${html}</div></div>`;
+  });
+}
+function verifierFC(){
+  const inputs=document.querySelectorAll('.fc-select');
+  let ok=0,total=inputs.length;
+  inputs.forEach(inp=>{
+    const v=inp.value,a=inp.dataset.ans;
+    inp.classList.toggle('ok',v===a);inp.classList.toggle('ko',v!==a||v==='');
+    if(v===a)ok++;
+  });
+  const sc=document.getElementById('fc-score');
+  sc.style.display='inline-block';
+  sc.textContent=`Score : ${ok}/${total} (${Math.round(ok/total*100)}%)`;
+  sc.style.background=ok===total?'#e8f5e9':ok>=total*.7?'#fff8e1':'#ffebee';
+}
+function resetFC(){
+  document.querySelectorAll('.fc-select').forEach(i=>{i.value='';i.classList.remove('ok','ko');});
+  const sc=document.getElementById('fc-score');sc.style.display='none';
+}
+
+// ─── QCM ───
+const qcm=[
+  {q:"1. Quelles substances organiques peut-on mettre en évidence dans la plante verte ?",opts:["A. Glucides (amidon, glucose)","B. Protides (gluten)","C. Lipides (huile)","D. Eau minérale"],rep:[0,1,2]},
+  {q:"2. Quelles sont les 3 conditions indispensables à la photosynthèse ?",opts:["A. Lumière","B. Chlorophylle","C. CO₂","D. Nitrates"],rep:[0,1,2]},
+  {q:"3. La chlorophylle absorbe principalement les radiations :",opts:["A. Vertes","B. Violettes","C. Rouges","D. Jaunes"],rep:[1,2]},
+  {q:"4. Lors de la photolyse de l'eau, l'oxygène dégagé provient :",opts:["A. Du CO₂","B. De l'eau","C. Des glucides","D. Des sels minéraux"],rep:[1]},
+  {q:"5. La sève élaborée circule :",opts:["A. Des racines vers les feuilles","B. Des feuilles vers les racines et organes","C. Dans le xylème","D. Dans les tubes criblés du phloème"],rep:[1,3]},
+  {q:"6. Le point de compensation correspond à :",opts:["A. Intensité lumineuse maximale","B. Photosynthèse = Respiration","C. IPN = 0","D. CO₂ absorbé = O₂ dégagé"],rep:[1,2]},
+  {q:"7. L'intensité photosynthétique est maximale à une température de :",opts:["A. 10–20°C","B. 20–25°C","C. 30–40°C","D. 50°C"],rep:[2]},
+  {q:"8. La méthémoglobinémie est causée par l'absorption de :",opts:["A. Pesticides","B. Nitrates en excès","C. Phosphates","D. CO₂"],rep:[1]},
+  {q:"9. La lutte biologique contre les pucerons utilise :",opts:["A. Des fongicides","B. La coccinelle adulte","C. Des phéromones de synthèse","D. Des nitrates"],rep:[1,2]},
+  {q:"10. En Tunisie, les engrais organiques (compost) permettent de :",opts:["A. Augmenter les nitrates dans le sol","B. Libérer de l'ammoniaque (moins toxique)","C. Remplacer la lutte chimique par la lutte biologique","D. Stériliser les insectes ravageurs"],rep:[1,2]},
+];
+
+function buildQCM(){
+  const c=document.getElementById('qcm-container');c.innerHTML='';
+  qcm.forEach((q,i)=>{
+    const opts=q.opts.map((o,j)=>`<label class="qcm-opt" id="opt-${i}-${j}"><input type="checkbox" data-q="${i}" data-o="${j}"> ${o}</label>`).join('');
+    c.innerHTML+=`<div class="qcm-item"><div class="qcm-q">${q.q}</div>${opts}</div>`;
+  });
+}
+function corrigerQCM(){
+  let score=0;
+  qcm.forEach((q,i)=>{
+    let correct=true;
+    q.opts.forEach((_,j)=>{
+      const el=document.getElementById(`opt-${i}-${j}`),inp=el.querySelector('input');
+      const checked=inp.checked,should=q.rep.includes(j);
+      el.classList.remove('correct','wrong');
+      if(should){el.classList.add('correct');if(!checked)correct=false;}
+      else if(checked){el.classList.add('wrong');correct=false;}
+    });
+    if(correct)score++;
+  });
+  const r=document.getElementById('qcm-result'),pct=Math.round(score/qcm.length*100);
+  r.style.display='block';
+  r.style.background=pct>=80?'#e8f5e9':pct>=50?'#fff8e1':'#ffebee';
+  r.style.color=pct>=80?'#2E7D32':pct>=50?'#E65100':'#c62828';
+  r.textContent=`Score : ${score}/10 (${pct}%) — ${pct>=80?'Excellent ✅':pct>=50?'Bien 👍':'À retravailler 📖'}`;
+}
+function resetQCM(){
+  document.querySelectorAll('.qcm-opt').forEach(el=>{el.classList.remove('correct','wrong');el.querySelector('input').checked=false;});
+  document.getElementById('qcm-result').style.display='none';
+}
+
+document.addEventListener('DOMContentLoaded',()=>{buildFC();buildQCM();});
+</script>
+</body>
+</html>
