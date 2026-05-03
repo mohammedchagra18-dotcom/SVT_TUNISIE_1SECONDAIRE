@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P3-Ch2 — Les Phosphates</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --vert:#1B5E20;--vert-mid:#2E7D32;--vert-light:#e8f5e9;
+  --jaune:#F9A825;--jaune-light:#fffde7;--jaune-dark:#F57F17;
+  --ocre:#795548;--ocre-light:#efebe9;
+  --rouge:#B71C1C;--rouge-light:#ffebee;
+  --bleu:#1565C0;--bleu-light:#e3f2fd;
+  --violet:#4A148C;--violet-light:#f3e5f5;
+  --teal:#00695C;--teal-light:#e0f2f1;
+  --gris:#546E7A;--gris-light:#eceff1;
+  --bg:#f9f7f2;--text:#1a1a1a;--text-muted:#666;
+  --border:#d7ccc8;--shadow:0 2px 12px rgba(0,0,0,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;}
+
+header{background:linear-gradient(135deg,#1B5E20 0%,#2E7D32 40%,#F57F17 100%);color:white;padding:22px 32px 18px;position:sticky;top:0;z-index:100;box-shadow:0 3px 16px rgba(0,0,0,.3);}
+header h1{font-family:'Playfair Display',serif;font-size:1.45rem;margin-bottom:3px;}
+header p{font-size:.83rem;opacity:.85;}
+.prog-bar{height:4px;background:rgba(255,255,255,.3);border-radius:2px;margin-top:10px;}
+.prog-fill{height:100%;background:#fff;border-radius:2px;transition:width .4s;width:12%;}
+
+.tabs-wrap{background:white;border-bottom:2px solid var(--border);position:sticky;top:92px;z-index:99;overflow-x:auto;}
+.tabs{display:flex;min-width:max-content;}
+.tab{padding:11px 13px;font-size:.77rem;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:var(--text-muted);white-space:nowrap;transition:all .2s;background:none;border-top:none;border-left:none;border-right:none;}
+.tab:hover{color:var(--vert);background:var(--vert-light);}
+.tab.active{color:var(--vert);border-bottom-color:var(--vert);}
+
+.content{max-width:960px;margin:0 auto;padding:20px 20px 60px;}
+.panel{display:none;}.panel.active{display:block;}
+
+.subtabs-wrap{background:var(--vert-light);border-bottom:1px solid #a5d6a7;overflow-x:auto;margin-bottom:20px;border-radius:0 0 8px 8px;}
+.subtabs-wrap.jaune{background:var(--jaune-light);border-bottom-color:#ffe082;}
+.subtabs{display:flex;min-width:max-content;padding:6px 12px;gap:6px;}
+.subtab{padding:7px 14px;font-size:.78rem;font-weight:600;cursor:pointer;border-radius:20px;color:var(--vert);background:white;border:1.5px solid #a5d6a7;white-space:nowrap;transition:all .2s;}
+.subtabs-wrap.jaune .subtab{color:var(--jaune-dark);border-color:#ffe082;}
+.subtab:hover,.subtab.active{background:var(--vert);color:white;border-color:var(--vert);}
+.subtabs-wrap.jaune .subtab:hover,.subtabs-wrap.jaune .subtab.active{background:var(--jaune-dark);border-color:var(--jaune-dark);}
+.subpanel{display:none;}.subpanel.active{display:block;}
+
+.ssaccord-item{border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden;}
+.ssaccord-head{padding:12px 18px;font-weight:700;cursor:pointer;background:var(--vert-light);display:flex;justify-content:space-between;align-items:center;transition:background .2s;font-size:.92rem;}
+.ssaccord-head.jaune{background:var(--jaune-light);}
+.ssaccord-head:hover{background:#c8e6c9;}
+.ssaccord-head.jaune:hover{background:#fff9c4;}
+.ssaccord-head.open{background:var(--vert);color:white;}
+.ssaccord-head.jaune.open{background:var(--jaune-dark);color:white;}
+.ssaccord-body{display:none;padding:18px;background:white;font-size:.9rem;line-height:1.7;}
+.ssaccord-body.open{display:block;}
+.ssaccord-arrow{font-size:1rem;transition:transform .3s;}
+.ssaccord-head.open .ssaccord-arrow{transform:rotate(180deg);}
+
+.card{background:white;border-radius:12px;padding:22px;margin-bottom:18px;box-shadow:var(--shadow);border-left:5px solid var(--vert);}
+.card.jaune{border-left-color:var(--jaune);}
+.card.rouge{border-left-color:var(--rouge);}
+.card.teal{border-left-color:var(--teal);}
+h2{font-family:'Playfair Display',serif;font-size:1.18rem;margin-bottom:12px;color:var(--vert);}
+h2.jaune{color:var(--jaune-dark);}
+h2.rouge{color:var(--rouge);}
+h3{font-size:.95rem;font-weight:700;margin:12px 0 8px;}
+
+.question-dir{background:linear-gradient(135deg,#1B5E20,#2E7D32);color:white;padding:13px 18px;border-radius:10px;font-weight:600;margin-bottom:16px;font-size:.93rem;}
+.question-dir.jaune{background:linear-gradient(135deg,#E65100,#F57F17);}
+
+.resume-box{background:linear-gradient(135deg,var(--vert-light),var(--jaune-light));border:2px solid var(--vert);border-radius:12px;padding:13px 17px;margin-bottom:14px;font-size:.91rem;line-height:1.7;}
+.resume-box strong{color:var(--vert);}
+.resume-box.jaune{background:linear-gradient(135deg,var(--jaune-light),#fff3e0);border-color:var(--jaune-dark);}
+.resume-box.jaune strong{color:var(--jaune-dark);}
+
+.explication{background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 10px 10px 0;padding:13px 17px;margin:11px 0;font-size:.89rem;line-height:1.7;}
+.explication strong{color:var(--vert);}
+.explication.jaune{background:var(--jaune-light);border-left-color:var(--jaune-dark);}
+.explication.jaune strong{color:var(--jaune-dark);}
+.explication.rouge{background:var(--rouge-light);border-left-color:var(--rouge);}
+.explication.rouge strong{color:var(--rouge);}
+.explication.bleu{background:var(--bleu-light);border-left-color:var(--bleu);}
+.explication.bleu strong{color:var(--bleu);}
+.explication.teal{background:var(--teal-light);border-left-color:var(--teal);}
+.explication.teal strong{color:var(--teal);}
+
+.retenons{background:var(--jaune-light);border:1.5px solid var(--jaune);border-radius:10px;padding:14px 17px;margin:14px 0;}
+.retenons h4{color:var(--jaune-dark);font-size:.77rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:9px;}
+.retenons p{margin-bottom:5px;font-size:.89rem;}
+.retenons dt{font-weight:700;color:var(--jaune-dark);display:inline;}
+.retenons dd{display:inline;margin-left:4px;}
+
+table{width:100%;border-collapse:collapse;margin:11px 0;font-size:.86rem;}
+th{background:var(--vert);color:white;padding:9px 11px;text-align:left;}
+th.jaune{background:var(--jaune-dark);}
+th.rouge{background:var(--rouge);}
+th.teal{background:var(--teal);}
+td{padding:8px 11px;border-bottom:1px solid var(--border);}
+tr:nth-child(even) td{background:var(--vert-light);}
+tr:nth-child(even).jaune-row td{background:var(--jaune-light);}
+
+.svgbox{background:white;border-radius:10px;padding:11px;margin:13px 0;text-align:center;border:1px solid var(--border);}
+.svgbox svg{max-width:100%;height:auto;}
+.svgbox figcaption{font-size:.77rem;color:var(--text-muted);margin-top:5px;font-style:italic;}
+
+.info-box{display:flex;gap:11px;align-items:flex-start;background:var(--vert-light);border-radius:10px;padding:12px 15px;margin:11px 0;border-left:4px solid var(--vert);}
+.info-box.jaune{background:var(--jaune-light);border-left-color:var(--jaune-dark);}
+.info-box.rouge{background:var(--rouge-light);border-left-color:var(--rouge);}
+.info-box.bleu{background:var(--bleu-light);border-left-color:var(--bleu);}
+.info-box.teal{background:var(--teal-light);border-left-color:var(--teal);}
+.info-box .icon{font-size:1.4rem;flex-shrink:0;}
+.info-box p{font-size:.87rem;line-height:1.6;}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin:13px 0;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;margin:11px 0;}
+
+/* CHAINE DE TRANSFORMATION INTERACTIVE */
+.chaine-container{background:#f5f9f0;border-radius:12px;border:2px solid var(--vert);padding:18px;margin:13px 0;}
+.chaine-btns{display:flex;gap:8px;margin-bottom:13px;flex-wrap:wrap;}
+.chaine-btn{padding:7px 13px;border-radius:20px;border:2px solid var(--vert);background:white;color:var(--vert);font-weight:600;font-size:.78rem;cursor:pointer;transition:all .2s;}
+.chaine-btn.active{background:var(--vert);color:white;}
+.chaine-info{display:none;background:var(--vert-light);border-radius:10px;padding:13px 16px;font-size:.89rem;line-height:1.7;}
+.chaine-info.active{display:block;}
+
+/* ACCORD */
+.accord-item{border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden;}
+.accord-head{padding:13px 17px;font-weight:600;cursor:pointer;background:white;display:flex;justify-content:space-between;align-items:center;transition:background .2s;}
+.accord-head:hover{background:var(--vert-light);}
+.accord-head.open{background:var(--vert);color:white;}
+.accord-body{display:none;padding:15px 17px;background:var(--bg);font-size:.89rem;line-height:1.7;}
+.accord-body.open{display:block;}
+.accord-arrow{font-size:1.1rem;transition:transform .3s;}
+.accord-head.open .accord-arrow{transform:rotate(180deg);}
+
+/* EXOS */
+.exo{background:linear-gradient(135deg,#f3e5f5,var(--vert-light));border:2px solid var(--violet);border-radius:12px;padding:18px;margin-top:18px;}
+.exo-title{font-weight:700;color:var(--violet);font-size:.87rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:13px;}
+.exo-q p{margin-bottom:10px;font-size:.92rem;line-height:1.9;}
+select.blank{border:2px solid var(--violet);border-radius:6px;padding:3px 8px;font-size:.87rem;background:white;cursor:pointer;color:var(--violet);font-weight:600;transition:all .2s;}
+select.blank.ok{border-color:#4CAF50;background:#e8f5e9;color:#2E7D32;}
+select.blank.ko{border-color:#f44336;background:#ffebee;color:#c62828;}
+.exo-feedback{font-size:.84rem;padding:8px 11px;border-radius:8px;margin-top:9px;font-weight:600;}
+.exo-feedback.ok{background:#e8f5e9;color:#2E7D32;}
+.exo-feedback.ko{background:#ffebee;color:#c62828;}
+.btn-exo{background:var(--violet);color:white;border:none;padding:8px 18px;border-radius:8px;cursor:pointer;font-weight:700;font-size:.84rem;margin-top:11px;transition:background .2s;}
+.btn-exo:hover{background:#6A1B9A;}
+.btn-reset-exo{background:var(--border);color:var(--text);border:none;padding:8px 14px;border-radius:8px;cursor:pointer;font-weight:600;font-size:.84rem;margin-top:11px;margin-left:7px;}
+
+/* POLLUTION BARS */
+.poll-bar-wrap{margin:10px 0;}
+.poll-bar-label{font-size:.82rem;margin-bottom:3px;font-weight:600;}
+.poll-bar-track{height:20px;background:#eee;border-radius:10px;overflow:hidden;position:relative;}
+.poll-bar-fill{height:100%;border-radius:10px;display:flex;align-items:center;padding-left:8px;font-size:.75rem;font-weight:700;color:white;transition:width 1.2s ease;}
+.poll-bar-val{position:absolute;right:8px;top:2px;font-size:.75rem;font-weight:700;color:var(--text);}
+
+/* FC & QCM */
+.fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;margin:14px 0;}
+.fc-card{background:white;border-radius:10px;padding:15px;box-shadow:var(--shadow);border-top:4px solid var(--vert);}
+.fc-phrase{font-size:.91rem;line-height:1.9;margin-bottom:9px;}
+select.fc-select{border:2px solid var(--violet);border-radius:6px;padding:3px 8px;font-size:.84rem;background:white;cursor:pointer;color:var(--violet);font-weight:600;}
+select.fc-select.ok{border-color:#4CAF50;background:#e8f5e9;color:#2E7D32;}
+select.fc-select.ko{border-color:#f44336;background:#ffebee;color:#c62828;}
+.fc-actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
+.btn{padding:9px 18px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:.87rem;transition:all .2s;}
+.btn-vert{background:var(--vert);color:white;}.btn-vert:hover{background:#1B5E20;}
+.btn-grey{background:var(--border);color:var(--text);}.btn-grey:hover{background:#ccc;}
+.qcm-item{background:white;border-radius:10px;padding:17px;margin-bottom:13px;box-shadow:var(--shadow);}
+.qcm-q{font-weight:600;margin-bottom:11px;font-size:.93rem;}
+.qcm-opt{display:flex;align-items:center;gap:10px;padding:7px 9px;border-radius:6px;margin-bottom:5px;cursor:pointer;transition:background .15s;font-size:.9rem;}
+.qcm-opt:hover{background:var(--vert-light);}
+.qcm-opt input{accent-color:var(--vert);}
+.qcm-opt.correct{background:#e8f5e9;border:1.5px solid #4CAF50;}
+.qcm-opt.wrong{background:#ffebee;border:1.5px solid #f44336;}
+#qcm-result{font-size:1.05rem;font-weight:700;padding:13px 18px;border-radius:10px;margin-top:14px;text-align:center;display:none;}
+.acquis-list{list-style:none;display:grid;gap:7px;}
+.acquis-list li{padding:9px 13px;background:var(--vert-light);border-radius:8px;border-left:4px solid var(--vert);font-size:.89rem;}
+.acquis-list li::before{content:"✓ ";color:var(--vert);font-weight:700;}
+.exo-manuel{background:white;border-radius:12px;padding:22px;margin-bottom:18px;box-shadow:var(--shadow);border-left:5px solid var(--teal);}
+.exo-manuel h3{color:var(--teal);font-size:.98rem;margin-bottom:13px;}
+.exo-manuel .contexte{background:var(--teal-light);border-radius:8px;padding:11px 15px;margin-bottom:13px;font-size:.89rem;line-height:1.7;border-left:4px solid var(--teal);}
+
+.data-tunisie{background:linear-gradient(135deg,#1B5E20,#2E7D32);color:white;border-radius:12px;padding:18px;margin:13px 0;}
+.data-tunisie h3{color:#A5D6A7;margin-bottom:12px;font-size:.95rem;}
+.data-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;}
+.data-item{background:rgba(255,255,255,.12);border-radius:8px;padding:10px;text-align:center;}
+.data-val{font-size:1.4rem;font-weight:700;color:#FFD54F;}
+.data-lbl{font-size:.75rem;opacity:.85;margin-top:3px;}
+
+@media(max-width:600px){
+  .grid2,.grid3{grid-template-columns:1fr;}
+  header h1{font-size:1.05rem;}
+  .tab{padding:9px 7px;font-size:.71rem;}
+  .data-grid{grid-template-columns:repeat(2,1fr);}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Chapitre 2 — Exploitation et Gestion d'une Roche à Intérêt Économique : Le Phosphate</h1>
+  <p>1ère Année Secondaire SVT · Partie 3 · Pages 164–180</p>
+  <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+</header>
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab active" onclick="showTab(0)">📚 Acquis</button>
+    <button class="tab" onclick="showTab(1)">⛏️ Act. 1 — Étude du phosphate</button>
+    <button class="tab" onclick="showTab(2)">🏭 Act. 2 — Exploitation & Gestion</button>
+    <button class="tab" onclick="showTab(3)">📋 Bilan</button>
+    <button class="tab" onclick="showTab(4)">🃏 Flashcards</button>
+    <button class="tab" onclick="showTab(5)">✏️ QCM</button>
+    <button class="tab" onclick="showTab(6)">📝 Exercices</button>
+  </div>
+</div>
+<div class="content">
+
+<!-- ═══ ACQUIS ═══ -->
+<div class="panel active" id="panel-0">
+  <div class="card">
+    <h2>📚 Introduction & Enjeux (p.164)</h2>
+    <div class="data-tunisie">
+      <h3>🇹🇳 Le phosphate tunisien en chiffres (an 2000)</h3>
+      <div class="data-grid">
+        <div class="data-item"><div class="data-val">8 Mt</div><div class="data-lbl">Production annuelle</div></div>
+        <div class="data-item"><div class="data-val">#1</div><div class="data-lbl">Exportateur mondial TSP</div></div>
+        <div class="data-item"><div class="data-val">#2</div><div class="data-lbl">Acide phosphorique mondial</div></div>
+        <div class="data-item"><div class="data-val">#3</div><div class="data-lbl">DAP mondial</div></div>
+        <div class="data-item"><div class="data-val">+1M$</div><div class="data-lbl">Revenus annuels</div></div>
+        <div class="data-item"><div class="data-val">4 500</div><div class="data-lbl">Familles concernées</div></div>
+      </div>
+    </div>
+    <div class="info-box jaune" style="margin-top:14px">
+      <div class="icon">❓</div>
+      <p><strong>Questions directrices :</strong> Où trouve-t-on des phosphates ? Comment se présentent les gisements ? Quelles sont les propriétés des roches phosphatées ? Quelle est leur origine ? Comment les exploite-t-on et quels sont les risques pour l'environnement ?</p>
+    </div>
+  </div>
+  <div class="card jaune">
+    <h2 class="jaune">🗺️ Plan du chapitre — 2 activités</h2>
+    <table>
+      <tr><th class="jaune">Activité</th><th class="jaune">Titre</th><th class="jaune">Sous-parties</th><th class="jaune">Pages</th></tr>
+      <tr><td><strong>1</strong></td><td>Étude du phosphate</td><td>Localisation · Propriétés physico-chimiques · Origine (Éocène)</td><td>165–168</td></tr>
+      <tr><td><strong>2</strong></td><td>Exploitation et gestion</td><td>Extraction · Transformation chimique · Impact déchets · Solutions</td><td>169–174</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══ ACTIVITE 1 ═══ -->
+<div class="panel" id="panel-1">
+  <div class="question-dir">⛏️ Activité 1 — Les Phosphates (p.165–168)<br>
+  <span style="font-weight:400;font-size:.87rem">Où trouve-t-on les phosphates ? Quelles sont leurs propriétés ? Quelle est leur origine ?</span></div>
+  <div class="subtabs-wrap">
+    <div class="subtabs">
+      <button class="subtab active" onclick="showSubTab(1,0)">📍 Localisation & gisements</button>
+      <button class="subtab" onclick="showSubTab(1,1)">🪨 Propriétés de la roche</button>
+      <button class="subtab" onclick="showSubTab(1,2)">🌊 Origine des phosphates</button>
+      <button class="subtab" onclick="showSubTab(1,3)">✏️ Exercice</button>
+    </div>
+  </div>
+
+  <!-- LOCALISATION -->
+  <div class="subpanel active" id="sub-1-0">
+    <div class="card">
+      <h2>📍 Localisation et gisements de phosphates en Tunisie (p.165)</h2>
+      <div class="resume-box">
+        <strong>En résumé :</strong> les phosphates tunisiens ont été découverts en 1885 à Metlaoui par Philippe Thomas. Deux grands bassins : Gafsa (principal) et Kef. L'exploitation n'est rentable que si la teneur en P₂O₅ ≥ 25%. La Tunisie est le 1er exportateur mondial de TSP.
+      </div>
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" onclick="toggleSSAccord(this)">Histoire de la découverte <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="grid2">
+            <div>
+              <p>En <strong>avril 1885</strong>, lors d'une prospection dans la région de <strong>Metlaoui</strong> (partie occidentale du Sud tunisien), <strong>Philippe THOMAS</strong> — géologue amateur français — découvre des couches puissantes de phosphates de calcium sur le versant Nord du <strong>Jebel Thelja</strong>.</p>
+              <div class="explication">
+                <strong>Pourquoi autour de Kasserine et Gafsa ?</strong> À l'Éocène (~55–60 MA), la mer formait des bassins semi-fermés autour de l'île de Kasserine. Les conditions idéales (courants ascendants + eaux chaudes + faible oxygène) ont permis l'accumulation de sédiments phosphatés. Ces bassins correspondent exactement aux gisements exploités aujourd'hui.
+              </div>
+            </div>
+            <div class="svgbox">
+              <svg viewBox="0 0 260 280" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+                <text x="130" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#1B5E20">Carte des gisements phosphatés (Tunisie)</text>
+                <!-- Fond pays -->
+                <path d="M60 25 Q90 20 120 22 Q150 18 170 28 Q190 35 195 55 Q200 75 195 95 Q205 120 200 145 Q195 170 185 190 Q175 210 165 225 Q150 245 135 255 Q120 265 105 260 Q85 255 75 240 Q60 225 55 205 Q45 185 50 165 Q45 145 50 125 Q48 105 55 85 Q52 65 60 45 Z" fill="#D7CCC8" stroke="#795548" stroke-width="1.5"/>
+                <!-- Mer méditerranée -->
+                <text x="215" y="50" font-size="8" fill="#1565C0">MER</text>
+                <!-- Gafsa basin zone -->
+                <ellipse cx="100" cy="185" rx="35" ry="25" fill="#F9A825" opacity=".7" stroke="#F57F17" stroke-width="2"/>
+                <text x="100" y="181" text-anchor="middle" font-size="9" font-weight="700" fill="#E65100">Bassin</text>
+                <text x="100" y="193" text-anchor="middle" font-size="9" font-weight="700" fill="#E65100">de Gafsa</text>
+                <!-- Kef basin -->
+                <ellipse cx="95" cy="120" rx="22" ry="16" fill="#A5D6A7" opacity=".8" stroke="#2E7D32" stroke-width="2"/>
+                <text x="95" y="117" text-anchor="middle" font-size="8" font-weight="700" fill="#1B5E20">Bassin</text>
+                <text x="95" y="127" text-anchor="middle" font-size="8" font-weight="700" fill="#1B5E20">du Kef</text>
+                <!-- Kasserine île -->
+                <ellipse cx="118" cy="155" rx="14" ry="10" fill="#C8E6C9" opacity=".7" stroke="#1B5E20" stroke-width="1.5" stroke-dasharray="4,2"/>
+                <text x="118" y="152" text-anchor="middle" font-size="7" fill="#1B5E20">Île de</text>
+                <text x="118" y="162" text-anchor="middle" font-size="7" fill="#1B5E20">Kasserine</text>
+                <!-- Mines points -->
+                <circle cx="90" cy="188" r="4" fill="#B71C1C"/><text x="96" y="192" font-size="7" fill="#B71C1C">Metlaoui</text>
+                <circle cx="80" cy="195" r="3" fill="#B71C1C"/><text x="86" y="199" font-size="7" fill="#555">Redeyef</text>
+                <circle cx="105" cy="182" r="3" fill="#B71C1C"/><text x="111" y="186" font-size="7" fill="#555">M'dhilla</text>
+                <circle cx="95" cy="172" r="3" fill="#B71C1C"/><text x="101" y="176" font-size="7" fill="#555">Kef Chfaier</text>
+                <circle cx="88" cy="115" r="3" fill="#1B5E20"/><text x="94" y="119" font-size="7" fill="#1B5E20">Kalaa Khasba</text>
+                <!-- Sfax -->
+                <circle cx="155" cy="200" r="3" fill="#555"/><text x="160" y="204" font-size="7" fill="#555">Sfax (usines)</text>
+                <!-- Légende -->
+                <rect x="10" y="240" width="240" height="38" rx="5" fill="white" stroke="#ccc"/>
+                <circle cx="22" cy="252" r="4" fill="#B71C1C"/><text x="30" y="256" font-size="8" fill="#555">Mine souterraine</text>
+                <circle cx="22" cy="268" r="4" fill="#1B5E20"/><text x="30" y="272" font-size="8" fill="#555">Mine à ciel ouvert</text>
+                <rect x="120" y="248" width="12" height="8" fill="#F9A825" opacity=".7"/><text x="136" y="256" font-size="8" fill="#555">Bassin Gafsa</text>
+                <rect x="120" y="264" width="12" height="8" fill="#A5D6A7" opacity=".8"/><text x="136" y="272" font-size="8" fill="#555">Bassin Kef</text>
+              </svg>
+              <figcaption>Localisation des gisements phosphatés tunisiens</figcaption>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" onclick="toggleSSAccord(this)">Principaux gisements et critères d'exploitation <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="grid2">
+            <div>
+              <h3>⛏️ Mines souterraines</h3>
+              <ul style="margin-left:16px;font-size:.88rem;line-height:2">
+                <li>Redeyef · Shib et M'rata · Moulares</li>
+                <li>Kalaa Khasba (région du Kef)</li>
+                <li>Jebel M'dhilla · Oum Lakhcheb</li>
+              </ul>
+            </div>
+            <div>
+              <h3>🏗️ Mines à ciel ouvert (carrières)</h3>
+              <ul style="margin-left:16px;font-size:.88rem;line-height:2">
+                <li>Kef Chfaier · Kef Eddour · Jellabia</li>
+                <li>Redeyef · Moulares (reconverties)</li>
+              </ul>
+            </div>
+          </div>
+          <div class="explication jaune">
+            <strong>Critère d'exploitabilité :</strong> un gisement n'est rentable que si sa teneur en <strong>P₂O₅ ≥ 25%</strong> (ou exprimée en BPL : 56–68%). À Metlaoui : 56–59% BPL. À Kalaa Khasba : 60–68% BPL (plus riche → plus rentable). L'épaisseur de la couche et sa profondeur sont aussi des critères clés.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice — Localisation</div>
+      <div class="exo-q" id="exo-loc-q">
+        <p>1. Les phosphates tunisiens ont été découverts en <select class="blank" data-rep="1885"><option value="">—</option><option>1850</option><option>1885</option><option>1920</option></select> par <select class="blank" data-rep="Philippe Thomas"><option value="">—</option><option>Charles Darwin</option><option>Louis Pasteur</option><option>Philippe Thomas</option></select> dans la région de <select class="blank" data-rep="Metlaoui (Jebel Thelja)"><option value="">—</option><option>Sfax</option><option>Tunis</option><option>Metlaoui (Jebel Thelja)</option></select>.</p>
+        <p>2. Les deux grands bassins phosphatés tunisiens sont le bassin de <select class="blank" data-rep="Gafsa"><option value="">—</option><option>Tunis</option><option>Gafsa</option><option>Bizerte</option></select> et le bassin du <select class="blank" data-rep="Kef"><option value="">—</option><option>Kef</option><option>Sahel</option><option>Cap Bon</option></select>.</p>
+        <p>3. Un gisement de phosphate n'est exploitable que si sa teneur en P₂O₅ est <select class="blank" data-rep="supérieure ou égale à 25%"><option value="">—</option><option>inférieure à 10%</option><option>supérieure ou égale à 25%</option><option>exactement égale à 50%</option></select>. La Tunisie est le <select class="blank" data-rep="1er exportateur mondial de TSP"><option value="">—</option><option>3ème exportateur mondial de TSP</option><option>1er exportateur mondial de TSP</option><option>1er producteur mondial de pétrole</option></select>.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-loc')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-loc')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-loc-fb"></div>
+    </div>
+  </div>
+
+  <!-- PROPRIETES -->
+  <div class="subpanel" id="sub-1-1">
+    <div class="card">
+      <h2>🪨 Propriétés physico-chimiques de la roche phosphatée (p.166–167)</h2>
+      <div class="resume-box">
+        <strong>En résumé :</strong> la roche phosphatée se distingue par son <strong>odeur fétide</strong> (matière organique) et la présence de <strong>pellets</strong> et <strong>coprolithes</strong>. Elle est poreuse, imperméable, insoluble dans l'eau. Les fossiles (dents de requins, vertébrés marins) prouvent un dépôt en mer.
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" onclick="toggleSSAccord(this)">2.1 — Propriétés physiques : aspect, odeur, structure <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="grid2">
+            <div>
+              <table>
+                <tr><th>Propriété</th><th>Observation</th></tr>
+                <tr><td><strong>Aspect</strong></td><td>Compacte (Kalaa Khasba) ou friable (Kef Chfaier) · Grains liés par un ciment argileux, carbonaté ou siliceux</td></tr>
+                <tr><td><strong>Odeur</strong></td><td>🦨 <strong>Fétide</strong> → présence de matière organique (acides organiques issus de la décomposition)</td></tr>
+                <tr><td><strong>Pellets</strong></td><td>Grains phosphatés de forme <strong>sphérique ou ovoïde</strong></td></tr>
+                <tr><td><strong>Coprolithes</strong></td><td>Grains cylindriques (qq mm à 2 cm) = restes d'<strong>excréments fossiles</strong> d'organismes</td></tr>
+                <tr><td><strong>Fossiles</strong></td><td>Dents de requins · os de vertébrés marins · coquilles de mollusques · tests de microorganismes</td></tr>
+                <tr><td><strong>Quartz</strong></td><td>Grains de quartz mélangés aux éléments phosphatés</td></tr>
+              </table>
+              <div class="explication">
+                <strong>Pourquoi l'odeur fétide est-elle un indice précieux ?</strong> Elle révèle la présence de <strong>matière organique</strong> partiellement décomposée dans la roche. C'est la preuve directe de l'<strong>origine organique</strong> du phosphate : des organismes (plancton, poissons) ont concentré le phosphore, puis leur matière organique s'est préservée dans la roche lors de sa formation.
+              </div>
+            </div>
+            <div class="svgbox">
+              <svg viewBox="0 0 260 280" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+                <text x="130" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#1B5E20">Structure d'une roche phosphatée</text>
+                <!-- Vue loupe binoculaire -->
+                <rect x="10" y="24" width="240" height="160" rx="10" fill="#fafaf5" stroke="#ccc"/>
+                <text x="130" y="42" text-anchor="middle" font-size="9" fill="#555">Vue à la loupe binoculaire</text>
+                <!-- Pellets sphériques -->
+                <circle cx="55" cy="80" r="14" fill="#F9A825" stroke="#F57F17" stroke-width="1.5"/>
+                <circle cx="90" cy="72" r="12" fill="#F9A825" stroke="#F57F17" stroke-width="1.5"/>
+                <circle cx="55" cy="110" r="11" fill="#FFD54F" stroke="#F57F17" stroke-width="1"/>
+                <circle cx="85" cy="105" r="15" fill="#F9A825" stroke="#F57F17" stroke-width="1.5"/>
+                <text x="70" y="140" text-anchor="middle" font-size="9" fill="#E65100" font-weight="700">Pellets</text>
+                <text x="70" y="152" text-anchor="middle" font-size="8" fill="#555">(sphériques/ovoïdes)</text>
+                <!-- Coprolithes cylindriques -->
+                <rect x="130" y="65" width="8" height="30" rx="4" fill="#8D6E63" stroke="#5D4037" stroke-width="1"/>
+                <rect x="150" y="70" width="8" height="25" rx="4" fill="#8D6E63" stroke="#5D4037" stroke-width="1"/>
+                <rect x="140" y="98" width="8" height="28" rx="4" fill="#795548" stroke="#5D4037" stroke-width="1"/>
+                <text x="150" y="138" text-anchor="middle" font-size="9" fill="#5D4037" font-weight="700">Coprolithes</text>
+                <text x="150" y="150" text-anchor="middle" font-size="8" fill="#555">(cylindriques)</text>
+                <!-- Dent de requin -->
+                <path d="M210 65 L220 95 L215 95 L218 105 L210 80 L202 105 L205 95 L200 95 Z" fill="#D7CCC8" stroke="#795548" stroke-width="1"/>
+                <text x="210" y="118" text-anchor="middle" font-size="9" fill="#4E342E" font-weight="700">Dent requin</text>
+                <text x="210" y="130" text-anchor="middle" font-size="8" fill="#555">(fossile)</text>
+                <!-- Ciment -->
+                <text x="130" y="170" text-anchor="middle" font-size="8" fill="#555">~ ~ ~ ~ ~ ~ Ciment (argileux/carbonaté) ~ ~ ~ ~ ~ ~</text>
+                <!-- Propriétés physiques -->
+                <rect x="10" y="192" width="240" height="80" rx="8" fill="#fff9e6" stroke="#F9A825"/>
+                <text x="130" y="210" text-anchor="middle" font-size="10" font-weight="700" fill="#E65100">Propriétés physiques</text>
+                <text x="130" y="226" text-anchor="middle" font-size="9" fill="#555">💧 Insoluble dans l'eau pure</text>
+                <text x="130" y="240" text-anchor="middle" font-size="9" fill="#555">🔵 Poreuse (eau absorbée)</text>
+                <text x="130" y="254" text-anchor="middle" font-size="9" fill="#555">🚫 Imperméable (eau ne traverse pas)</text>
+                <text x="130" y="268" text-anchor="middle" font-size="9" fill="#B71C1C">⚗️ Parfois effervescence HCl → contient du calcaire</text>
+              </svg>
+              <figcaption>Structure d'une roche phosphatée à la loupe binoculaire</figcaption>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" onclick="toggleSSAccord(this)">2.2 — Les fossiles de la roche phosphatée <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <table>
+            <tr><th>Fossile</th><th>Groupe</th><th>Signification</th></tr>
+            <tr><td>🦈 <strong>Dents de requins</strong></td><td>Vertébrés marins (les plus fréquents)</td><td rowspan="4">✅ Tous ces fossiles appartiennent à des <strong>animaux marins</strong> → la roche s'est formée dans une <strong>mer peu profonde</strong> · Âge : <strong>Éocène (~55–60 MA)</strong></td></tr>
+            <tr><td>🐟 <strong>Os de vertébrés marins</strong></td><td>Poissons, squelettes entiers parfois</td></tr>
+            <tr><td>🐚 <strong>Coquilles de mollusques</strong></td><td>Lamellibranches et gastéropodes</td></tr>
+            <tr><td>🔬 <strong>Tests de microorganismes</strong></td><td>Visibles en lame mince au microscope</td></tr>
+          </table>
+          <div class="info-box">
+            <div class="icon">🔑</div>
+            <p><strong>Les coprolithes = la clé !</strong> Ce sont des restes d'excréments fossiles d'organismes. Leur présence confirme l'<strong>origine organique</strong> du phosphate : les organismes qui vivaient dans ces bassins à l'Éocène concentraient le phosphore dans leur corps, puis leurs déjections (coprolithes) et cadavres se sont accumulés au fond du bassin.</p>
+          </div>
+          <div class="retenons">
+            <h4>📌 Retenons (p.168)</h4>
+            <p><dt>Gisement :</dt><dd>lieu d'accumulation d'une ressource naturelle (ex : gisement de phosphate, gisement de pétrole).</dd></p>
+            <p><dt>Pellet :</dt><dd>grain phosphaté ayant la forme d'un nodule sphérique ou ovoïde.</dd></p>
+            <p><dt>Coprolithe :</dt><dd>reste fossilisé d'excrément d'un organisme ancien, témoignant de l'origine organique de la roche.</dd></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice — Propriétés de la roche phosphatée</div>
+      <div class="exo-q" id="exo-prop-q">
+        <p>1. La roche phosphatée est caractérisée par son <select class="blank" data-rep="odeur fétide (matière organique)"><option value="">—</option><option>odeur de chlore</option><option>odeur fétide (matière organique)</option><option>absence d'odeur</option></select>. Cette odeur indique la présence de <select class="blank" data-rep="matière organique partiellement décomposée"><option value="">—</option><option>soufre pur</option><option>matière organique partiellement décomposée</option><option>chlore gazeux</option></select>.</p>
+        <p>2. Les <strong>pellets</strong> sont des grains phosphatés de forme <select class="blank" data-rep="sphérique ou ovoïde"><option value="">—</option><option>cylindrique</option><option>cubique</option><option>sphérique ou ovoïde</option></select>. Les <strong>coprolithes</strong> sont des grains <select class="blank" data-rep="cylindriques correspondant à des excréments fossiles"><option value="">—</option><option>sphériques d'origine chimique</option><option>cylindriques correspondant à des excréments fossiles</option></select>.</p>
+        <p>3. Quand on verse de l'eau sur la roche phosphatée, elle est absorbée → la roche est <select class="blank" data-rep="poreuse"><option value="">—</option><option>imperméable</option><option>poreuse</option><option>soluble</option></select>. L'eau ne traverse pas → la roche est <select class="blank" data-rep="imperméable"><option value="">—</option><option>perméable</option><option>imperméable</option></select>.</p>
+        <p>4. Les fossiles les plus fréquents dans le phosphate sont les <select class="blank" data-rep="dents de requins (vertébrés marins)"><option value="">—</option><option>coquilles d'Hélix (escargots terrestres)</option><option>tests de nummulites</option><option>dents de requins (vertébrés marins)</option></select>. Ces fossiles indiquent un faciès <select class="blank" data-rep="marin peu profond · âge Éocène (~60 MA)"><option value="">—</option><option>continental aride</option><option>marin peu profond · âge Éocène (~60 MA)</option></select>.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-prop')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-prop')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-prop-fb"></div>
+    </div>
+  </div>
+
+  <!-- ORIGINE -->
+  <div class="subpanel" id="sub-1-2">
+    <div class="card">
+      <h2>🌊 Origine des phosphates à l'Éocène (p.168)</h2>
+      <div class="resume-box">
+        <strong>En résumé :</strong> les phosphates tunisiens se sont formés à l'<strong>Éocène (~55–60 MA)</strong> dans des bassins semi-fermés autour de l'île de Kasserine. Deux origines convergentes : <strong>chimique</strong> (précipitation de phosphate de calcium) et <strong>organique</strong> (décomposition de matière organique riche en phosphore).
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" onclick="toggleSSAccord(this)">Conditions paléogéographiques à l'Éocène <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="grid2">
+            <div>
+              <ul style="margin-left:16px;font-size:.88rem;line-height:2.1">
+                <li>La Tunisie était <strong>totalement immergée</strong> sauf quelques régions (île de Kasserine au centre)</li>
+                <li>Autour de l'île de Kasserine, la mer était <strong>peu profonde</strong> formant des <strong>bassins semi-fermés</strong> (séparés de la mer ouverte par des hauts-fonds)</li>
+                <li>Ces bassins étaient alimentés par des <strong>courants ascendants</strong> riches en ions phosphate (HPO₄²⁻)</li>
+                <li>Le climat était <strong>chaud et sec</strong> → évaporation intense</li>
+                <li>Grande <strong>biomasse</strong> (plancton, mollusques, poissons…)</li>
+                <li>Fond des bassins <strong>pauvre en oxygène</strong> → préservation de la matière organique</li>
+              </ul>
+            </div>
+            <div class="svgbox">
+              <svg viewBox="0 0 260 220" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+                <text x="130" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#1B5E20">Tunisie à l'Éocène (~60 MA)</text>
+                <!-- Mer -->
+                <rect x="10" y="24" width="240" height="190" fill="#BBDEFB" rx="5"/>
+                <text x="200" y="50" font-size="9" fill="#1565C0" font-weight="600">MER</text>
+                <!-- Île de Kasserine -->
+                <ellipse cx="120" cy="130" rx="35" ry="22" fill="#D7CCC8" stroke="#795548" stroke-width="2"/>
+                <text x="120" y="126" text-anchor="middle" font-size="9" font-weight="700" fill="#4E342E">Île de</text>
+                <text x="120" y="138" text-anchor="middle" font-size="9" font-weight="700" fill="#4E342E">Kasserine</text>
+                <!-- Hauts-fonds -->
+                <ellipse cx="80" cy="155" rx="18" ry="8" fill="#C8E6C9" stroke="#2E7D32" stroke-width="1.5" opacity=".8"/>
+                <ellipse cx="162" cy="150" rx="16" ry="8" fill="#C8E6C9" stroke="#2E7D32" stroke-width="1.5" opacity=".8"/>
+                <text x="80" y="173" text-anchor="middle" font-size="7" fill="#2E7D32">Haut-fond</text>
+                <text x="162" y="168" text-anchor="middle" font-size="7" fill="#2E7D32">Haut-fond</text>
+                <!-- Bassin phosphaté -->
+                <ellipse cx="80" cy="165" rx="28" ry="15" fill="#F9A825" opacity=".4" stroke="#F57F17" stroke-width="1.5"/>
+                <text x="80" y="163" text-anchor="middle" font-size="7" fill="#E65100" font-weight="700">Bassin</text>
+                <text x="80" y="173" text-anchor="middle" font-size="7" fill="#E65100">Gafsa</text>
+                <ellipse cx="155" cy="105" rx="20" ry="12" fill="#F9A825" opacity=".4" stroke="#F57F17" stroke-width="1.5"/>
+                <text x="155" y="101" text-anchor="middle" font-size="7" fill="#E65100" font-weight="700">Bassin</text>
+                <text x="155" y="111" text-anchor="middle" font-size="7" fill="#E65100">Kef</text>
+                <!-- Courants ascendants -->
+                <path d="M50 195 L45 165" stroke="#1565C0" stroke-width="2" marker-end="url(#ua)"/>
+                <path d="M70 200 L65 175" stroke="#1565C0" stroke-width="2" marker-end="url(#ua)"/>
+                <defs><marker id="ua" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,6 L3,0 L6,6 Z" fill="#1565C0"/></marker></defs>
+                <text x="37" y="210" font-size="7" fill="#1565C0">Courants ↑</text>
+                <text x="37" y="219" font-size="7" fill="#1565C0">riches en PO₄</text>
+                <!-- Soleil chaleur -->
+                <text x="220" y="38" font-size="18">☀️</text>
+                <text x="210" y="54" font-size="7" fill="#E65100">Chaud + sec</text>
+                <text x="210" y="63" font-size="7" fill="#E65100">Évaporation</text>
+              </svg>
+              <figcaption>La Tunisie à l'Éocène : bassins phosphatés autour de l'île de Kasserine</figcaption>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" onclick="toggleSSAccord(this)">Double origine du phosphate : chimique + organique <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="svgbox">
+            <svg viewBox="0 0 580 200" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="290" y="16" text-anchor="middle" font-size="12" font-weight="700" fill="#1B5E20">Double origine du phosphate tunisien</text>
+              <!-- Atmosphère et mer surface -->
+              <rect x="10" y="28" width="560" height="40" fill="#BBDEFB" opacity=".5"/>
+              <text x="290" y="52" text-anchor="middle" font-size="10" fill="#1565C0">Mer peu profonde · chaude · riche en biomasse · courants ascendants riches en HPO₄²⁻</text>
+              <!-- Fond du bassin -->
+              <rect x="10" y="155" width="560" height="38" fill="#D7CCC8"/>
+              <text x="290" y="175" text-anchor="middle" font-size="11" font-weight="700" fill="#4E342E">SÉDIMENT PHOSPHATÉ (fond du bassin pauvre en O₂)</text>
+              <!-- Origine chimique : gauche -->
+              <rect x="10" y="68" width="255" height="85" rx="8" fill="#e8f5e9" stroke="#1B5E20" stroke-width="2"/>
+              <text x="137" y="86" text-anchor="middle" font-size="11" font-weight="700" fill="#1B5E20">🧪 Origine CHIMIQUE</text>
+              <text x="137" y="101" text-anchor="middle" font-size="9" fill="#555">Courants ascendants → HPO₄²⁻</text>
+              <text x="137" y="115" text-anchor="middle" font-size="9" fill="#555">+ Ca²⁺ des eaux chaudes</text>
+              <text x="137" y="129" text-anchor="middle" font-size="9" fill="#555">→ PRÉCIPITATION de Ca₃(PO₄)₂</text>
+              <text x="137" y="143" text-anchor="middle" font-size="9" font-weight="600" fill="#1B5E20">→ Phosphate de calcium ↓</text>
+              <path d="M137 148 L137 155" stroke="#1B5E20" stroke-width="2" marker-end="url(#ga3)"/>
+              <defs><marker id="ga3" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 Z" fill="#1B5E20"/></marker></defs>
+              <!-- Origine organique : droite -->
+              <rect x="315" y="68" width="255" height="85" rx="8" fill="#fff9e6" stroke="#F57F17" stroke-width="2"/>
+              <text x="442" y="86" text-anchor="middle" font-size="11" font-weight="700" fill="#E65100">🦠 Origine ORGANIQUE</text>
+              <text x="442" y="101" text-anchor="middle" font-size="9" fill="#555">Plancton + poissons concentrent le P</text>
+              <text x="442" y="115" text-anchor="middle" font-size="9" fill="#555">→ Mort → cadavres tombent au fond</text>
+              <text x="442" y="129" text-anchor="middle" font-size="9" fill="#555">Bactéries → décomposition partielle</text>
+              <text x="442" y="143" text-anchor="middle" font-size="9" font-weight="600" fill="#E65100">→ Sédiments phosphatés ↓</text>
+              <path d="M442 148 L442 155" stroke="#F57F17" stroke-width="2" marker-end="url(#ga4)"/>
+              <defs><marker id="ga4" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 Z" fill="#F57F17"/></marker></defs>
+              <!-- Flèche synapse -->
+              <text x="286" y="112" text-anchor="middle" font-size="16">+</text>
+            </svg>
+            <figcaption>Fig. — Double origine chimique et organique du phosphate tunisien (Éocène)</figcaption>
+          </div>
+          <div class="grid2">
+            <div class="explication">
+              <strong>Origine chimique :</strong> les courants ascendants apportent des eaux froides riches en ions phosphate (HPO₄²⁻) depuis les profondeurs. Ces eaux se mélangent avec les eaux superficielles chaudes riches en Ca²⁺. Dans ces conditions, HPO₄²⁻ se combine avec Ca²⁺ → <strong>précipitation de phosphate de calcium Ca₃(PO₄)₂</strong>.
+            </div>
+            <div class="explication jaune">
+              <strong>Origine organique :</strong> à la surface des bassins vivait une grande biomasse planctonique. Ces organismes concentraient le phosphore dans leur corps. Après leur mort, leurs cadavres s'accumulaient au fond (milieu pauvre en O₂ → conservation). Sous l'action des bactéries → décomposition partielle → <strong>sédiments phosphatés</strong>. Les coprolithes et l'odeur fétide en sont les preuves.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice — Origine des phosphates</div>
+      <div class="exo-q" id="exo-orig-q">
+        <p>1. Les phosphates tunisiens sont d'âge <select class="blank" data-rep="Éocène (~55–60 MA)"><option value="">—</option><option>Quaternaire (~2 MA)</option><option>Miocène (~15 MA)</option><option>Éocène (~55–60 MA)</option></select>. À cette époque, la Tunisie était couverte par la mer sauf la région de <select class="blank" data-rep="l'île de Kasserine"><option value="">—</option><option>Sfax</option><option>l'île de Kasserine</option><option>le Cap Bon</option></select>.</p>
+        <p>2. L'origine <strong>chimique</strong> du phosphate implique la <select class="blank" data-rep="précipitation de Ca₃(PO₄)₂ suite à la combinaison de HPO₄²⁻ et Ca²⁺"><option value="">—</option><option>décomposition de matière organique par les bactéries</option><option>précipitation de Ca₃(PO₄)₂ suite à la combinaison de HPO₄²⁻ et Ca²⁺</option></select>.</p>
+        <p>3. L'origine <strong>organique</strong> du phosphate est prouvée par la présence de <select class="blank" data-rep="coprolithes et l'odeur fétide de la roche"><option value="">—</option><option>grains de quartz et de calcite</option><option>coprolithes et l'odeur fétide de la roche</option></select>. Les organismes planctoniques <select class="blank" data-rep="concentraient le phosphore dans leur corps puis se décomposaient au fond (milieu pauvre en O₂)"><option value="">—</option><option>synthétisaient du calcaire qu'ils rejetaient dans la mer</option><option>concentraient le phosphore dans leur corps puis se décomposaient au fond (milieu pauvre en O₂)</option></select>.</p>
+        <p>4. Le gypse trouvé en alternance avec les couches phosphatées indique des conditions <select class="blank" data-rep="lagunaires avec évaporation intense (climat chaud et sec)"><option value="">—</option><option>de mer profonde et froide</option><option>lagunaires avec évaporation intense (climat chaud et sec)</option></select>.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-orig')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-orig')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-orig-fb"></div>
+    </div>
+  </div>
+
+  <!-- EXO GLOBAL ACT1 -->
+  <div class="subpanel" id="sub-1-3">
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice global — Étude du phosphate</div>
+      <div class="exo-q" id="exo-act1-q">
+        <p>1. La différence entre un gisement de Kef Chfaier (friable) et un gisement de Kalaa Khasba (non friable) s'explique par <select class="blank" data-rep="la présence ou absence d'un ciment liant les grains phosphatés"><option value="">—</option><option>la profondeur de la mine</option><option>la présence ou absence d'un ciment liant les grains phosphatés</option></select>.</p>
+        <p>2. Un échantillon de phosphate fait parfois effervescence avec l'acide chlorhydrique. Cela indique qu'il contient du <select class="blank" data-rep="calcaire (CaCO₃)"><option value="">—</option><option>soufre</option><option>calcaire (CaCO₃)</option><option>fluorure</option></select>.</p>
+        <p>3. L'action de la chaleur sur la roche phosphatée produit de la <select class="blank" data-rep="vapeur d'eau et une odeur fétide (matière organique)"><option value="">—</option><option>chaux vive et du CO₂</option><option>vapeur d'eau et une odeur fétide (matière organique)</option></select>.</p>
+        <p>4. La formation des phosphates nécessite 4 conditions : mer <select class="blank" data-rep="peu profonde"><option value="">—</option><option>très profonde</option><option>peu profonde</option></select> · bassins <select class="blank" data-rep="semi-fermés par des hauts-fonds"><option value="">—</option><option>largement ouverts sur l'océan</option><option>semi-fermés par des hauts-fonds</option></select> · courants <select class="blank" data-rep="ascendants riches en phosphore"><option value="">—</option><option>descendants froids sans minéraux</option><option>ascendants riches en phosphore</option></select> · climat <select class="blank" data-rep="chaud et sec"><option value="">—</option><option>froid et humide</option><option>chaud et sec</option></select>.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-act1')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-act1')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-act1-fb"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ACTIVITE 2 ═══ -->
+<div class="panel" id="panel-2">
+  <div class="question-dir jaune">🏭 Activité 2 — Exploitation et Gestion des Phosphates (p.169–174)<br>
+  <span style="font-weight:400;font-size:.87rem">En quoi consiste le traitement ? Quel est l'impact des déchets ? Quelles solutions ?</span></div>
+  <div class="subtabs-wrap jaune">
+    <div class="subtabs">
+      <button class="subtab active" onclick="showSubTab(2,0)">⛏️ Extraction</button>
+      <button class="subtab" onclick="showSubTab(2,1)">🔄 Chaîne de transformation</button>
+      <button class="subtab" onclick="showSubTab(2,2)">☣️ Impact & Pollution</button>
+      <button class="subtab" onclick="showSubTab(2,3)">✅ Solutions</button>
+      <button class="subtab" onclick="showSubTab(2,4)">✏️ Exercice</button>
+    </div>
+  </div>
+
+  <!-- EXTRACTION -->
+  <div class="subpanel active" id="sub-2-0">
+    <div class="card jaune">
+      <h2 class="jaune">⛏️ Extraction du phosphate brut (p.169)</h2>
+      <div class="resume-box jaune">
+        <strong>En résumé :</strong> l'exploitation est passée des mines souterraines (dangereuses, coûteuses) aux <strong>carrières à ciel ouvert</strong> plus sûres et plus rentables. La production a doublé : de 6 Mt (fin 1980s) à <strong>8 Mt en 2000</strong>.
+      </div>
+      <div class="grid2">
+        <div style="background:#ffebee;border-radius:10px;padding:14px;border:2px solid #f44336;">
+          <h3 style="color:#B71C1C;">❌ Mines souterraines (autrefois)</h3>
+          <ul style="margin-left:14px;font-size:.88rem;line-height:2">
+            <li>Dangereuses (risques d'éboulement, gaz)</li>
+            <li>Coûteuses (infrastructure souterraine)</li>
+            <li>Peu rentables</li>
+            <li>Production limitée</li>
+          </ul>
+        </div>
+        <div style="background:#e8f5e9;border-radius:10px;padding:14px;border:2px solid #4CAF50;">
+          <h3 style="color:#2E7D32;">✅ Carrières à ciel ouvert (aujourd'hui)</h3>
+          <ul style="margin-left:14px;font-size:.88rem;line-height:2">
+            <li>Moins dangereuses</li>
+            <li>Moins coûteuses</li>
+            <li>Plus rentables</li>
+            <li>Production augmentée : 6 Mt → 8 Mt</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAINE TRANSFORMATION -->
+  <div class="subpanel" id="sub-2-1">
+    <div class="card jaune">
+      <h2 class="jaune">🔄 Chaîne de transformation du phosphate (p.170–172)</h2>
+      <div class="resume-box jaune">
+        <strong>En résumé :</strong> le phosphate brut subit plusieurs étapes pour donner des produits à haute valeur commerciale (TSP, acide phosphorique, NPK, DAP). Chaque étape génère aussi des déchets solides et gazeux.
+      </div>
+
+      <h3>🔬 Cliquer sur chaque étape pour les détails</h3>
+      <div class="chaine-container">
+        <div class="chaine-btns">
+          <button class="chaine-btn active" onclick="showChaine(0)">📊 Vue globale</button>
+          <button class="chaine-btn" onclick="showChaine(1)">1️⃣ Enrichissement</button>
+          <button class="chaine-btn" onclick="showChaine(2)">2️⃣ Acide sulfurique</button>
+          <button class="chaine-btn" onclick="showChaine(3)">3️⃣ Acide phosphorique</button>
+          <button class="chaine-btn" onclick="showChaine(4)">4️⃣ TSP (engrais)</button>
+          <button class="chaine-btn" onclick="showChaine(5)">5️⃣ NPK / DAP</button>
+        </div>
+        <div class="svgbox" style="margin:0">
+          <svg viewBox="0 0 580 170" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+            <text x="290" y="16" text-anchor="middle" font-size="12" font-weight="700" fill="#1B5E20">Chaîne de transformation du phosphate</text>
+            <!-- Phosphate naturel -->
+            <rect x="5" y="28" width="85" height="45" rx="6" fill="#D7CCC8" stroke="#795548" stroke-width="2"/>
+            <text x="47" y="48" text-anchor="middle" font-size="9" font-weight="700" fill="#4E342E">Phosphate</text>
+            <text x="47" y="61" text-anchor="middle" font-size="9" fill="#4E342E">naturel</text>
+            <path d="M92 50 L107 50" stroke="#555" stroke-width="1.5" marker-end="url(#arr1)"/>
+            <defs><marker id="arr1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 Z" fill="#555"/></marker></defs>
+            <!-- Enrichissement -->
+            <rect x="108" y="28" width="90" height="45" rx="6" fill="#A5D6A7" stroke="#2E7D32" stroke-width="2"/>
+            <text x="153" y="44" text-anchor="middle" font-size="9" font-weight="700" fill="#1B5E20">Enrichissement</text>
+            <text x="153" y="56" text-anchor="middle" font-size="8" fill="#555">Lavage/ventilation</text>
+            <text x="153" y="66" text-anchor="middle" font-size="8" fill="#1B5E20">Minerai P₂O₅</text>
+            <!-- Flèche + déchet -->
+            <path d="M153 73 L153 85" stroke="#B71C1C" stroke-width="1" stroke-dasharray="3,2"/>
+            <text x="153" y="95" text-anchor="middle" font-size="7" fill="#B71C1C">boues (argile...)</text>
+            <path d="M200 50 L215 50" stroke="#555" stroke-width="1.5" marker-end="url(#arr1)"/>
+            <!-- Acide phosphorique -->
+            <rect x="216" y="28" width="95" height="45" rx="6" fill="#FFECB3" stroke="#F9A825" stroke-width="2"/>
+            <text x="263" y="44" text-anchor="middle" font-size="9" font-weight="700" fill="#E65100">Acide</text>
+            <text x="263" y="56" text-anchor="middle" font-size="9" font-weight="700" fill="#E65100">phosphorique</text>
+            <text x="263" y="66" text-anchor="middle" font-size="8" fill="#555">28% → 54% P₂O₅</text>
+            <!-- Phosphogypse déchet -->
+            <path d="M263 73 L263 85" stroke="#B71C1C" stroke-width="1" stroke-dasharray="3,2"/>
+            <text x="263" y="95" text-anchor="middle" font-size="7" fill="#B71C1C">Phosphogypse ⚠️</text>
+            <path d="M313 50 L328 50" stroke="#555" stroke-width="1.5" marker-end="url(#arr1)"/>
+            <!-- TSP -->
+            <rect x="329" y="28" width="85" height="45" rx="6" fill="#C8E6C9" stroke="#1B5E20" stroke-width="2"/>
+            <text x="371" y="44" text-anchor="middle" font-size="9" font-weight="700" fill="#1B5E20">TSP</text>
+            <text x="371" y="56" text-anchor="middle" font-size="9" fill="#555">47% P₂O₅</text>
+            <text x="371" y="66" text-anchor="middle" font-size="8" fill="#1B5E20">Engrais solide</text>
+            <!-- Gaz fluorés -->
+            <path d="M371 73 L371 85" stroke="#B71C1C" stroke-width="1" stroke-dasharray="3,2"/>
+            <text x="371" y="95" text-anchor="middle" font-size="7" fill="#B71C1C">Gaz fluorés ⚠️</text>
+            <path d="M416 50 L431 50" stroke="#555" stroke-width="1.5" marker-end="url(#arr1)"/>
+            <!-- NPK/DAP -->
+            <rect x="432" y="28" width="142" height="45" rx="6" fill="#E3F2FD" stroke="#1565C0" stroke-width="2"/>
+            <text x="503" y="44" text-anchor="middle" font-size="9" font-weight="700" fill="#1565C0">NP · NPK · DAP</text>
+            <text x="503" y="56" text-anchor="middle" font-size="8" fill="#555">Engrais chimiques</text>
+            <text x="503" y="66" text-anchor="middle" font-size="8" fill="#555">+ Potasse + Nitrate</text>
+            <!-- Soufre apport -->
+            <rect x="5" y="115" width="85" height="40" rx="6" fill="#FFF9C4" stroke="#F57F17" stroke-width="2"/>
+            <text x="47" y="133" text-anchor="middle" font-size="9" font-weight="700" fill="#E65100">Soufre</text>
+            <text x="47" y="145" text-anchor="middle" font-size="8" fill="#555">Matière 1ère</text>
+            <path d="M92 135 Q155 135 155 115" stroke="#F57F17" stroke-width="1.5" fill="none" stroke-dasharray="4,2"/>
+            <text x="100" y="128" font-size="7" fill="#F57F17">→ H₂SO₄</text>
+            <!-- Légende déchets -->
+            <rect x="5" y="155" width="570" height="14" rx="3" fill="#ffebee" stroke="#f44336" stroke-width="1"/>
+            <text x="290" y="166" text-anchor="middle" font-size="9" fill="#B71C1C">⚠️ Déchets générés : Phosphogypse (solide) · Gaz fluorés (SO₂, SO₃, HF) · Poussières · Boues</text>
+          </svg>
+        </div>
+        <div class="chaine-info active" id="chaine-0">
+          <strong>Vue globale :</strong> le phosphate naturel passe par 4 grandes étapes pour donner des produits commerciaux à haute valeur : TSP (engrais solide, 1er exportateur mondial) · Acide phosphorique · NPK/DAP (engrais chimiques). À chaque étape, des déchets sont générés : phosphogypse (solide), gaz fluorés et soufrés.
+        </div>
+        <div class="chaine-info" id="chaine-1">
+          <strong>Étape 1 — Enrichissement du minerai :</strong> le phosphate naturel est concassé, broyé, puis lavé à l'eau ou ventilé à l'air pour séparer ses impuretés solides (argile, CaCO₃, MgO, CaF₂). On obtient un <strong>minerai enrichi riche en P₂O₅</strong>. Les déchets = boues riches en argile et calcaire, rejetées à proximité des mines de Redeyef.
+        </div>
+        <div class="chaine-info" id="chaine-2">
+          <strong>Étape 2 — Fabrication de l'acide sulfurique (H₂SO₄) :</strong> le soufre est importé pour fabriquer l'acide sulfurique en 3 étapes : combustion du soufre → oxydes de soufre (SO₂ + SO₃) → absorption par l'eau → acide sulfurique. L'acide sulfurique est indispensable pour l'étape suivante. Cette fabrication dégage elle-même des traces de SO₂ et SO₃.
+        </div>
+        <div class="chaine-info" id="chaine-3">
+          <strong>Étape 3 — Fabrication de l'acide phosphorique :</strong> le minerai de phosphate + l'acide sulfurique → <strong>acide phosphorique (28% P₂O₅)</strong> + <strong>phosphogypse</strong> (déchet solide principal, stocké près des usines de Sfax). L'acide phosphorique est ensuite concentré à 54% P₂O₅ pour la fabrication des engrais.
+        </div>
+        <div class="chaine-info" id="chaine-4">
+          <strong>Étape 4 — Fabrication du TSP (Triple Super Phosphate) :</strong> acide phosphorique + acide sulfurique → <strong>TSP (47% P₂O₅)</strong>. Le TSP est un engrais solide en granulés, très riche en phosphore, contenant aussi des oligoéléments (Ca, Mg, Fe, S) nécessaires aux plantes. La Tunisie est le <strong>1er exportateur mondial de TSP</strong>. Déchets = gaz fluorés (HF).
+        </div>
+        <div class="chaine-info" id="chaine-5">
+          <strong>Étape 5 — Fabrication des engrais NP, NPK, DAP :</strong> acide phosphorique + potasse + nitrate + gaz ammoniacal → <strong>NP (nitrate-phosphate) · NPK (nitrate-phosphate-potassium) · DAP (diammonium phosphate)</strong>. Ces engrais fournissent aux plantes les 3 éléments essentiels N, P, K. Déchets = vapeur d'eau + gaz ammoniacal.
+        </div>
+      </div>
+
+      <table style="margin-top:16px">
+        <tr><th class="jaune">Produit</th><th class="jaune">Composition</th><th class="jaune">Utilisation</th></tr>
+        <tr><td><strong>TSP</strong> (Triple Super Phosphate)</td><td>47% P₂O₅ + Ca, Mg, Fe, S</td><td>Engrais solide en granulés pour les plantes</td></tr>
+        <tr><td><strong>Acide phosphorique</strong></td><td>28–54% P₂O₅</td><td>Produit intermédiaire pour fabriquer NP, NPK, DAP</td></tr>
+        <tr><td><strong>NP</strong></td><td>Nitrate (N) + Phosphate (P)</td><td>Engrais chimique 2 éléments</td></tr>
+        <tr><td><strong>NPK</strong></td><td>Nitrate (N) + Phosphate (P) + Potassium (K)</td><td>Engrais chimique 3 éléments (complet)</td></tr>
+        <tr><td><strong>DAP</strong></td><td>Diammonium phosphate</td><td>Engrais riche en phosphate et azote</td></tr>
+      </table>
+    </div>
+
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice — Chaîne de transformation</div>
+      <div class="exo-q" id="exo-chaine-q">
+        <p>1. L'enrichissement du minerai de phosphate consiste à séparer le phosphate de ses impuretés par <select class="blank" data-rep="lavage à l'eau ou ventilation à l'air"><option value="">—</option><option>chauffage à haute température</option><option>lavage à l'eau ou ventilation à l'air</option><option>dissolution dans l'acide chlorhydrique</option></select>.</p>
+        <p>2. L'acide sulfurique est fabriqué à partir du <select class="blank" data-rep="soufre (combustion → SO₂/SO₃ → absorption par l'eau)"><option value="">—</option><option>phosphate naturel directement</option><option>soufre (combustion → SO₂/SO₃ → absorption par l'eau)</option><option>calcaire chauffé</option></select>. Il sert à transformer le minerai en <select class="blank" data-rep="acide phosphorique + phosphogypse (déchet)"><option value="">—</option><option>TSP directement sans intermédiaire</option><option>acide phosphorique + phosphogypse (déchet)</option></select>.</p>
+        <p>3. Le TSP contient <select class="blank" data-rep="47% P₂O₅"><option value="">—</option><option>28% P₂O₅</option><option>47% P₂O₅</option><option>100% P₂O₅</option></select> et est utilisé comme <select class="blank" data-rep="engrais solide pour les plantes"><option value="">—</option><option>carburant industriel</option><option>engrais solide pour les plantes</option></select>.</p>
+        <p>4. Le DAP est l'abréviation de <select class="blank" data-rep="DiAmmonium Phosphate"><option value="">—</option><option>DiAcide Phosphorique</option><option>DiAmmonium Phosphate</option><option>Déchets Acides Phosphatés</option></select>. Le NPK est un engrais contenant <select class="blank" data-rep="Nitrate + Phosphate + Potassium (3 éléments essentiels)"><option value="">—</option><option>uniquement du phosphore</option><option>Nitrate + Phosphate + Potassium (3 éléments essentiels)</option></select>.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-chaine')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-chaine')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-chaine-fb"></div>
+    </div>
+  </div>
+
+  <!-- IMPACT POLLUTION -->
+  <div class="subpanel" id="sub-2-2">
+    <div class="card rouge">
+      <h2 class="rouge">☣️ Impact des déchets sur la santé et l'environnement (p.172–173)</h2>
+      <div class="resume-box" style="border-color:var(--rouge);background:linear-gradient(135deg,var(--rouge-light),#fff9e6);">
+        <strong style="color:var(--rouge);">En résumé :</strong> deux types de déchets polluants : le <strong>phosphogypse</strong> (déchet solide) et les <strong>gaz fluorés et soufrés</strong>. Leurs impacts touchent les nappes phréatiques, la mer, les végétaux, les animaux et l'homme.
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" style="background:var(--rouge-light);" onclick="toggleSSAccord(this)">☣️ Le phosphogypse — déchet solide principal <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="grid2">
+            <div>
+              <h3>Composition du phosphogypse</h3>
+              <ul style="margin-left:14px;font-size:.88rem;line-height:2">
+                <li>Sulfate de calcium (CaSO₄)</li>
+                <li>Divers <strong>acides</strong></li>
+                <li>Sels de <strong>métaux lourds</strong></li>
+                <li>Éléments <strong>radioactifs</strong></li>
+              </ul>
+              <h3 style="margin-top:10px">Sites de stockage en Tunisie</h3>
+              <ul style="margin-left:14px;font-size:.88rem;line-height:2">
+                <li>Site SIAPE — Sfax</li>
+                <li>Site NPK — Sfax</li>
+                <li>Site de la Skhira</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Contamination de la nappe phréatique (1999)</h3>
+              <div id="poll-bars"></div>
+              <div class="explication rouge" style="margin-top:10px">
+                <strong>Le pH de la nappe passe de 6,5–9 (normal) à 3,4 (acide) !</strong> Les éléments toxiques du phosphogypse (fluor, métaux lourds) s'infiltrent dans le sol et contaminent les eaux souterraines → risque pour la santé humaine (eau potable).
+              </div>
+            </div>
+          </div>
+          <div class="info-box" style="background:var(--rouge-light);border-left-color:var(--rouge);margin-top:12px">
+            <div class="icon">🌊</div>
+            <p><strong>Rejet en mer :</strong> quand le phosphogypse est rejeté dans la mer → turbidité de l'eau → l'eau devient moins transparente → l'assimilation chlorophyllienne est bloquée → <strong>asphyxie de la flore marine</strong> → désertification progressive de la mer → déséquilibre écologique.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" style="background:var(--rouge-light);" onclick="toggleSSAccord(this)">💨 Gaz fluorés et soufrés — impact sur les êtres vivants <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <table>
+            <tr><th class="rouge">Être vivant</th><th class="rouge">Effets observés</th><th class="rouge">Distance d'impact</th></tr>
+            <tr><td>🌿 <strong>Végétaux</strong></td><td>Pâles et rabougris · Abricotier et mûrier disparus · Figuier/amandier non productifs, feuilles nécrosées</td><td>Disparition dans 1 km · Impact jusqu'à 10 km</td></tr>
+            <tr><td>🐑 <strong>Animaux</strong> (moutons, chèvres)</td><td>Dégradation des dents · Troubles du squelette · Diminution de la production de lait</td><td>Voisinage des usines</td></tr>
+            <tr><td>👤 <strong>Homme</strong></td><td>Lésions dentaires · Affections respiratoires</td><td>Zones de résidence proches</td></tr>
+          </table>
+          <div class="explication rouge">
+            <strong>Pourquoi le fluor est-il si dangereux pour les dents et les os ?</strong> Le fluor en excès remplace le calcium dans les os et les dents → fluorose osseuse et dentaire. Chez les moutons et chèvres, le fluor ingéré avec le fourrage s'accumule dans les os → troubles squelettiques. Chez l'homme, inhalation des gaz fluorés → dégradation des dents et des poumons.
+          </div>
+
+          <h3 style="margin-top:14px">Concentrations en polluants dans les végétaux (zone polluée vs zone témoin)</h3>
+          <table>
+            <tr><th class="rouge">Végétal</th><th class="rouge">Fluor zone polluée (ppm)</th><th class="rouge">Fluor zone témoin (ppm)</th><th class="rouge">Soufre zone polluée (%)</th><th class="rouge">Soufre zone témoin (%)</th></tr>
+            <tr><td>Figuier de barbarie</td><td style="color:#B71C1C;font-weight:700">1425</td><td>3,5</td><td>0,42</td><td>0,08</td></tr>
+            <tr><td>Olivier</td><td style="color:#B71C1C;font-weight:700">1027</td><td>15,3</td><td>0,53</td><td>0,18</td></tr>
+            <tr><td>Palmier dattier</td><td style="color:#B71C1C;font-weight:700">899</td><td>10,8</td><td>0,37</td><td>0,35</td></tr>
+            <tr><td>Amandier</td><td style="color:#B71C1C;font-weight:700">405</td><td>16</td><td>0,80</td><td>0,24</td></tr>
+            <tr><td>Abricotier</td><td style="color:#B71C1C;font-weight:700">93</td><td>6,7</td><td>0,30</td><td>0,14</td></tr>
+          </table>
+          <div class="explication bleu">
+            <strong>Lecture du tableau :</strong> dans la zone polluée, la teneur en fluor du figuier de barbarie est de 1425 ppm vs 3,5 ppm en zone témoin → <strong>multiplicateur de ×407 !</strong> Même constat pour le soufre. Ces données montrent que les plantes accumulent les polluants gazeux → bioaccumulation dans la chaîne alimentaire.
+          </div>
+        </div>
+      </div>
+
+      <div class="retenons">
+        <h4>📌 Retenons (p.174)</h4>
+        <p><dt>Minerai de phosphate :</dt><dd>phosphate naturel débarrassé de ses impuretés solides.</dd></p>
+        <p><dt>Phosphogypse :</dt><dd>déchet solide provenant de l'action de l'acide sulfurique sur le minerai de phosphate.</dd></p>
+        <p><dt>Composés soufrés :</dt><dd>substances chimiques contenant du soufre (SO₂, SO₃).</dd></p>
+        <p><dt>Composés fluorés :</dt><dd>substances chimiques contenant du fluor (HF).</dd></p>
+        <p><dt>pH :</dt><dd>Potentiel d'Hydrogène. Valeur entre 1 et 14. Acide si pH 1–6 · Neutre si pH = 7 · Basique si pH 8–14.</dd></p>
+        <p><dt>NP / NPK / DAP :</dt><dd>engrais chimiques contenant N (nitrate), P (phosphate) et/ou K (potassium).</dd></p>
+      </div>
+    </div>
+
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice — Impact environnemental</div>
+      <div class="exo-q" id="exo-poll-q">
+        <p>1. Le phosphogypse est un déchet <select class="blank" data-rep="solide"><option value="">—</option><option>gazeux</option><option>solide</option><option>liquide</option></select> composé de sulfate de calcium, d'acides, de <select class="blank" data-rep="métaux lourds et d'éléments radioactifs"><option value="">—</option><option>phosphate pur uniquement</option><option>métaux lourds et d'éléments radioactifs</option></select>. Il est stocké en Tunisie à Sfax (SIAPE, NPK) et à <select class="blank" data-rep="la Skhira"><option value="">—</option><option>Tunis</option><option>Gafsa</option><option>la Skhira</option></select>.</p>
+        <p>2. La contamination de la nappe phréatique par le phosphogypse se traduit par un pH <select class="blank" data-rep="très acide (3,4 au lieu de 6,5–9)"><option value="">—</option><option>neutre (7)</option><option>très acide (3,4 au lieu de 6,5–9)</option><option>très basique (14)</option></select> et une forte teneur en <select class="blank" data-rep="fluor, cadmium, mercure et fer"><option value="">—</option><option>oxygène dissous et nitrates naturels</option><option>fluor, cadmium, mercure et fer</option></select>.</p>
+        <p>3. Quand le phosphogypse est rejeté en mer, l'eau devient <select class="blank" data-rep="turbide (moins transparente)"><option value="">—</option><option>plus claire et plus riche en O₂</option><option>turbide (moins transparente)</option></select> → l'assimilation chlorophyllienne est <select class="blank" data-rep="bloquée → asphyxie de la flore marine"><option value="">—</option><option>stimulée par les nutriments supplémentaires</option><option>bloquée → asphyxie de la flore marine</option></select>.</p>
+        <p>4. Les gaz fluorés causent chez les moutons et chèvres une <select class="blank" data-rep="dégradation des dents, troubles du squelette et baisse de production de lait"><option value="">—</option><option>augmentation de la production de lait</option><option>dégradation des dents, troubles du squelette et baisse de production de lait</option></select>. Chez l'homme, ils provoquent des <select class="blank" data-rep="lésions dentaires et affections respiratoires"><option value="">—</option><option>troubles digestifs uniquement</option><option>lésions dentaires et affections respiratoires</option></select>.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-poll')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-poll')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-poll-fb"></div>
+    </div>
+  </div>
+
+  <!-- SOLUTIONS -->
+  <div class="subpanel" id="sub-2-3">
+    <div class="card teal">
+      <h2 class="teal" style="color:var(--teal)">✅ Solutions pour une gestion rationnelle (p.174–176)</h2>
+      <div class="grid2">
+        <div style="background:var(--teal-light);border-radius:10px;padding:14px;border:2px solid var(--teal);">
+          <h3 style="color:var(--teal);margin-bottom:10px">Solutions actuelles</h3>
+          <ul style="margin-left:14px;font-size:.88rem;line-height:2">
+            <li>✅ Protéger et sécuriser les <strong>sites actuels</strong> de stockage du phosphogypse</li>
+            <li>✅ Réaliser des <strong>sites étudiés</strong> pour le stockage futur (géologie imperméable, loin des nappes)</li>
+            <li>⚠️ Installer de longues <strong>cheminées avec filtres</strong> pour les gaz (solution partielle, critiquée)</li>
+          </ul>
+        </div>
+        <div style="background:var(--vert-light);border-radius:10px;padding:14px;border:2px solid var(--vert);">
+          <h3 style="color:var(--vert);margin-bottom:10px">Perspectives à long terme</h3>
+          <ul style="margin-left:14px;font-size:.88rem;line-height:2">
+            <li>🔄 Recycler le phosphogypse (construction, agriculture)</li>
+            <li>🏭 Améliorer les procédés industriels (réduire les déchets)</li>
+            <li>🌿 Replanter des zones détruites</li>
+            <li>📏 Limiter les zones d'extraction proches des habitations</li>
+          </ul>
+        </div>
+      </div>
+      <div class="explication teal" style="margin-top:12px">
+        <strong>Critique des cheminées avec filtres :</strong> si elles limitent les rejets gazeux en hauteur, elles ne suppriment pas les polluants, elles les dispersent seulement plus loin. De plus, les filtres doivent être régulièrement remplacés et les déchets de filtration doivent eux-mêmes être traités. Ce n'est donc qu'une solution partielle, pas une solution définitive.
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO GLOBAL ACT2 -->
+  <div class="subpanel" id="sub-2-4">
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice global — Exploitation et gestion</div>
+      <div class="exo-q" id="exo-act2-q">
+        <p>1. L'exploitation à <strong>ciel ouvert</strong> est préférée aujourd'hui car elle est <select class="blank" data-rep="moins dangereuse, moins coûteuse et plus productive"><option value="">—</option><option>plus dangereuse mais moins chère</option><option>moins dangereuse, moins coûteuse et plus productive</option></select> que les mines souterraines.</p>
+        <p>2. Pour produire de l'acide phosphorique, il faut combiner le <strong>minerai de phosphate</strong> avec <select class="blank" data-rep="l'acide sulfurique (H₂SO₄)"><option value="">—</option><option>l'acide chlorhydrique (HCl)</option><option>l'acide sulfurique (H₂SO₄)</option><option>l'eau distillée</option></select>. Cette réaction produit aussi le <select class="blank" data-rep="phosphogypse (déchet solide dangereux)"><option value="">—</option><option>TSP directement utilisable</option><option>phosphogypse (déchet solide dangereux)</option></select>.</p>
+        <p>3. L'acide sulfurique est préalablement fabriqué à partir du <select class="blank" data-rep="soufre importé (combustion → SO₂/SO₃ → H₂SO₄)"><option value="">—</option><option>phosphate naturel (calcination)</option><option>soufre importé (combustion → SO₂/SO₃ → H₂SO₄)</option></select>.</p>
+        <p>4. Les polluants de l'industrie des phosphates causent des nuisances à <select class="blank" data-rep="l'homme, les végétaux ET les animaux (tous les êtres vivants)"><option value="">—</option><option>l'homme uniquement</option><option>les végétaux uniquement</option><option>l'homme, les végétaux ET les animaux (tous les êtres vivants)</option></select>.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-act2')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-act2')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-act2-fb"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ BILAN ═══ -->
+<div class="panel" id="panel-3">
+  <div class="card">
+    <h2>📋 Bilan — Les Phosphates (p.175–176)</h2>
+    <div class="svgbox">
+      <svg viewBox="0 0 580 130" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+        <text x="290" y="16" text-anchor="middle" font-size="12" font-weight="700" fill="#1B5E20">Schéma de synthèse : du phosphate naturel aux produits et déchets</text>
+        <!-- Phosphate naturel -->
+        <rect x="5" y="28" width="95" height="40" rx="8" fill="#D7CCC8" stroke="#795548" stroke-width="2"/>
+        <text x="52" y="45" text-anchor="middle" font-size="10" font-weight="700" fill="#4E342E">Phosphate</text>
+        <text x="52" y="58" text-anchor="middle" font-size="9" fill="#555">naturel (Gafsa/Kef)</text>
+        <path d="M102 48 L118 48" stroke="#555" stroke-width="1.5" marker-end="url(#arr1)"/>
+        <!-- Minerai enrichi -->
+        <rect x="120" y="28" width="90" height="40" rx="8" fill="#C8E6C9" stroke="#1B5E20" stroke-width="2"/>
+        <text x="165" y="45" text-anchor="middle" font-size="9" font-weight="700" fill="#1B5E20">Minerai</text>
+        <text x="165" y="57" text-anchor="middle" font-size="9" fill="#555">enrichi (P₂O₅)</text>
+        <path d="M212 48 L228 48" stroke="#555" stroke-width="1.5" marker-end="url(#arr1)"/>
+        <!-- Acide phosphorique -->
+        <rect x="230" y="28" width="100" height="40" rx="8" fill="#FFECB3" stroke="#F9A825" stroke-width="2"/>
+        <text x="280" y="44" text-anchor="middle" font-size="9" font-weight="700" fill="#E65100">Acide</text>
+        <text x="280" y="57" text-anchor="middle" font-size="9" fill="#E65100">phosphorique</text>
+        <path d="M332 48 L348 48" stroke="#555" stroke-width="1.5" marker-end="url(#arr1)"/>
+        <!-- Produits commerciaux -->
+        <rect x="350" y="28" width="225" height="40" rx="8" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2"/>
+        <text x="462" y="44" text-anchor="middle" font-size="10" font-weight="700" fill="#1B5E20">TSP · NP · NPK · DAP</text>
+        <text x="462" y="57" text-anchor="middle" font-size="9" fill="#555">Engrais commerciaux</text>
+        <!-- Déchets bas -->
+        <rect x="5" y="90" width="570" height="34" rx="8" fill="#ffebee" stroke="#f44336" stroke-width="2"/>
+        <text x="290" y="105" text-anchor="middle" font-size="10" font-weight="700" fill="#B71C1C">⚠️ DÉCHETS</text>
+        <text x="290" y="118" text-anchor="middle" font-size="9" fill="#B71C1C">Phosphogypse (solide) · Gaz fluorés (HF) · Gaz soufrés (SO₂, SO₃) · Boues · Poussières</text>
+        <!-- Flèches déchets -->
+        <path d="M165 68 L165 90" stroke="#f44336" stroke-width="1" stroke-dasharray="3,2"/>
+        <path d="M280 68 L280 90" stroke="#f44336" stroke-width="1" stroke-dasharray="3,2"/>
+        <path d="M462 68 L462 90" stroke="#f44336" stroke-width="1" stroke-dasharray="3,2"/>
+      </svg>
+    </div>
+  </div>
+  <div class="accord-item">
+    <div class="accord-head" onclick="toggleAccord(this)">⛏️ I. Étude de la roche phosphatée <span class="accord-arrow">▼</span></div>
+    <div class="accord-body">
+      <strong>Propriétés :</strong> la roche phosphatée est formée de pellets (grains sphériques) liés par un ciment. Elle contient des coprolithes (excréments fossiles) et des fossiles marins (dents de requins, os de vertébrés, coquilles de mollusques, tests de microorganismes). Elle est poreuse, imperméable, insoluble dans l'eau, d'odeur fétide.<br><br>
+      <strong>Origine :</strong> les fossiles sont d'âge éocène (~55–60 MA), milieu marin peu profond. À l'Éocène, la Tunisie était immergée sauf l'île de Kasserine. Des bassins semi-fermés s'y formaient, alimentés par des courants ascendants riches en phosphore. Le phosphate a une double origine : chimique (précipitation de Ca₃(PO₄)₂) et organique (décomposition de matière organique planctonique riche en P).
+    </div>
+  </div>
+  <div class="accord-item">
+    <div class="accord-head" onclick="toggleAccord(this)">🏭 II. Exploitation et transformation <span class="accord-arrow">▼</span></div>
+    <div class="accord-body">
+      Extraction actuelle en carrières à ciel ouvert (moins dangereuse, plus rentable). Enrichissement du minerai → acide phosphorique (avec H₂SO₄) → TSP (engrais), NP, NPK, DAP. L'acide sulfurique est fabriqué à partir du soufre. La transformation génère du phosphogypse (déchet solide) et des gaz fluorés et soufrés (déchets gazeux).
+    </div>
+  </div>
+  <div class="accord-item">
+    <div class="accord-head" onclick="toggleAccord(this)">☣️ III. Impact et solutions <span class="accord-arrow">▼</span></div>
+    <div class="accord-body">
+      <strong>Phosphogypse :</strong> contamine les nappes phréatiques (pH acide, fluor, métaux lourds) et la mer (turbidité → blocage photosynthèse). <strong>Gaz fluorés et soufrés :</strong> impact sur les végétaux (nécrose, disparition d'espèces), les animaux (dents, squelette, lait) et l'homme (dents, respiratoire) jusqu'à 10 km. <strong>Solutions :</strong> protéger les sites, aménager de nouveaux sites étudiés, installer des cheminées avec filtres (solution partielle).
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FLASHCARDS ═══ -->
+<div class="panel" id="panel-4">
+  <h2 style="margin-bottom:14px">🃏 Flashcards — Choix multiple</h2>
+  <div class="fc-actions">
+    <button class="btn btn-vert" onclick="verifierFC()">✓ Vérifier tout</button>
+    <button class="btn btn-grey" onclick="resetFC()">↺ Recommencer</button>
+    <span id="fc-score" style="display:none;padding:9px 14px;border-radius:8px;font-weight:700"></span>
+  </div>
+  <div class="fc-grid" id="fc-container"></div>
+</div>
+
+<!-- ═══ QCM ═══ -->
+<div class="panel" id="panel-5">
+  <h2 style="margin-bottom:7px">✏️ QCM Format CAPES</h2>
+  <p style="margin-bottom:14px;font-size:.87rem;color:var(--text-muted)">Plusieurs réponses correctes possibles par question.</p>
+  <div id="qcm-container"></div>
+  <div style="display:flex;gap:12px;margin-top:14px;flex-wrap:wrap">
+    <button class="btn btn-vert" onclick="corrigerQCM()">✓ Corriger</button>
+    <button class="btn btn-grey" onclick="resetQCM()">↺ Recommencer</button>
+  </div>
+  <div id="qcm-result"></div>
+</div>
+
+<!-- ═══ EXERCICES MANUEL ═══ -->
+<div class="panel" id="panel-6">
+  <h2 style="margin-bottom:18px">📝 Exercices — D'après le manuel (p.177–180)</h2>
+
+  <div class="exo-manuel">
+    <h3>📘 Exercice corrigé — Coupe du gisement de Metlaoui (p.177–178)</h3>
+    <div class="contexte">La coupe montre 8 couches de phosphate (I à VIII) de teneurs BPL allant de 45,93% à 59,31% et d'épaisseurs de 0,40 m à 4,60 m. Les couches I et IIa sont au sommet, les plus proches de la surface.</div>
+    <div class="exo-q" id="exo-man1-q">
+      <p>1. Les couches phosphatées dans le gisement sont disposées en strates <select class="blank" data-rep="horizontales et parallèles → roches sédimentaires"><option value="">—</option><option>inclinées à 40° → plissement tectonique</option><option>horizontales et parallèles → roches sédimentaires</option><option>verticales → failles tectoniques</option></select>.</p>
+      <p>2. Les 2 couches en cours d'exploitation sont les couches <select class="blank" data-rep="I et IIa"><option value="">—</option><option>VII et VIII</option><option>I et IIa</option><option>IV et V</option></select> car elles cumulent les 3 critères de rentabilité : teneur en BPL <select class="blank" data-rep="≥ 56% (rentable)"><option value="">—</option><option>< 50% (non rentable)</option><option>≥ 56% (rentable)</option></select>, épaisseur <select class="blank" data-rep="importante (4,60 m + 2,20 m = 6,80 m)"><option value="">—</option><option>faible (0,40 m)"></option><option>importante (4,60 m + 2,20 m = 6,80 m)</option></select>, et situation <select class="blank" data-rep="proche de la surface → facile d'accès"><option value="">—</option><option>profonde → plus riche</option><option>proche de la surface → facile d'accès</option></select>.</p>
+      <p>3. La présence de couches de <strong>gypse</strong> alternant avec le phosphate prouve des conditions de formation <select class="blank" data-rep="lagunaires (évaporation intense, bassin semi-fermé, climat chaud et sec)"><option value="">—</option><option>de mer profonde et froide</option><option>lagunaires (évaporation intense, bassin semi-fermé, climat chaud et sec)</option></select>.</p>
+    </div>
+    <button class="btn-exo" onclick="checkExo('exo-man1')">✓ Vérifier</button>
+    <button class="btn-reset-exo" onclick="resetExo('exo-man1')">↺ Réinitialiser</button>
+    <div class="exo-feedback" id="exo-man1-fb"></div>
+  </div>
+
+  <div class="exo-manuel">
+    <h3>📘 QCM du manuel — Exercices non corrigés (p.179–180)</h3>
+    <div class="contexte">Questions à choix multiples tirées directement du manuel. Indiquer la ou les bonne(s) réponse(s).</div>
+    <div class="exo-q" id="exo-man2-q">
+      <p>1. Les phosphates tunisiens datent de : <select class="blank" data-rep="– 60 MA (Éocène)"><option value="">—</option><option>– 40 MA</option><option>– 60 MA (Éocène)</option><option>– 80 MA</option><option>– 100 MA</option></select>.</p>
+      <p>2. La production de phosphate en 2000 s'élevait à : <select class="blank" data-rep="8 millions de tonnes"><option value="">—</option><option>2 millions de tonnes</option><option>5 millions de tonnes</option><option>8 millions de tonnes</option><option>10 millions de tonnes</option></select>.</p>
+      <p>3. L'odeur fétide d'une roche phosphatée indique qu'elle contient : <select class="blank" data-rep="une matière organique (et des coprolithes)"><option value="">—</option><option>du phosphogypse</option><option>une matière organique (et des coprolithes)</option><option>du pétrole</option></select>.</p>
+      <p>4. Le phosphogypse est un polluant car il peut contaminer : <select class="blank" data-rep="les nappes phréatiques, le sol ET la mer"><option value="">—</option><option>l'atmosphère uniquement</option><option>les nappes phréatiques, le sol ET la mer</option><option>les plantes uniquement</option></select>.</p>
+      <p>5. L'acide sulfurique est utilisé dans l'industrie des phosphates pour produire : <select class="blank" data-rep="l'acide phosphorique et le TSP"><option value="">—</option><option>l'acide acétique</option><option>des engrais organiques</option><option>l'acide phosphorique et le TSP</option></select>.</p>
+    </div>
+    <button class="btn-exo" onclick="checkExo('exo-man2')">✓ Vérifier</button>
+    <button class="btn-reset-exo" onclick="resetExo('exo-man2')">↺ Réinitialiser</button>
+    <div class="exo-feedback" id="exo-man2-fb"></div>
+  </div>
+
+  <div class="exo-manuel">
+    <h3>📘 Question ouverte — Conditions de formation (p.180)</h3>
+    <div class="contexte">Question : Citer deux conditions qui ont favorisé la formation du phosphate dans les bassins de Gafsa et du Kef à l'Éocène.</div>
+    <div class="exo-q" id="exo-man3-q">
+      <p>Condition 1 : <select class="blank" data-rep="Mer peu profonde avec bassins semi-fermés par des hauts-fonds autour de l'île de Kasserine"><option value="">—</option><option>Mer très profonde et froide avec courants descendants</option><option>Mer peu profonde avec bassins semi-fermés par des hauts-fonds autour de l'île de Kasserine</option><option>Désert continental sans eau</option></select>.</p>
+      <p>Condition 2 : <select class="blank" data-rep="Climat chaud et sec favorisant une intense évaporation + courants ascendants riches en phosphore"><option value="">—</option><option>Climat froid et humide avec peu d'organismes vivants</option><option>Climat chaud et sec favorisant une intense évaporation + courants ascendants riches en phosphore</option></select>.</p>
+      <p>Condition 3 (bonus) : <select class="blank" data-rep="Biomasse importante + fond des bassins pauvre en O₂ (préservation matière organique)"><option value="">—</option><option>Absence totale d'organismes vivants dans les bassins</option><option>Biomasse importante + fond des bassins pauvre en O₂ (préservation matière organique)</option></select>.</p>
+    </div>
+    <button class="btn-exo" onclick="checkExo('exo-man3')">✓ Vérifier</button>
+    <button class="btn-reset-exo" onclick="resetExo('exo-man3')">↺ Réinitialiser</button>
+    <div class="exo-feedback" id="exo-man3-fb"></div>
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<script>
+// TABS
+const panels=document.querySelectorAll('.panel'),tabs=document.querySelectorAll('.tab');
+const prog=document.getElementById('progFill');let visited=new Set([0]);
+function showTab(n){
+  panels.forEach(p=>p.classList.remove('active'));tabs.forEach(t=>t.classList.remove('active'));
+  panels[n].classList.add('active');tabs[n].classList.add('active');
+  visited.add(n);prog.style.width=Math.round(visited.size/tabs.length*100)+'%';
+  localStorage.setItem('p3ch2_tab',n);window.scrollTo({top:0,behavior:'smooth'});
+}
+const sv=localStorage.getItem('p3ch2_tab');if(sv)showTab(parseInt(sv));
+
+function showSubTab(act,sub){
+  document.querySelectorAll(`#panel-${act} .subpanel`).forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll(`#panel-${act} .subtab`).forEach(b=>b.classList.remove('active'));
+  document.getElementById(`sub-${act}-${sub}`).classList.add('active');
+  document.querySelectorAll(`#panel-${act} .subtab`)[sub].classList.add('active');
+}
+
+function toggleAccord(head){
+  const body=head.nextElementSibling,isOpen=body.classList.contains('open');
+  document.querySelectorAll('.accord-body').forEach(b=>b.classList.remove('open'));
+  document.querySelectorAll('.accord-head').forEach(h=>h.classList.remove('open'));
+  if(!isOpen){body.classList.add('open');head.classList.add('open');}
+}
+function toggleSSAccord(head){
+  const body=head.nextElementSibling,isOpen=body.classList.contains('open');
+  body.classList.toggle('open',!isOpen);head.classList.toggle('open',!isOpen);
+}
+
+function showChaine(n){
+  document.querySelectorAll('.chaine-info').forEach(i=>i.classList.remove('active'));
+  document.querySelectorAll('.chaine-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(`chaine-${n}`).classList.add('active');
+  document.querySelectorAll('.chaine-btn')[n].classList.add('active');
+}
+
+// POLLUTION BARS
+function buildPollBars(){
+  const data=[
+    {label:"Fluor (F)", contaminated:87.25, normal:5, max:90, color:"#E65100"},
+    {label:"Phosphate (PO₄)", contaminated:100, normal:0.1, max:100, color:"#B71C1C",note:"×100 000"},
+    {label:"Cadmium (Cd)", contaminated:100, normal:5, max:100, color:"#7B1FA2",note:"×20"},
+    {label:"Fer (Fe)", contaminated:100, normal:5.5, max:100, color:"#795548"},
+    {label:"pH (acidité)", contaminated:100, normal:40, max:100, color:"#1565C0",note:"3,4 vs 6,5–9"},
+  ];
+  const c=document.getElementById('poll-bars');
+  if(!c)return;
+  c.innerHTML='';
+  data.forEach(d=>{
+    c.innerHTML+=`<div class="poll-bar-wrap">
+      <div class="poll-bar-label">${d.label} ${d.note?'<span style="font-weight:400;color:#B71C1C;font-size:.75rem">(${d.note})</span>':''}</div>
+      <div class="poll-bar-track">
+        <div class="poll-bar-fill" style="width:0%;background:${d.color}" data-w="${d.contaminated}">Zone polluée</div>
+        <div class="poll-bar-val">${d.contaminated}%</div>
+      </div>
+      <div style="font-size:.75rem;color:var(--text-muted)">Zone normale : ${d.normal}%</div>
+    </div>`;
+  });
+  setTimeout(()=>{
+    document.querySelectorAll('.poll-bar-fill').forEach(b=>{b.style.width=b.dataset.w+'%';});
+  },300);
+}
+document.addEventListener('DOMContentLoaded',buildPollBars);
+
+// EXERCICES
+function checkExo(id){
+  const selects=document.querySelectorAll(`#${id}-q select.blank`);
+  let ok=0,total=selects.length;
+  selects.forEach(s=>{
+    s.classList.remove('ok','ko');
+    if(s.value===s.dataset.rep){s.classList.add('ok');ok++;}
+    else s.classList.add('ko');
+  });
+  const fb=document.getElementById(`${id}-fb`);
+  fb.className='exo-feedback '+(ok===total?'ok':'ko');
+  fb.textContent=ok===total?`✅ Parfait ! ${ok}/${total} bonnes réponses.`:`❌ ${ok}/${total} — Revois les réponses en rouge.`;
+}
+function resetExo(id){
+  document.querySelectorAll(`#${id}-q select.blank`).forEach(s=>{s.value='';s.classList.remove('ok','ko');});
+  const fb=document.getElementById(`${id}-fb`);fb.className='exo-feedback';fb.textContent='';
+}
+
+// FLASHCARDS
+const flashcards=[
+  {p:"Les phosphates tunisiens ont été découverts en [1885] par [Philippe Thomas] dans la région de [Metlaoui].",t:[{rep:"1885",opts:["1850","1885","1920"]},{rep:"Philippe Thomas",opts:["Louis Pasteur","Philippe Thomas","Charles Darwin"]},{rep:"Metlaoui",opts:["Sfax","Tunis","Metlaoui"]}]},
+  {p:"Un gisement n'est exploitable que si la teneur en [P₂O₅ ≥ 25%] (ou BPL [56–68%] selon le site).",t:[{rep:"P₂O₅ ≥ 25%",opts:["P₂O₅ < 10%","P₂O₅ = 50% exactement","P₂O₅ ≥ 25%"]},{rep:"56–68%",opts:["20–30%","56–68%","80–90%"]}]},
+  {p:"La roche phosphatée est caractérisée par son odeur [fétide] prouvant la présence de [matière organique]. Ses grains sphériques s'appellent [pellets].",t:[{rep:"fétide",opts:["de chlore","fétide","de soufre pur"]},{rep:"matière organique",opts:["soufre pur","matière organique","calcaire uniquement"]},{rep:"pellets",opts:["coprolithes","oolithes","pellets"]}]},
+  {p:"Les [coprolithes] sont des restes d'excréments fossiles. Ils prouvent l'origine [organique] du phosphate.",t:[{rep:"coprolithes",opts:["pellets","oolithes","coprolithes"]},{rep:"organique",opts:["chimique","volcanique","organique"]}]},
+  {p:"Les phosphates tunisiens se sont formés à l'[Éocène] (~[55–60] MA, bassin semi-fermé autour de l'île de [Kasserine]).",t:[{rep:"Éocène",opts:["Miocène","Quaternaire","Éocène"]},{rep:"55–60",opts:["2–5","15–20","55–60"]},{rep:"Kasserine",opts:["Sfax","Tunis","Kasserine"]}]},
+  {p:"Le phosphate a deux origines : [chimique] (précipitation Ca₃(PO₄)₂) et [organique] (décomposition de plancton riche en P au fond des bassins).",t:[{rep:"chimique",opts:["volcanique","chimique","éolienne"]},{rep:"organique",opts:["inorganique","volcanique","organique"]}]},
+  {p:"L'enrichissement du minerai consiste à séparer le phosphate de ses impuretés par [lavage à l'eau] ou ventilation. Il produit un [minerai riche en P₂O₅].",t:[{rep:"lavage à l'eau",opts:["chauffage à haute température","lavage à l'eau","dissolution acide"]},{rep:"minerai riche en P₂O₅",opts:["acide phosphorique","phosphogypse","minerai riche en P₂O₅"]}]},
+  {p:"L'acide sulfurique est produit à partir du [soufre]. Il réagit avec le minerai pour donner l'[acide phosphorique] + le [phosphogypse] (déchet).",t:[{rep:"soufre",opts:["phosphate","calcaire","soufre"]},{rep:"acide phosphorique",opts:["TSP directement","chaux vive","acide phosphorique"]},{rep:"phosphogypse",opts:["NP","DAP","phosphogypse"]}]},
+  {p:"La Tunisie est le [1er] exportateur mondial de [TSP] (Triple Super Phosphate), qui contient [47%] P₂O₅.",t:[{rep:"1er",opts:["3ème","2ème","1er"]},{rep:"TSP",opts:["DAP","NPK","TSP"]},{rep:"47%",opts:["28%","54%","47%"]}]},
+  {p:"Le phosphogypse contamine les nappes phréatiques en les rendant très [acides] (pH [3,4] au lieu de 6,5–9). Il contient des métaux lourds et des éléments [radioactifs].",t:[{rep:"acides",opts:["basiques","neutres","acides"]},{rep:"3,4",opts:["7","11","3,4"]},{rep:"radioactifs",opts:["inoffensifs","neutres","radioactifs"]}]},
+  {p:"Le rejet du phosphogypse en mer augmente la [turbidité] → blocage de la [photosynthèse] → asphyxie de la flore marine → [désertification] de la mer.",t:[{rep:"turbidité",opts:["salinité","turbidité","acidité"]},{rep:"photosynthèse",opts:["respiration","photosynthèse","fermentation"]},{rep:"désertification",opts:["enrichissement","eutrophisation","désertification"]}]},
+  {p:"Les gaz fluorés causent chez les moutons : dégradation des [dents], troubles du [squelette] et baisse de production de [lait].",t:[{rep:"dents",opts:["poumons","dents","reins"]},{rep:"squelette",opts:["système nerveux","squelette","système digestif"]},{rep:"lait",opts:["laine","lait","viande"]}]},
+];
+
+function shuffle(arr){return arr.slice().sort(()=>Math.random()-.5);}
+function buildFC(){
+  const c=document.getElementById('fc-container');c.innerHTML='';
+  flashcards.forEach(fc=>{
+    let html=fc.p;
+    fc.t.forEach(trou=>{
+      const opts=shuffle(trou.opts);
+      const options=opts.map(o=>`<option value="${o}">${o}</option>`).join('');
+      html=html.replace(`[${trou.rep}]`,`<select class="fc-select" data-ans="${trou.rep}"><option value="">—</option>${options}</select>`);
+    });
+    c.innerHTML+=`<div class="fc-card"><div class="fc-phrase">${html}</div></div>`;
+  });
+}
+function verifierFC(){
+  const inputs=document.querySelectorAll('.fc-select');let ok=0,total=inputs.length;
+  inputs.forEach(inp=>{
+    inp.classList.toggle('ok',inp.value===inp.dataset.ans);
+    inp.classList.toggle('ko',inp.value!==inp.dataset.ans||inp.value==='');
+    if(inp.value===inp.dataset.ans)ok++;
+  });
+  const sc=document.getElementById('fc-score');
+  sc.style.display='inline-block';sc.textContent=`Score : ${ok}/${total} (${Math.round(ok/total*100)}%)`;
+  sc.style.background=ok===total?'#e8f5e9':ok>=total*.7?'#fff8e1':'#ffebee';
+}
+function resetFC(){
+  document.querySelectorAll('.fc-select').forEach(i=>{i.value='';i.classList.remove('ok','ko');});
+  document.getElementById('fc-score').style.display='none';
+}
+
+// QCM
+const qcm=[
+  {q:"1. Quelles affirmations sur les gisements phosphatés tunisiens sont correctes ?",opts:["A. Découverts en 1885 par Philippe Thomas à Metlaoui","B. Les deux bassins principaux sont Gafsa et le Kef","C. Exploitables si teneur en P₂O₅ ≥ 25%","D. La Tunisie est le 1er exportateur mondial de TSP"],rep:[0,1,2,3]},
+  {q:"2. Les propriétés de la roche phosphatée incluent :",opts:["A. Odeur fétide (matière organique)","B. Présence de pellets (grains sphériques)","C. Présence de coprolithes (excréments fossiles)","D. Soluble dans l'eau pure"],rep:[0,1,2]},
+  {q:"3. L'origine des phosphates tunisiens est :",opts:["A. Exclusivement chimique (précipitation de Ca₃(PO₄)₂)","B. Double : chimique ET organique","C. Organique car les coprolithes et l'odeur fétide prouvent la matière organique","D. Volcanique et tectonique"],rep:[1,2]},
+  {q:"4. Les conditions de formation des phosphates à l'Éocène étaient :",opts:["A. Mer peu profonde, bassins semi-fermés autour de l'île de Kasserine","B. Courants ascendants riches en HPO₄²⁻","C. Climat chaud et sec, évaporation intense","D. Fond des bassins riche en oxygène"],rep:[0,1,2]},
+  {q:"5. La chaîne de transformation du phosphate produit (produits commerciaux) :",opts:["A. TSP (Triple Super Phosphate)","B. Acide phosphorique","C. NP, NPK, DAP","D. Phosphogypse"],rep:[0,1,2]},
+  {q:"6. Quels sont les déchets générés par l'industrie des phosphates ?",opts:["A. Phosphogypse (déchet solide)","B. Gaz fluorés (HF)","C. Gaz soufrés (SO₂, SO₃)","D. Eau distillée (inoffensive)"],rep:[0,1,2]},
+  {q:"7. Le phosphogypse est dangereux car :",opts:["A. Il contient des métaux lourds et des éléments radioactifs","B. Il contamine les nappes phréatiques (pH acide)","C. Il cause la turbidité de la mer bloquant la photosynthèse","D. Il est utilisé comme engrais agricole sans traitement"],rep:[0,1,2]},
+  {q:"8. Les gaz fluorés et soufrés causent des nuisances à :",opts:["A. L'homme (lésions dentaires, affections respiratoires)","B. Les végétaux (nécrose, disparition d'espèces jusqu'à 1 km)","C. Les animaux (dents, squelette, lait)","D. Uniquement à l'environnement marin"],rep:[0,1,2]},
+  {q:"9. Pour qu'une couche phosphatée soit rentable, il faut :",opts:["A. Teneur en BPL ≥ 56%","B. Épaisseur importante de la couche","C. Situation proche de la surface (accessibilité)","D. Présence obligatoire de fossiles dans la couche"],rep:[0,1,2]},
+  {q:"10. L'acide sulfurique dans l'industrie des phosphates est fabriqué à partir du soufre et sert à produire :",opts:["A. L'acide phosphorique (avec le minerai de phosphate)","B. Le TSP (Triple Super Phosphate)","C. Le sel de cuisine (NaCl)","D. Le phosphogypse (déchet solide)"],rep:[0,1,3]},
+];
+
+function buildQCM(){
+  const c=document.getElementById('qcm-container');c.innerHTML='';
+  qcm.forEach((q,i)=>{
+    const opts=q.opts.map((o,j)=>`<label class="qcm-opt" id="opt-${i}-${j}"><input type="checkbox" data-q="${i}" data-o="${j}"> ${o}</label>`).join('');
+    c.innerHTML+=`<div class="qcm-item"><div class="qcm-q">${q.q}</div>${opts}</div>`;
+  });
+}
+function corrigerQCM(){
+  let score=0;
+  qcm.forEach((q,i)=>{
+    let correct=true;
+    q.opts.forEach((_,j)=>{
+      const el=document.getElementById(`opt-${i}-${j}`),inp=el.querySelector('input');
+      const checked=inp.checked,should=q.rep.includes(j);
+      el.classList.remove('correct','wrong');
+      if(should){el.classList.add('correct');if(!checked)correct=false;}
+      else if(checked){el.classList.add('wrong');correct=false;}
+    });
+    if(correct)score++;
+  });
+  const r=document.getElementById('qcm-result'),pct=Math.round(score/qcm.length*100);
+  r.style.display='block';
+  r.style.background=pct>=80?'#e8f5e9':pct>=50?'#fff8e1':'#ffebee';
+  r.style.color=pct>=80?'#2E7D32':pct>=50?'#E65100':'#c62828';
+  r.textContent=`Score : ${score}/10 (${pct}%) — ${pct>=80?'Excellent ✅':pct>=50?'Bien 👍':'À retravailler 📖'}`;
+}
+function resetQCM(){
+  document.querySelectorAll('.qcm-opt').forEach(el=>{el.classList.remove('correct','wrong');el.querySelector('input').checked=false;});
+  document.getElementById('qcm-result').style.display='none';
+}
+
+document.addEventListener('DOMContentLoaded',()=>{buildFC();buildQCM();});
+</script>
+</body>
+</html>

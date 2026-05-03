@@ -1,0 +1,1993 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P3-Ch1 — Étude d'un Site Géologique Local</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brun:#4E342E;--brun-mid:#795548;--brun-light:#efebe9;
+  --ocre:#F57F17;--ocre-light:#fffde7;
+  --pierre:#8D6E63;--pierre-light:#d7ccc8;
+  --vert:#2E7D32;--vert-light:#e8f5e9;
+  --bleu:#1565C0;--bleu-light:#e3f2fd;
+  --orange:#E65100;--orange-light:#fff3e0;
+  --violet:#4A148C;--violet-light:#f3e5f5;
+  --teal:#00695C;--teal-light:#e0f2f1;
+  --rouge:#B71C1C;--rouge-light:#ffebee;
+  --bg:#fdf9f6;--text:#1a1a1a;--text-muted:#666;
+  --border:#d7ccc8;--shadow:0 2px 12px rgba(0,0,0,0.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;}
+header{background:linear-gradient(135deg,#3E2723 0%,#5D4037 50%,#795548 100%);color:white;padding:24px 32px 20px;position:sticky;top:0;z-index:100;box-shadow:0 3px 16px rgba(0,0,0,0.3);}
+header h1{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:4px;}
+header p{font-size:.85rem;opacity:.85;}
+.prog-bar{height:4px;background:rgba(255,255,255,.3);border-radius:2px;margin-top:12px;}
+.prog-fill{height:100%;background:#fff;border-radius:2px;transition:width .4s;width:12%;}
+
+.tabs-wrap{background:white;border-bottom:2px solid var(--border);position:sticky;top:96px;z-index:99;overflow-x:auto;}
+.tabs{display:flex;min-width:max-content;}
+.tab{padding:12px 14px;font-size:.78rem;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:var(--text-muted);white-space:nowrap;transition:all .2s;background:none;border-top:none;border-left:none;border-right:none;}
+.tab:hover{color:var(--brun);background:var(--brun-light);}
+.tab.active{color:var(--brun);border-bottom-color:var(--brun);}
+
+.content{max-width:960px;margin:0 auto;padding:20px 20px 60px;}
+.panel{display:none;}.panel.active{display:block;}
+
+/* SOUS-ONGLETS */
+.subtabs-wrap{background:var(--brun-light);border-bottom:1px solid var(--pierre-light);overflow-x:auto;margin-bottom:20px;border-radius:0 0 8px 8px;}
+.subtabs-wrap.ocre{background:var(--ocre-light);border-bottom-color:#ffe082;}
+.subtabs-wrap.teal{background:var(--teal-light);border-bottom-color:#80cbc4;}
+.subtabs{display:flex;min-width:max-content;padding:6px 12px;gap:6px;}
+.subtab{padding:7px 14px;font-size:.78rem;font-weight:600;cursor:pointer;border-radius:20px;color:var(--brun);background:white;border:1.5px solid var(--pierre-light);white-space:nowrap;transition:all .2s;}
+.subtabs-wrap.ocre .subtab{color:var(--ocre);border-color:#ffe082;}
+.subtabs-wrap.teal .subtab{color:var(--teal);border-color:#80cbc4;}
+.subtab:hover,.subtab.active{background:var(--brun);color:white;border-color:var(--brun);}
+.subtabs-wrap.ocre .subtab:hover,.subtabs-wrap.ocre .subtab.active{background:var(--ocre);border-color:var(--ocre);}
+.subtabs-wrap.teal .subtab:hover,.subtabs-wrap.teal .subtab.active{background:var(--teal);border-color:var(--teal);}
+.subpanel{display:none;}.subpanel.active{display:block;}
+
+/* ACCORDEON */
+.ssaccord-item{border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden;}
+.ssaccord-head{padding:12px 18px;font-weight:700;cursor:pointer;background:var(--brun-light);display:flex;justify-content:space-between;align-items:center;transition:background .2s;font-size:.92rem;}
+.ssaccord-head.ocre{background:var(--ocre-light);}
+.ssaccord-head.teal{background:var(--teal-light);}
+.ssaccord-head:hover{background:var(--pierre-light);}
+.ssaccord-head.open{background:var(--brun);color:white;}
+.ssaccord-head.ocre.open{background:var(--ocre);}
+.ssaccord-head.teal.open{background:var(--teal);}
+.ssaccord-body{display:none;padding:18px;background:white;font-size:.9rem;line-height:1.7;}
+.ssaccord-body.open{display:block;}
+.ssaccord-arrow{font-size:1rem;transition:transform .3s;}
+.ssaccord-head.open .ssaccord-arrow{transform:rotate(180deg);}
+
+/* CARDS */
+.card{background:white;border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:var(--shadow);border-left:5px solid var(--brun);}
+.card.ocre{border-left-color:var(--ocre);}
+.card.vert{border-left-color:var(--vert);}
+.card.teal{border-left-color:var(--teal);}
+.card.bleu{border-left-color:var(--bleu);}
+.card.rouge{border-left-color:var(--rouge);}
+h2{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:14px;color:var(--brun);}
+h2.ocre{color:var(--ocre);}
+h2.teal{color:var(--teal);}
+h3{font-size:.97rem;font-weight:700;margin:14px 0 8px;color:var(--text);}
+
+.question-dir{background:linear-gradient(135deg,#3E2723 0%,#5D4037 100%);color:white;padding:14px 18px;border-radius:10px;font-weight:600;margin-bottom:18px;font-size:.95rem;}
+.question-dir.ocre{background:linear-gradient(135deg,#E65100 0%,#F57F17 100%);}
+.question-dir.teal{background:linear-gradient(135deg,#00695C 0%,#00897B 100%);}
+
+.resume-box{background:linear-gradient(135deg,var(--brun-light),var(--ocre-light));border:2px solid var(--brun);border-radius:12px;padding:14px 18px;margin-bottom:16px;font-size:.92rem;line-height:1.7;}
+.resume-box strong{color:var(--brun);}
+.resume-box.teal{background:linear-gradient(135deg,var(--teal-light),var(--vert-light));border-color:var(--teal);}
+.resume-box.teal strong{color:var(--teal);}
+
+.explication{background:var(--brun-light);border-left:4px solid var(--brun);border-radius:0 10px 10px 0;padding:14px 18px;margin:12px 0;font-size:.9rem;line-height:1.7;}
+.explication strong{color:var(--brun);}
+.explication.ocre{background:var(--ocre-light);border-left-color:var(--ocre);}
+.explication.ocre strong{color:var(--ocre);}
+.explication.vert{background:var(--vert-light);border-left-color:var(--vert);}
+.explication.vert strong{color:var(--vert);}
+.explication.bleu{background:var(--bleu-light);border-left-color:var(--bleu);}
+.explication.bleu strong{color:var(--bleu);}
+.explication.teal{background:var(--teal-light);border-left-color:var(--teal);}
+.explication.teal strong{color:var(--teal);}
+.explication.rouge{background:var(--rouge-light);border-left-color:var(--rouge);}
+.explication.rouge strong{color:var(--rouge);}
+
+.retenons{background:var(--ocre-light);border:1.5px solid var(--ocre);border-radius:10px;padding:16px 18px;margin:16px 0;}
+.retenons h4{color:var(--ocre);font-size:.78rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+.retenons p{margin-bottom:5px;font-size:.9rem;}
+.retenons dt{font-weight:700;color:var(--ocre);display:inline;}
+.retenons dd{display:inline;margin-left:4px;}
+
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.87rem;}
+th{background:var(--brun);color:white;padding:10px 12px;text-align:left;}
+th.ocre{background:var(--ocre);}
+th.teal{background:var(--teal);}
+th.vert{background:var(--vert);}
+td{padding:9px 12px;border-bottom:1px solid var(--border);}
+tr:nth-child(even) td{background:var(--brun-light);}
+
+.svgbox{background:white;border-radius:10px;padding:12px;margin:14px 0;text-align:center;border:1px solid var(--border);}
+.svgbox svg{max-width:100%;height:auto;}
+.svgbox figcaption{font-size:.78rem;color:var(--text-muted);margin-top:6px;font-style:italic;}
+
+.info-box{display:flex;gap:12px;align-items:flex-start;background:var(--brun-light);border-radius:10px;padding:14px 16px;margin:12px 0;border-left:4px solid var(--brun);}
+.info-box.vert{background:var(--vert-light);border-left-color:var(--vert);}
+.info-box.bleu{background:var(--bleu-light);border-left-color:var(--bleu);}
+.info-box.ocre{background:var(--ocre-light);border-left-color:var(--ocre);}
+.info-box.rouge{background:var(--rouge-light);border-left-color:var(--rouge);}
+.info-box.teal{background:var(--teal-light);border-left-color:var(--teal);}
+.info-box .icon{font-size:1.4rem;flex-shrink:0;}
+.info-box p{font-size:.88rem;line-height:1.6;}
+
+/* FALAISE SCHEMA */
+.falaise-coupe{display:flex;flex-direction:column;border-radius:10px;overflow:hidden;margin:14px 0;border:2px solid var(--brun);}
+.falaise-sol{background:#8B7355;color:white;padding:8px 16px;font-size:.85rem;font-weight:700;text-align:center;}
+.falaise-strate{padding:12px 16px;font-size:.85rem;border-bottom:1px solid rgba(0,0,0,.1);display:flex;align-items:center;gap:14px;}
+.falaise-strate .st-badge{font-weight:700;font-size:.78rem;padding:3px 8px;border-radius:12px;white-space:nowrap;}
+.falaise-strate .st-info{flex:1;}
+.falaise-strate .st-fossile{font-size:.78rem;font-style:italic;color:var(--text-muted);}
+
+/* CYCLE CALCAIRE INTERACTIF */
+.cycle-container{background:#f5f0eb;border-radius:12px;border:2px solid var(--brun);padding:20px;margin:14px 0;}
+.cycle-btns{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.cycle-btn{padding:8px 14px;border-radius:20px;border:2px solid var(--brun);background:white;color:var(--brun);font-weight:600;font-size:.8rem;cursor:pointer;transition:all .2s;}
+.cycle-btn.active{background:var(--brun);color:white;}
+.cycle-info{background:var(--brun-light);border-radius:10px;padding:14px 16px;margin-top:10px;font-size:.9rem;line-height:1.7;display:none;}
+.cycle-info.active{display:block;}
+
+/* FRISE STRATIGEAPHIQUE */
+.frise-strati{display:flex;flex-direction:column;border-radius:10px;overflow:hidden;margin:14px 0;border:2px solid var(--brun);}
+.frise-ere{cursor:pointer;transition:all .2s;}
+.frise-ere-head{display:flex;align-items:center;gap:0;padding:0;}
+.frise-ere-label{padding:12px 16px;font-weight:700;font-size:.88rem;color:white;min-width:120px;text-align:center;}
+.frise-ere-age{padding:12px 10px;font-size:.78rem;color:white;opacity:.85;min-width:80px;text-align:center;}
+.frise-ere-title{padding:12px 16px;font-size:.9rem;font-weight:600;flex:1;}
+.frise-ere-body{display:none;padding:14px 18px;font-size:.88rem;line-height:1.7;border-top:1px solid rgba(0,0,0,.1);}
+.frise-ere-body.open{display:block;}
+
+/* RECONSTITUTION ANIMEE */
+.reconst-container{background:#f5f0eb;border-radius:12px;border:2px solid var(--brun);padding:20px;margin:14px 0;}
+.reconst-btns{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.reconst-btn{padding:8px 14px;border-radius:20px;border:2px solid var(--brun);background:white;color:var(--brun);font-weight:600;font-size:.8rem;cursor:pointer;transition:all .2s;}
+.reconst-btn.active{background:var(--brun);color:white;}
+.reconst-step{display:none;}.reconst-step.active{display:block;}
+.reconst-desc{background:var(--brun-light);border-radius:10px;padding:14px 16px;margin-top:10px;font-size:.9rem;line-height:1.7;}
+
+/* BILAN ACCORDEON */
+.accord-item{border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden;}
+.accord-head{padding:14px 18px;font-weight:600;cursor:pointer;background:white;display:flex;justify-content:space-between;align-items:center;transition:background .2s;}
+.accord-head:hover{background:var(--brun-light);}
+.accord-head.open{background:var(--brun);color:white;}
+.accord-body{display:none;padding:16px 18px;background:var(--bg);font-size:.9rem;line-height:1.7;}
+.accord-body.open{display:block;}
+.accord-arrow{font-size:1.1rem;transition:transform .3s;}
+.accord-head.open .accord-arrow{transform:rotate(180deg);}
+
+/* EXOS */
+.exo{background:linear-gradient(135deg,#f3e5f5,var(--brun-light));border:2px solid var(--violet);border-radius:12px;padding:20px;margin-top:20px;}
+.exo-title{font-weight:700;color:var(--violet);font-size:.88rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;}
+.exo-q p{margin-bottom:10px;font-size:.93rem;line-height:1.9;}
+select.blank{border:2px solid var(--violet);border-radius:6px;padding:3px 8px;font-size:.88rem;background:white;cursor:pointer;color:var(--violet);font-weight:600;transition:all .2s;}
+select.blank.ok{border-color:#4CAF50;background:#e8f5e9;color:#2E7D32;}
+select.blank.ko{border-color:#f44336;background:#ffebee;color:#c62828;}
+.exo-feedback{font-size:.85rem;padding:8px 12px;border-radius:8px;margin-top:10px;font-weight:600;}
+.exo-feedback.ok{background:#e8f5e9;color:#2E7D32;}
+.exo-feedback.ko{background:#ffebee;color:#c62828;}
+.btn-exo{background:var(--violet);color:white;border:none;padding:9px 20px;border-radius:8px;cursor:pointer;font-weight:700;font-size:.85rem;margin-top:12px;transition:background .2s;}
+.btn-exo:hover{background:#6A1B9A;}
+.btn-reset-exo{background:var(--border);color:var(--text);border:none;padding:9px 16px;border-radius:8px;cursor:pointer;font-weight:600;font-size:.85rem;margin-top:12px;margin-left:8px;}
+
+/* FC & QCM */
+.fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin:16px 0;}
+.fc-card{background:white;border-radius:10px;padding:16px;box-shadow:var(--shadow);border-top:4px solid var(--brun);}
+.fc-phrase{font-size:.92rem;line-height:1.9;margin-bottom:10px;}
+select.fc-select{border:2px solid var(--violet);border-radius:6px;padding:3px 8px;font-size:.85rem;background:white;cursor:pointer;color:var(--violet);font-weight:600;}
+select.fc-select.ok{border-color:#4CAF50;background:#e8f5e9;color:#2E7D32;}
+select.fc-select.ko{border-color:#f44336;background:#ffebee;color:#c62828;}
+.fc-actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+.btn{padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:.88rem;transition:all .2s;}
+.btn-brun{background:var(--brun);color:white;}.btn-brun:hover{background:#3E2723;}
+.btn-grey{background:var(--border);color:var(--text);}.btn-grey:hover{background:#ccc;}
+#fc-score{font-weight:700;font-size:1rem;padding:10px 16px;border-radius:8px;}
+.qcm-item{background:white;border-radius:10px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow);}
+.qcm-q{font-weight:600;margin-bottom:12px;}
+.qcm-opt{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:6px;margin-bottom:6px;cursor:pointer;transition:background .15s;}
+.qcm-opt:hover{background:var(--brun-light);}
+.qcm-opt input{accent-color:var(--brun);}
+.qcm-opt.correct{background:#e8f5e9;border:1.5px solid #4CAF50;}
+.qcm-opt.wrong{background:#ffebee;border:1.5px solid #f44336;}
+#qcm-result{font-size:1.1rem;font-weight:700;padding:14px 20px;border-radius:10px;margin-top:16px;text-align:center;display:none;}
+.acquis-list{list-style:none;display:grid;gap:8px;}
+.acquis-list li{padding:10px 14px;background:var(--brun-light);border-radius:8px;border-left:4px solid var(--brun);font-size:.9rem;}
+.acquis-list li::before{content:"✓ ";color:var(--brun);font-weight:700;}
+.exo-manuel{background:white;border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:var(--shadow);border-left:5px solid var(--teal);}
+.exo-manuel h3{color:var(--teal);font-size:1rem;margin-bottom:14px;}
+.exo-manuel .contexte{background:var(--teal-light);border-radius:8px;padding:12px 16px;margin-bottom:14px;font-size:.9rem;line-height:1.7;border-left:4px solid var(--teal);}
+.chimie-box{background:#fafafa;border:2px solid var(--brun-mid);border-radius:10px;padding:14px 18px;margin:12px 0;text-align:center;}
+.chimie-box .eq{font-size:1rem;font-weight:700;color:var(--brun);font-family:monospace;line-height:2;}
+.chimie-box .note{font-size:.82rem;color:var(--text-muted);margin-top:6px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:14px 0;}
+.geo-box{border-radius:10px;padding:14px;font-size:.88rem;line-height:1.7;}
+@media(max-width:600px){
+  .grid2,.grid3{grid-template-columns:1fr;}
+  header h1{font-size:1.1rem;}
+  .tab{padding:10px 8px;font-size:.72rem;}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Chapitre 1 — Étude d'un Site Géologique Local</h1>
+  <p>1ère Année Secondaire SVT · Partie 3 : Découverte et gestion de notre environnement géologique · Pages 139–163</p>
+  <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+</header>
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab active" onclick="showTab(0)">📚 Acquis</button>
+    <button class="tab" onclick="showTab(1)">🗺️ Act. 1 — Sortie géologique</button>
+    <button class="tab" onclick="showTab(2)">🪨 Act. 2 — Calcaire oolithique</button>
+    <button class="tab" onclick="showTab(3)">🕰️ Act. 3 — Histoire géologique</button>
+    <button class="tab" onclick="showTab(4)">📋 Bilan</button>
+    <button class="tab" onclick="showTab(5)">🃏 Flashcards</button>
+    <button class="tab" onclick="showTab(6)">✏️ QCM</button>
+    <button class="tab" onclick="showTab(7)">📝 Exercices</button>
+  </div>
+</div>
+<div class="content">
+
+<!-- ═══ ACQUIS ═══ -->
+<div class="panel active" id="panel-0">
+  <div class="card">
+    <h2>📚 Acquis du Collège (p.138)</h2>
+    <ul class="acquis-list">
+      <li>La partie superficielle du globe = <strong>sous-sol de roches</strong> + sol de faible épaisseur</li>
+      <li>Les <strong>roches sédimentaires</strong> sont disposées en <strong>couches superposées et parallèles</strong> = stratifiées</li>
+      <li>À la surface du globe, les roches subissent l'<strong>érosion</strong> : vent · mer · eaux de ruissellement</li>
+      <li>Formation d'une roche sédimentaire = <strong>érosion → transport → sédimentation → diagenèse</strong></li>
+      <li>Propriétés physico-chimiques d'une roche : aspect · dureté · perméabilité · solubilité</li>
+      <li>Les roches sédimentaires sont utilisées dans : <strong>construction</strong> · agriculture · autres domaines</li>
+    </ul>
+  </div>
+  <div class="card ocre">
+    <h2 class="ocre">❓ Questions directrices du chapitre</h2>
+    <ol style="margin-left:18px;line-height:2.2">
+      <li>Comment <strong>lire</strong> le sous-sol lors d'une sortie géologique ?</li>
+      <li>Comment étudier <strong>une roche sédimentaire</strong> pour reconstituer l'histoire de sa formation ?</li>
+      <li>Comment <strong>reconstituer l'histoire géologique</strong> d'un site à partir des observations ?</li>
+    </ol>
+  </div>
+  <div class="card teal">
+    <h2 class="teal">🗺️ Plan du chapitre — 3 activités</h2>
+    <table>
+      <tr><th class="teal">Activité</th><th class="teal">Titre</th><th class="teal">Sites / Concepts</th><th class="teal">Pages</th></tr>
+      <tr><td><strong>1</strong></td><td>Sortie géologique</td><td>Falaise Sidi Mhareb (Monastir) · Falaise Ras Amer (Kerkenah)</td><td>140–144</td></tr>
+      <tr><td><strong>2</strong></td><td>Étude du calcaire oolithique</td><td>Propriétés physico-chimiques · Fossiles · Histoire de la roche · Autres calcaires tunisiens</td><td>145–151</td></tr>
+      <tr><td><strong>3</strong></td><td>Reconstitution de l'histoire géologique</td><td>Principe des causes actuelles · Faciès · Tectonique · Stratigraphie Tunisie · Histoires de Sidi Mhareb et Ras Amer</td><td>152–159</td></tr>
+    </table>
+    <div class="info-box ocre" style="margin-top:12px">
+      <div class="icon">🎯</div>
+      <p><strong>Concept clé de tout ce chapitre :</strong> "La Terre a une histoire que l'on peut lire dans les roches". En observant les roches, leur disposition, leurs fossiles, on peut reconstituer ce qui s'est passé il y a des millions d'années — comme un livre ouvert sur le passé.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ACTIVITE 1 ═══ -->
+<div class="panel" id="panel-1">
+  <div class="question-dir">🗺️ Activité 1 — Sortie Géologique (p.140–144)<br>
+  <span style="font-weight:400;font-size:.88rem">But : observer des roches du sous-sol et recueillir des informations pour retracer l'histoire géologique du site.</span></div>
+  <div class="subtabs-wrap">
+    <div class="subtabs">
+      <button class="subtab active" onclick="showSubTab(1,0)">📍 Sidi Mhareb — Monastir</button>
+      <button class="subtab" onclick="showSubTab(1,1)">📍 Ras Amer — Kerkenah</button>
+      <button class="subtab" onclick="showSubTab(1,2)">📖 Vocabulaire géologique</button>
+      <button class="subtab" onclick="showSubTab(1,3)">✏️ Exercice</button>
+    </div>
+  </div>
+
+  <!-- SIDI MHAREB -->
+  <div class="subpanel active" id="sub-1-0">
+    <div class="card">
+      <h2>📍 Site 1 — Falaise de Sidi Mhareb à Monastir (p.140–142)</h2>
+      <div class="resume-box">
+        <strong>En résumé :</strong> une falaise de 20 m présentant <strong>2 séries de roches non parallèles</strong> — une superposition anormale qui révèle une discontinuité de sédimentation. La série inférieure (miocène, plissée) est recouverte en discordance par la série supérieure (quaternaire, horizontale). Ces deux séries racontent deux époques très différentes séparées par un plissement et une longue émersion.
+      </div>
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" onclick="toggleSSAccord(this)">1.1 — Cadre géographique de Monastir <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="grid2">
+            <div>
+              <p>Monastir est située à <strong>~20 km au S.SE de Sousse</strong>. C'est une <strong>presqu'île triangulaire</strong> à pointe dirigée vers le Sud (côté Khnis). Elle est bordée par la mer au Nord et à l'Est, limitée à l'Ouest par une vaste <strong>Sebkha</strong>.</p>
+              <p style="margin-top:10px">Le littoral Nord présente une <strong>falaise littorale de 5 km de long</strong>, d'une hauteur variable de quelques mètres à 20 m. La presqu'île forme un vaste plateau qui s'incline de Jemaa Kortine (39 m) vers le Nord et le Sud.</p>
+            </div>
+            <div class="svgbox">
+              <svg viewBox="0 0 260 200" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+                <text x="130" y="18" text-anchor="middle" font-size="11" font-weight="700" fill="#4E342E">Localisation — Monastir</text>
+                <!-- Mer -->
+                <rect x="0" y="25" width="260" height="175" fill="#BBDEFB"/>
+                <text x="200" y="60" font-size="10" fill="#1565C0">MER</text>
+                <text x="200" y="72" font-size="10" fill="#1565C0">MÉDITERRANÉE</text>
+                <!-- Terre -->
+                <path d="M10 80 Q40 70 80 75 Q120 65 140 90 Q160 110 130 150 Q100 175 60 165 Q20 155 10 120 Z" fill="#D7CCC8" stroke="#795548" stroke-width="1.5"/>
+                <text x="75" y="115" text-anchor="middle" font-size="9" fill="#4E342E" font-weight="700">Monastir</text>
+                <!-- Sebkha -->
+                <path d="M10 80 Q10 95 25 100 Q10 110 10 120" fill="none" stroke="#90CAF9" stroke-width="2" stroke-dasharray="3,2"/>
+                <text x="5" y="102" font-size="8" fill="#1565C0">Sebkha</text>
+                <!-- Falaise -->
+                <line x1="85" y1="68" x2="140" y2="88" stroke="#4E342E" stroke-width="3"/>
+                <text x="105" y="60" font-size="8" fill="#4E342E" font-weight="700">Falaise</text>
+                <text x="105" y="70" font-size="8" fill="#4E342E">Sidi Mhareb</text>
+                <!-- Khnis -->
+                <text x="120" y="148" font-size="8" fill="#4E342E">Khnis ↓</text>
+                <!-- Sousse -->
+                <text x="150" y="30" font-size="9" fill="#555">↑ Sousse (~20 km)</text>
+                <!-- Nord -->
+                <text x="230" y="35" font-size="11" fill="#333">N↑</text>
+              </svg>
+              <figcaption>Carte simplifiée de la presqu'île de Monastir</figcaption>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" onclick="toggleSSAccord(this)">1.2 — Description de la falaise : 2 séries non parallèles <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="explication">
+            <strong>Pourquoi 2 séries "non parallèles" est-il fondamental ?</strong> Dans une sédimentation normale et continue, toutes les couches seraient parallèles entre elles. Si deux séries ne sont pas parallèles, c'est qu'il y a eu une <strong>interruption de la sédimentation</strong> (émersion + érosion + plissement) entre les deux dépôts. C'est ce qu'on appelle une <strong>discordance</strong> — la clé pour reconstituer l'histoire du site.
+          </div>
+          <div class="svgbox">
+            <svg viewBox="0 0 580 240" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="290" y="18" text-anchor="middle" font-size="13" font-weight="700" fill="#4E342E">Coupe schématique de la falaise de Sidi Mhareb (20 m)</text>
+              <!-- Sol -->
+              <rect x="20" y="28" width="540" height="18" fill="#8B7355"/>
+              <text x="290" y="42" text-anchor="middle" font-size="10" fill="white" font-weight="600">Sol (faible épaisseur) + végétation</text>
+              <!-- Série supérieure : calcaire oolithique HORIZONTAL -->
+              <rect x="20" y="46" width="540" height="45" fill="#FFECB3" stroke="#F9A825" stroke-width="1.5"/>
+              <text x="290" y="65" text-anchor="middle" font-size="11" font-weight="700" fill="#E65100">SÉRIE SUPÉRIEURE — Calcaire oolithique (HORIZONTAL)</text>
+              <text x="290" y="80" text-anchor="middle" font-size="10" fill="#555">🦺 Fossiles : Strombes + Cardiums → Faciès marin peu profond · Âge : Quaternaire (Tyrrhénien)</text>
+              <!-- Ligne discordance -->
+              <line x1="20" y1="91" x2="560" y2="91" stroke="#B71C1C" stroke-width="2.5" stroke-dasharray="8,4"/>
+              <text x="290" y="88" text-anchor="middle" font-size="9" fill="#B71C1C" font-weight="700">— — SURFACE DE DISCORDANCE — —</text>
+              <!-- Série inférieure : argile + grès INCLINÉE à 40° -->
+              <!-- Couches inclinées simulées -->
+              <g opacity=".9">
+                <path d="M20 95 L560 95 L560 110 L20 130 Z" fill="#A5D6A7" stroke="#2E7D32" stroke-width="1"/>
+                <text x="290" y="125" text-anchor="middle" font-size="9" fill="#1b5e20">Argile verte</text>
+                <path d="M20 130 L560 110 L560 125 L20 148 Z" fill="#BCAAA4" stroke="#795548" stroke-width="1"/>
+                <text x="290" y="143" text-anchor="middle" font-size="9" fill="#4E342E">Grès brun (bancs durs)</text>
+                <path d="M20 148 L560 125 L560 138 L20 162 Z" fill="#A5D6A7" stroke="#2E7D32" stroke-width="1"/>
+                <text x="290" y="157" text-anchor="middle" font-size="9" fill="#1b5e20">Argile rouge</text>
+                <path d="M20 162 L560 138 L560 150 L20 172 Z" fill="#424242" stroke="#333" stroke-width="1" opacity=".6"/>
+                <text x="290" y="168" text-anchor="middle" font-size="9" fill="white">Lignite (charbon fossile)</text>
+                <path d="M20 172 L560 150 L560 162 L20 185 Z" fill="#BCAAA4" stroke="#795548" stroke-width="1"/>
+                <text x="290" y="180" text-anchor="middle" font-size="9" fill="#4E342E">Grès brun + gypse dans les fentes</text>
+                <path d="M20 185 L560 162 L560 178 L20 200 Z" fill="#A5D6A7" stroke="#2E7D32" stroke-width="1"/>
+                <text x="290" y="195" text-anchor="middle" font-size="9" fill="#1b5e20">Argile verte</text>
+              </g>
+              <rect x="20" y="200" width="540" height="35" fill="#BCAAA4" stroke="#795548" stroke-width="1" opacity=".4"/>
+              <!-- Labels -->
+              <rect x="20" y="95" width="60" height="140" fill="rgba(78,52,46,0.08)"/>
+              <text x="10" y="165" font-size="9" fill="#4E342E" font-weight="700" transform="rotate(-90,10,165)">SÉRIE INFÉRIEURE (pendage 40°)</text>
+              <!-- Fossiles série inf -->
+              <text x="60" y="215" font-size="9" fill="#555">🦺 Fossiles : Ostréas · Pectens · Turitelles → Faciès marin peu profond · Âge : Miocène</text>
+              <!-- Flèche pendage -->
+              <path d="M530 95 L530 165" stroke="#B71C1C" stroke-width="1.5" stroke-dasharray="3,2"/>
+              <path d="M530 165 L500 165" stroke="#B71C1C" stroke-width="1.5"/>
+              <text x="540" y="132" font-size="9" fill="#B71C1C" font-weight="700">40°</text>
+              <!-- Morphologie -->
+              <text x="580" y="110" font-size="9" fill="#795548">Grès → saillant</text>
+              <text x="580" y="135" font-size="9" fill="#2E7D32">Argile → rigoles</text>
+            </svg>
+            <figcaption>Fig. 1 — Coupe de la falaise de Sidi Mhareb : discordance entre série inférieure (miocène, plissée) et série supérieure (quaternaire, horizontale)</figcaption>
+          </div>
+          <div class="grid2">
+            <div style="background:var(--ocre-light);border:2px solid var(--ocre);border-radius:10px;padding:14px;">
+              <h4 style="color:var(--ocre);margin-bottom:8px;">Série SUPÉRIEURE (horizontale)</h4>
+              <ul style="margin-left:14px;font-size:.87rem;line-height:1.9">
+                <li><strong>Nature :</strong> calcaire oolithique fissuré</li>
+                <li><strong>Position :</strong> horizontale</li>
+                <li><strong>Fossiles :</strong> strombes + cardiums</li>
+                <li><strong>Faciès :</strong> marin peu profond, chaud</li>
+                <li><strong>Âge :</strong> Quaternaire (Tyrrhénien)</li>
+                <li><strong>Morphologie :</strong> parties saillantes ET creusées</li>
+              </ul>
+            </div>
+            <div style="background:var(--brun-light);border:2px solid var(--brun);border-radius:10px;padding:14px;">
+              <h4 style="color:var(--brun);margin-bottom:8px;">Série INFÉRIEURE (inclinée 40°)</h4>
+              <ul style="margin-left:14px;font-size:.87rem;line-height:1.9">
+                <li><strong>Nature :</strong> argiles vertes/rouges + grès brun + lignite + gypse</li>
+                <li><strong>Position :</strong> inclinée (pendage 40°) → plissée</li>
+                <li><strong>Fossiles :</strong> ostréas + pectens + turitelles</li>
+                <li><strong>Faciès :</strong> marin peu profond</li>
+                <li><strong>Âge :</strong> Miocène</li>
+                <li><strong>Morphologie :</strong> grès saillants / argiles creusées en rigoles</li>
+              </ul>
+            </div>
+          </div>
+          <div class="explication rouge">
+            <strong>Pourquoi les grès sont saillants et les argiles creusées ?</strong> C'est une question de <strong>dureté</strong>. Le grès est une roche dure, résistante à l'érosion → il forme des reliefs saillants. L'argile est tendre et friable → elle s'érode plus vite et forme des creux (rigoles). Ce modelé différentiel est visible partout où deux roches de dureté différente affleurent ensemble.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice — Falaise de Sidi Mhareb</div>
+      <div class="exo-q" id="exo-smh-q">
+        <p>1. La falaise de Sidi Mhareb présente <select class="blank" data-rep="deux séries non parallèles (discordance)"><option value="">—</option><option>une seule série de strates parallèles</option><option>deux séries non parallèles (discordance)</option><option>trois séries horizontales</option></select>, ce qui indique une <select class="blank" data-rep="discontinuité de sédimentation"><option value="">—</option><option>sédimentation continue</option><option>discontinuité de sédimentation</option></select> entre les deux dépôts.</p>
+        <p>2. La série inférieure a un pendage de <select class="blank" data-rep="40°"><option value="">—</option><option>10°</option><option>40°</option><option>90°</option></select>, ce qui signifie qu'elle a subi un <select class="blank" data-rep="plissement tectonique"><option value="">—</option><option>dépôt incliné</option><option>plissement tectonique</option><option>glissement de terrain</option></select> après son dépôt.</p>
+        <p>3. Dans la série inférieure, les <select class="blank" data-rep="bancs de grès"><option value="">—</option><option>couches d'argile</option><option>bancs de grès</option><option>lits de lignite</option></select> forment des saillies car ce sont des roches <select class="blank" data-rep="dures et résistantes à l'érosion"><option value="">—</option><option>tendres et friables</option><option>dures et résistantes à l'érosion</option></select>.</p>
+        <p>4. Les fossiles de <select class="blank" data-rep="strombes et cardiums"><option value="">—</option><option>ostréas et pectens</option><option>strombes et cardiums</option><option>nummulites</option></select> trouvés dans la série supérieure indiquent un faciès <select class="blank" data-rep="marin peu profond et chaud"><option value="">—</option><option>marin profond</option><option>continental</option><option>marin peu profond et chaud</option></select> d'âge <select class="blank" data-rep="Quaternaire (Tyrrhénien)"><option value="">—</option><option>Miocène</option><option>Éocène</option><option>Quaternaire (Tyrrhénien)</option></select>.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-smh')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-smh')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-smh-fb"></div>
+    </div>
+  </div>
+
+  <!-- RAS AMER -->
+  <div class="subpanel" id="sub-1-1">
+    <div class="card">
+      <h2>📍 Site 2 — Falaise de Ras Amer à Kerkenah (p.143–144)</h2>
+      <div class="resume-box">
+        <strong>En résumé :</strong> une petite falaise de seulement 2 m, mais extraordinairement riche en informations. Ses <strong>3 strates</strong> racontent 2 cycles sédimentaires complets du Quaternaire : mer → terre → mer. La strate médiane à Hélix (escargot terrestre) est la clé de la régression. La dureté différentielle explique le modelé : calcaires saillants / silts creusés.
+      </div>
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" onclick="toggleSSAccord(this)">Cadre géographique des îles Kerkenah <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="grid2">
+            <ul style="margin-left:16px;font-size:.88rem;line-height:1.9">
+              <li>Situées au <strong>NE du golfe de Gabès</strong>, à 20 km de Sfax</li>
+              <li>Archipel : 2 grandes îles + 6 petites + dizaine d'îlots</li>
+              <li><strong>161 km de côtes</strong> · superficie totale 15 700 ha</li>
+              <li><strong>37%</strong> de la superficie occupée par des sebkhas</li>
+              <li>Relief très plat : <strong>90% des terres < 5 m d'altitude</strong></li>
+              <li>La falaise de Ras Amer est située sur l'île de Gharbia</li>
+            </ul>
+            <div class="explication ocre">
+              <strong>Pourquoi les îles Kerkenah sont-elles si plates ?</strong> Elles sont constituées de roches sédimentaires tendres (argiles, silts) et de calcaires quaternaires peu épais. L'érosion marine a aplani le relief. La faible altitude explique aussi leur vulnérabilité à la montée des eaux.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ssaccord-item">
+        <div class="ssaccord-head" onclick="toggleSSAccord(this)">Description détaillée des 3 strates <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="svgbox">
+            <svg viewBox="0 0 580 200" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="290" y="18" text-anchor="middle" font-size="13" font-weight="700" fill="#4E342E">Coupe schématique de la falaise de Ras Amer (2 m)</text>
+              <!-- Sol -->
+              <rect x="20" y="28" width="540" height="14" fill="#8B7355"/>
+              <text x="290" y="40" text-anchor="middle" font-size="9" fill="white">Sol de faible épaisseur</text>
+              <!-- Strate 1 : calcaire coquiller -->
+              <rect x="20" y="42" width="540" height="38" fill="#FFECB3" stroke="#F9A825" stroke-width="1.5"/>
+              <text x="130" y="58" text-anchor="middle" font-size="10" font-weight="700" fill="#E65100">Strate 1</text>
+              <text x="130" y="71" text-anchor="middle" font-size="9" fill="#555">Calcaire coquiller</text>
+              <text x="360" y="58" text-anchor="middle" font-size="9" fill="#555">🐚 Mollusques marins · 50 cm · Néotyrrhénien</text>
+              <text x="360" y="71" text-anchor="middle" font-size="9" fill="#E65100">Faciès MARIN peu profond → SAILLANT (roche dure)</text>
+              <!-- Strate 2 : argile silteuse -->
+              <rect x="20" y="80" width="540" height="40" fill="#C8E6C9" stroke="#2E7D32" stroke-width="1.5"/>
+              <text x="130" y="97" text-anchor="middle" font-size="10" font-weight="700" fill="#2E7D32">Strate 2</text>
+              <text x="130" y="110" text-anchor="middle" font-size="9" fill="#555">Argile silteuse</text>
+              <text x="360" y="97" text-anchor="middle" font-size="9" fill="#555">🐌 Hélix (escargot terrestre) · 80 cm · Tyrrhénien</text>
+              <text x="360" y="110" text-anchor="middle" font-size="9" fill="#2E7D32">Faciès CONTINENTAL → CREUSÉ (roche tendre friable)</text>
+              <!-- Strate 3 : calcaire oolithique -->
+              <rect x="20" y="120" width="540" height="55" fill="#BCAAA4" stroke="#795548" stroke-width="1.5"/>
+              <text x="130" y="142" text-anchor="middle" font-size="10" font-weight="700" fill="#4E342E">Strate 3</text>
+              <text x="130" y="157" text-anchor="middle" font-size="9" fill="#555">Calcaire oolithique + lumachelle</text>
+              <text x="360" y="140" text-anchor="middle" font-size="9" fill="#555">🐚 Strombes (marins) + coquilles brisées · 80 cm</text>
+              <text x="360" y="153" text-anchor="middle" font-size="9" fill="#555">Eutyrrhénien (début quaternaire)</text>
+              <text x="360" y="166" text-anchor="middle" font-size="9" fill="#4E342E">Faciès MARIN peu profond → SAILLANT (roche dure)</text>
+              <!-- Éboulis -->
+              <text x="290" y="188" text-anchor="middle" font-size="9" fill="#555">⬇ Éboulis au pied de la falaise (blocs, galets, graviers) = érosion actuelle</text>
+              <!-- Flèche hauteur -->
+              <line x1="12" y1="42" x2="12" y2="175" stroke="#4E342E" stroke-width="1.5" marker-start="url(#s1)" marker-end="url(#e1)"/>
+              <defs>
+                <marker id="s1" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M6,0 L0,3 L6,6 Z" fill="#4E342E"/></marker>
+                <marker id="e1" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#4E342E"/></marker>
+              </defs>
+              <text x="5" y="112" font-size="9" fill="#4E342E" font-weight="700" transform="rotate(-90,5,112)">2 m</text>
+            </svg>
+            <figcaption>Fig. 2 — Coupe de la falaise de Ras Amer : 3 strates racontant 2 cycles sédimentaires (mer → terre → mer)</figcaption>
+          </div>
+          <div class="info-box teal">
+            <div class="icon">🔑</div>
+            <p><strong>La strate 2 à Hélix est la clé !</strong> L'Hélix est un <em>gastéropode terrestre</em> (escargot). Sa présence dans la strate 2 prouve que la région était <strong>émergée</strong> (terre ferme) pendant le Tyrrhénien → faciès continental. C'est la preuve d'une régression marine entre les deux transgressions quaternaires.</p>
+          </div>
+          <table>
+            <tr><th>Strate</th><th>Nature</th><th>Fossile</th><th>Faciès</th><th>Âge</th><th>Morphologie</th></tr>
+            <tr><td><strong>1</strong> (sommet)</td><td>Calcaire coquiller · 50 cm</td><td>Mollusques marins</td><td>✅ Marin peu profond</td><td>Néotyrrhénien</td><td>Saillant (dur)</td></tr>
+            <tr><td><strong>2</strong> (milieu)</td><td>Argile silteuse · 80 cm</td><td>🐌 Hélix (terrestre)</td><td>🌍 Continental</td><td>Tyrrhénien</td><td>Creusé (tendre)</td></tr>
+            <tr><td><strong>3</strong> (base)</td><td>Calcaire oolithique + lumachelle · 80 cm</td><td>🐚 Strombes (marins) + brisés</td><td>✅ Marin peu profond</td><td>Eutyrrhénien</td><td>Saillant (dur)</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice — Falaise de Ras Amer</div>
+      <div class="exo-q" id="exo-ras-q">
+        <p>1. La falaise de Ras Amer est constituée de <select class="blank" data-rep="3 strates légèrement plissées"><option value="">—</option><option>2 séries discordantes</option><option>3 strates légèrement plissées</option><option>4 strates horizontales parfaites</option></select>. La strate la plus ancienne est <select class="blank" data-rep="la strate 3 (à la base)"><option value="">—</option><option>la strate 1 (au sommet)</option><option>la strate 3 (à la base)</option><option>la strate 2 (au milieu)</option></select>.</p>
+        <p>2. La strate 2 renferme des fossiles de <select class="blank" data-rep="Hélix (gastéropode terrestre = escargot)"><option value="">—</option><option>Strombes (mollusques marins)</option><option>Hélix (gastéropode terrestre = escargot)</option><option>Cardiums (mollusques marins)</option></select>. Ces fossiles indiquent un faciès <select class="blank" data-rep="continental (la région était émergée)"><option value="">—</option><option>marin peu profond</option><option>marin profond</option><option>continental (la région était émergée)</option></select> → preuve d'une <select class="blank" data-rep="régression marine"><option value="">—</option><option>transgression marine</option><option>régression marine</option></select>.</p>
+        <p>3. La strate 1 (calcaire) est <select class="blank" data-rep="saillante"><option value="">—</option><option>creusée</option><option>saillante</option></select> car c'est une roche <select class="blank" data-rep="dure et résistante à l'érosion"><option value="">—</option><option>tendre et friable</option><option>dure et résistante à l'érosion</option></select>, tandis que la strate 2 (argile silteuse) est <select class="blank" data-rep="creusée"><option value="">—</option><option>saillante</option><option>creusée</option></select> car elle est <select class="blank" data-rep="friable et tendre"><option value="">—</option><option>dure et imperméable</option><option>friable et tendre</option></select>.</p>
+        <p>4. En comparant Sidi Mhareb et Ras Amer, la différence principale est : Sidi Mhareb présente une <select class="blank" data-rep="discordance (2 séries non parallèles)"><option value="">—</option><option>concordance parfaite</option><option>discordance (2 séries non parallèles)</option></select>, tandis que Ras Amer présente <select class="blank" data-rep="2 cycles sédimentaires dans des strates parallèles"><option value="">—</option><option>une seule série plissée à 40°</option><option>2 cycles sédimentaires dans des strates parallèles</option></select>.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-ras')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-ras')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-ras-fb"></div>
+    </div>
+  </div>
+
+  <!-- VOCABULAIRE -->
+  <div class="subpanel" id="sub-1-2">
+    <div class="card">
+      <h2>📖 Vocabulaire géologique fondamental</h2>
+      <div class="grid2">
+        <div>
+          <div class="ssaccord-item">
+            <div class="ssaccord-head" onclick="toggleSSAccord(this)">🪨 Roche, Minéral, Cristal <span class="ssaccord-arrow">▼</span></div>
+            <div class="ssaccord-body">
+              <p><strong>Roche :</strong> assemblage de minéraux formé naturellement. Les roches constituent l'écorce terrestre. Ex : calcaire, grès, argile.</p>
+              <p style="margin-top:8px"><strong>Minéral :</strong> espèce chimique naturelle composant une roche, caractérisée par ses propriétés physico-chimiques. Ex : quartz, calcite, gypse.</p>
+              <p style="margin-top:8px"><strong>Cristal :</strong> matière naturelle solide à forme géométrique régulière. La plupart sont des polycristaux (assemblage de cristaux de tailles différentes).</p>
+            </div>
+          </div>
+          <div class="ssaccord-item">
+            <div class="ssaccord-head" onclick="toggleSSAccord(this)">📏 Strate, Affleurement, Pendage <span class="ssaccord-arrow">▼</span></div>
+            <div class="ssaccord-body">
+              <p><strong>Strate :</strong> couche de terrain sédimentaire délimitée par deux surfaces parallèles. Elle se distingue par sa nature (calcaire, argile…), son épaisseur et ses fossiles.</p>
+              <p style="margin-top:8px"><strong>Affleurement :</strong> strate qui devient visible en surface, soit naturellement (érosion) soit par l'action de l'homme (carrière, tranchée, mine). Les falaises sont des affleurements naturels.</p>
+              <p style="margin-top:8px"><strong>Pendage :</strong> angle d'inclinaison d'une couche plissée par rapport à l'horizontale. Un pendage de 40° signifie que la couche s'incline de 40° par rapport à l'horizontale. Un pendage de 0° = couche horizontale.</p>
+            </div>
+          </div>
+          <div class="ssaccord-item">
+            <div class="ssaccord-head" onclick="toggleSSAccord(this)">🦴 Fossile, Falaise <span class="ssaccord-arrow">▼</span></div>
+            <div class="ssaccord-body">
+              <p><strong>Fossile :</strong> reste ou empreinte d'organismes (entiers ou partiels) conservés dans des dépôts sédimentaires. Ils peuvent être : corps entier (mammouth), parties dures (coquilles, dents), moules internes/externes, traces d'activité (coprolithes, empreintes de pas).</p>
+              <p style="margin-top:8px"><strong>Falaise :</strong> relief en pente abrupte situé sur la côte. C'est un affleurement naturel créé par l'érosion marine qui découpe le sous-sol et permet d'observer les roches et les strates.</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="svgbox">
+            <svg viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="140" y="18" text-anchor="middle" font-size="11" font-weight="700" fill="#4E342E">Vocabulaire illustré</text>
+              <!-- Sol -->
+              <rect x="10" y="25" width="260" height="15" fill="#8B7355"/>
+              <text x="140" y="37" text-anchor="middle" font-size="9" fill="white">Sol</text>
+              <!-- Affleurement label -->
+              <text x="245" y="45" font-size="8" fill="#E65100" font-weight="600">Affleurement</text>
+              <!-- Strates -->
+              <rect x="10" y="40" width="260" height="30" fill="#FFECB3" stroke="#F9A825"/>
+              <text x="75" y="60" text-anchor="middle" font-size="9" fill="#555">Strate A (la plus récente)</text>
+              <rect x="10" y="70" width="260" height="30" fill="#BCAAA4" stroke="#795548"/>
+              <text x="75" y="90" text-anchor="middle" font-size="9" fill="#555">Strate B</text>
+              <rect x="10" y="100" width="260" height="30" fill="#A5D6A7" stroke="#2E7D32"/>
+              <text x="75" y="120" text-anchor="middle" font-size="9" fill="#555">Strate C</text>
+              <rect x="10" y="130" width="260" height="30" fill="#90CAF9" stroke="#1565C0"/>
+              <text x="75" y="150" text-anchor="middle" font-size="9" fill="#555">Strate D (la plus ancienne)</text>
+              <!-- Principe superposition -->
+              <text x="200" y="85" font-size="8" fill="#B71C1C" font-weight="600">A > B > C > D</text>
+              <text x="200" y="96" font-size="8" fill="#B71C1C">(du + récent au</text>
+              <text x="200" y="107" font-size="8" fill="#B71C1C">+ ancien)</text>
+              <!-- Fossile -->
+              <ellipse cx="50" cy="115" rx="10" ry="6" fill="none" stroke="#4E342E" stroke-width="1.5"/>
+              <text x="50" y="172" text-anchor="middle" font-size="8" fill="#4E342E">Fossile</text>
+              <line x1="50" y1="121" x2="50" y2="165" stroke="#4E342E" stroke-width="1" stroke-dasharray="2,2"/>
+              <!-- Pendage -->
+              <text x="140" y="185" text-anchor="middle" font-size="10" font-weight="700" fill="#4E342E">Pendage illustré</text>
+              <!-- Couches inclinées -->
+              <path d="M10 195 L270 215" stroke="#FFECB3" stroke-width="12" fill="none"/>
+              <path d="M10 210 L270 230" stroke="#BCAAA4" stroke-width="12" fill="none"/>
+              <path d="M10 225 L270 245" stroke="#A5D6A7" stroke-width="12" fill="none"/>
+              <!-- Angle pendage -->
+              <line x1="80" y1="200" x2="80" y2="240" stroke="#333" stroke-width="1" stroke-dasharray="3,2"/>
+              <path d="M80 210 Q90 206 96 212" fill="none" stroke="#B71C1C" stroke-width="1.5"/>
+              <text x="98" y="210" font-size="9" fill="#B71C1C" font-weight="700">40°</text>
+              <text x="140" y="260" text-anchor="middle" font-size="9" fill="#555">Couches plissées (pendage 40°)</text>
+              <!-- Discordance -->
+              <text x="140" y="280" text-anchor="middle" font-size="10" font-weight="700" fill="#4E342E">Discordance</text>
+              <line x1="10" y1="295" x2="270" y2="295" stroke="#B71C1C" stroke-width="2.5" stroke-dasharray="6,3"/>
+              <text x="140" y="308" text-anchor="middle" font-size="9" fill="#B71C1C">Surface de discordance = discontinuité</text>
+            </svg>
+            <figcaption>Vocabulaire géologique illustré : strates, pendage, fossile, discordance</figcaption>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO GLOBAL ACT1 -->
+  <div class="subpanel" id="sub-1-3">
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice global — Sortie géologique</div>
+      <div class="exo-q" id="exo-act1-q">
+        <p>1. Une sortie géologique a pour but d'observer des roches du sous-sol pour <select class="blank" data-rep="retracer l'histoire géologique du site"><option value="">—</option><option>collecter des minéraux précieux</option><option>retracer l'histoire géologique du site</option><option>mesurer la température du sol</option></select>. Les informations sont recueillies en observant les <select class="blank" data-rep="roches, leur disposition, leur succession et leurs fossiles"><option value="">—</option><option>plantes qui poussent sur le sol uniquement</option><option>roches, leur disposition, leur succession et leurs fossiles</option></select>.</p>
+        <p>2. Le <strong>principe de superposition</strong> stipule qu'une strate est <select class="blank" data-rep="plus récente que celle qu'elle recouvre"><option value="">—</option><option>plus ancienne que celle qu'elle recouvre</option><option>plus récente que celle qu'elle recouvre</option><option>contemporaine de toutes les strates voisines</option></select>.</p>
+        <p>3. La présence de <strong>lignite</strong> (charbon fossile) dans la série inférieure de Sidi Mhareb indique que des <select class="blank" data-rep="végétaux ont été enfouis et transformés"><option value="">—</option><option>animaux marins ont été fossilisés</option><option>végétaux ont été enfouis et transformés</option><option>sédiments marins se sont calcifiés</option></select> dans le passé.</p>
+        <p>4. La différence de hauteur entre les deux falaises (Sidi Mhareb = 20 m vs Ras Amer = 2 m) s'explique par <select class="blank" data-rep="la nature et l'épaisseur des roches déposées"><option value="">—</option><option>la profondeur de la mer au moment du dépôt</option><option>la nature et l'épaisseur des roches déposées</option><option>la distance par rapport à la côte</option></select>.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-act1')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-act1')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-act1-fb"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ACTIVITE 2 ═══ -->
+<div class="panel" id="panel-2">
+  <div class="question-dir ocre">🪨 Activité 2 — Étude du Calcaire Oolithique (p.145–151)<br>
+  <span style="font-weight:400;font-size:.88rem">L'étude des caractères d'une roche sédimentaire permet de reconstituer l'histoire de sa formation et d'expliquer le modelé du relief.</span></div>
+  <div class="subtabs-wrap ocre">
+    <div class="subtabs">
+      <button class="subtab active" onclick="showSubTab(2,0)">🔬 Propriétés physiques</button>
+      <button class="subtab" onclick="showSubTab(2,1)">⚗️ Propriétés chimiques</button>
+      <button class="subtab" onclick="showSubTab(2,2)">🦴 Fossiles & Histoire</button>
+      <button class="subtab" onclick="showSubTab(2,3)">🗺️ Autres calcaires tunisiens</button>
+      <button class="subtab" onclick="showSubTab(2,4)">✏️ Exercice</button>
+    </div>
+  </div>
+
+  <!-- PROPRIETES PHYSIQUES -->
+  <div class="subpanel active" id="sub-2-0">
+    <div class="card ocre">
+      <h2 class="ocre">🔬 Propriétés physiques du calcaire oolithique (p.145–146)</h2>
+      <div class="resume-box">
+        <strong>En résumé :</strong> le calcaire oolithique est formé de petites sphères appelées <strong>oolithes</strong> cimentées ensemble. C'est une roche <strong>dure</strong>, <strong>poreuse</strong> mais <strong>imperméable à l'échelle de l'échantillon</strong>. Sa dureté explique sa forme saillante dans la nature. Sa perméabilité en grand (due aux fissures) explique la dissolution et les phénomènes karstiques.
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head ocre" onclick="toggleSSAccord(this)">2.1.1 — Aspect : les oolithes (structure microscopique) <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="grid2">
+            <div>
+              <p><strong>À l'œil nu :</strong> roche compacte, de couleur blanchâtre, formée de grains sphériques de 0,5 à 2 mm → les <strong>oolithes</strong>. Ils sont réunis par un <strong>ciment calcaire</strong>.</p>
+              <p style="margin-top:10px"><strong>À la lame mince (microscope) :</strong> chaque oolithe est formée d'<strong>enveloppes successives de calcaire</strong> (concentriques) entourant un noyau qui peut être un grain de quartz ou un fragment de coquille.</p>
+              <div class="explication ocre" style="margin-top:10px">
+                <strong>Pourquoi ce nom "oolithe" ?</strong> Du grec <em>oon</em> (œuf) et <em>lithos</em> (pierre). En effet, une oolithe ressemble à un petit œuf en coupe : enveloppes concentriques autour d'un noyau central, comme des pelures d'oignon. Taille : 0,5 à 2 mm.
+              </div>
+              <div class="info-box vert" style="margin-top:10px">
+                <div class="icon">🏛️</div>
+                <p><strong>Application tunisienne :</strong> le calcaire oolithique est utilisé dans la <strong>construction</strong> grâce à sa compacité et résistance. L'<strong>amphithéâtre d'El Jem</strong> (3ème plus grand amphithéâtre romain du monde) est entièrement construit en calcaire oolithique !</p>
+              </div>
+            </div>
+            <div class="svgbox">
+              <svg viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+                <text x="130" y="18" text-anchor="middle" font-size="11" font-weight="700" fill="#E65100">Structure du calcaire oolithique</text>
+                <!-- Vue macroscopique -->
+                <rect x="10" y="28" width="110" height="100" rx="8" fill="#fafafa" stroke="#ccc"/>
+                <text x="65" y="44" text-anchor="middle" font-size="9" fill="#555">Vue macroscopique</text>
+                <!-- Oolithes groupées -->
+                <circle cx="38" cy="70" r="14" fill="#FFECB3" stroke="#F9A825" stroke-width="1.5"/>
+                <circle cx="65" cy="65" r="14" fill="#FFECB3" stroke="#F9A825" stroke-width="1.5"/>
+                <circle cx="90" cy="68" r="14" fill="#FFECB3" stroke="#F9A825" stroke-width="1.5"/>
+                <circle cx="50" cy="90" r="14" fill="#FFECB3" stroke="#F9A825" stroke-width="1.5"/>
+                <circle cx="78" cy="88" r="14" fill="#FFECB3" stroke="#F9A825" stroke-width="1.5"/>
+                <text x="65" y="116" text-anchor="middle" font-size="8" fill="#E65100">Oolithes + ciment</text>
+                <!-- Vue microscopique : une oolithe en coupe -->
+                <rect x="140" y="28" width="110" height="100" rx="8" fill="#fafafa" stroke="#ccc"/>
+                <text x="195" y="44" text-anchor="middle" font-size="9" fill="#555">Coupe d'une oolithe (×40)</text>
+                <!-- Oolithe en coupe avec enveloppes concentriques -->
+                <circle cx="195" cy="78" r="32" fill="#FFECB3" stroke="#F9A825" stroke-width="1.5"/>
+                <circle cx="195" cy="78" r="24" fill="#FFE082" stroke="#F9A825" stroke-width="1"/>
+                <circle cx="195" cy="78" r="16" fill="#FFD54F" stroke="#F9A825" stroke-width="1"/>
+                <circle cx="195" cy="78" r="8" fill="#BCAAA4" stroke="#795548" stroke-width="1.5"/>
+                <text x="195" y="81" text-anchor="middle" font-size="7" fill="#4E342E">Noyau</text>
+                <line x1="228" y1="55" x2="218" y2="62" stroke="#555" stroke-width="1"/>
+                <text x="232" y="52" font-size="7" fill="#555">Enveloppes</text>
+                <text x="232" y="61" font-size="7" fill="#555">concentriques</text>
+                <text x="195" y="116" text-anchor="middle" font-size="8" fill="#795548">Noyau = grain quartz</text>
+                <text x="195" y="126" text-anchor="middle" font-size="8" fill="#795548">ou fragment coquille</text>
+                <!-- Ciment -->
+                <rect x="10" y="148" width="240" height="50" rx="8" fill="#fff3e0" stroke="#E65100"/>
+                <text x="130" y="166" text-anchor="middle" font-size="10" font-weight="700" fill="#E65100">Le Ciment</text>
+                <text x="130" y="181" text-anchor="middle" font-size="9" fill="#555">Calcaire qui "soude" les oolithes entre elles</text>
+                <text x="130" y="193" text-anchor="middle" font-size="9" fill="#555">→ donne l'aspect compact et la résistance</text>
+                <!-- Formation -->
+                <text x="130" y="225" text-anchor="middle" font-size="9" fill="#4E342E">💡 Oolithes formées → sédimentées → cimentées</text>
+                <text x="130" y="240" text-anchor="middle" font-size="9" fill="#4E342E">= calcaire oolithique (roche sédimentaire)</text>
+              </svg>
+              <figcaption>Fig. 3 — Structure du calcaire oolithique : oolithes cimentées + détail d'une oolithe en coupe</figcaption>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head ocre" onclick="toggleSSAccord(this)">2.1.2 — Dureté <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <table>
+            <tr><th class="ocre">Test</th><th class="ocre">Résultat</th><th class="ocre">Conclusion</th></tr>
+            <tr><td>Rayer avec l'ongle</td><td>Non rayé</td><td rowspan="2">→ Roche <strong>dure</strong> (dureté entre 3 et 6)</td></tr>
+            <tr><td>Rayer le verre</td><td>Ne raye pas le verre</td></tr>
+          </table>
+          <div class="explication ocre">
+            <strong>Lien dureté → morphologie dans la nature :</strong> les affleurements calcaires sont <strong>saillants</strong> car le calcaire est dur et résiste aux agents d'érosion (pluie, vent, vagues). C'est pourquoi les strates 1 et 3 de Ras Amer (calcaires) forment des saillies, tandis que la strate 2 (argile silteuse = tendre) est creusée.
+          </div>
+        </div>
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head ocre" onclick="toggleSSAccord(this)">2.1.3 — Porosité et Perméabilité <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="grid2">
+            <div>
+              <table>
+                <tr><th class="ocre">Test</th><th class="ocre">Résultat</th></tr>
+                <tr><td>Verser de l'eau sur la roche</td><td>L'eau <strong>pénètre</strong> dans la roche mais ne suinte pas de l'autre côté</td></tr>
+                <tr><td>Conclusion</td><td>Roche <strong>poreuse</strong> (stocke l'eau) ET <strong>imperméable</strong> (à l'échelle de l'échantillon)</td></tr>
+              </table>
+              <div class="info-box ocre" style="margin-top:10px">
+                <div class="icon">💡</div>
+                <p><strong>Paradoxe apparent :</strong> le calcaire est imperméable à l'échelle de l'échantillon MAIS perméable dans la nature à cause des <strong>fissures</strong>. L'eau s'infiltre dans ces fissures, dissout le calcaire → les fissures s'élargissent → perméabilité en grand → phénomènes karstiques (grottes, stalactites...).</p>
+              </div>
+            </div>
+            <div class="svgbox">
+              <svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+                <text x="120" y="15" text-anchor="middle" font-size="10" font-weight="700" fill="#E65100">Test de perméabilité</text>
+                <!-- Échantillon -->
+                <rect x="60" y="25" width="120" height="70" rx="5" fill="#FFECB3" stroke="#F9A825" stroke-width="2"/>
+                <text x="120" y="55" text-anchor="middle" font-size="9" fill="#555">Calcaire oolithique</text>
+                <text x="120" y="68" text-anchor="middle" font-size="9" fill="#555">(échantillon)</text>
+                <!-- Pores = points -->
+                <circle cx="80" cy="50" r="2" fill="#90CAF9"/><circle cx="95" cy="60" r="2" fill="#90CAF9"/>
+                <circle cx="110" cy="45" r="2" fill="#90CAF9"/><circle cx="130" cy="58" r="2" fill="#90CAF9"/>
+                <circle cx="145" cy="48" r="2" fill="#90CAF9"/><circle cx="160" cy="62" r="2" fill="#90CAF9"/>
+                <circle cx="88" cy="72" r="2" fill="#90CAF9"/><circle cx="118" cy="78" r="2" fill="#90CAF9"/>
+                <circle cx="148" cy="75" r="2" fill="#90CAF9"/>
+                <!-- Eau qui entre -->
+                <path d="M105 20 Q110 18 115 20 Q120 22 125 20" fill="none" stroke="#1565C0" stroke-width="1.5"/>
+                <line x1="115" y1="20" x2="115" y2="27" stroke="#1565C0" stroke-width="1.5" marker-end="url(#bleua)"/>
+                <defs><marker id="bleua" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 Z" fill="#1565C0"/></marker></defs>
+                <text x="120" y="18" font-size="8" fill="#1565C0">eau</text>
+                <!-- Rien ne sort en bas -->
+                <line x1="115" y1="95" x2="115" y2="125" stroke="#ccc" stroke-width="1.5" stroke-dasharray="3,2"/>
+                <text x="120" y="120" font-size="8" fill="#aaa">rien</text>
+                <!-- Labels -->
+                <text x="120" y="145" text-anchor="middle" font-size="9" fill="#E65100" font-weight="600">Poreuse ✓ · Imperméable (échantillon) ✓</text>
+                <text x="120" y="157" text-anchor="middle" font-size="8" fill="#555">Perméable en grand (via fissures)</text>
+              </svg>
+              <figcaption>Test de porosité : l'eau pénètre mais ne traverse pas</figcaption>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice — Propriétés physiques</div>
+      <div class="exo-q" id="exo-phys-q">
+        <p>1. Une oolithe est une petite <select class="blank" data-rep="sphère"><option value="">—</option><option>plaque</option><option>sphère</option><option>cube</option></select> formée d'enveloppes <select class="blank" data-rep="concentriques de calcaire"><option value="">—</option><option>aléatoires de quartz</option><option>concentriques de calcaire</option></select> autour d'un noyau (grain de sable ou fragment de coquille). Sa taille varie de <select class="blank" data-rep="0,5 à 2 mm"><option value="">—</option><option>1 à 5 cm</option><option>0,5 à 2 mm</option><option>10 à 20 μm</option></select>.</p>
+        <p>2. Le calcaire oolithique est une roche <select class="blank" data-rep="dure"><option value="">—</option><option>tendre</option><option>dure</option><option>molle</option></select> car elle n'est <strong>pas rayée par l'ongle</strong>. Cette propriété explique que les affleurements calcaires sont <select class="blank" data-rep="saillants (résistants à l'érosion)"><option value="">—</option><option>creusés (facilement érodés)</option><option>saillants (résistants à l'érosion)</option></select>.</p>
+        <p>3. Le calcaire oolithique est <select class="blank" data-rep="poreux mais imperméable à l'échelle de l'échantillon"><option value="">—</option><option>imperméable et non poreux</option><option>poreux mais imperméable à l'échelle de l'échantillon</option><option>très perméable à l'échelle de l'échantillon</option></select>. Il est perméable dans la nature grâce à ses <select class="blank" data-rep="fissures"><option value="">—</option><option>oolithes</option><option>fossiles</option><option>fissures</option></select>.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-phys')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-phys')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-phys-fb"></div>
+    </div>
+  </div>
+
+  <!-- PROPRIETES CHIMIQUES -->
+  <div class="subpanel" id="sub-2-1">
+    <div class="card ocre">
+      <h2 class="ocre">⚗️ Propriétés chimiques du calcaire oolithique (p.146–148)</h2>
+      <div class="resume-box">
+        <strong>En résumé :</strong> le calcaire est essentiellement du <strong>carbonate de calcium (CaCO₃)</strong>. Il réagit avec les acides (effervescence), se décompose à la chaleur (chaux vive), est insoluble dans l'eau pure mais <strong>soluble dans l'eau chargée en CO₂</strong>. La réaction dissolution ⇄ précipitation est le moteur des phénomènes karstiques (fissures, grottes, stalactites).
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head ocre" onclick="toggleSSAccord(this)">2.2.1 — Action de la chaleur → Chaux vive <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="grid2">
+            <div>
+              <p><strong>Manipulation :</strong> chauffer du calcaire en poudre à haute température.</p>
+              <p style="margin-top:8px"><strong>Résultat :</strong> dégagement d'un gaz qui trouble l'eau de chaux (= CO₂) + résidu blanc friable = <strong>chaux vive (CaO)</strong>.</p>
+              <div class="chimie-box" style="margin-top:12px">
+                <div class="eq">CaCO₃ → CaO + CO₂</div>
+                <div class="note">Calcaire → Chaux vive + Dioxyde de carbone</div>
+                <div class="note">Condition : haute température</div>
+              </div>
+              <div class="explication ocre" style="margin-top:10px">
+                <strong>Application industrielle :</strong> les <strong>fours à chaux</strong> utilisent cette réaction à grande échelle pour produire de la chaux. La chaux vive (CaO) sert à fabriquer l'eau de chaux, le ciment, les mortiers de construction. C'est une industrie importante en Tunisie.
+              </div>
+            </div>
+            <div class="svgbox">
+              <svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+                <text x="120" y="15" text-anchor="middle" font-size="10" font-weight="700" fill="#E65100">Action de la chaleur</text>
+                <!-- Tube -->
+                <rect x="80" y="28" width="80" height="70" rx="5" fill="#FFECB3" stroke="#F9A825" stroke-width="2"/>
+                <!-- Calcaire en poudre -->
+                <rect x="85" y="68" width="70" height="25" rx="3" fill="#BCAAA4"/>
+                <text x="120" y="83" text-anchor="middle" font-size="8" fill="white">CaCO₃ (calcaire)</text>
+                <!-- Flamme -->
+                <text x="120" y="108" text-anchor="middle" font-size="20">🔥</text>
+                <!-- Flèche CO2 -->
+                <path d="M160 40 Q190 35 200 28" stroke="#555" stroke-width="1.5" fill="none" marker-end="url(#ga2)"/>
+                <defs><marker id="ga2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 Z" fill="#555"/></marker></defs>
+                <text x="195" y="25" font-size="8" fill="#555">CO₂</text>
+                <!-- Résidu -->
+                <rect x="85" y="70" width="70" height="20" rx="3" fill="white" stroke="#aaa" stroke-width="1"/>
+                <text x="120" y="83" text-anchor="middle" font-size="8" fill="#E65100">CaO (chaux vive)</text>
+                <text x="120" y="93" text-anchor="middle" font-size="8" fill="#555">substance blanche friable</text>
+                <!-- Eau de chaux -->
+                <rect x="30" y="130" width="80" height="40" rx="5" fill="#E3F2FD" stroke="#1565C0"/>
+                <text x="70" y="148" text-anchor="middle" font-size="8" fill="#555">Eau de chaux</text>
+                <text x="70" y="162" text-anchor="middle" font-size="9" fill="#B71C1C" font-weight="600">troublée ✓</text>
+                <text x="70" y="170" text-anchor="middle" font-size="8" fill="#555">= preuve de CO₂</text>
+                <path d="M200 28 Q200 140 112 140" stroke="#555" stroke-width="1" stroke-dasharray="3,2" fill="none"/>
+              </svg>
+              <figcaption>Action de la chaleur : CaCO₃ → CaO (chaux vive) + CO₂</figcaption>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head ocre" onclick="toggleSSAccord(this)">2.2.2 — Action de l'acide chlorhydrique → Effervescence (TEST DE RECONNAISSANCE) <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <p><strong>Manipulation :</strong> déposer une goutte d'acide chlorhydrique (HCl) sur un échantillon de calcaire.</p>
+          <p style="margin-top:8px"><strong>Résultat :</strong> <strong>effervescence immédiate</strong> (bulles de gaz = CO₂) qui trouble l'eau de chaux.</p>
+          <div class="chimie-box">
+            <div class="eq">CaCO₃ + 2HCl → CaCl₂ + H₂O + CO₂ ↑</div>
+            <div class="note">Calcaire + Acide chlorhydrique → Chlorure de calcium + Eau + Dioxyde de carbone (gaz)</div>
+          </div>
+          <div class="info-box ocre">
+            <div class="icon">🧪</div>
+            <p><strong>C'est LE test de reconnaissance du calcaire</strong> sur le terrain ! Un géologue dépose une goutte d'acide dilué (ou même du vinaigre) sur une roche : si elle fait effervescence → c'est du calcaire. Simple, rapide, efficace. Ce test est fondamental pour la fiche méthode N°9 du manuel.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head ocre" onclick="toggleSSAccord(this)">2.2.3 & 2.2.4 — Dissolution ⇄ Précipitation (cycle karstique interactif) <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <h3>💧 Le cycle dissolution ⇄ précipitation du calcaire — cliquer sur chaque étape</h3>
+          <div class="cycle-container">
+            <div class="cycle-btns">
+              <button class="cycle-btn active" onclick="showCycle(0)">📊 Vue d'ensemble</button>
+              <button class="cycle-btn" onclick="showCycle(1)">💧 Solubilité eau pure</button>
+              <button class="cycle-btn" onclick="showCycle(2)">🌧️ Dissolution (eau + CO₂)</button>
+              <button class="cycle-btn" onclick="showCycle(3)">🌡️ Précipitation</button>
+              <button class="cycle-btn" onclick="showCycle(4)">🏔️ Dans la nature</button>
+            </div>
+            <div class="svgbox" style="margin:0">
+              <svg viewBox="0 0 580 200" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+                <text x="290" y="18" text-anchor="middle" font-size="13" font-weight="700" fill="#4E342E">Cycle de dissolution ⇄ précipitation du calcaire</text>
+                <!-- Calcaire -->
+                <rect x="10" y="50" width="160" height="60" rx="10" fill="#FFECB3" stroke="#F9A825" stroke-width="2"/>
+                <text x="90" y="76" text-anchor="middle" font-size="12" font-weight="700" fill="#E65100">CaCO₃</text>
+                <text x="90" y="94" text-anchor="middle" font-size="10" fill="#555">Calcaire (insoluble</text>
+                <text x="90" y="106" text-anchor="middle" font-size="10" fill="#555">dans eau pure)</text>
+                <!-- Bicarbonate -->
+                <rect x="410" y="50" width="160" height="60" rx="10" fill="#E3F2FD" stroke="#1565C0" stroke-width="2"/>
+                <text x="490" y="76" text-anchor="middle" font-size="12" font-weight="700" fill="#1565C0">Ca(HCO₃)₂</text>
+                <text x="490" y="94" text-anchor="middle" font-size="10" fill="#555">Bicarbonate de calcium</text>
+                <text x="490" y="106" text-anchor="middle" font-size="10" fill="#555">(soluble dans l'eau)</text>
+                <!-- Flèche dissolution -->
+                <path d="M173 70 L408 70" stroke="#1565C0" stroke-width="2.5" marker-end="url(#bleub)"/>
+                <defs><marker id="bleub" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#1565C0"/></marker></defs>
+                <text x="290" y="62" text-anchor="middle" font-size="10" font-weight="700" fill="#1565C0">+ CO₂ + H₂O → DISSOLUTION</text>
+                <text x="290" y="75" text-anchor="middle" font-size="9" fill="#555">(eau chargée en CO₂)</text>
+                <!-- Flèche précipitation -->
+                <path d="M408 90 L173 90" stroke="#B71C1C" stroke-width="2.5" marker-end="url(#rouge2)"/>
+                <defs><marker id="rouge2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#B71C1C"/></marker></defs>
+                <text x="290" y="108" text-anchor="middle" font-size="10" font-weight="700" fill="#B71C1C">- CO₂ (chaleur/évaporation) → PRÉCIPITATION</text>
+                <!-- Phénomènes naturels dissolution -->
+                <text x="90" y="140" text-anchor="middle" font-size="9" fill="#1565C0" font-weight="600">Dissolution → dans la nature :</text>
+                <text x="90" y="153" text-anchor="middle" font-size="9" fill="#555">Élargissement des fissures</text>
+                <text x="90" y="165" text-anchor="middle" font-size="9" fill="#555">Formation de grottes</text>
+                <text x="90" y="177" text-anchor="middle" font-size="9" fill="#555">Lapiez en surface</text>
+                <!-- Phénomènes naturels précipitation -->
+                <text x="490" y="140" text-anchor="middle" font-size="9" fill="#B71C1C" font-weight="600">Précipitation → dans la nature :</text>
+                <text x="490" y="153" text-anchor="middle" font-size="9" fill="#555">Stalactites (plafond grottes)</text>
+                <text x="490" y="165" text-anchor="middle" font-size="9" fill="#555">Stalagmites (plancher)</text>
+                <text x="490" y="177" text-anchor="middle" font-size="9" fill="#555">Croûtes calcaires · tartre</text>
+              </svg>
+            </div>
+            <div class="cycle-info active" id="cycle-0">
+              <strong>Vue d'ensemble :</strong> le calcaire (CaCO₃) est insoluble dans l'eau pure mais soluble dans l'eau chargée en CO₂. Ces deux réactions inverses — dissolution et précipitation — sont à l'origine de tous les phénomènes karstiques : grottes, stalactites, stalagmites, lapiez, sources calcaires.
+            </div>
+            <div class="cycle-info" id="cycle-1">
+              <strong>Solubilité dans l'eau pure :</strong> mettre un échantillon de calcaire dans de l'eau distillée → <strong>aucun changement</strong>. Le CaCO₃ est <strong>insoluble dans l'eau pure</strong>. L'eau de pluie seule ne dissout donc pas le calcaire.
+            </div>
+            <div class="cycle-info" id="cycle-2">
+              <strong>Dissolution dans l'eau chargée en CO₂ :</strong> l'eau de pluie absorbe le CO₂ de l'atmosphère → devient légèrement acide → dissout le calcaire selon : <br><strong>CaCO₃ + CO₂ + H₂O → Ca(HCO₃)₂</strong><br>Le calcaire se transforme en bicarbonate de calcium <em>soluble</em>. Ce phénomène élargit progressivement les fissures → formation de cavités, grottes, avens.
+            </div>
+            <div class="cycle-info" id="cycle-3">
+              <strong>Précipitation :</strong> quand la solution de bicarbonate perd du CO₂ (par chaleur, évaporation, absorption par les végétaux), la réaction s'inverse : <br><strong>Ca(HCO₃)₂ → CaCO₃ + CO₂ + H₂O</strong><br>Du calcaire se dépose. Application : dans les grottes, les gouttes d'eau qui pendent au plafond perdent leur CO₂ → calcaire précipite → <strong>stalactites</strong>. Les gouttes qui tombent au sol → <strong>stalagmites</strong>.
+            </div>
+            <div class="cycle-info" id="cycle-4">
+              <strong>Dans la nature — phénomènes karstiques :</strong><br>
+              🏔️ <strong>En surface :</strong> fissures → s'élargissent → lapiez (saillies séparées par des sillons)<br>
+              🕳️ <strong>En profondeur :</strong> cavités verticales (avens) → grottes horizontales<br>
+              💧 <strong>Dans les grottes :</strong> stalactites (plafond, descendantes) + stalagmites (plancher, montantes)<br>
+              🚿 <strong>Sources :</strong> eau riche en bicarbonate ressort → précipitation → dépôts calcaires<br>
+              🫖 <strong>Tartre :</strong> dans les bouilloires → même réaction de précipitation par la chaleur
+            </div>
+          </div>
+          <div class="chimie-box">
+            <div class="eq">CaCO₃ + CO₂ + H₂O ⇄ Ca(HCO₃)₂</div>
+            <div class="note" style="color:var(--ocre)">→ Dissolution (vers droite) : eau chargée en CO₂, dissolution du calcaire</div>
+            <div class="note" style="color:var(--rouge)">← Précipitation (vers gauche) : perte de CO₂ (chaleur/évaporation), dépôt de calcaire</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="exo">
+        <div class="exo-title">✏️ Exercice — Propriétés chimiques</div>
+        <div class="exo-q" id="exo-chim-q">
+          <p>1. Le calcaire est essentiellement formé de <select class="blank" data-rep="carbonate de calcium (CaCO₃)"><option value="">—</option><option>bicarbonate de calcium</option><option>carbonate de calcium (CaCO₃)</option><option>chlorure de calcium</option></select>. La preuve est qu'il fait <select class="blank" data-rep="effervescence avec l'acide chlorhydrique (HCl)"><option value="">—</option><option>précipité blanc avec l'eau pure</option><option>effervescence avec l'acide chlorhydrique (HCl)</option><option>réaction avec le formol</option></select>.</p>
+          <p>2. Le calcaire est <select class="blank" data-rep="insoluble dans l'eau pure mais soluble dans l'eau chargée en CO₂"><option value="">—</option><option>soluble dans l'eau pure et insoluble dans l'eau chargée en CO₂</option><option>insoluble dans l'eau pure mais soluble dans l'eau chargée en CO₂</option></select>. La réaction de dissolution est : CaCO₃ + CO₂ + H₂O → <select class="blank" data-rep="Ca(HCO₃)₂"><option value="">—</option><option>CaO + CO₂</option><option>CaCl₂ + H₂O</option><option>Ca(HCO₃)₂</option></select>.</p>
+          <p>3. Les <strong>stalactites</strong> se forment au <select class="blank" data-rep="plafond des grottes"><option value="">—</option><option>plancher des grottes</option><option>plafond des grottes</option></select> par <select class="blank" data-rep="précipitation du calcaire quand l'eau perd son CO₂"><option value="">—</option><option>dissolution du calcaire par l'eau acide</option><option>précipitation du calcaire quand l'eau perd son CO₂</option></select>.</p>
+          <p>4. La chauffage du calcaire à haute température produit de la <select class="blank" data-rep="chaux vive (CaO)"><option value="">—</option><option>chaux éteinte Ca(OH)₂</option><option>chaux vive (CaO)</option><option>carbonate de sodium</option></select> utilisée dans la fabrication du <select class="blank" data-rep="ciment et de l'eau de chaux"><option value="">—</option><option>verre et du sel</option><option>ciment et de l'eau de chaux</option></select>.</p>
+        </div>
+        <button class="btn-exo" onclick="checkExo('exo-chim')">✓ Vérifier</button>
+        <button class="btn-reset-exo" onclick="resetExo('exo-chim')">↺ Réinitialiser</button>
+        <div class="exo-feedback" id="exo-chim-fb"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOSSILES ET HISTOIRE -->
+  <div class="subpanel" id="sub-2-2">
+    <div class="card ocre">
+      <h2 class="ocre">🦴 Fossiles et Histoire du calcaire oolithique (p.149–151)</h2>
+      <div class="resume-box">
+        <strong>En résumé :</strong> trois types d'indices convergent pour reconstituer l'histoire du calcaire oolithique : les <strong>fossiles</strong> (strombes = mer peu profonde chaude), les <strong>conditions de formation des oolithes</strong> (mer peu profonde, chaude, agitée), la <strong>structure</strong> (cimentation postérieure). Conclusion : mer peu profonde, chaude, agitée au Quaternaire (Eutyrrhénien).
+      </div>
+      <div class="ssaccord-item">
+        <div class="ssaccord-head ocre" onclick="toggleSSAccord(this)">Étude des fossiles du calcaire oolithique <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <table>
+            <tr><th class="ocre">Fossile</th><th class="ocre">Groupe</th><th class="ocre">Mode de vie actuel</th><th class="ocre">Indication paléontologique</th></tr>
+            <tr><td><strong>Strombe</strong></td><td>Gastéropode marin</td><td>Mers peu profondes (&lt;10 m), chaudes, calmes. Caractéristique de l'Eutyrrhénien (début quaternaire).</td><td>✅ Mer chaude peu profonde · âge quaternaire</td></tr>
+            <tr><td><strong>Céritze</strong></td><td>Gastéropode marin</td><td>Zones littorales peu profondes</td><td>✅ Faciès marin peu profond</td></tr>
+            <tr><td>Coquilles <strong>brisées</strong></td><td>Fragments de mollusques</td><td>—</td><td>🌊 Mer <strong>agitée</strong> au moment du dépôt (brisure par les vagues)</td></tr>
+            <tr><td>Moules externes et internes</td><td>Empreintes de coquilles</td><td>—</td><td>Fossilisation par remplacement sédimentaire</td></tr>
+          </table>
+          <div class="explication ocre">
+            <strong>Comment identifier le faciès à partir des fossiles ?</strong> On applique le <strong>principe des causes actuelles</strong> : si des fossiles ressemblent à des espèces actuelles vivant dans un milieu précis, alors les roches qui les contiennent se sont formées dans un milieu similaire. Les strombes vivant aujourd'hui dans le golfe de Gabès en mer peu profonde et chaude → le calcaire qui les contient s'est déposé dans le même type de milieu au Quaternaire.
+          </div>
+        </div>
+      </div>
+      <div class="ssaccord-item">
+        <div class="ssaccord-head ocre" onclick="toggleSSAccord(this)">Histoire de formation du calcaire oolithique — 5 étapes <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="svgbox">
+            <svg viewBox="0 0 580 180" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="290" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#E65100">Genèse du calcaire oolithique — 5 étapes</text>
+              <!-- Etape 1 -->
+              <rect x="5" y="30" width="100" height="70" rx="8" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.5"/>
+              <text x="55" y="48" text-anchor="middle" font-size="9" font-weight="700" fill="#1565C0">1. Conditions</text>
+              <text x="55" y="62" text-anchor="middle" font-size="8" fill="#555">Mer peu profonde</text>
+              <text x="55" y="74" text-anchor="middle" font-size="8" fill="#555">chaude (22–31°C)</text>
+              <text x="55" y="86" text-anchor="middle" font-size="8" fill="#555">agitée · riche en</text>
+              <text x="55" y="98" text-anchor="middle" font-size="8" fill="#555">Ca(HCO₃)₂</text>
+              <path d="M108 65 L118 65" stroke="#aaa" stroke-width="1.5" marker-end="url(#ga2)"/>
+              <!-- Etape 2 -->
+              <rect x="120" y="30" width="100" height="70" rx="8" fill="#FFF9C4" stroke="#F9A825" stroke-width="1.5"/>
+              <text x="170" y="48" text-anchor="middle" font-size="9" font-weight="700" fill="#E65100">2. Précipitation</text>
+              <text x="170" y="62" text-anchor="middle" font-size="8" fill="#555">Chaleur/évaporation</text>
+              <text x="170" y="74" text-anchor="middle" font-size="8" fill="#555">→ départ CO₂</text>
+              <text x="170" y="86" text-anchor="middle" font-size="8" fill="#555">→ CaCO₃ précipite</text>
+              <text x="170" y="98" text-anchor="middle" font-size="8" fill="#555">autour des grains</text>
+              <path d="M223 65 L233 65" stroke="#aaa" stroke-width="1.5" marker-end="url(#ga2)"/>
+              <!-- Etape 3 -->
+              <rect x="235" y="30" width="100" height="70" rx="8" fill="#FFECB3" stroke="#F9A825" stroke-width="1.5"/>
+              <text x="285" y="48" text-anchor="middle" font-size="9" font-weight="700" fill="#E65100">3. Agitation</text>
+              <text x="285" y="62" text-anchor="middle" font-size="8" fill="#555">Vagues mettent</text>
+              <text x="285" y="74" text-anchor="middle" font-size="8" fill="#555">oolithes en suspension</text>
+              <text x="285" y="86" text-anchor="middle" font-size="8" fill="#555">→ nouvelles couches</text>
+              <text x="285" y="98" text-anchor="middle" font-size="8" fill="#555">se déposent</text>
+              <path d="M338 65 L348 65" stroke="#aaa" stroke-width="1.5" marker-end="url(#ga2)"/>
+              <!-- Etape 4 -->
+              <rect x="350" y="30" width="100" height="70" rx="8" fill="#BCAAA4" stroke="#795548" stroke-width="1.5"/>
+              <text x="400" y="48" text-anchor="middle" font-size="9" font-weight="700" fill="#4E342E">4. Sédimentation</text>
+              <text x="400" y="62" text-anchor="middle" font-size="8" fill="#555">Masse critique →</text>
+              <text x="400" y="74" text-anchor="middle" font-size="8" fill="#555">oolithes tombent</text>
+              <text x="400" y="86" text-anchor="middle" font-size="8" fill="#555">au fond</text>
+              <text x="400" y="98" text-anchor="middle" font-size="8" fill="#555">accumulation</text>
+              <path d="M453 65 L463 65" stroke="#aaa" stroke-width="1.5" marker-end="url(#ga2)"/>
+              <!-- Etape 5 -->
+              <rect x="465" y="30" width="108" height="70" rx="8" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2"/>
+              <text x="519" y="48" text-anchor="middle" font-size="9" font-weight="700" fill="#2E7D32">5. Cimentation</text>
+              <text x="519" y="62" text-anchor="middle" font-size="8" fill="#555">Calcaire soude</text>
+              <text x="519" y="74" text-anchor="middle" font-size="8" fill="#555">les oolithes</text>
+              <text x="519" y="86" text-anchor="middle" font-size="8" fill="#555">→ roche compacte</text>
+              <text x="519" y="98" text-anchor="middle" font-size="8" fill="#2E7D32" font-weight="600">= CALCAIRE OOLITHIQUE</text>
+              <!-- Bilan -->
+              <rect x="5" y="115" width="568" height="58" rx="10" fill="#fff3e0" stroke="#E65100" stroke-width="2"/>
+              <text x="290" y="133" text-anchor="middle" font-size="11" font-weight="700" fill="#E65100">🎯 Bilan de formation</text>
+              <text x="290" y="149" text-anchor="middle" font-size="10" fill="#555">Mer peu profonde + chaude + agitée + riche en Ca(HCO₃)₂ → précipitation → oolithes → sédimentation → cimentation</text>
+              <text x="290" y="165" text-anchor="middle" font-size="10" fill="#4E342E" font-weight="600">Actuel : golfe de Gabès · Passé : région de Kerkenah/Monastir au Quaternaire (Eutyrrhénien)</text>
+            </svg>
+            <figcaption>Fig. 4 — Les 5 étapes de formation du calcaire oolithique</figcaption>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice — Fossiles et Histoire</div>
+      <div class="exo-q" id="exo-foss-q">
+        <p>1. Les fossiles de <select class="blank" data-rep="strombes"><option value="">—</option><option>nummulites</option><option>strombes</option><option>trilobites</option></select> trouvés dans le calcaire oolithique indiquent un faciès <select class="blank" data-rep="marin peu profond et chaud"><option value="">—</option><option>continental sec</option><option>marin profond et froid</option><option>marin peu profond et chaud</option></select>. Les strombes sont caractéristiques de l'<select class="blank" data-rep="Eutyrrhénien (début quaternaire)"><option value="">—</option><option>Éocène (tertiaire)</option><option>Miocène (tertiaire)</option><option>Eutyrrhénien (début quaternaire)</option></select>.</p>
+        <p>2. La présence de <strong>coquilles brisées</strong> dans le calcaire indique que la mer était <select class="blank" data-rep="agitée"><option value="">—</option><option>calme et profonde</option><option>agitée</option><option>froide et polaire</option></select> au moment du dépôt (brisure par les vagues).</p>
+        <p>3. La formation des oolithes est actuelle dans le <select class="blank" data-rep="golfe de Gabès"><option value="">—</option><option>golfe de Tunis</option><option>golfe de Gabès</option><option>lac de Tunis</option></select>, dans des eaux à <select class="blank" data-rep="22–31°C"><option value="">—</option><option>5–10°C</option><option>22–31°C</option><option>35–40°C</option></select>, riches en bicarbonate de calcium.</p>
+        <p>4. L'<strong>amphithéâtre d'El Jem</strong> est construit en <select class="blank" data-rep="calcaire oolithique"><option value="">—</option><option>calcaire à nummulites</option><option>calcaire oolithique</option><option>grès</option></select> car c'est une roche <select class="blank" data-rep="dure, compacte et résistante"><option value="">—</option><option>tendre et friable</option><option>dure, compacte et résistante</option></select>.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-foss')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-foss')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-foss-fb"></div>
+    </div>
+  </div>
+
+  <!-- AUTRES CALCAIRES TUNISIENS -->
+  <div class="subpanel" id="sub-2-3">
+    <div class="card ocre">
+      <h2 class="ocre">🗺️ Les Autres Calcaires Tunisiens (p.150–151)</h2>
+      <div class="resume-box">
+        <strong>En résumé :</strong> la Tunisie est riche en calcaires de faciès et d'âges différents, chacun révélant les conditions paléogéographiques de sa formation. Quatre types principaux sont étudiés, du plus récent au plus ancien.
+      </div>
+      <table>
+        <tr><th class="ocre">Type de calcaire</th><th class="ocre">Localisation</th><th class="ocre">Structure / Fossiles</th><th class="ocre">Faciès</th><th class="ocre">Âge</th><th class="ocre">Utilisation</th></tr>
+        <tr>
+          <td><strong>Calcaire oolithique</strong></td>
+          <td>Kerkenah · Monastir · Cap Bon · Jerba</td>
+          <td>Oolithes cimentées · Strombes · Cardiums · Coquilles brisées</td>
+          <td>Marin peu profond, chaud, agité</td>
+          <td>Quaternaire (Eutyrrhénien)</td>
+          <td>Construction · Amphithéâtre El Jem</td>
+        </tr>
+        <tr>
+          <td><strong>Calcaire quartzeux</strong> (croûte saumonée)</td>
+          <td>Côte-Est de Tunisie</td>
+          <td>Couleur rose saumon · Quartz + gypse · Hétérogène</td>
+          <td>Continental (la Tunisie côtière était émergée)</td>
+          <td>Villafranchien</td>
+          <td>Construction · Fabrication chaux</td>
+        </tr>
+        <tr>
+          <td><strong>Calcaire coquiller</strong> (lumachelle)</td>
+          <td>Jebel Abderrahman (Menzel Bouzelfa)</td>
+          <td>Coquilles entières de lamellibranches + gastéropodes · Pectens</td>
+          <td>Marin peu profond</td>
+          <td>Miocène moyen</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><strong>Calcaire à nummulites</strong></td>
+          <td>Kef · Makthar (centre-ouest Tunisie)</td>
+          <td>Tests calcaires de nummulites (protozoaires géants = foraminifères)</td>
+          <td>Mer assez profonde</td>
+          <td>Éocène moyen (~45 MA)</td>
+          <td>Construction · Fabrication chaux</td>
+        </tr>
+      </table>
+
+      <div class="svgbox">
+        <svg viewBox="0 0 580 180" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+          <text x="290" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#4E342E">Milieux de sédimentation actuels des roches calcaires</text>
+          <!-- Continent -->
+          <rect x="10" y="30" width="120" height="130" fill="#D7CCC8" stroke="#795548" stroke-width="1.5" rx="5"/>
+          <text x="70" y="55" text-anchor="middle" font-size="10" font-weight="700" fill="#4E342E">CONTINENT</text>
+          <text x="70" y="72" text-anchor="middle" font-size="9" fill="#555">Calcaire quartzeux</text>
+          <text x="70" y="85" text-anchor="middle" font-size="9" fill="#555">(croûte continentale)</text>
+          <text x="70" y="100" text-anchor="middle" font-size="8" fill="#666">Escargots · plantes</text>
+          <text x="70" y="112" text-anchor="middle" font-size="8" fill="#666">Faciès continental</text>
+          <!-- Lagunaire -->
+          <rect x="132" y="30" width="100" height="130" fill="#B3E5FC" stroke="#0288D1" stroke-width="1.5" rx="5"/>
+          <text x="182" y="55" text-anchor="middle" font-size="10" font-weight="700" fill="#01579B">LAGUNAIRE</text>
+          <text x="182" y="72" text-anchor="middle" font-size="9" fill="#01579B">Gypse · Sel gemme</text>
+          <text x="182" y="88" text-anchor="middle" font-size="9" fill="#555">Peu profond · chaud</text>
+          <text x="182" y="103" text-anchor="middle" font-size="9" fill="#555">évaporation intense</text>
+          <!-- Neritique / peu profond -->
+          <rect x="234" y="30" width="120" height="130" fill="#81D4FA" stroke="#0288D1" stroke-width="1.5" rx="5"/>
+          <text x="294" y="50" text-anchor="middle" font-size="10" font-weight="700" fill="#01579B">MER PEU</text>
+          <text x="294" y="62" text-anchor="middle" font-size="10" font-weight="700" fill="#01579B">PROFONDE</text>
+          <text x="294" y="78" text-anchor="middle" font-size="9" fill="#555">Calcaire oolithique</text>
+          <text x="294" y="91" text-anchor="middle" font-size="9" fill="#555">Calcaire coquiller</text>
+          <text x="294" y="107" text-anchor="middle" font-size="9" fill="#555">🐚 Strombes · Cardiums</text>
+          <text x="294" y="120" text-anchor="middle" font-size="9" fill="#555">Pectens · Gastéropodes</text>
+          <!-- Profond -->
+          <rect x="356" y="30" width="220" height="130" fill="#4FC3F7" stroke="#0288D1" stroke-width="1.5" rx="5"/>
+          <text x="466" y="50" text-anchor="middle" font-size="10" font-weight="700" fill="#01579B">MER PROFONDE</text>
+          <text x="466" y="68" text-anchor="middle" font-size="9" fill="#555">Calcaire à nummulites</text>
+          <text x="466" y="83" text-anchor="middle" font-size="9" fill="#555">Calcaire à globigérines</text>
+          <text x="466" y="100" text-anchor="middle" font-size="8" fill="#666">Tests de nummulites</text>
+          <text x="466" y="113" text-anchor="middle" font-size="8" fill="#666">Tests de globigérines</text>
+          <text x="466" y="128" text-anchor="middle" font-size="8" fill="#666">(protozoaires planctoniques)</text>
+          <!-- Labels 1,2,3,4 -->
+          <text x="70" y="150" text-anchor="middle" font-size="14" fill="#4E342E" font-weight="700">1</text>
+          <text x="182" y="150" text-anchor="middle" font-size="14" fill="#01579B" font-weight="700">2</text>
+          <text x="294" y="150" text-anchor="middle" font-size="14" fill="#01579B" font-weight="700">3</text>
+          <text x="466" y="150" text-anchor="middle" font-size="14" fill="#01579B" font-weight="700">4</text>
+          <!-- Profondeur gradient -->
+          <path d="M130 165 L578 165" stroke="#0288D1" stroke-width="2"/>
+          <text x="350" y="176" text-anchor="middle" font-size="9" fill="#0288D1">→ Profondeur croissante</text>
+        </svg>
+        <figcaption>Fig. 5 — Les différents milieux de sédimentation et leurs calcaires caractéristiques (1 = continental · 2 = lagunaire · 3 = marin peu profond · 4 = marin profond)</figcaption>
+      </div>
+
+      <div class="retenons">
+        <h4>📌 Retenons (p.151)</h4>
+        <p><dt>Oolithe :</dt><dd>petite sphère de la taille du mm formée d'enveloppes successives de calcaire autour d'un noyau (quartz ou fragment de coquille).</dd></p>
+        <p><dt>Roche poreuse :</dt><dd>roche contenant des pores (vides entre les éléments) permettant de stocker un fluide.</dd></p>
+        <p><dt>Quartz :</dt><dd>minéral, constituant principal du sable.</dd></p>
+        <p><dt>Ciment :</dt><dd>matière qui soude entre eux les éléments d'une roche.</dd></p>
+        <p><dt>Faciès d'une roche :</dt><dd>ensemble de ses caractères paléontologiques (fossiles) et pétrographiques (nature) qui renseignent sur les conditions et le milieu de sa formation.</dd></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO ACT2 -->
+  <div class="subpanel" id="sub-2-4">
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice global — Calcaire oolithique</div>
+      <div class="exo-q" id="exo-act2-q">
+        <p>1. Le faciès d'une roche est l'ensemble de ses caractères <select class="blank" data-rep="paléontologiques (fossiles) et pétrographiques (nature)"><option value="">—</option><option>physiques uniquement</option><option>paléontologiques (fossiles) et pétrographiques (nature)</option><option>chimiques uniquement</option></select> qui renseignent sur les conditions et le milieu de sa formation.</p>
+        <p>2. Pour reconnaître du calcaire sur le terrain, on utilise le test à <select class="blank" data-rep="l'acide chlorhydrique (effervescence = présence de calcaire)"><option value="">—</option><option>l'eau distillée (précipitation)</option><option>l'acide chlorhydrique (effervescence = présence de calcaire)</option><option>la chaleur (chaux vive)</option></select>.</p>
+        <p>3. Un calcaire à <strong>nummulites</strong> indique un faciès <select class="blank" data-rep="de mer assez profonde"><option value="">—</option><option>continental</option><option>lagunaire</option><option>de mer assez profonde</option></select>. Il se trouve dans la région de <select class="blank" data-rep="Kef et Makthar"><option value="">—</option><option>Kerkenah et Monastir</option><option>Kef et Makthar</option><option>Sfax et Gabès</option></select> et est d'âge <select class="blank" data-rep="Éocène moyen"><option value="">—</option><option>Quaternaire</option><option>Miocène</option><option>Éocène moyen</option></select>.</p>
+        <p>4. Dans la nature, l'élargissement des fissures du calcaire est dû à la <select class="blank" data-rep="dissolution par les eaux chargées en CO₂"><option value="">—</option><option>précipitation du bicarbonate de calcium</option><option>dissolution par les eaux chargées en CO₂</option><option>action mécanique du vent uniquement</option></select>. En profondeur, ce phénomène aboutit à la formation de <select class="blank" data-rep="grottes, stalactites et stalagmites"><option value="">—</option><option>lapiez uniquement</option><option>grottes, stalactites et stalagmites</option><option>sources salées</option></select>.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-act2')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-act2')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-act2-fb"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ACTIVITE 3 ═══ -->
+<div class="panel" id="panel-3">
+  <div class="question-dir teal">🕰️ Activité 3 — Reconstitution de l'histoire géologique (p.152–159)<br>
+  <span style="font-weight:400;font-size:.88rem">Comment utiliser les renseignements du terrain pour reconstituer l'histoire géologique d'un site ?</span></div>
+  <div class="subtabs-wrap teal">
+    <div class="subtabs">
+      <button class="subtab active" onclick="showSubTab(3,0)">⚖️ Principe des causes actuelles</button>
+      <button class="subtab" onclick="showSubTab(3,1)">🔧 Déformations tectoniques</button>
+      <button class="subtab" onclick="showSubTab(3,2)">📅 Stratigraphie de Tunisie</button>
+      <button class="subtab" onclick="showSubTab(3,3)">🏔️ Histoire Sidi Mhareb</button>
+      <button class="subtab" onclick="showSubTab(3,4)">🏝️ Histoire Ras Amer</button>
+      <button class="subtab" onclick="showSubTab(3,5)">✏️ Exercice</button>
+    </div>
+  </div>
+
+  <!-- PRINCIPE CAUSES ACTUELLES -->
+  <div class="subpanel active" id="sub-3-0">
+    <div class="card teal">
+      <h2 class="teal">⚖️ Le Principe des Causes Actuelles (p.152–153)</h2>
+      <div class="resume-box teal">
+        <strong>En résumé :</strong> pour reconstituer l'histoire d'un terrain, on suppose que les phénomènes géologiques anciens sont <strong>analogues à ceux qui se passent actuellement</strong>. C'est la clé de toute la géologie historique : le présent est la clé du passé.
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head teal" onclick="toggleSSAccord(this)">1.1 — La Sédimentation et le principe de superposition <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="explication teal">
+            <strong>Comment se forment les strates ?</strong> Actuellement : érosion des reliefs → matériaux transportés par l'eau/le vent → dépôt dans des bassins sédimentaires (continentaux, lagunaires, marins) → couche horizontale de sédiments avec fossiles des organismes vivant là. Si la sédimentation dure des millions d'années → accumulation de couches superposées, parallèles et horizontales → strates. Après consolidation (diagenèse), ces sédiments deviennent des roches.
+          </div>
+          <div class="info-box teal">
+            <div class="icon">📐</div>
+            <p><strong>Principe de superposition :</strong> dans une séquence sédimentaire non perturbée, <strong>une strate est plus récente que celle qu'elle recouvre</strong> et plus ancienne que celle qui la recouvre. C'est la règle de base de la stratigraphie — sans elle, impossible de dater les couches relativement.</p>
+          </div>
+          <div class="svgbox">
+            <svg viewBox="0 0 560 150" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="280" y="15" text-anchor="middle" font-size="12" font-weight="700" fill="#00695C">Tri sédimentaire : de la côte vers le large</text>
+              <!-- Continent -->
+              <rect x="5" y="28" width="60" height="110" fill="#D7CCC8" stroke="#795548"/>
+              <text x="35" y="80" text-anchor="middle" font-size="8" fill="#4E342E" font-weight="700" transform="rotate(-90,35,80)">CONTINENT</text>
+              <!-- Zones de dépôt -->
+              <rect x="65" y="70" width="60" height="68" fill="#BCAAA4"/>
+              <text x="95" y="105" text-anchor="middle" font-size="8" fill="white">Blocs</text>
+              <text x="95" y="117" text-anchor="middle" font-size="8" fill="white">galets</text>
+              <rect x="125" y="80" width="60" height="58" fill="#A5D6A7"/>
+              <text x="155" y="108" text-anchor="middle" font-size="8" fill="#1b5e20">Graviers</text>
+              <text x="155" y="118" text-anchor="middle" font-size="8" fill="#1b5e20">sables</text>
+              <rect x="185" y="90" width="70" height="48" fill="#80CBC4"/>
+              <text x="220" y="116" text-anchor="middle" font-size="8" fill="#004D40">Sables fins</text>
+              <rect x="255" y="100" width="80" height="38" fill="#4DB6AC"/>
+              <text x="295" y="121" text-anchor="middle" font-size="8" fill="white">Vases (boues</text>
+              <text x="295" y="131" text-anchor="middle" font-size="8" fill="white">argileuses)</text>
+              <rect x="335" y="110" width="220" height="28" fill="#00897B"/>
+              <text x="445" y="128" text-anchor="middle" font-size="8" fill="white">Fines particules → calcaires à nummulites, globigérines (mer profonde)</text>
+              <!-- Eau -->
+              <path d="M65 70 Q200 55 555 60" fill="rgba(30,136,229,0.15)" stroke="none"/>
+              <text x="350" y="45" font-size="9" fill="#1565C0">← Profondeur croissante</text>
+              <text x="350" y="58" font-size="8" fill="#555">Éléments de plus en plus fins</text>
+              <!-- Labels -->
+              <text x="95" y="55" text-anchor="middle" font-size="8" fill="#4E342E">Côte</text>
+              <text x="540" y="55" text-anchor="middle" font-size="8" fill="#1565C0">Large</text>
+            </svg>
+            <figcaption>Fig. 6 — Tri sédimentaire : de la côte vers le large, les sédiments sont de plus en plus fins</figcaption>
+          </div>
+        </div>
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head teal" onclick="toggleSSAccord(this)">1.2 — Variation du faciès : Transgression et Régression <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="grid2">
+            <div>
+              <div class="explication teal">
+                <strong>Pourquoi le faciès change-t-il dans une même colonne de strates ?</strong> Parce que les conditions de sédimentation ont changé au cours du temps. Si la mer avance sur le continent (<strong>transgression</strong>), les sédiments marins remplacent les continentaux. Si la mer recule (<strong>régression</strong>), les sédiments continentaux reviennent.
+              </div>
+              <table style="margin-top:10px">
+                <tr><th class="teal">Terme</th><th class="teal">Définition</th><th class="teal">Indicateur dans les strates</th></tr>
+                <tr><td><strong>Transgression</strong></td><td>La mer envahit une région terrestre</td><td>Passage de strate continentale à strate marine (de bas en haut)</td></tr>
+                <tr><td><strong>Régression</strong></td><td>La mer se retire d'une région</td><td>Passage de strate marine à strate continentale (de bas en haut)</td></tr>
+                <tr><td><strong>Cycle sédimentaire</strong></td><td>Période entre une transgression et une régression</td><td>Séquence marine → continentale dans une colonne de strates</td></tr>
+              </table>
+            </div>
+            <div class="svgbox">
+              <svg viewBox="0 0 260 220" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+                <text x="130" y="15" text-anchor="middle" font-size="10" font-weight="700" fill="#00695C">Lecture des faciès</text>
+                <!-- Colonne de strates Ras Amer -->
+                <text x="130" y="32" text-anchor="middle" font-size="9" fill="#555">(Exemple : Ras Amer)</text>
+                <!-- Strate 1 marine -->
+                <rect x="30" y="38" width="200" height="32" fill="#FFECB3" stroke="#F9A825" stroke-width="1.5"/>
+                <text x="130" y="52" text-anchor="middle" font-size="9" font-weight="700" fill="#E65100">Strate 1 : Calcaire coquiller</text>
+                <text x="130" y="63" text-anchor="middle" font-size="8" fill="#555">Faciès MARIN → Transgression ↑</text>
+                <!-- Strate 2 continentale -->
+                <rect x="30" y="70" width="200" height="32" fill="#C8E6C9" stroke="#2E7D32" stroke-width="1.5"/>
+                <text x="130" y="84" text-anchor="middle" font-size="9" font-weight="700" fill="#2E7D32">Strate 2 : Argile à Hélix</text>
+                <text x="130" y="95" text-anchor="middle" font-size="8" fill="#555">Faciès CONTINENTAL → Régression</text>
+                <!-- Strate 3 marine -->
+                <rect x="30" y="102" width="200" height="32" fill="#BCAAA4" stroke="#795548" stroke-width="1.5"/>
+                <text x="130" y="116" text-anchor="middle" font-size="9" font-weight="700" fill="#4E342E">Strate 3 : Calcaire oolithique</text>
+                <text x="130" y="127" text-anchor="middle" font-size="8" fill="#555">Faciès MARIN → Transgression ↑</text>
+                <!-- Légende cycles -->
+                <rect x="10" y="148" width="240" height="64" rx="8" fill="#e0f2f1" stroke="#00695C"/>
+                <text x="130" y="164" text-anchor="middle" font-size="10" font-weight="700" fill="#00695C">2 cycles sédimentaires</text>
+                <text x="130" y="178" text-anchor="middle" font-size="9" fill="#555">Cycle 1 : Strate 3 (mer) → Strate 2 (terre)</text>
+                <text x="130" y="191" text-anchor="middle" font-size="9" fill="#555">Cycle 2 : Strate 2 (terre) → Strate 1 (mer)</text>
+                <text x="130" y="205" text-anchor="middle" font-size="9" fill="#00695C" font-weight="600">→ 2 transgressions + 1 régression</text>
+              </svg>
+              <figcaption>Lecture des faciès dans la colonne de Ras Amer : 2 cycles sédimentaires</figcaption>
+            </div>
+          </div>
+          <div class="info-box teal">
+            <div class="icon">🔑</div>
+            <p><strong>Tableau des faciès à maîtriser (CAPES) :</strong> marin profond (nummulites, globigérines) · marin peu profond (coquilles de mollusques, cardiums, strombes) · lagunaire (gypse, sel gemme) · continental (escargots Hélix, bois silicifiés, empreintes de feuilles). C'est le dictionnaire du géologue pour lire l'histoire dans les roches.</p>
+          </div>
+          <table>
+            <tr><th class="teal">Milieu</th><th class="teal">Roches</th><th class="teal">Fossiles caractéristiques</th></tr>
+            <tr><td>🌊 Marin profond</td><td>Calcaire à globigérines · argiles bleues</td><td>Tests de globigérines (protozoaires)</td></tr>
+            <tr><td>🐚 Marin peu profond (néritique)</td><td>Calcaire à nummulites · calcaire coquiller · calcaire oolithique</td><td>Nummulites · Coquilles de mollusques (cardiums, strombes, pectens, ostréas)</td></tr>
+            <tr><td>🧂 Lagunaire / côtier</td><td>Gypse · Sel gemme (évaporites)</td><td>Mollusques côtiers · rares fossiles</td></tr>
+            <tr><td>🌍 Continental</td><td>Sables · argiles · grès · calcaires continentaux</td><td>Escargots (Hélix) · bois silicifiés · empreintes de feuilles · limnées (eau douce)</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="exo">
+        <div class="exo-title">✏️ Exercice — Principe des causes actuelles</div>
+        <div class="exo-q" id="exo-pca-q">
+          <p>1. Le principe des causes actuelles stipule que les phénomènes géologiques anciens sont <select class="blank" data-rep="analogues à ceux qui se passent actuellement"><option value="">—</option><option>complètement différents des phénomènes actuels</option><option>analogues à ceux qui se passent actuellement</option><option>impossibles à comprendre</option></select>. Il permet de lire <select class="blank" data-rep="le passé géologique à partir du présent"><option value="">—</option><option>le futur géologique</option><option>le passé géologique à partir du présent</option></select>.</p>
+          <p>2. La présence d'une strate de <strong>gypse</strong> dans un site géologique indique un faciès <select class="blank" data-rep="lagunaire (évaporation intense en milieu côtier fermé)"><option value="">—</option><option>marin profond</option><option>lagunaire (évaporation intense en milieu côtier fermé)</option><option>continental d'eau douce</option></select>.</p>
+          <p>3. Si dans une colonne de strates, on passe de bas en haut d'un faciès <strong>marin</strong> à un faciès <strong>continental</strong>, cela indique une <select class="blank" data-rep="régression marine"><option value="">—</option><option>transgression marine</option><option>régression marine</option></select>. Si on passe de continental à marin, c'est une <select class="blank" data-rep="transgression marine"><option value="">—</option><option>régression marine</option><option>transgression marine</option></select>.</p>
+          <p>4. Un fossile d'<strong>Hélix</strong> (escargot terrestre) dans une strate indique que la région était <select class="blank" data-rep="émergée (faciès continental)"><option value="">—</option><option>recouverte par une mer profonde</option><option>émergée (faciès continental)</option><option>une zone lagunaire évaporite</option></select> au moment du dépôt.</p>
+        </div>
+        <button class="btn-exo" onclick="checkExo('exo-pca')">✓ Vérifier</button>
+        <button class="btn-reset-exo" onclick="resetExo('exo-pca')">↺ Réinitialiser</button>
+        <div class="exo-feedback" id="exo-pca-fb"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEFORMATIONS TECTONIQUES -->
+  <div class="subpanel" id="sub-3-1">
+    <div class="card teal">
+      <h2 class="teal">🔧 Les Déformations Tectoniques (p.153)</h2>
+      <div class="resume-box teal">
+        <strong>En résumé :</strong> après leur dépôt, les strates peuvent être déformées par des mouvements tectoniques. Deux types : les <strong>failles</strong> (cassures avec déplacement) et les <strong>plis</strong> (ondulations souples). Les plis forment les chaînes de montagne. Ces déformations permettent d'identifier des événements géologiques postérieurs au dépôt.
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head teal" onclick="toggleSSAccord(this)">Les Failles — déformation cassante <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="grid2">
+            <div>
+              <p>Une <strong>faille</strong> est une <strong>cassure</strong> plus ou moins profonde des couches de terrain, <strong>accompagnée d'un déplacement</strong> des compartiments séparés par la cassure.</p>
+              <p style="margin-top:10px"><strong>Comment reconnaître une faille ?</strong> En observant un <strong>décalage des strates</strong> de part et d'autre de la cassure. Les couches qui étaient continues se retrouvent décalées verticalement (ou horizontalement).</p>
+              <div class="explication teal" style="margin-top:10px">
+                <strong>Exemple à Kerkenah :</strong> à la fin du Villafranchien, des failles ont affecté les séries sédimentaires des îles Kerkenah. Cette perturbation explique l'absence de dépôts quaternaires dans certains sites (falaise d'El Jeurf) alors qu'ils sont présents à Ras Amer.
+              </div>
+            </div>
+            <div class="svgbox">
+              <svg viewBox="0 0 260 180" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+                <text x="130" y="15" text-anchor="middle" font-size="10" font-weight="700" fill="#00695C">La Faille — déformation cassante</text>
+                <!-- AVANT : couches horizontales -->
+                <text x="65" y="32" text-anchor="middle" font-size="9" fill="#555">AVANT</text>
+                <rect x="5" y="38" width="120" height="12" fill="#FFECB3" stroke="#F9A825"/>
+                <rect x="5" y="50" width="120" height="12" fill="#BCAAA4" stroke="#795548"/>
+                <rect x="5" y="62" width="120" height="12" fill="#A5D6A7" stroke="#2E7D32"/>
+                <rect x="5" y="74" width="120" height="12" fill="#90CAF9" stroke="#1565C0"/>
+                <!-- APRÈS : couches faillées -->
+                <text x="195" y="32" text-anchor="middle" font-size="9" fill="#555">APRÈS</text>
+                <!-- Compartiment gauche descendu -->
+                <rect x="135" y="55" width="55" height="12" fill="#FFECB3" stroke="#F9A825"/>
+                <rect x="135" y="67" width="55" height="12" fill="#BCAAA4" stroke="#795548"/>
+                <rect x="135" y="79" width="55" height="12" fill="#A5D6A7" stroke="#2E7D32"/>
+                <rect x="135" y="91" width="55" height="12" fill="#90CAF9" stroke="#1565C0"/>
+                <!-- Compartiment droit resté -->
+                <rect x="198" y="38" width="57" height="12" fill="#FFECB3" stroke="#F9A825"/>
+                <rect x="198" y="50" width="57" height="12" fill="#BCAAA4" stroke="#795548"/>
+                <rect x="198" y="62" width="57" height="12" fill="#A5D6A7" stroke="#2E7D32"/>
+                <rect x="198" y="74" width="57" height="12" fill="#90CAF9" stroke="#1565C0"/>
+                <!-- Ligne de faille -->
+                <line x1="193" y1="35" x2="193" y2="110" stroke="#B71C1C" stroke-width="2.5"/>
+                <text x="186" y="120" font-size="9" fill="#B71C1C" font-weight="700">Faille</text>
+                <!-- Labels -->
+                <text x="162" y="112" text-anchor="middle" font-size="8" fill="#555">Compartiment</text>
+                <text x="162" y="122" text-anchor="middle" font-size="8" fill="#555">abaissé</text>
+                <text x="225" y="112" text-anchor="middle" font-size="8" fill="#555">Compartiment</text>
+                <text x="225" y="122" text-anchor="middle" font-size="8" fill="#555">surélevé</text>
+                <!-- Flèche décalage -->
+                <path d="M140 67 L135 55" stroke="#B71C1C" stroke-width="1.5" stroke-dasharray="3,2"/>
+                <text x="60" y="145" text-anchor="middle" font-size="9" fill="#B71C1C">Décalage des strates = preuve de faille</text>
+                <text x="130" y="160" text-anchor="middle" font-size="9" fill="#555">Les couches continues sont interrompues et décalées</text>
+              </svg>
+              <figcaption>Avant/après : la faille décale les strates de part et d'autre de la cassure</figcaption>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ssaccord-item">
+        <div class="ssaccord-head teal" onclick="toggleSSAccord(this)">Les Plis — déformation souple (anticlinaux et synclinaux) <span class="ssaccord-arrow">▼</span></div>
+        <div class="ssaccord-body">
+          <div class="grid2">
+            <div>
+              <p>Les <strong>plis</strong> sont des <strong>ondulations des couches</strong> de terrain avec une alternance de parties creuses (<strong>synclinaux</strong>) et de parties bombées (<strong>anticlinaux</strong>).</p>
+              <p style="margin-top:8px">Les plissements affectent les couches <strong>profondes</strong> de l'écorce terrestre → ils forment les <strong>chaînes de montagne</strong> (ex : Atlas tunisien).</p>
+              <div class="explication teal" style="margin-top:10px">
+                <strong>Lien avec Sidi Mhareb :</strong> à la fin du Miocène, un plissement a affecté la série inférieure → couches inclinées à 40°. Le soulèvement de l'anticlinal → régression marine → émersion → érosion du sommet du pli (aplanissement) → surface de discordance sur laquelle se déposera la série supérieure au Tyrrhénien.
+              </div>
+            </div>
+            <div class="svgbox">
+              <svg viewBox="0 0 260 180" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+                <text x="130" y="15" text-anchor="middle" font-size="10" font-weight="700" fill="#00695C">Le Pli — déformation souple</text>
+                <!-- AVANT -->
+                <text x="65" y="30" text-anchor="middle" font-size="9" fill="#555">Avant plissement</text>
+                <rect x="5" y="35" width="120" height="8" fill="#FFECB3" stroke="#F9A825" stroke-width="1"/>
+                <rect x="5" y="44" width="120" height="8" fill="#BCAAA4" stroke="#795548" stroke-width="1"/>
+                <rect x="5" y="53" width="120" height="8" fill="#A5D6A7" stroke="#2E7D32" stroke-width="1"/>
+                <!-- APRÈS : plis -->
+                <text x="195" y="30" text-anchor="middle" font-size="9" fill="#555">Après plissement</text>
+                <!-- Couches plissées -->
+                <path d="M135 68 Q155 45 175 68 Q195 90 215 68 Q235 45 255 68" fill="none" stroke="#F9A825" stroke-width="3"/>
+                <path d="M135 78 Q155 55 175 78 Q195 100 215 78 Q235 55 255 78" fill="none" stroke="#795548" stroke-width="3"/>
+                <path d="M135 88 Q155 65 175 88 Q195 110 215 88 Q235 65 255 88" fill="none" stroke="#2E7D32" stroke-width="3"/>
+                <!-- Labels anticlinal synclinal -->
+                <text x="175" y="42" text-anchor="middle" font-size="8" fill="#B71C1C" font-weight="700">Anticlinal</text>
+                <text x="175" y="50" text-anchor="middle" font-size="8" fill="#B71C1C">(bombé)</text>
+                <text x="215" y="98" text-anchor="middle" font-size="8" fill="#1565C0" font-weight="700">Synclinal</text>
+                <text x="215" y="108" text-anchor="middle" font-size="8" fill="#1565C0">(creux)</text>
+                <!-- Pendage -->
+                <line x1="155" y1="100" x2="155" y2="120" stroke="#333" stroke-width="1" stroke-dasharray="2,2"/>
+                <path d="M155 104 Q162 100 168 106" fill="none" stroke="#B71C1C" stroke-width="1"/>
+                <text x="170" y="105" font-size="8" fill="#B71C1C">pendage</text>
+                <!-- Conséquences -->
+                <text x="130" y="145" text-anchor="middle" font-size="9" fill="#00695C" font-weight="600">Plissement → soulèvement → régression</text>
+                <text x="130" y="158" text-anchor="middle" font-size="9" fill="#555">→ formation de chaînes de montagne</text>
+                <text x="130" y="170" text-anchor="middle" font-size="9" fill="#4E342E">Ex : Atlas tunisien ← plissements tertiaires</text>
+              </svg>
+              <figcaption>Déformation souple : anticlinaux (bombés) et synclinaux (creux)</figcaption>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice — Déformations tectoniques</div>
+      <div class="exo-q" id="exo-tecto-q">
+        <p>1. Une <strong>faille</strong> est une déformation <select class="blank" data-rep="cassante"><option value="">—</option><option>souple</option><option>cassante</option></select> qui se reconnaît par le <select class="blank" data-rep="décalage des strates de part et d'autre de la cassure"><option value="">—</option><option>pendage des couches</option><option>décalage des strates de part et d'autre de la cassure</option></select>.</p>
+        <p>2. Un <strong>anticlinal</strong> est la partie <select class="blank" data-rep="bombée (voûte)"><option value="">—</option><option>creuse (cuvette)</option><option>bombée (voûte)</option></select> d'un pli. Un <strong>synclinal</strong> est la partie <select class="blank" data-rep="creuse (cuvette)"><option value="">—</option><option>bombée</option><option>creuse (cuvette)</option></select>.</p>
+        <p>3. Les plissements des strates sédimentaires en milieu marin s'accompagnent d'un <select class="blank" data-rep="soulèvement et d'une régression marine"><option value="">—</option><option>enfoncement et d'une transgression marine</option><option>soulèvement et d'une régression marine</option></select>. C'est ce qui explique la formation des <select class="blank" data-rep="chaînes de montagne"><option value="">—</option><option>grottes et stalactites</option><option>chaînes de montagne</option></select>.</p>
+        <p>4. La série inférieure de Sidi Mhareb est inclinée à 40° car elle a subi un <select class="blank" data-rep="plissement à la fin du Miocène"><option value="">—</option><option>dépôt incliné dans une mer agitée</option><option>plissement à la fin du Miocène</option><option>glissement de terrain récent</option></select>.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-tecto')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-tecto')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-tecto-fb"></div>
+    </div>
+  </div>
+
+  <!-- STRATIGRAPHIE TUNISIE -->
+  <div class="subpanel" id="sub-3-2">
+    <div class="card teal">
+      <h2 class="teal">📅 Aperçu sur l'histoire géologique de la Tunisie (p.154–155)</h2>
+      <div class="resume-box teal">
+        <strong>En résumé :</strong> l'histoire géologique de la Tunisie se lit dans ses roches depuis le Précambrien (> 540 MA) jusqu'à l'actuel. Chaque ère a laissé des témoins (roches + fossiles). La Tunisie a souvent été couverte par la mer, avec des épisodes d'émersion et de plissements qui ont façonné ses reliefs actuels.
+      </div>
+
+      <h3>🕰️ Frise stratigraphique — cliquer sur chaque ère</h3>
+      <div class="frise-strati">
+        <div class="frise-ere" onclick="toggleEre(this)">
+          <div class="frise-ere-head">
+            <div class="frise-ere-label" style="background:#37474F">Précambrien</div>
+            <div class="frise-ere-age" style="background:#455A64">&gt; 540 MA</div>
+            <div class="frise-ere-title" style="background:#ECEFF1">Origine de la Terre · Premières roches</div>
+          </div>
+          <div class="frise-ere-body" style="background:#ECEFF1">
+            Pas d'affleurements précambriens étudiés en Tunisie dans ce programme. Période des premières formes de vie (bactéries, algues).
+          </div>
+        </div>
+        <div class="frise-ere" onclick="toggleEre(this)">
+          <div class="frise-ere-head">
+            <div class="frise-ere-label" style="background:#1B5E20">Primaire</div>
+            <div class="frise-ere-age" style="background:#2E7D32">540–245 MA</div>
+            <div class="frise-ere-title" style="background:#E8F5E9">Jebel Tebaga (Mednine) : strates marines à trilobites et mollusques</div>
+          </div>
+          <div class="frise-ere-body" style="background:#E8F5E9">
+            <strong>Permien :</strong> affleurements au Jebel Tebaga (région de Mednine). Strates riches en fossiles marins (mollusques, trilobites, fusilines) → le Nord de la plate-forme saharienne était couvert par la mer. Preuve : faciès marin dans une région aujourd'hui désertique.
+          </div>
+        </div>
+        <div class="frise-ere" onclick="toggleEre(this)">
+          <div class="frise-ere-head">
+            <div class="frise-ere-label" style="background:#1A237E">Secondaire</div>
+            <div class="frise-ere-age" style="background:#283593">245–55 MA</div>
+            <div class="frise-ere-title" style="background:#E8EAF6">Trias (gypse lagunaire) · Jurassique (grande transgression) · Crétacé (émersions)</div>
+          </div>
+          <div class="frise-ere-body" style="background:#E8EAF6">
+            <strong>Trias (245–205 MA) :</strong> gypse lagunaire au Sud · gypse + argile dans les diapirs de l'Atlas. Fin du Trias : plissements → chaîne de Tébaga.<br>
+            <strong>Jurassique (205–135 MA) :</strong> grande transgression marine recouvrant toute la Tunisie. Dépôts marins au Nord/centre · lagunaires au Sud.<br>
+            <strong>Crétacé (135–55 MA) :</strong> zone continentale au centre (régression). Fin du Crétacé : nouvelle transgression marine au Sud.
+          </div>
+        </div>
+        <div class="frise-ere" onclick="toggleEre(this)">
+          <div class="frise-ere-head">
+            <div class="frise-ere-label" style="background:#B71C1C">Tertiaire</div>
+            <div class="frise-ere-age" style="background:#C62828">55–2 MA</div>
+            <div class="frise-ere-title" style="background:#FFEBEE">Éocène (phosphates) · Miocène (Sidi Mhareb) · Pliocène (régression)</div>
+          </div>
+          <div class="frise-ere-body" style="background:#FFEBEE">
+            <strong>Éocène (55–35 MA) :</strong> deux domaines : continental (île de Kasserine) + marin → <strong>sédimentation des phosphates</strong> en bordure de l'île de Kasserine + calcaires à nummulites. Mouvements tectoniques → remontée des séries triasiques (diapirs).<br>
+            <strong>Oligocène (35–23 MA) :</strong> régression importante · mouvements tectoniques.<br>
+            <strong>Miocène (23–5 MA) :</strong> transgression à l'Est (Sahel) → grès calcaires et argiles sableuses (série inférieure de Sidi Mhareb). Fin Miocène : <strong>plissement</strong> → pendage 40° à Sidi Mhareb → régression.<br>
+            <strong>Pliocène (5–2 MA) :</strong> mer localisée près du littoral · argiles, sables et grès fossilifères. Fin Pliocène/Villafranchien : régression → croûte calcaire littorale (calcaire quartzeux).
+          </div>
+        </div>
+        <div class="frise-ere" onclick="toggleEre(this)">
+          <div class="frise-ere-head">
+            <div class="frise-ere-label" style="background:#E65100">Quaternaire</div>
+            <div class="frise-ere-age" style="background:#F57F17">2 MA–actuel</div>
+            <div class="frise-ere-title" style="background:#FFF3E0">Eutyrrhénien · Tyrrhénien · Néotyrrhénien — Calcaires à strombes</div>
+          </div>
+          <div class="frise-ere-body" style="background:#FFF3E0">
+            <strong>Villafranchien (fin Pliocène/début Quaternaire) :</strong> émersion · croûte calcaire (calcaire quartzeux) le long du littoral.<br>
+            <strong>Eutyrrhénien :</strong> <strong>transgression marine</strong> → mer peu profonde et chaude → dépôt de <strong>calcaire oolithique à strombes</strong> à Monastir, Sfax, Kerkenah, Cap Bon, Jerba.<br>
+            <strong>Tyrrhénien :</strong> régression → faciès continental (argile silteuse à Hélix à Kerkenah).<br>
+            <strong>Néotyrrhénien :</strong> transgression → calcaire coquiller (strate 1 de Ras Amer).<br>
+            <strong>Actuel :</strong> érosion marine façonne les falaises visibles aujourd'hui.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HISTOIRE SIDI MHAREB -->
+  <div class="subpanel" id="sub-3-3">
+    <div class="card teal">
+      <h2 class="teal">🏔️ Histoire géologique de Sidi Mhareb à Monastir (p.156–159)</h2>
+      <div class="resume-box teal">
+        <strong>En résumé :</strong> 6 événements géologiques successifs du Miocène à l'actuel. La clé : un plissement à la fin du Miocène crée une discordance entre les deux séries. Ce site illustre parfaitement la succession transgression → plissement → régression → érosion → transgression → régression.
+      </div>
+
+      <h3>🎬 Reconstitution étape par étape — cliquer sur chaque événement</h3>
+      <div class="reconst-container">
+        <div class="reconst-btns">
+          <button class="reconst-btn active" onclick="showReconst('smh',0)">1. Miocène</button>
+          <button class="reconst-btn" onclick="showReconst('smh',1)">2. Plissement</button>
+          <button class="reconst-btn" onclick="showReconst('smh',2)">3. Régression</button>
+          <button class="reconst-btn" onclick="showReconst('smh',3)">4. Érosion</button>
+          <button class="reconst-btn" onclick="showReconst('smh',4)">5. Transgression</button>
+          <button class="reconst-btn" onclick="showReconst('smh',5)">6. Actuel</button>
+        </div>
+
+        <div class="reconst-step active" id="smh-0">
+          <div class="svgbox" style="margin:0">
+            <svg viewBox="0 0 560 140" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="280" y="15" text-anchor="middle" font-size="11" font-weight="700" fill="#00695C">Étape 1 — Miocène : Transgression marine et dépôt de la série inférieure</text>
+              <rect x="10" y="28" width="540" height="45" fill="#90CAF9" opacity=".5"/>
+              <text x="280" y="48" text-anchor="middle" font-size="10" fill="#1565C0">🌊 Mer peu profonde couvre la région</text>
+              <rect x="10" y="73" width="540" height="12" fill="#A5D6A7" stroke="#2E7D32" stroke-width="1"/>
+              <rect x="10" y="85" width="540" height="12" fill="#BCAAA4" stroke="#795548" stroke-width="1"/>
+              <rect x="10" y="97" width="540" height="12" fill="#424242" stroke="#333" stroke-width="1" opacity=".6"/>
+              <text x="280" y="82" text-anchor="middle" font-size="9" fill="#1b5e20">Argile (faciès marin)</text>
+              <text x="280" y="94" text-anchor="middle" font-size="9" fill="#4E342E">Grès (faciès marin)</text>
+              <text x="280" y="106" text-anchor="middle" font-size="9" fill="white">Lignite</text>
+              <text x="280" y="125" text-anchor="middle" font-size="10" fill="#00695C" font-weight="600">Dépôt horizontal de la série inférieure (argile + grès + lignite) · Fossiles : ostréas, pectens</text>
+            </svg>
+          </div>
+          <div class="reconst-desc"><strong>Miocène :</strong> transgression marine → la mer peu profonde couvre la région de Sidi Mhareb. Dépôt horizontal de la <strong>série inférieure</strong> : argiles vertes et rouges, grès brun, lignite. Ces roches ont un <strong>faciès marin</strong> confirmé par leurs fossiles (ostréas, pectens, turitelles).</div>
+        </div>
+
+        <div class="reconst-step" id="smh-1">
+          <div class="svgbox" style="margin:0">
+            <svg viewBox="0 0 560 140" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="280" y="15" text-anchor="middle" font-size="11" font-weight="700" fill="#00695C">Étape 2 — Fin Miocène : Plissement tectonique → inclinaison des couches</text>
+              <!-- Couches plissées -->
+              <path d="M10 55 L280 35 L550 55" fill="none" stroke="#A5D6A7" stroke-width="8"/>
+              <path d="M10 68 L280 48 L550 68" fill="none" stroke="#BCAAA4" stroke-width="8"/>
+              <path d="M10 80 L280 60 L550 80" fill="none" stroke="#424242" stroke-width="8" opacity=".7"/>
+              <!-- Flèches compression -->
+              <path d="M10 100 L50 100" stroke="#B71C1C" stroke-width="3" marker-end="url(#rarr)"/>
+              <path d="M550 100 L510 100" stroke="#B71C1C" stroke-width="3" marker-end="url(#larr)"/>
+              <defs>
+                <marker id="rarr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#B71C1C"/></marker>
+                <marker id="larr" markerWidth="8" markerHeight="8" refX="2" refY="3" orient="auto"><path d="M8,0 L8,6 L0,3 z" fill="#B71C1C"/></marker>
+              </defs>
+              <text x="280" y="105" text-anchor="middle" font-size="11" fill="#B71C1C" font-weight="700">← Forces de compression →</text>
+              <text x="280" y="125" text-anchor="middle" font-size="10" fill="#B71C1C" font-weight="600">→ Couches plissées (anticlinal) → pendage 40° à Sidi Mhareb</text>
+            </svg>
+          </div>
+          <div class="reconst-desc"><strong>Fin Miocène :</strong> des mouvements tectoniques compriment les couches → <strong>plissement</strong>. Les couches de la série inférieure, qui étaient horizontales, sont <strong>inclinées (pendage 40°)</strong>. Un anticlinal se forme, entraînant le soulèvement de la région.</div>
+        </div>
+
+        <div class="reconst-step" id="smh-2">
+          <div class="svgbox" style="margin:0">
+            <svg viewBox="0 0 560 130" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="280" y="15" text-anchor="middle" font-size="11" font-weight="700" fill="#00695C">Étape 3 — Pliocène–Villafranchien : Régression marine → Émersion</text>
+              <!-- Terre émergée -->
+              <path d="M10 55 L280 35 L550 55 L550 120 L10 120 Z" fill="#D7CCC8"/>
+              <!-- Série inférieure inclinée visible -->
+              <path d="M10 65 L550 45" stroke="#A5D6A7" stroke-width="6"/>
+              <path d="M10 78 L550 58" stroke="#BCAAA4" stroke-width="6"/>
+              <path d="M10 90 L550 70" stroke="#424242" stroke-width="5" opacity=".7"/>
+              <!-- Mer qui recule -->
+              <text x="500" y="30" font-size="10" fill="#1565C0">🌊 Mer</text>
+              <path d="M420 35 L480 35" stroke="#1565C0" stroke-width="2" marker-end="url(#bleub)"/>
+              <text x="280" y="110" text-anchor="middle" font-size="10" fill="#4E342E" font-weight="600">Soulèvement de l'anticlinal → Régression marine → Émersion de la région</text>
+            </svg>
+          </div>
+          <div class="reconst-desc"><strong>Pliocène–Villafranchien :</strong> le soulèvement de la série inférieure entraîne une <strong>régression marine</strong> prolongée. La région est émergée (terre ferme). Les couches plissées sont désormais exposées aux agents d'érosion.</div>
+        </div>
+
+        <div class="reconst-step" id="smh-3">
+          <div class="svgbox" style="margin:0">
+            <svg viewBox="0 0 560 130" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="280" y="15" text-anchor="middle" font-size="11" font-weight="700" fill="#00695C">Étape 4 — Villafranchien : Érosion → Aplanissement du sommet de l'anticlinal</text>
+              <!-- Surface aplanie HORIZONTALE -->
+              <line x1="10" y1="50" x2="550" y2="50" stroke="#8B7355" stroke-width="4"/>
+              <text x="280" y="42" text-anchor="middle" font-size="9" fill="#8B7355" font-weight="700">Surface d'érosion (horizontale)</text>
+              <!-- Couches inclinées sous la surface -->
+              <path d="M10 55 L550 35" stroke="#A5D6A7" stroke-width="6"/>
+              <path d="M10 68 L550 48" stroke="#BCAAA4" stroke-width="6"/>
+              <path d="M10 80 L550 60" stroke="#424242" stroke-width="5" opacity=".7"/>
+              <path d="M10 92 L550 72" stroke="#A5D6A7" stroke-width="6"/>
+              <!-- Flèches érosion -->
+              <text x="140" y="32" font-size="18">⛏️</text>
+              <text x="230" y="32" font-size="18">🌧️</text>
+              <text x="320" y="32" font-size="18">💨</text>
+              <text x="280" y="115" text-anchor="middle" font-size="10" fill="#795548" font-weight="600">L'érosion aplanit le sommet du pli → surface de discordance (horizontale)</text>
+            </svg>
+          </div>
+          <div class="reconst-desc"><strong>Villafranchien :</strong> l'érosion (vent, pluie, ruissellement) attaque les couches plissées exposées. Le sommet de l'anticlinal est progressivement <strong>aplani</strong> → surface plane horizontale = <strong>surface de discordance</strong>. C'est cette surface qui va recevoir les dépôts de la série supérieure.</div>
+        </div>
+
+        <div class="reconst-step" id="smh-4">
+          <div class="svgbox" style="margin:0">
+            <svg viewBox="0 0 560 140" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="280" y="15" text-anchor="middle" font-size="11" font-weight="700" fill="#00695C">Étape 5 — Tyrrhénien : Transgression → Dépôt série supérieure (calcaire oolithique)</text>
+              <!-- Mer -->
+              <rect x="10" y="25" width="540" height="30" fill="#90CAF9" opacity=".5"/>
+              <text x="280" y="45" text-anchor="middle" font-size="10" fill="#1565C0">🌊 Nouvelle transgression marine chaude</text>
+              <!-- Série supérieure HORIZONTALE -->
+              <rect x="10" y="55" width="540" height="20" fill="#FFECB3" stroke="#F9A825" stroke-width="2"/>
+              <text x="280" y="70" text-anchor="middle" font-size="10" font-weight="700" fill="#E65100">Série supérieure : Calcaire oolithique HORIZONTAL (strombes + cardiums)</text>
+              <!-- Surface discordance -->
+              <line x1="10" y1="75" x2="550" y2="75" stroke="#B71C1C" stroke-width="2.5" stroke-dasharray="8,4"/>
+              <text x="280" y="83" text-anchor="middle" font-size="8" fill="#B71C1C">— Surface de discordance —</text>
+              <!-- Couches inclinées -->
+              <path d="M10 85 L550 65" stroke="#A5D6A7" stroke-width="5"/>
+              <path d="M10 98 L550 78" stroke="#BCAAA4" stroke-width="5"/>
+              <path d="M10 110 L550 90" stroke="#424242" stroke-width="4" opacity=".7"/>
+              <text x="280" y="128" text-anchor="middle" font-size="10" fill="#E65100" font-weight="600">Série supérieure HORIZONTALE sur série inférieure INCLINÉE = DISCORDANCE</text>
+            </svg>
+          </div>
+          <div class="reconst-desc"><strong>Tyrrhénien :</strong> nouvelle <strong>transgression marine</strong> → mer chaude peu profonde → dépôt horizontal du <strong>calcaire oolithique à strombes</strong> (série supérieure). Ce calcaire se dépose directement sur la surface d'érosion → contact anormal avec les couches inclinées = <strong>discordance</strong>.</div>
+        </div>
+
+        <div class="reconst-step" id="smh-5">
+          <div class="svgbox" style="margin:0">
+            <svg viewBox="0 0 560 160" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+              <text x="280" y="15" text-anchor="middle" font-size="11" font-weight="700" fill="#00695C">Étape 6 — Actuel : Falaise visible + érosion en cours</text>
+              <!-- Sol -->
+              <rect x="10" y="25" width="540" height="12" fill="#8B7355"/>
+              <text x="280" y="35" text-anchor="middle" font-size="8" fill="white">Sol + végétation</text>
+              <!-- Calcaire oolithique horizontal -->
+              <rect x="10" y="37" width="540" height="25" fill="#FFECB3" stroke="#F9A825" stroke-width="1.5"/>
+              <text x="280" y="54" text-anchor="middle" font-size="9" fill="#E65100">Calcaire oolithique HORIZONTAL (Tyrrhénien) — SAILLANT, fissuré</text>
+              <!-- Discordance -->
+              <line x1="10" y1="62" x2="550" y2="62" stroke="#B71C1C" stroke-width="2" stroke-dasharray="6,3"/>
+              <!-- Série inférieure inclinée -->
+              <path d="M10 68 L550 48" stroke="#A5D6A7" stroke-width="8"/>
+              <path d="M10 82 L550 62" stroke="#BCAAA4" stroke-width="8"/>
+              <path d="M10 96 L550 76" stroke="#424242" stroke-width="6" opacity=".7"/>
+              <path d="M10 110 L550 90" stroke="#A5D6A7" stroke-width="8"/>
+              <path d="M10 124 L550 104" stroke="#BCAAA4" stroke-width="8"/>
+              <!-- Mer et falaise -->
+              <rect x="450" y="25" width="110" height="140" fill="#90CAF9" opacity=".4"/>
+              <text x="505" y="90" font-size="8" fill="#1565C0">🌊 Mer</text>
+              <line x1="450" y1="25" x2="450" y2="165" stroke="#1565C0" stroke-width="2"/>
+              <text x="430" y="155" font-size="8" fill="#4E342E" font-weight="700">Falaise</text>
+              <!-- Blocs tombés -->
+              <circle cx="470" cy="160" r="8" fill="#FFECB3" stroke="#F9A825"/>
+              <circle cx="490" cy="155" r="5" fill="#FFECB3" stroke="#F9A825"/>
+              <text x="460" y="145" font-size="8" fill="#795548">Blocs éboulés</text>
+            </svg>
+          </div>
+          <div class="reconst-desc"><strong>Actuel :</strong> fin Tyrrhénien → régression → mer se retire. La falaise est visible aujourd'hui. L'érosion marine continue d'attaquer la falaise : rigoles dans les argiles, fissures dans le calcaire, blocs de calcaire au pied de la falaise. La discordance entre les deux séries est clairement visible dans la coupe.</div>
+        </div>
+      </div>
+
+      <table style="margin-top:16px">
+        <tr><th class="teal">Période</th><th class="teal">Événement</th><th class="teal">Preuve</th></tr>
+        <tr><td>Miocène</td><td>Transgression → dépôt série inférieure horizontale</td><td>Faciès marin (ostréas, pectens) · Argile, grès, lignite</td></tr>
+        <tr><td>Fin Miocène</td><td>Plissement tectonique → couches inclinées 40°</td><td>Pendage 40° de la série inférieure</td></tr>
+        <tr><td>Pliocène–Villafranchien</td><td>Soulèvement anticlinal + Régression</td><td>Émersion de la région · Absence de dépôts pliocènes</td></tr>
+        <tr><td>Villafranchien</td><td>Érosion → aplanissement du sommet du pli</td><td>Surface horizontale de discordance</td></tr>
+        <tr><td>Tyrrhénien</td><td>Transgression → dépôt calcaire oolithique horizontal</td><td>Faciès marin peu profond chaud (strombes) · Discordance</td></tr>
+        <tr><td>Fin Tyrrhénien → Actuel</td><td>Régression + érosion marine</td><td>Blocs au pied de falaise · Fissures · Rigoles</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- HISTOIRE RAS AMER -->
+  <div class="subpanel" id="sub-3-4">
+    <div class="card teal">
+      <h2 class="teal">🏝️ Histoire géologique de Ras Amer à Kerkenah (p.157–159)</h2>
+      <div class="resume-box teal">
+        <strong>En résumé :</strong> 2 cycles sédimentaires complets au Quaternaire. La clé est la strate 2 à Hélix qui prouve une émersion entre les deux transgressions. L'histoire se lit de bas en haut dans les 3 strates de la falaise.
+      </div>
+      <table>
+        <tr><th class="teal">Événement</th><th class="teal">Période</th><th class="teal">Strate</th><th class="teal">Preuve</th></tr>
+        <tr><td>🌊 <strong>1ère Transgression</strong> → mer peu profonde chaude</td><td>Eutyrrhénien</td><td>Strate 3 (base)</td><td>Calcaire oolithique + lumachelle · Strombes (marins) + coquilles brisées (mer agitée)</td></tr>
+        <tr><td>🌍 <strong>Régression</strong> → émersion · terre ferme</td><td>Tyrrhénien</td><td>Strate 2 (milieu)</td><td>Argile silteuse · Hélix (gastéropode terrestre = escargot) → faciès continental</td></tr>
+        <tr><td>🌊 <strong>2ème Transgression</strong> → retour de la mer</td><td>Néotyrrhénien</td><td>Strate 1 (sommet)</td><td>Calcaire coquiller · Mollusques marins → faciès marin peu profond</td></tr>
+        <tr><td>🔄 <strong>Léger plissement</strong></td><td>Fin Néotyrrhénien</td><td>Toutes les strates</td><td>Légère inclinaison des strates (pas parfaitement horizontales)</td></tr>
+        <tr><td>⛏️ <strong>Érosion marine actuelle</strong></td><td>Actuel</td><td>Affleurements</td><td>Calcaires saillants (durs) · Silts creusés (tendres) · Éboulis au pied</td></tr>
+      </table>
+      <div class="info-box teal">
+        <div class="icon">🔑</div>
+        <p><strong>Conclusion :</strong> au Quaternaire, deux cycles sédimentaires se sont succédé à Ras Amer : <strong>cycle 1</strong> = Eutyrrhénien (mer) → Tyrrhénien (terre) · <strong>cycle 2</strong> = Néotyrrhénien (mer). Le modelé actuel est expliqué par la différence de dureté : calcaires saillants (durs, résistants) / silts creusés (tendres, friables).</p>
+      </div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice — Histoires géologiques</div>
+      <div class="exo-q" id="exo-hist-q">
+        <p>1. La discordance à Sidi Mhareb s'explique par l'ordre des événements : dépôt série inférieure (Miocène) → <select class="blank" data-rep="plissement + régression + érosion"><option value="">—</option><option>transgression directe</option><option>plissement + régression + érosion</option><option>sédimentation continue</option></select> → dépôt série supérieure (Tyrrhénien).</p>
+        <p>2. À Ras Amer, la strate 2 (argile à Hélix) prouve qu'entre l'Eutyrrhénien et le Néotyrrhénien, la région de Kerkenah a été <select class="blank" data-rep="émergée (terre ferme) — régression marine"><option value="">—</option><option>recouverte par une mer profonde</option><option>émergée (terre ferme) — régression marine</option><option>lagunaire avec évaporation intense</option></select>.</p>
+        <p>3. Le nombre de cycles sédimentaires à Ras Amer au Quaternaire est de <select class="blank" data-rep="2 cycles (2 transgressions + 1 régression)"><option value="">—</option><option>1 cycle (1 transgression)</option><option>2 cycles (2 transgressions + 1 régression)</option><option>3 cycles</option></select>.</p>
+        <p>4. L'érosion actuelle à Ras Amer creuse la strate 2 car l'argile silteuse est <select class="blank" data-rep="tendre et friable"><option value="">—</option><option>dure et imperméable</option><option>tendre et friable</option></select>, tandis que les strates 1 et 3 (calcaires) sont <select class="blank" data-rep="saillantes car dures et résistantes à l'érosion"><option value="">—</option><option>creusées car dures</option><option>saillantes car dures et résistantes à l'érosion</option></select>.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-hist')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-hist')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-hist-fb"></div>
+    </div>
+  </div>
+
+  <!-- EXO GLOBAL ACT3 -->
+  <div class="subpanel" id="sub-3-5">
+    <div class="exo">
+      <div class="exo-title">✏️ Exercice global — Reconstitution d'histoire géologique</div>
+      <div class="exo-q" id="exo-act3-q">
+        <p>1. Pour reconstituer l'histoire d'un site, on utilise 3 types d'indices : <select class="blank" data-rep="les fossiles (faciès), la nature des roches, et les déformations tectoniques"><option value="">—</option><option>la couleur des roches uniquement</option><option>les fossiles (faciès), la nature des roches, et les déformations tectoniques</option><option>la profondeur du site uniquement</option></select>.</p>
+        <p>2. Dans une falaise, si deux séries de strates ne sont pas parallèles, il y a eu une <select class="blank" data-rep="discontinuité de sédimentation (discordance)"><option value="">—</option><option>sédimentation continue normale</option><option>discontinuité de sédimentation (discordance)</option></select>. L'événement intermédiaire est en général un <select class="blank" data-rep="plissement + régression + érosion"><option value="">—</option><option>simple dépôt supplémentaire</option><option>plissement + régression + érosion</option></select>.</p>
+        <p>3. Le fossile de <strong>strombe</strong> dans une strate indique que la région était couverte par <select class="blank" data-rep="une mer peu profonde et chaude (faciès marin)"><option value="">—</option><option>un lac d'eau douce</option><option>une mer peu profonde et chaude (faciès marin)</option><option>un désert continental</option></select> à l'âge <select class="blank" data-rep="Quaternaire (Eutyrrhénien)"><option value="">—</option><option>Éocène</option><option>Quaternaire (Eutyrrhénien)</option><option>Miocène</option></select>.</p>
+        <p>4. À Sidi Mhareb, la surface séparant les deux séries est <select class="blank" data-rep="horizontale (surface d'érosion = discordance)"><option value="">—</option><option>verticale (faille)</option><option>horizontale (surface d'érosion = discordance)</option><option>inclinée à 40°</option></select>, ce qui prouve que le sommet de l'anticlinal a été <select class="blank" data-rep="aplani par l'érosion"><option value="">—</option><option>recouvert sans perturbation</option><option>aplani par l'érosion</option></select> avant le dépôt de la série supérieure.</p>
+      </div>
+      <button class="btn-exo" onclick="checkExo('exo-act3')">✓ Vérifier</button>
+      <button class="btn-reset-exo" onclick="resetExo('exo-act3')">↺ Réinitialiser</button>
+      <div class="exo-feedback" id="exo-act3-fb"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ BILAN ═══ -->
+<div class="panel" id="panel-4">
+  <div class="card">
+    <h2>📋 Bilan — Étude d'un site géologique local (p.158–159)</h2>
+    <div class="svgbox">
+      <svg viewBox="0 0 580 180" xmlns="http://www.w3.org/2000/svg" style="font-family:'Source Sans 3',sans-serif">
+        <text x="290" y="18" text-anchor="middle" font-size="13" font-weight="700" fill="#4E342E">Démarche complète d'étude d'un site géologique</text>
+        <rect x="10" y="30" width="120" height="130" rx="10" fill="#efebe9" stroke="#795548" stroke-width="2"/>
+        <text x="70" y="50" text-anchor="middle" font-size="10" font-weight="700" fill="#4E342E">🗺️ Sortie</text>
+        <text x="70" y="65" text-anchor="middle" font-size="9" fill="#555">Décrire le relief</text>
+        <text x="70" y="79" text-anchor="middle" font-size="9" fill="#555">Identifier les strates</text>
+        <text x="70" y="93" text-anchor="middle" font-size="9" fill="#555">Mesurer pendage</text>
+        <text x="70" y="107" text-anchor="middle" font-size="9" fill="#555">Chercher fossiles</text>
+        <text x="70" y="121" text-anchor="middle" font-size="9" fill="#555">Prélever échantillons</text>
+        <text x="70" y="135" text-anchor="middle" font-size="9" fill="#555">Photos + notes</text>
+        <path d="M133 95 L163 95" stroke="#aaa" stroke-width="1.5" marker-end="url(#ga2)"/>
+        <rect x="165" y="30" width="120" height="130" rx="10" fill="#fff3e0" stroke="#E65100" stroke-width="2"/>
+        <text x="225" y="50" text-anchor="middle" font-size="10" font-weight="700" fill="#E65100">🪨 Étude roche</text>
+        <text x="225" y="65" text-anchor="middle" font-size="9" fill="#555">Aspect · Dureté</text>
+        <text x="225" y="79" text-anchor="middle" font-size="9" fill="#555">Porosité · Perméab.</text>
+        <text x="225" y="93" text-anchor="middle" font-size="9" fill="#555">Action acide (HCl)</text>
+        <text x="225" y="107" text-anchor="middle" font-size="9" fill="#555">Solubilité (CO₂)</text>
+        <text x="225" y="121" text-anchor="middle" font-size="9" fill="#555">Fossiles → Faciès</text>
+        <text x="225" y="135" text-anchor="middle" font-size="9" fill="#555">Origine de la roche</text>
+        <path d="M288 95 L318 95" stroke="#aaa" stroke-width="1.5" marker-end="url(#ga2)"/>
+        <rect x="320" y="30" width="120" height="130" rx="10" fill="#e0f2f1" stroke="#00695C" stroke-width="2"/>
+        <text x="380" y="50" text-anchor="middle" font-size="10" font-weight="700" fill="#00695C">⚖️ Principes</text>
+        <text x="380" y="65" text-anchor="middle" font-size="9" fill="#555">Causes actuelles</text>
+        <text x="380" y="79" text-anchor="middle" font-size="9" fill="#555">Superposition</text>
+        <text x="380" y="93" text-anchor="middle" font-size="9" fill="#555">Variation faciès</text>
+        <text x="380" y="107" text-anchor="middle" font-size="9" fill="#555">Transgression/Régr.</text>
+        <text x="380" y="121" text-anchor="middle" font-size="9" fill="#555">Déformations tecto.</text>
+        <text x="380" y="135" text-anchor="middle" font-size="9" fill="#555">Échelle stratigr.</text>
+        <path d="M443 95 L473 95" stroke="#aaa" stroke-width="1.5" marker-end="url(#ga2)"/>
+        <rect x="475" y="30" width="100" height="130" rx="10" fill="#e8f5e9" stroke="#2E7D32" stroke-width="2.5"/>
+        <text x="525" y="52" text-anchor="middle" font-size="10" font-weight="700" fill="#2E7D32">🕰️ Histoire</text>
+        <text x="525" y="68" text-anchor="middle" font-size="10" font-weight="700" fill="#2E7D32">géologique</text>
+        <text x="525" y="85" text-anchor="middle" font-size="9" fill="#555">reconstituée</text>
+        <text x="525" y="100" text-anchor="middle" font-size="9" fill="#555">Séquence</text>
+        <text x="525" y="114" text-anchor="middle" font-size="9" fill="#555">d'événements</text>
+        <text x="525" y="128" text-anchor="middle" font-size="9" fill="#555">datés</text>
+        <text x="525" y="142" text-anchor="middle" font-size="9" fill="#555">expliqués</text>
+      </svg>
+    </div>
+  </div>
+  <div class="accord-item">
+    <div class="accord-head" onclick="toggleAccord(this)">🗺️ Bilan A — La sortie géologique <span class="accord-arrow">▼</span></div>
+    <div class="accord-body">Le sous-sol est constitué de roches sédimentaires stratifiées. Les strates peuvent être horizontales (position initiale) ou inclinées voire fracturées (déformations tectoniques). Les roches sont de nature diverse (calcaire, grès, argile). Les strates contiennent souvent des fossiles (entiers ou brisés). Les deux sites tunisiens étudiés (Sidi Mhareb et Ras Amer) illustrent la diversité des situations géologiques.</div>
+  </div>
+  <div class="accord-item">
+    <div class="accord-head" onclick="toggleAccord(this)">🪨 Bilan B — Propriétés physico-chimiques du calcaire oolithique <span class="accord-arrow">▼</span></div>
+    <div class="accord-body">Le calcaire oolithique est formé d'<strong>oolithes</strong> cimentées (CaCO₃). Physiquement : roche dure (non rayée par l'ongle), poreuse et imperméable à l'échelle de l'échantillon mais perméable en grand (fissures). Chimiquement : effervescence avec HCl (test de reconnaissance), soluble dans l'eau + CO₂ → Ca(HCO₃)₂ → phénomènes karstiques. Précipitation (inverse) → stalactites, stalagmites, croûtes. Faciès marin peu profond, chaud, agité (Eutyrrhénien). Utilisation : construction (amphithéâtre El Jem).</div>
+  </div>
+  <div class="accord-item">
+    <div class="accord-head" onclick="toggleAccord(this)">🕰️ Bilan C — Histoires géologiques des deux sites <span class="accord-arrow">▼</span></div>
+    <div class="accord-body">
+      <strong>Sidi Mhareb :</strong> Miocène (mer → série inférieure) → Fin Miocène (plissement 40°) → Pliocène-Villafranchien (régression + érosion + aplanissement) → Tyrrhénien (transgression → calcaire oolithique) → Actuel (régression + érosion). Discordance entre les deux séries.<br><br>
+      <strong>Ras Amer :</strong> Eutyrrhénien (transgression → calcaire oolithique + strombes) → Tyrrhénien (régression → argile à Hélix) → Néotyrrhénien (transgression → calcaire coquiller) → Fin Néotyrrhénien (léger plissement) → Actuel (érosion différentielle). 2 cycles sédimentaires.
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FLASHCARDS ═══ -->
+<div class="panel" id="panel-5">
+  <h2 style="margin-bottom:16px">🃏 Flashcards — Choix multiple</h2>
+  <div class="fc-actions">
+    <button class="btn btn-brun" onclick="verifierFC()">✓ Vérifier tout</button>
+    <button class="btn btn-grey" onclick="resetFC()">↺ Recommencer</button>
+    <span id="fc-score" style="display:none;padding:10px 16px;border-radius:8px;font-weight:700"></span>
+  </div>
+  <div class="fc-grid" id="fc-container"></div>
+</div>
+
+<!-- ═══ QCM ═══ -->
+<div class="panel" id="panel-6">
+  <h2 style="margin-bottom:8px">✏️ QCM Format CAPES</h2>
+  <p style="margin-bottom:16px;font-size:.88rem;color:var(--text-muted)">Plusieurs réponses correctes possibles par question.</p>
+  <div id="qcm-container"></div>
+  <div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap">
+    <button class="btn btn-brun" onclick="corrigerQCM()">✓ Corriger</button>
+    <button class="btn btn-grey" onclick="resetQCM()">↺ Recommencer</button>
+  </div>
+  <div id="qcm-result"></div>
+</div>
+
+<!-- ═══ EXERCICES ═══ -->
+<div class="panel" id="panel-7">
+  <h2 style="margin-bottom:20px">📝 Exercices — D'après le manuel (p.160–163)</h2>
+
+  <div class="exo-manuel">
+    <h3>📘 Exercice corrigé — Karstification du calcaire (p.160–161)</h3>
+    <div class="contexte">3 figures (A, B, C) illustrent l'évolution d'un terrain calcaire sous l'action des eaux de ruissellement : A = fissures + calcaire sur roche imperméable · B = lapiez (saillies et sillons) · C = grotte avec stalactites et stalagmites. L'ordre correct est B → A → C.</div>
+    <div class="exo-q" id="exo-man1-q">
+      <p>1. L'ordre chronologique correct de l'évolution du paysage calcaire est :<br>
+      <select class="blank" data-rep="B (fissures initiales) → A (lapiez) → C (grottes + stalactites)"><option value="">—</option><option>A → B → C</option><option>C → A → B</option><option>B (fissures initiales) → A (lapiez) → C (grottes + stalactites)</option></select>.</p>
+      <p>2. En surface, le calcaire se creuse là où l'eau s'infiltre et forme des <select class="blank" data-rep="sillons séparés par des saillies (lapiez)"><option value="">—</option><option>stalactites et stalagmites</option><option>sillons séparés par des saillies (lapiez)</option><option>sebkhas et lagunes</option></select>.</p>
+      <p>3. En profondeur, les fissures s'élargissent par <select class="blank" data-rep="dissolution du calcaire par l'eau chargée en CO₂"><option value="">—</option><option>précipitation du bicarbonate de calcium</option><option>dissolution du calcaire par l'eau chargée en CO₂</option><option>compression tectonique</option></select>, formant des cavités (grottes, avens).</p>
+      <p>4. Au plafond des grottes, les stalactites se forment par <select class="blank" data-rep="précipitation du calcaire lors de l'évaporation de l'eau"><option value="">—</option><option>dissolution du calcaire par l'eau</option><option>précipitation du calcaire lors de l'évaporation de l'eau</option><option>dépôt de sédiments marins</option></select>. Les <strong>stalagmites</strong> poussent <select class="blank" data-rep="du plancher vers le plafond"><option value="">—</option><option>du plafond vers le plancher</option><option>du plancher vers le plafond</option></select>.</p>
+    </div>
+    <button class="btn-exo" onclick="checkExo('exo-man1')">✓ Vérifier</button>
+    <button class="btn-reset-exo" onclick="resetExo('exo-man1')">↺ Réinitialiser</button>
+    <div class="exo-feedback" id="exo-man1-fb"></div>
+  </div>
+
+  <div class="exo-manuel">
+    <h3>📘 Exercice 2 — Berge de l'oued Chiba (Nabeul) — p.162</h3>
+    <div class="contexte">La coupe montre de bas en haut : calcaire, marne, grès calcaire, sable siliceux, grès à ciment calcaire, dunes.</div>
+    <div class="exo-q" id="exo-man2-q">
+      <p>1. Ces affleurements sont des roches sédimentaires car ils sont <select class="blank" data-rep="stratifiés (disposés en couches superposées)"><option value="">—</option><option>de couleur brune uniforme</option><option>stratifiés (disposés en couches superposées)"></option></select> et contiennent des <select class="blank" data-rep="fossiles et sédiments déposés en bassins"><option value="">—</option><option>cristaux de granite</option><option>fossiles et sédiments déposés en bassins</option></select>.</p>
+      <p>2. Le modelé du paysage (reliefs différents selon les couches) s'explique par <select class="blank" data-rep="la différence de dureté des roches (les dures forment des saillies, les tendres des creux)"><option value="">—</option><option>la présence de fossiles</option><option>la différence de dureté des roches (les dures forment des saillies, les tendres des creux)</option></select>.</p>
+      <p>3. Les dunes au sommet de la coupe indiquent un faciès <select class="blank" data-rep="continental (éolien)"><option value="">—</option><option>marin profond</option><option>continental (éolien)</option><option>lagunaire</option></select>, tandis que le calcaire à la base indique un faciès <select class="blank" data-rep="marin (mer recouvrait la région)"><option value="">—</option><option>continental</option><option>marin (mer recouvrait la région)</option></select>.</p>
+    </div>
+    <button class="btn-exo" onclick="checkExo('exo-man2')">✓ Vérifier</button>
+    <button class="btn-reset-exo" onclick="resetExo('exo-man2')">↺ Réinitialiser</button>
+    <div class="exo-feedback" id="exo-man2-fb"></div>
+  </div>
+
+  <div class="exo-manuel">
+    <h3>📘 Exercice 5 — Falaise El Jeurf à Kerkenah — p.163</h3>
+    <div class="contexte">Falaise de 5 m montrant de bas en haut : Strate 1 = argile silteuse (faciès continental, âge pliocène) · Strate 2 = calcaire quartzeux rose saumon (faciès continental, âge villafranchien). Des failles ont affecté les séries à la fin du villafranchien.</div>
+    <div class="exo-q" id="exo-man3-q">
+      <p>1. La strate la plus récente de la falaise El Jeurf est la strate <select class="blank" data-rep="2 (calcaire quartzeux — Villafranchien, au sommet)"><option value="">—</option><option>1 (argile silteuse — Pliocène, à la base)</option><option>2 (calcaire quartzeux — Villafranchien, au sommet)</option></select>.</p>
+      <p>2. Les deux strates ont un faciès <select class="blank" data-rep="continental"><option value="">—</option><option>marin peu profond</option><option>lagunaire</option><option>continental</option></select>, ce qui signifie que la région d'El Jeurf n'a pas été couverte par la mer au <select class="blank" data-rep="Pliocène ni au Villafranchien"><option value="">—</option><option>Quaternaire</option><option>Pliocène ni au Villafranchien</option></select>.</p>
+      <p>3. L'absence de dépôts quaternaires à El Jeurf (contrairement à Ras Amer) s'explique par <select class="blank" data-rep="les failles qui ont affecté les séries à la fin du Villafranchien"><option value="">—</option><option>l'absence de la mer au Quaternaire dans toute la région</option><option>les failles qui ont affecté les séries à la fin du Villafranchien</option><option>l'érosion totale des dépôts quaternaires</option></select>, entraînant l'<select class="blank" data-rep="effondrement du site qui s'est enfoncé sous le niveau de la mer"><option value="">—</option><option>émersion du site hors de portée de la mer</option><option>effondrement du site qui s'est enfoncé sous le niveau de la mer</option></select>.</p>
+    </div>
+    <button class="btn-exo" onclick="checkExo('exo-man3')">✓ Vérifier</button>
+    <button class="btn-reset-exo" onclick="resetExo('exo-man3')">↺ Réinitialiser</button>
+    <div class="exo-feedback" id="exo-man3-fb"></div>
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<script>
+// TABS
+const panels=document.querySelectorAll('.panel'),tabs=document.querySelectorAll('.tab');
+const prog=document.getElementById('progFill');
+let visited=new Set([0]);
+function showTab(n){
+  panels.forEach(p=>p.classList.remove('active'));tabs.forEach(t=>t.classList.remove('active'));
+  panels[n].classList.add('active');tabs[n].classList.add('active');
+  visited.add(n);prog.style.width=Math.round(visited.size/tabs.length*100)+'%';
+  localStorage.setItem('p3ch1_tab',n);window.scrollTo({top:0,behavior:'smooth'});
+}
+const sv=localStorage.getItem('p3ch1_tab');if(sv)showTab(parseInt(sv));
+
+// SOUS-ONGLETS
+function showSubTab(act,sub){
+  document.querySelectorAll(`#panel-${act} .subpanel`).forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll(`#panel-${act} .subtab`).forEach(b=>b.classList.remove('active'));
+  document.getElementById(`sub-${act}-${sub}`).classList.add('active');
+  document.querySelectorAll(`#panel-${act} .subtab`)[sub].classList.add('active');
+}
+
+// ACCORDEONS
+function toggleAccord(head){
+  const body=head.nextElementSibling,isOpen=body.classList.contains('open');
+  document.querySelectorAll('.accord-body').forEach(b=>b.classList.remove('open'));
+  document.querySelectorAll('.accord-head').forEach(h=>h.classList.remove('open'));
+  if(!isOpen){body.classList.add('open');head.classList.add('open');}
+}
+function toggleSSAccord(head){
+  const body=head.nextElementSibling,isOpen=body.classList.contains('open');
+  body.classList.toggle('open',!isOpen);head.classList.toggle('open',!isOpen);
+}
+function toggleEre(el){
+  const body=el.querySelector('.frise-ere-body'),isOpen=body.classList.contains('open');
+  document.querySelectorAll('.frise-ere-body').forEach(b=>b.classList.remove('open'));
+  if(!isOpen)body.classList.add('open');
+}
+
+// CYCLE CALCAIRE
+function showCycle(n){
+  document.querySelectorAll('.cycle-info').forEach(i=>i.classList.remove('active'));
+  document.querySelectorAll('.cycle-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(`cycle-${n}`).classList.add('active');
+  document.querySelectorAll('.cycle-btn')[n].classList.add('active');
+}
+
+// RECONSTITUTION ANIMEE
+function showReconst(site,n){
+  document.querySelectorAll(`#${site}-${n}`).forEach(s=>s.classList.remove('active'));
+  const container=document.getElementById(`${site}-0`).parentElement;
+  container.querySelectorAll('.reconst-step').forEach(s=>s.classList.remove('active'));
+  container.querySelectorAll('.reconst-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(`${site}-${n}`).classList.add('active');
+  container.querySelectorAll('.reconst-btn')[n].classList.add('active');
+}
+
+// EXERCICES
+function checkExo(id){
+  const selects=document.querySelectorAll(`#${id}-q select.blank`);
+  let ok=0,total=selects.length;
+  selects.forEach(s=>{
+    s.classList.remove('ok','ko');
+    if(s.value===s.dataset.rep){s.classList.add('ok');ok++;}
+    else s.classList.add('ko');
+  });
+  const fb=document.getElementById(`${id}-fb`);
+  fb.className='exo-feedback '+(ok===total?'ok':'ko');
+  fb.textContent=ok===total?`✅ Parfait ! ${ok}/${total} bonnes réponses.`:`❌ ${ok}/${total} — Revois les réponses en rouge.`;
+}
+function resetExo(id){
+  document.querySelectorAll(`#${id}-q select.blank`).forEach(s=>{s.value='';s.classList.remove('ok','ko');});
+  const fb=document.getElementById(`${id}-fb`);fb.className='exo-feedback';fb.textContent='';
+}
+
+// FLASHCARDS
+const flashcards=[
+  {p:"Une [strate] est une couche de terrain sédimentaire. Une strate est plus [récente] que celle qu'elle recouvre (principe de [superposition]).",t:[{rep:"strate",opts:["faille","strate","oolithe"]},{rep:"récente",opts:["ancienne","récente","identique"]},{rep:"superposition",opts:["causes actuelles","superposition","faciès"]}]},
+  {p:"La falaise de Sidi Mhareb présente 2 séries [non parallèles] — une [discordance] révélant une discontinuité de sédimentation.",t:[{rep:"non parallèles",opts:["parallèles et concordantes","non parallèles","horizontales toutes deux"]},{rep:"discordance",opts:["concordance","transgression","discordance"]}]},
+  {p:"La série inférieure de Sidi Mhareb est inclinée à [40°] car elle a subi un [plissement tectonique] à la fin du Miocène.",t:[{rep:"40°",opts:["10°","40°","90°"]},{rep:"plissement tectonique",opts:["dépôt incliné","plissement tectonique","érosion marine"]}]},
+  {p:"La strate 2 de Ras Amer renferme des [Hélix] (escargots terrestres) indiquant un faciès [continental] — preuve d'une [régression] marine.",t:[{rep:"Hélix",opts:["Strombes","Nummulites","Hélix"]},{rep:"continental",opts:["marin profond","lagunaire","continental"]},{rep:"régression",opts:["transgression","régression","sédimentation"]}]},
+  {p:"Le calcaire est reconnu sur le terrain par l'[effervescence] au contact de l'[acide chlorhydrique (HCl)].",t:[{rep:"effervescence",opts:["précipité","effervescence","dissolution"]},{rep:"acide chlorhydrique (HCl)",opts:["eau distillée","acide chlorhydrique (HCl)","formol"]}]},
+  {p:"La dissolution du calcaire se fait selon : CaCO₃ + CO₂ + H₂O → [Ca(HCO₃)₂]. En profondeur, cela forme des [grottes] et des [stalactites].",t:[{rep:"Ca(HCO₃)₂",opts:["CaO + CO₂","CaCl₂","Ca(HCO₃)₂"]},{rep:"grottes",opts:["lapiez","grottes","dunes"]},{rep:"stalactites",opts:["stalagmites","stalactites","oolithes"]}]},
+  {p:"Une oolithe est une petite [sphère] de calcaire à enveloppes [concentriques] autour d'un noyau (quartz ou fragment de coquille).",t:[{rep:"sphère",opts:["plaque","sphère","cube"]},{rep:"concentriques",opts:["aléatoires","concentriques","verticales"]}]},
+  {p:"La [transgression] est l'avancée de la mer sur le continent. La [régression] est le retrait de la mer. Un cycle sédimentaire = une transgression + une [régression].",t:[{rep:"transgression",opts:["régression","transgression","sédimentation"]},{rep:"régression",opts:["transgression","régression","érosion"]},{rep:"régression",opts:["transgression","régression","plissement"]}]},
+  {p:"Un fossile de [strombe] indique un faciès marin peu profond et [chaud], caractéristique de l'[Eutyrrhénien].",t:[{rep:"strombe",opts:["nummulite","trilobite","strombe"]},{rep:"chaud",opts:["froid","profond","chaud"]},{rep:"Eutyrrhénien",opts:["Miocène","Éocène","Eutyrrhénien"]}]},
+  {p:"Un [anticlinal] est la partie bombée d'un pli. Un [synclinal] est la partie creuse. Les plissements forment les chaînes de [montagne].",t:[{rep:"anticlinal",opts:["synclinal","faille","anticlinal"]},{rep:"synclinal",opts:["anticlinal","faille","synclinal"]},{rep:"montagne",opts:["grottes","lapiez","montagne"]}]},
+  {p:"À Sidi Mhareb : Miocène (mer) → [plissement] → régression → [érosion] → Tyrrhénien (mer) → calcaire oolithique horizontal sur série inclinée = [discordance].",t:[{rep:"plissement",opts:["sédimentation","plissement","transgression"]},{rep:"érosion",opts:["précipitation","sédimentation","érosion"]},{rep:"discordance",opts:["concordance","transgression","discordance"]}]},
+  {p:"Le calcaire à [nummulites] indique un faciès de mer [assez profonde]. Il se trouve dans la région de Kef et [Makthar] (Tertiaire — Éocène moyen).",t:[{rep:"nummulites",opts:["strombes","globigérines","nummulites"]},{rep:"assez profonde",opts:["peu profonde","continentale","assez profonde"]},{rep:"Makthar",opts:["Monastir","Sfax","Makthar"]}]},
+];
+
+function shuffle(arr){return arr.slice().sort(()=>Math.random()-.5);}
+function buildFC(){
+  const c=document.getElementById('fc-container');c.innerHTML='';
+  flashcards.forEach(fc=>{
+    let html=fc.p;
+    fc.t.forEach(trou=>{
+      const opts=shuffle(trou.opts);
+      const options=opts.map(o=>`<option value="${o}">${o}</option>`).join('');
+      html=html.replace(`[${trou.rep}]`,`<select class="fc-select" data-ans="${trou.rep}"><option value="">—</option>${options}</select>`);
+    });
+    c.innerHTML+=`<div class="fc-card"><div class="fc-phrase">${html}</div></div>`;
+  });
+}
+function verifierFC(){
+  const inputs=document.querySelectorAll('.fc-select');
+  let ok=0,total=inputs.length;
+  inputs.forEach(inp=>{
+    inp.classList.toggle('ok',inp.value===inp.dataset.ans);
+    inp.classList.toggle('ko',inp.value!==inp.dataset.ans||inp.value==='');
+    if(inp.value===inp.dataset.ans)ok++;
+  });
+  const sc=document.getElementById('fc-score');
+  sc.style.display='inline-block';
+  sc.textContent=`Score : ${ok}/${total} (${Math.round(ok/total*100)}%)`;
+  sc.style.background=ok===total?'#e8f5e9':ok>=total*.7?'#fff8e1':'#ffebee';
+}
+function resetFC(){
+  document.querySelectorAll('.fc-select').forEach(i=>{i.value='';i.classList.remove('ok','ko');});
+  document.getElementById('fc-score').style.display='none';
+}
+
+// QCM
+const qcm=[
+  {q:"1. Quelles affirmations sur la falaise de Sidi Mhareb sont correctes ?",opts:["A. Elle présente 2 séries non parallèles (discordance)","B. La série inférieure est horizontale","C. La série inférieure a un pendage de 40°","D. Les grès forment des saillies car ils sont durs"],rep:[0,2,3]},
+  {q:"2. La strate 2 de Ras Amer (argile à Hélix) indique :",opts:["A. Un faciès marin peu profond","B. Un faciès continental (région émergée)","C. Une régression marine entre deux transgressions","D. L'âge Tyrrhénien"],rep:[1,2,3]},
+  {q:"3. Le calcaire oolithique est caractérisé par :",opts:["A. Des grains sphériques (oolithes) cimentés","B. Une dureté faible (rayé par l'ongle)","C. Une effervescence avec l'acide chlorhydrique","D. Une solubilité dans l'eau chargée en CO₂"],rep:[0,2,3]},
+  {q:"4. La réaction de dissolution du calcaire est :",opts:["A. CaCO₃ + CO₂ + H₂O → Ca(HCO₃)₂","B. CaCO₃ → CaO + CO₂ (à haute température)","C. Ca(HCO₃)₂ → CaCO₃ + CO₂ + H₂O (précipitation)","D. CaCO₃ + 2HCl → CaCl₂ + H₂O + CO₂"],rep:[0]},
+  {q:"5. Quels phénomènes résultent de la dissolution du calcaire dans la nature ?",opts:["A. Formation de lapiez en surface","B. Formation de grottes et avens en profondeur","C. Dépôt de stalactites et stalagmites","D. Formation de dunes de sable"],rep:[0,1,2]},
+  {q:"6. Le principe des causes actuelles permet de :",opts:["A. Reconstituer les phénomènes géologiques anciens","B. Déduire le milieu de sédimentation à partir des fossiles","C. Prédire les catastrophes géologiques futures","D. Dater les roches à partir des fossiles (faciès)"],rep:[0,1,3]},
+  {q:"7. Une transgression marine se traduit dans les strates par :",opts:["A. Passage de faciès continental à faciès marin (de bas en haut)","B. Passage de faciès marin à faciès continental","C. Apparition de fossiles marins dans les strates récentes","D. Discordance entre deux séries"],rep:[0,2]},
+  {q:"8. L'histoire géologique de Sidi Mhareb comprend dans l'ordre :",opts:["A. Transgression miocène → plissement → régression → érosion → transgression tyrrhénienne","B. Transgression tyrrhénienne → plissement → régression miocène","C. Plissement → transgression miocène → régression → érosion","D. La discordance prouve deux épisodes de sédimentation séparés"],rep:[0,3]},
+  {q:"9. Ras Amer présente 2 cycles sédimentaires au Quaternaire. Cela signifie :",opts:["A. 2 transgressions et 1 régression marine","B. La strate 2 (Hélix) prouve une émersion entre les deux transgressions","C. Les 3 strates sont toutes de faciès marin","D. L'Hélix est un gastéropode marin"],rep:[0,1]},
+  {q:"10. Quels calcaires tunisiens et leurs faciès sont correctement associés ?",opts:["A. Calcaire oolithique → marin peu profond chaud (Quaternaire)","B. Calcaire à nummulites → marin profond (Éocène)","C. Calcaire quartzeux (croûte) → continental (Villafranchien)","D. Calcaire coquiller → marin peu profond (Miocène)"],rep:[0,1,2,3]},
+];
+
+function buildQCM(){
+  const c=document.getElementById('qcm-container');c.innerHTML='';
+  qcm.forEach((q,i)=>{
+    const opts=q.opts.map((o,j)=>`<label class="qcm-opt" id="opt-${i}-${j}"><input type="checkbox" data-q="${i}" data-o="${j}"> ${o}</label>`).join('');
+    c.innerHTML+=`<div class="qcm-item"><div class="qcm-q">${q.q}</div>${opts}</div>`;
+  });
+}
+function corrigerQCM(){
+  let score=0;
+  qcm.forEach((q,i)=>{
+    let correct=true;
+    q.opts.forEach((_,j)=>{
+      const el=document.getElementById(`opt-${i}-${j}`),inp=el.querySelector('input');
+      const checked=inp.checked,should=q.rep.includes(j);
+      el.classList.remove('correct','wrong');
+      if(should){el.classList.add('correct');if(!checked)correct=false;}
+      else if(checked){el.classList.add('wrong');correct=false;}
+    });
+    if(correct)score++;
+  });
+  const r=document.getElementById('qcm-result'),pct=Math.round(score/qcm.length*100);
+  r.style.display='block';
+  r.style.background=pct>=80?'#e8f5e9':pct>=50?'#fff8e1':'#ffebee';
+  r.style.color=pct>=80?'#2E7D32':pct>=50?'#E65100':'#c62828';
+  r.textContent=`Score : ${score}/10 (${pct}%) — ${pct>=80?'Excellent ✅':pct>=50?'Bien 👍':'À retravailler 📖'}`;
+}
+function resetQCM(){
+  document.querySelectorAll('.qcm-opt').forEach(el=>{el.classList.remove('correct','wrong');el.querySelector('input').checked=false;});
+  document.getElementById('qcm-result').style.display='none';
+}
+
+document.addEventListener('DOMContentLoaded',()=>{buildFC();buildQCM();});
+</script>
+</body>
+</html>
